@@ -1,0 +1,54 @@
+{
+  "evidence": {
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:aswan_high_dam:00:000:03",
+        "t:aswan_high_dam:00:000:00"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:aswan_high_dam:00:000:03",
+          "text": "Like the Aswan Low Dam, which had been completed in 1902, the High Dam has changed the economy and culture of Egypt."
+        },
+        {
+          "node_id": "t:aswan_high_dam:00:000:00",
+          "text": "The Aswan High Dam, often called simply Aswan Dam, was built between 1960 and 1970 across the Nile in Aswan, Egypt."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "p:giza_pyramid_complex:05:000",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "Egypt",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "nile",
+    "source_articles": [
+      "a:aswan_high_dam"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "794a813b63aaa744b0f30baa0919799801545b8ffd5b5ff7a94bcee32747e1e9",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 3 (content): evidence t:aswan_high_dam:00:000:03 + t:aswan_high_dam:00:000:00 exact corpus text match, answer Egypt supported by multihop chain; hard negative p:giza_pyramid_complex:05:000 genuine same-group distractor with no ancestor/descendant overlap; single-group nile compliant; no tautology. Pre-approval content hash 2e34d7d8 verified exact match before binding.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-24",
+  "question_type": "multihop",
+  "split": "train",
+  "text": "The Aswan Low Dam was completed in 1902; the High Dam built between 1960 and 1970 changed the economy and culture of which country?"
+}

@@ -1,0 +1,44 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:shell_plc:03:000",
+          "text": "In 2002, Shell acquired Pennzoil-Quaker State through its American division for US$22 per share, or about US$1.8 billion. With its acquisition, Shell inherited multiple auto part brands including Jiffy Lube, Rain-X, and Fix-a-Flat. The company was notably late in its acquisition as seen by journalists, with Shell seen as streamlining its assets around the same time of other major mergers and acquisitions in the industry, such as BP's purchase of Amoco and the merger of Exxon and Mobil."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "entity_confusion",
+      "node_id": "t:shell_computing:00:000:00",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "US$22 per share",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "shell",
+    "source_articles": [
+      "a:shell_plc"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "21994ba23ffc0d86b51bf45813764ab5becec0132031cdf037ae26d345089273",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 5 (content): evidence p:shell_plc:03:000 exact corpus text match, answer supported; hard negative t:shell_computing:00:000:00 genuine entity-confusion non-evidence with no overlap; single-group shell compliant; no tautology. Pre-approval content hash f663c3b934c690440cf6879e4a9bba0f1dcc3a635de5d677d9da8cbd119aeada verified exact match before binding.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-41",
+  "question_type": "factoid",
+  "split": "train",
+  "text": "How much did Shell pay per share for Pennzoil-Quaker State in 2002?"
+}

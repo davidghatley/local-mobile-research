@@ -1,0 +1,123 @@
+Raw probe outputs from v0.3 adversarial review (opencode/nemotron-3-ultra-free)
+================================================================================
+
+=== TEST 1: Questions content hash verification ===
+Initial freeze: False
+After changing question text: False
+Gaps: ['questions_sha256 mismatch: manifest does not match questions.json bytes', 'runtime binary missing: llama-server (external-runtime-binary)', 'runtime binary unpinned in manifest inventory: llama-server']
+[REVIEWER-v03] questions_sha256 mismatch: manifest does not match questions.json bytes
+[REVIEWER-v03] questions_sha256 detects text change: DETECTED
+
+=== TEST 2: Generator config raw hash (generator_config_sha256) ===
+Initial freeze: False
+After changing license (not in semantic fields): False
+Gaps: ['generator_config_sha256 mismatch: manifest does not match config bytes', 'runtime binary missing: llama-server (external-runtime-binary)', 'runtime binary unpinned in manifest inventory: llama-server']
+After changing quantization (semantic field): False
+Gaps: ['generator_config_sha256 mismatch: manifest does not match config bytes', 'generator manifest/disk mismatch on quantization', 'runtime binary missing: llama-server (external-runtime-binary)', 'runtime binary unpinned in manifest inventory: llama-server']
+[REVIEWER-v03] generator_config_sha256 detects license change: DETECTED
+[REVIEWER-v03] generator_config_sha256 detects quantization change: DETECTED (raw + semantic)
+
+=== TEST 3: Group-map split method validation ===
+validate_group_map empty groups: REJECTED
+validate_group_map duplicate articles: REJECTED
+validate_group_map unresolved articles: REJECTED
+split_map_sha256 detects tampering: DETECTED
+qa group consistency known group wrong split: ERROR
+qa group consistency source_articles multi-split: ERROR
+qa group consistency source_articles wrong declared split: ERROR
+qa group consistency no metadata: SKIPPED
+qa group consistency unknown group: SKIPPED
+
+=== TEST 4: Trace validation delegates to ThresholdPolicy.validate() ===
+ThresholdPolicy.validate() rejects:
+- calibrated_probability + none_ranking_only: ['probability threshold without evaluable model probabilities (ranking-only scores and sigmoid alone are not calibration)']
+- interpretation=unknown: ["unknown threshold interpretation: 'unknown'"]
+- logit + probability interp: ['probability interpretation requires calibrated_probability scores']
+- calibrated_probability + raw_score_absolute: ['threshold invalid for calibrated_probability: calibrated_probability must be in [0, 1], got 2.5']
+
+validate_trace() rejects same:
+- calibrated_probability + none_ranking_only: ['thresholds[stage0]: probability threshold without evaluable model probabilities (ranking-only scores and sigmoid alone are not calibration)']
+- interpretation=unknown: ["thresholds[stage0]: unknown threshold interpretation: 'unknown'"]
+- logit + probability interp: ['thresholds[stage0]: policy score_kind 'logit' != trace score_kind 'calibrated_probability'"]
+- calibrated_probability + raw_score_absolute: ['thresholds[stage0]: policy score_kind 'calibrated_probability' != trace score_kind 'logit'", 'thresholds[stage0]: threshold interpretation is unspecified (fail closed)']
+
+Bare float 0.7: rejected as unspecified by both
+
+model_probability with calibrated_probability: ACCEPTED by both
+model_probability with logit: REJECTED by both (score_kind mismatch)
+platt without calibration_partition: REJECTED by both
+platt with calibration_partition: ACCEPTED by both
+none_ranking_only with probability: REJECTED by both
+raw_score_absolute with logit: ACCEPTED by both
+
+[REVIEWER-v03] Trace validation delegates to ThresholdPolicy.validate: CONFIRMED
+[REVIEWER-v03] model_probability accepted: CONFIRMED
+[REVIEWER-v03] model_probability + logit rejected: CONFIRMED
+[REVIEWER-v03] fitted without calibration_partition rejected: CONFIRMED
+[REVIEWER-v03] none_ranking_only + probability rejected: CONFIRMED
+[REVIEWER-v03] raw_score_absolute + logit accepted: CONFIRMED
+
+=== TEST 5: Runtime binary/library hashes verification ===
+Runtime inventory hashes match: True
+Gaps: []
+After tampering with library: False
+Gaps: ['runtime binary sha256 mismatch (recomputed): libfake.so', 'inventory runtime-library: sha256 mismatch (recomputed): runtime/lib/libfake.so']
+Inventory sha256 mismatch: False
+Gaps: ['runtime binary unpinned in manifest inventory: libfake.so', 'inventory runtime-library: sha256 mismatch (recomputed): runtime/lib/libfake.so']
+[REVIEWER-v03] Runtime inventory hashes match: VERIFIED
+[REVIEWER-v03] Runtime inventory tamper detected: DETECTED
+[REVIEWER-v03] Runtime inventory unpinned declaration: DETECTED
+
+=== TEST 6: Hallucinated citations / citation_audit ===
+Hallucinated citation, no audit: []
+Hallucinated citation, consistent audit: []
+Hallucinated citation, inconsistent audit: ["citation_audit misclassifies unknowns: declared [] vs recomputed ['ghost-node']"]
+Hallucinated citation, audit available mismatch: ['citation_audit inconsistent with citations/available_citations']
+Valid citations, no audit: []
+[REVIEWER-v03] Hallucinated citation no audit: PERMITTED
+[REVIEWER-v03] Hallucinated citation consistent audit: PERMITTED
+[REVIEWER-v03] Hallucinated citation inconsistent audit: REJECTED
+
+=== TEST 7: Binary completion vs fractional coverage ===
+Full set covered: {'completion': 1.0, 'best_fractional_coverage': 1.0, 'best_set_index': 0, 'per_set_coverage': [1.0, 0.5], 'complete_sets': [0]}
+Partial coverage: {'completion': 0.0, 'best_fractional_coverage': 0.5, 'best_set_index': 0, 'per_set_coverage': [0.5, 0.0], 'complete_sets': []}
+No ground truth: {'completion': None, 'best_fractional_coverage': None, 'best_set_index': None, 'per_set_coverage': [], 'complete_sets': []}
+Multiple complete sets: {'completion': 1.0, 'best_fractional_coverage': 1.0, 'best_set_index': 0, 'per_set_coverage': [1.0, 1.0], 'complete_sets': [0, 1]}
+[REVIEWER-v03] Binary completion 1.0/0.0/None: WORKING
+[REVIEWER-v03] best_fractional_coverage separate: EXPOSED
+
+=== TEST 8: Malformed artifacts → structured gaps ===
+Malformed questions (not a list): False
+Gaps: ['questions file: questions file must be a JSON list', ...]
+Malformed split map: False
+Gaps: ["split map: split map must have a 'groups' object", ...]
+Trace with NaN score: ['stage_scores[stage0]: non-finite score nan']
+Trace with bare float threshold: ["thresholds[stage0]: policy score_kind 'calibrated_probability' != trace score_kind 'logit'", 'thresholds[stage0]: threshold interpretation is unspecified (fail closed)']
+[REVIEWER-v03] Malformed artifacts: STRUCTURED GAPS
+
+=== TEST 9: Round 0 phase enforcement ===
+RunManifest.phase defaults to "round0-substrate"
+Freeze rejects unknown phases
+Threshold policies recorded as declarations (presence + validity)
+Unfitted model_probability / none_ranking_only declarations pass freeze
+[REVIEWER-v03] Phase round0-substrate enforced: CONFIRMED
+
+=== TEST 10: QA group consistency optional (design concern) ===
+Question without meta.group/source_articles: SKIPPED (no gap)
+Question with unknown group: SKIPPED (no gap)
+Question with known group, wrong split: ERROR
+Question with source_articles spanning splits: ERROR
+Question with source_articles wrong declared split: ERROR
+Public reference question with group, wrong split: ERROR (no exception in code)
+Question about train article, declared dev, no meta: SKIPPED (concern - article assigned train, question can declare dev)
+Question with source_articles [Mercury (planet)], declared dev: ERROR
+Question with source_articles [Mercury (planet)], declared train: PASS
+[REVIEWER-v03] validate_qa_group_consistency no metadata: SKIPPED
+[REVIEWER-v03] validate_qa_group_consistency unknown group: SKIPPED
+[REVIEWER-v03] validate_qa_group_consistency known group wrong split: ERROR
+[REVIEWER-v03] validate_qa_group_consistency source_articles multi-split: ERROR
+[REVIEWER-v03] validate_qa_group_consistency source_articles wrong declared split: ERROR
+[REVIEWER-v03] QA group provenance optional for controlled dataset: DESIGN CONCERN
+
+=== TEST 11: 147 test suite passes ===
+All 147 tests pass (test_corpus, test_evidence, test_evidence_packing, test_splits, test_metrics, test_contract, test_freeze_adversarial, test_semantics_adversarial, test_freeze_v03)

@@ -1,0 +1,1393 @@
+{
+  "groups": {
+    "amazon": {
+      "articles": [
+        "Amazon (company)",
+        "Amazon River",
+        "Amazon rainforest",
+        "Amazons",
+        "Jeff Bezos"
+      ],
+      "split": "train"
+    },
+    "apes": {
+      "articles": [
+        "Chimpanzee",
+        "Gorilla",
+        "Orangutan"
+      ],
+      "split": "dev"
+    },
+    "apple": {
+      "articles": [
+        "Apple",
+        "Apple Inc.",
+        "Apple Records",
+        "Malus",
+        "Steve Jobs"
+      ],
+      "split": "train"
+    },
+    "bears": {
+      "articles": [
+        "Giant panda"
+      ],
+      "split": "train"
+    },
+    "berlin": {
+      "articles": [
+        "Berlin",
+        "Berlin Wall",
+        "Irving Berlin"
+      ],
+      "split": "dev"
+    },
+    "cambridge": {
+      "articles": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "split": "heldout"
+    },
+    "columbia": {
+      "articles": [
+        "Colombia",
+        "Columbia River",
+        "Columbia University",
+        "Space Shuttle Columbia"
+      ],
+      "split": "train"
+    },
+    "corona": {
+      "articles": [
+        "Corona (beer)",
+        "Corona Australis",
+        "Coronavirus",
+        "Solar corona"
+      ],
+      "split": "heldout"
+    },
+    "delta": {
+      "articles": [
+        "Delta Air Lines",
+        "Okavango Delta",
+        "River delta",
+        "SARS-CoV-2 Delta variant"
+      ],
+      "split": "train"
+    },
+    "eclipse": {
+      "articles": [
+        "Eclipse (software)",
+        "Lunar eclipse",
+        "Mitsubishi Eclipse",
+        "Solar eclipse"
+      ],
+      "split": "train"
+    },
+    "jaguar": {
+      "articles": [
+        "Atari Jaguar",
+        "Jaguar",
+        "Jaguar (supercomputer)",
+        "Jaguar Cars"
+      ],
+      "split": "heldout"
+    },
+    "java": {
+      "articles": [
+        "Borneo",
+        "Jakarta",
+        "Java",
+        "Java (programming language)"
+      ],
+      "split": "dev"
+    },
+    "lincoln": {
+      "articles": [
+        "Abraham Lincoln",
+        "Emancipation Proclamation",
+        "Lincoln Motor Company",
+        "Lincolnshire"
+      ],
+      "split": "heldout"
+    },
+    "london": {
+      "articles": [
+        "City of London",
+        "Greater London",
+        "London Bridge",
+        "Tower of London"
+      ],
+      "split": "train"
+    },
+    "mars": {
+      "articles": [
+        "Mars",
+        "Mars (mythology)",
+        "Mars Inc.",
+        "Mars bar",
+        "Olympus Mons"
+      ],
+      "split": "train"
+    },
+    "mercury": {
+      "articles": [
+        "Freddie Mercury",
+        "Mercury (automobile)",
+        "Mercury (element)",
+        "Mercury (mythology)",
+        "Mercury (planet)",
+        "Mercury Records"
+      ],
+      "split": "dev"
+    },
+    "nile": {
+      "articles": [
+        "Ancient Egypt",
+        "Aswan High Dam",
+        "Giza pyramid complex"
+      ],
+      "split": "train"
+    },
+    "orange": {
+      "articles": [
+        "Orange (colour)",
+        "Orange (fruit)",
+        "Orange County, California",
+        "Orange Group"
+      ],
+      "split": "dev"
+    },
+    "paris": {
+      "articles": [
+        "Eiffel Tower",
+        "Paris",
+        "Paris (mythology)",
+        "Paris Commune"
+      ],
+      "split": "train"
+    },
+    "peaks": {
+      "articles": [
+        "K2",
+        "Mount Everest",
+        "Mount Kilimanjaro"
+      ],
+      "split": "train"
+    },
+    "python": {
+      "articles": [
+        "Guido van Rossum",
+        "Monty Python",
+        "Python (genus)",
+        "Python (programming language)",
+        "Pythonidae"
+      ],
+      "split": "train"
+    },
+    "revolutions": {
+      "articles": [
+        "Napoleon",
+        "Russian Revolution"
+      ],
+      "split": "dev"
+    },
+    "rome": {
+      "articles": [
+        "Ancient Rome",
+        "Rome"
+      ],
+      "split": "train"
+    },
+    "saturn": {
+      "articles": [
+        "Saturn",
+        "Saturn (mythology)",
+        "Saturn Corporation"
+      ],
+      "split": "train"
+    },
+    "shell": {
+      "articles": [
+        "Seashell",
+        "Shell (computing)",
+        "Shell plc"
+      ],
+      "split": "train"
+    },
+    "solo:acid": {
+      "articles": [
+        "Acid"
+      ],
+      "split": "heldout"
+    },
+    "solo:adansonia": {
+      "articles": [
+        "Adansonia"
+      ],
+      "split": "train"
+    },
+    "solo:african elephant": {
+      "articles": [
+        "African elephant"
+      ],
+      "split": "train"
+    },
+    "solo:alfred hitchcock": {
+      "articles": [
+        "Alfred Hitchcock"
+      ],
+      "split": "train"
+    },
+    "solo:alps": {
+      "articles": [
+        "Alps"
+      ],
+      "split": "train"
+    },
+    "solo:american civil war": {
+      "articles": [
+        "American Civil War"
+      ],
+      "split": "heldout"
+    },
+    "solo:amsterdam": {
+      "articles": [
+        "Amsterdam"
+      ],
+      "split": "train"
+    },
+    "solo:anchorage, alaska": {
+      "articles": [
+        "Anchorage, Alaska"
+      ],
+      "split": "train"
+    },
+    "solo:andes": {
+      "articles": [
+        "Andes"
+      ],
+      "split": "train"
+    },
+    "solo:anesthesia": {
+      "articles": [
+        "Anesthesia"
+      ],
+      "split": "train"
+    },
+    "solo:aristotle": {
+      "articles": [
+        "Aristotle"
+      ],
+      "split": "dev"
+    },
+    "solo:armadillo": {
+      "articles": [
+        "Armadillo"
+      ],
+      "split": "train"
+    },
+    "solo:artemis program": {
+      "articles": [
+        "Artemis program"
+      ],
+      "split": "train"
+    },
+    "solo:augustus": {
+      "articles": [
+        "Augustus"
+      ],
+      "split": "train"
+    },
+    "solo:australia": {
+      "articles": [
+        "Australia"
+      ],
+      "split": "heldout"
+    },
+    "solo:axolotl": {
+      "articles": [
+        "Axolotl"
+      ],
+      "split": "train"
+    },
+    "solo:bald eagle": {
+      "articles": [
+        "Bald eagle"
+      ],
+      "split": "dev"
+    },
+    "solo:bangkok": {
+      "articles": [
+        "Bangkok"
+      ],
+      "split": "train"
+    },
+    "solo:bat": {
+      "articles": [
+        "Bat"
+      ],
+      "split": "train"
+    },
+    "solo:black death": {
+      "articles": [
+        "Black Death"
+      ],
+      "split": "train"
+    },
+    "solo:blockchain": {
+      "articles": [
+        "Blockchain"
+      ],
+      "split": "train"
+    },
+    "solo:blood": {
+      "articles": [
+        "Blood"
+      ],
+      "split": "train"
+    },
+    "solo:blue whale": {
+      "articles": [
+        "Blue whale"
+      ],
+      "split": "train"
+    },
+    "solo:bog body": {
+      "articles": [
+        "Bog body"
+      ],
+      "split": "train"
+    },
+    "solo:bread": {
+      "articles": [
+        "Bread"
+      ],
+      "split": "train"
+    },
+    "solo:bucharest": {
+      "articles": [
+        "Bucharest"
+      ],
+      "split": "train"
+    },
+    "solo:buenos aires": {
+      "articles": [
+        "Buenos Aires"
+      ],
+      "split": "heldout"
+    },
+    "solo:buford, wyoming": {
+      "articles": [
+        "Buford, Wyoming"
+      ],
+      "split": "dev"
+    },
+    "solo:cactus": {
+      "articles": [
+        "Cactus"
+      ],
+      "split": "heldout"
+    },
+    "solo:carthage": {
+      "articles": [
+        "Carthage"
+      ],
+      "split": "train"
+    },
+    "solo:chameleon": {
+      "articles": [
+        "Chameleon"
+      ],
+      "split": "train"
+    },
+    "solo:chaos theory": {
+      "articles": [
+        "Chaos theory"
+      ],
+      "split": "train"
+    },
+    "solo:charlie chaplin": {
+      "articles": [
+        "Charlie Chaplin"
+      ],
+      "split": "train"
+    },
+    "solo:cheese": {
+      "articles": [
+        "Cheese"
+      ],
+      "split": "heldout"
+    },
+    "solo:chemical bond": {
+      "articles": [
+        "Chemical bond"
+      ],
+      "split": "train"
+    },
+    "solo:cloud computing": {
+      "articles": [
+        "Cloud computing"
+      ],
+      "split": "train"
+    },
+    "solo:colombo": {
+      "articles": [
+        "Colombo"
+      ],
+      "split": "dev"
+    },
+    "solo:compass": {
+      "articles": [
+        "Compass"
+      ],
+      "split": "train"
+    },
+    "solo:congo basin": {
+      "articles": [
+        "Congo Basin"
+      ],
+      "split": "dev"
+    },
+    "solo:crispr": {
+      "articles": [
+        "CRISPR"
+      ],
+      "split": "train"
+    },
+    "solo:crusades": {
+      "articles": [
+        "Crusades"
+      ],
+      "split": "train"
+    },
+    "solo:danakil depression": {
+      "articles": [
+        "Danakil Depression"
+      ],
+      "split": "train"
+    },
+    "solo:darvaza gas crater": {
+      "articles": [
+        "Darvaza gas crater"
+      ],
+      "split": "dev"
+    },
+    "solo:dead sea": {
+      "articles": [
+        "Dead Sea"
+      ],
+      "split": "heldout"
+    },
+    "solo:delhi": {
+      "articles": [
+        "Delhi"
+      ],
+      "split": "dev"
+    },
+    "solo:diabetes": {
+      "articles": [
+        "Diabetes"
+      ],
+      "split": "train"
+    },
+    "solo:dissolution of the soviet union": {
+      "articles": [
+        "Dissolution of the Soviet Union"
+      ],
+      "split": "train"
+    },
+    "solo:dolphin": {
+      "articles": [
+        "Dolphin"
+      ],
+      "split": "train"
+    },
+    "solo:donner party": {
+      "articles": [
+        "Donner Party"
+      ],
+      "split": "train"
+    },
+    "solo:ebola": {
+      "articles": [
+        "Ebola"
+      ],
+      "split": "train"
+    },
+    "solo:electric motor": {
+      "articles": [
+        "Electric motor"
+      ],
+      "split": "train"
+    },
+    "solo:electromagnetism": {
+      "articles": [
+        "Electromagnetism"
+      ],
+      "split": "train"
+    },
+    "solo:fall of the berlin wall": {
+      "articles": [
+        "Fall of the Berlin Wall"
+      ],
+      "split": "train"
+    },
+    "solo:faroe islands": {
+      "articles": [
+        "Faroe Islands"
+      ],
+      "split": "train"
+    },
+    "solo:fibonacci sequence": {
+      "articles": [
+        "Fibonacci sequence"
+      ],
+      "split": "train"
+    },
+    "solo:fifa world cup": {
+      "articles": [
+        "FIFA World Cup"
+      ],
+      "split": "heldout"
+    },
+    "solo:franklin's lost expedition": {
+      "articles": [
+        "Franklin's lost expedition"
+      ],
+      "split": "train"
+    },
+    "solo:game theory": {
+      "articles": [
+        "Game theory"
+      ],
+      "split": "dev"
+    },
+    "solo:gdańsk": {
+      "articles": [
+        "Gdańsk"
+      ],
+      "split": "heldout"
+    },
+    "solo:grand canyon": {
+      "articles": [
+        "Grand Canyon"
+      ],
+      "split": "train"
+    },
+    "solo:great barrier reef": {
+      "articles": [
+        "Great Barrier Reef"
+      ],
+      "split": "train"
+    },
+    "solo:great white shark": {
+      "articles": [
+        "Great white shark"
+      ],
+      "split": "train"
+    },
+    "solo:great zimbabwe": {
+      "articles": [
+        "Great Zimbabwe"
+      ],
+      "split": "heldout"
+    },
+    "solo:guitar": {
+      "articles": [
+        "Guitar"
+      ],
+      "split": "train"
+    },
+    "solo:gunpowder": {
+      "articles": [
+        "Gunpowder"
+      ],
+      "split": "train"
+    },
+    "solo:han dynasty": {
+      "articles": [
+        "Han dynasty"
+      ],
+      "split": "train"
+    },
+    "solo:hanoi": {
+      "articles": [
+        "Hanoi"
+      ],
+      "split": "train"
+    },
+    "solo:harry potter": {
+      "articles": [
+        "Harry Potter"
+      ],
+      "split": "train"
+    },
+    "solo:heart": {
+      "articles": [
+        "Heart"
+      ],
+      "split": "dev"
+    },
+    "solo:hedgehog": {
+      "articles": [
+        "Hedgehog"
+      ],
+      "split": "train"
+    },
+    "solo:himalayas": {
+      "articles": [
+        "Himalayas"
+      ],
+      "split": "train"
+    },
+    "solo:hiv/aids": {
+      "articles": [
+        "HIV/AIDS"
+      ],
+      "split": "heldout"
+    },
+    "solo:honolulu": {
+      "articles": [
+        "Honolulu"
+      ],
+      "split": "train"
+    },
+    "solo:human genome": {
+      "articles": [
+        "Human genome"
+      ],
+      "split": "dev"
+    },
+    "solo:hummingbird": {
+      "articles": [
+        "Hummingbird"
+      ],
+      "split": "heldout"
+    },
+    "solo:hundred years' war": {
+      "articles": [
+        "Hundred Years' War"
+      ],
+      "split": "train"
+    },
+    "solo:immune system": {
+      "articles": [
+        "Immune system"
+      ],
+      "split": "dev"
+    },
+    "solo:inca empire": {
+      "articles": [
+        "Inca Empire"
+      ],
+      "split": "train"
+    },
+    "solo:industrial revolution": {
+      "articles": [
+        "Industrial Revolution"
+      ],
+      "split": "train"
+    },
+    "solo:influenza": {
+      "articles": [
+        "Influenza"
+      ],
+      "split": "train"
+    },
+    "solo:insulin": {
+      "articles": [
+        "Insulin"
+      ],
+      "split": "train"
+    },
+    "solo:international space station": {
+      "articles": [
+        "International Space Station"
+      ],
+      "split": "train"
+    },
+    "solo:j. r. r. tolkien": {
+      "articles": [
+        "J. R. R. Tolkien"
+      ],
+      "split": "train"
+    },
+    "solo:jellyfish": {
+      "articles": [
+        "Jellyfish"
+      ],
+      "split": "train"
+    },
+    "solo:johann sebastian bach": {
+      "articles": [
+        "Johann Sebastian Bach"
+      ],
+      "split": "train"
+    },
+    "solo:julius caesar": {
+      "articles": [
+        "Julius Caesar"
+      ],
+      "split": "train"
+    },
+    "solo:kamchatka peninsula": {
+      "articles": [
+        "Kamchatka Peninsula"
+      ],
+      "split": "train"
+    },
+    "solo:kyiv": {
+      "articles": [
+        "Kyiv"
+      ],
+      "split": "heldout"
+    },
+    "solo:lake baikal": {
+      "articles": [
+        "Lake Baikal"
+      ],
+      "split": "dev"
+    },
+    "solo:lascaux": {
+      "articles": [
+        "Lascaux"
+      ],
+      "split": "train"
+    },
+    "solo:light-emitting diode": {
+      "articles": [
+        "Light-emitting diode"
+      ],
+      "split": "train"
+    },
+    "solo:linux": {
+      "articles": [
+        "Linux"
+      ],
+      "split": "train"
+    },
+    "solo:ludwig van beethoven": {
+      "articles": [
+        "Ludwig van Beethoven"
+      ],
+      "split": "heldout"
+    },
+    "solo:manatee": {
+      "articles": [
+        "Manatee"
+      ],
+      "split": "dev"
+    },
+    "solo:manila": {
+      "articles": [
+        "Manila"
+      ],
+      "split": "train"
+    },
+    "solo:marathon": {
+      "articles": [
+        "Marathon"
+      ],
+      "split": "train"
+    },
+    "solo:mariana trench": {
+      "articles": [
+        "Mariana Trench"
+      ],
+      "split": "train"
+    },
+    "solo:mary celeste": {
+      "articles": [
+        "Mary Celeste"
+      ],
+      "split": "heldout"
+    },
+    "solo:meteora": {
+      "articles": [
+        "Meteora"
+      ],
+      "split": "train"
+    },
+    "solo:mexico": {
+      "articles": [
+        "Mexico"
+      ],
+      "split": "train"
+    },
+    "solo:microprocessor": {
+      "articles": [
+        "Microprocessor"
+      ],
+      "split": "train"
+    },
+    "solo:milan": {
+      "articles": [
+        "Milan"
+      ],
+      "split": "train"
+    },
+    "solo:moai": {
+      "articles": [
+        "Moai"
+      ],
+      "split": "heldout"
+    },
+    "solo:mumbai": {
+      "articles": [
+        "Mumbai"
+      ],
+      "split": "train"
+    },
+    "solo:munich": {
+      "articles": [
+        "Munich"
+      ],
+      "split": "train"
+    },
+    "solo:my lai massacre": {
+      "articles": [
+        "My Lai massacre"
+      ],
+      "split": "train"
+    },
+    "solo:nanotechnology": {
+      "articles": [
+        "Nanotechnology"
+      ],
+      "split": "dev"
+    },
+    "solo:narwhal": {
+      "articles": [
+        "Narwhal"
+      ],
+      "split": "train"
+    },
+    "solo:natural language processing": {
+      "articles": [
+        "Natural language processing"
+      ],
+      "split": "train"
+    },
+    "solo:neutron star": {
+      "articles": [
+        "Neutron star"
+      ],
+      "split": "heldout"
+    },
+    "solo:nuclear fission": {
+      "articles": [
+        "Nuclear fission"
+      ],
+      "split": "train"
+    },
+    "solo:nuclear fusion": {
+      "articles": [
+        "Nuclear fusion"
+      ],
+      "split": "dev"
+    },
+    "solo:nuclear power": {
+      "articles": [
+        "Nuclear power"
+      ],
+      "split": "train"
+    },
+    "solo:octopus": {
+      "articles": [
+        "Octopus"
+      ],
+      "split": "train"
+    },
+    "solo:okapi": {
+      "articles": [
+        "Okapi"
+      ],
+      "split": "train"
+    },
+    "solo:olympic games": {
+      "articles": [
+        "Olympic Games"
+      ],
+      "split": "train"
+    },
+    "solo:operating system": {
+      "articles": [
+        "Operating system"
+      ],
+      "split": "heldout"
+    },
+    "solo:oslo": {
+      "articles": [
+        "Oslo"
+      ],
+      "split": "train"
+    },
+    "solo:oymyakon": {
+      "articles": [
+        "Oymyakon"
+      ],
+      "split": "heldout"
+    },
+    "solo:particle physics": {
+      "articles": [
+        "Particle physics"
+      ],
+      "split": "train"
+    },
+    "solo:penguin": {
+      "articles": [
+        "Penguin"
+      ],
+      "split": "train"
+    },
+    "solo:penicillin": {
+      "articles": [
+        "Penicillin"
+      ],
+      "split": "train"
+    },
+    "solo:peru": {
+      "articles": [
+        "Peru"
+      ],
+      "split": "train"
+    },
+    "solo:phoenicia": {
+      "articles": [
+        "Phoenicia"
+      ],
+      "split": "train"
+    },
+    "solo:pi": {
+      "articles": [
+        "Pi"
+      ],
+      "split": "train"
+    },
+    "solo:piano": {
+      "articles": [
+        "Piano"
+      ],
+      "split": "train"
+    },
+    "solo:pitcairn islands": {
+      "articles": [
+        "Pitcairn Islands"
+      ],
+      "split": "train"
+    },
+    "solo:plato": {
+      "articles": [
+        "Plato"
+      ],
+      "split": "train"
+    },
+    "solo:platypus": {
+      "articles": [
+        "Platypus"
+      ],
+      "split": "dev"
+    },
+    "solo:plitvice lakes national park": {
+      "articles": [
+        "Plitvice Lakes National Park"
+      ],
+      "split": "heldout"
+    },
+    "solo:poison dart frog": {
+      "articles": [
+        "Poison dart frog"
+      ],
+      "split": "train"
+    },
+    "solo:polio": {
+      "articles": [
+        "Polio"
+      ],
+      "split": "train"
+    },
+    "solo:porcupine": {
+      "articles": [
+        "Porcupine"
+      ],
+      "split": "train"
+    },
+    "solo:prime number": {
+      "articles": [
+        "Prime number"
+      ],
+      "split": "train"
+    },
+    "solo:printing press": {
+      "articles": [
+        "Printing press"
+      ],
+      "split": "dev"
+    },
+    "solo:quantum computing": {
+      "articles": [
+        "Quantum computing"
+      ],
+      "split": "train"
+    },
+    "solo:quantum mechanics": {
+      "articles": [
+        "Quantum mechanics"
+      ],
+      "split": "train"
+    },
+    "solo:red fox": {
+      "articles": [
+        "Red fox"
+      ],
+      "split": "train"
+    },
+    "solo:riga": {
+      "articles": [
+        "Riga"
+      ],
+      "split": "train"
+    },
+    "solo:rio de janeiro": {
+      "articles": [
+        "Rio de Janeiro"
+      ],
+      "split": "train"
+    },
+    "solo:roanoke colony": {
+      "articles": [
+        "Roanoke Colony"
+      ],
+      "split": "train"
+    },
+    "solo:robotics": {
+      "articles": [
+        "Robotics"
+      ],
+      "split": "train"
+    },
+    "solo:rocky mountains": {
+      "articles": [
+        "Rocky Mountains"
+      ],
+      "split": "train"
+    },
+    "solo:salar de uyuni": {
+      "articles": [
+        "Salar de Uyuni"
+      ],
+      "split": "train"
+    },
+    "solo:samurai": {
+      "articles": [
+        "Samurai"
+      ],
+      "split": "train"
+    },
+    "solo:saola": {
+      "articles": [
+        "Saola"
+      ],
+      "split": "heldout"
+    },
+    "solo:semiconductor": {
+      "articles": [
+        "Semiconductor"
+      ],
+      "split": "dev"
+    },
+    "solo:sequoiadendron giganteum": {
+      "articles": [
+        "Sequoiadendron giganteum"
+      ],
+      "split": "train"
+    },
+    "solo:sherlock holmes": {
+      "articles": [
+        "Sherlock Holmes"
+      ],
+      "split": "train"
+    },
+    "solo:shogun": {
+      "articles": [
+        "Shogun"
+      ],
+      "split": "train"
+    },
+    "solo:silk road": {
+      "articles": [
+        "Silk Road"
+      ],
+      "split": "heldout"
+    },
+    "solo:sloth": {
+      "articles": [
+        "Sloth"
+      ],
+      "split": "train"
+    },
+    "solo:snow leopard": {
+      "articles": [
+        "Snow leopard"
+      ],
+      "split": "train"
+    },
+    "solo:socotra": {
+      "articles": [
+        "Socotra"
+      ],
+      "split": "train"
+    },
+    "solo:solar cell": {
+      "articles": [
+        "Solar cell"
+      ],
+      "split": "train"
+    },
+    "solo:solar power": {
+      "articles": [
+        "Solar power"
+      ],
+      "split": "dev"
+    },
+    "solo:south africa": {
+      "articles": [
+        "South Africa"
+      ],
+      "split": "dev"
+    },
+    "solo:star wars": {
+      "articles": [
+        "Star Wars"
+      ],
+      "split": "train"
+    },
+    "solo:steam engine": {
+      "articles": [
+        "Steam engine"
+      ],
+      "split": "train"
+    },
+    "solo:stockholm": {
+      "articles": [
+        "Stockholm"
+      ],
+      "split": "train"
+    },
+    "solo:sumer": {
+      "articles": [
+        "Sumer"
+      ],
+      "split": "train"
+    },
+    "solo:superconductivity": {
+      "articles": [
+        "Superconductivity"
+      ],
+      "split": "heldout"
+    },
+    "solo:supernova": {
+      "articles": [
+        "Supernova"
+      ],
+      "split": "train"
+    },
+    "solo:surtsey": {
+      "articles": [
+        "Surtsey"
+      ],
+      "split": "train"
+    },
+    "solo:suva": {
+      "articles": [
+        "Suva"
+      ],
+      "split": "train"
+    },
+    "solo:svalbard": {
+      "articles": [
+        "Svalbard"
+      ],
+      "split": "train"
+    },
+    "solo:sydney": {
+      "articles": [
+        "Sydney"
+      ],
+      "split": "train"
+    },
+    "solo:symphony": {
+      "articles": [
+        "Symphony"
+      ],
+      "split": "train"
+    },
+    "solo:taipei": {
+      "articles": [
+        "Taipei"
+      ],
+      "split": "train"
+    },
+    "solo:tallinn": {
+      "articles": [
+        "Tallinn"
+      ],
+      "split": "train"
+    },
+    "solo:tasmanian devil": {
+      "articles": [
+        "Tasmanian devil"
+      ],
+      "split": "heldout"
+    },
+    "solo:tbilisi": {
+      "articles": [
+        "Tbilisi"
+      ],
+      "split": "train"
+    },
+    "solo:terracotta army": {
+      "articles": [
+        "Terracotta Army"
+      ],
+      "split": "train"
+    },
+    "solo:thailand": {
+      "articles": [
+        "Thailand"
+      ],
+      "split": "train"
+    },
+    "solo:the lord of the rings": {
+      "articles": [
+        "The Lord of the Rings"
+      ],
+      "split": "train"
+    },
+    "solo:thermodynamics": {
+      "articles": [
+        "Thermodynamics"
+      ],
+      "split": "heldout"
+    },
+    "solo:tokyo": {
+      "articles": [
+        "Tokyo"
+      ],
+      "split": "train"
+    },
+    "solo:transistor": {
+      "articles": [
+        "Transistor"
+      ],
+      "split": "train"
+    },
+    "solo:vaquita": {
+      "articles": [
+        "Vaquita"
+      ],
+      "split": "train"
+    },
+    "solo:venice": {
+      "articles": [
+        "Venice"
+      ],
+      "split": "train"
+    },
+    "solo:vienna": {
+      "articles": [
+        "Vienna"
+      ],
+      "split": "dev"
+    },
+    "solo:virtual reality": {
+      "articles": [
+        "Virtual reality"
+      ],
+      "split": "heldout"
+    },
+    "solo:wellington": {
+      "articles": [
+        "Wellington"
+      ],
+      "split": "train"
+    },
+    "solo:whittier, alaska": {
+      "articles": [
+        "Whittier, Alaska"
+      ],
+      "split": "train"
+    },
+    "solo:wind power": {
+      "articles": [
+        "Wind power"
+      ],
+      "split": "train"
+    },
+    "solo:wolfgang amadeus mozart": {
+      "articles": [
+        "Wolfgang Amadeus Mozart"
+      ],
+      "split": "train"
+    },
+    "solo:x-ray": {
+      "articles": [
+        "X-ray"
+      ],
+      "split": "dev"
+    },
+    "solo:zurich": {
+      "articles": [
+        "Zurich"
+      ],
+      "split": "heldout"
+    },
+    "solo:çatalhöyük": {
+      "articles": [
+        "Çatalhöyük"
+      ],
+      "split": "train"
+    },
+    "solo:ötzi": {
+      "articles": [
+        "Ötzi"
+      ],
+      "split": "train"
+    },
+    "tesla": {
+      "articles": [
+        "Alternating current",
+        "Electric car",
+        "Electric light",
+        "Nikola Tesla",
+        "Tesla, Inc.",
+        "Thomas Edison"
+      ],
+      "split": "train"
+    },
+    "venus": {
+      "articles": [
+        "Venus",
+        "Venus (mythology)",
+        "Venus flytrap"
+      ],
+      "split": "train"
+    },
+    "washington": {
+      "articles": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "split": "heldout"
+    }
+  },
+  "policy": "group-aware seeded hash 70/15/15; confusable groups kept intact",
+  "seed": "pilot-v1"
+}

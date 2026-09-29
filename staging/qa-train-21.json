@@ -1,0 +1,54 @@
+{
+  "evidence": {
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:mars_bar:00:000:01",
+        "p:mars_bar:01:000"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:mars_bar:00:000:01",
+          "text": "It was first manufactured in 1932 in England by Forrest Mars Sr., modelled after his father's Milky Way bar."
+        },
+        {
+          "node_id": "p:mars_bar:01:000",
+          "text": "The Mars bar was first manufactured in Slough, England, in 1932 by Forrest Mars Sr., son of American candy maker Frank C. Mars. He modelled the Mars bar after his father's Milky Way bar, which was already popular in the US, adjusting the recipe to better suit European tastes. He had a staff of twelve people, and originally advertised it as using Cadbury's chocolate couverture. As a result, the \"British\" Mars bar (also labelled the \"European\", \"Global\" or \"Original\" Mars bar) is considered to be a version of the American Milky Way bar, with only a slightly sweeter taste."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "p:mars_inc:09:000",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "his father Frank C. Mars's Milky Way bar",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "mars",
+    "source_articles": [
+      "a:mars_bar"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "7ae75e751cca5a709c257bbbeb913a5903f0d8d6552ea6b8595f44996d712416",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 3 (content): evidence t:mars_bar:00:000:01 + p:mars_bar:01:000 exact corpus text match, answer his father Frank C. Mars's Milky Way bar supported by multihop chain; hard negative p:mars_inc:09:000 genuine same-group distractor with no ancestor/descendant overlap; single-group mars compliant; no tautology. Pre-approval content hash 9fbef443 verified exact match before binding.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-21",
+  "question_type": "multihop",
+  "split": "train",
+  "text": "Forrest Mars Sr. first manufactured the Mars bar in 1932; after whose candy bar did he model it, and what was that person's relationship to him?"
+}

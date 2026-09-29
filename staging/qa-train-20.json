@@ -1,0 +1,63 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:mars:00:000:00",
+          "text": "Mars is the fourth planet from the Sun."
+        }
+      ],
+      [
+        {
+          "node_id": "t:mars_bar:00:000:00",
+          "text": "Mars, commonly known as a Mars bar, is a chocolate bar produced by Mars Inc., consisting of caramel and nougat coated with milk chocolate."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "entity_confusion",
+      "node_id": "t:mars_mythology:00:000:00",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "",
+    "answerability": "ambiguous",
+    "readings": [
+      {
+        "answer": "the fourth planet from the Sun",
+        "reading_text": "Mars the planet",
+        "sufficient_set": 0
+      },
+      {
+        "answer": "a chocolate bar of caramel and nougat coated with milk chocolate",
+        "reading_text": "Mars the confectionery bar",
+        "sufficient_set": 1
+      }
+    ]
+  },
+  "meta": {
+    "group": "mars",
+    "source_articles": [
+      "a:mars",
+      "a:mars_bar"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "fc2e1e99daf6ed630fec5901bacc47c6c2a7989b6deef7905310d8f50bbf9c96",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 2 (content): ambiguous evidence sets t:mars:00:000:00 (planet) and t:mars_bar:00:000:00 (confectionery) exact corpus text matches, both readings captured with mutually exclusive sufficient sets, answerability ambiguous correct; hard negative t:mars_mythology:00:000:00 genuine entity-confusion non-evidence with no overlap; single-group mars compliant. Pre-approval content hash 91a0a3c4 verified exact match before binding.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-20",
+  "question_type": "ambiguous",
+  "split": "train",
+  "text": "What is Mars?"
+}

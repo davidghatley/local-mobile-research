@@ -1,0 +1,43 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:alfred_hitchcock:23:001",
+          "text": "Hitchcock's films were extensively storyboarded to the finest detail. He was reported to have never even bothered looking through the viewfinder, since he did not need to, although in publicity photos he was shown doing so. He also used this as an excuse to never have to change his films from his initial vision. If a studio asked him to change a film, he would claim that it was already shot in a single way, and that there were no alternative takes to consider."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "sibling_paragraph",
+      "node_id": "p:alfred_hitchcock:07:000",
+      "reviewed": false
+    }
+  ],
+  "labels": {
+    "answer_text": "extensively storyboarded to the finest detail. He was reported to have never even bothered looking through the viewfinder",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:alfred hitchcock",
+    "source_articles": [
+      "a:alfred_hitchcock"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "bb7f3c881365c954c4aac23c5dd003651b3f972ba789aadcfc20027c9db84fd5",
+    "decision": "pending",
+    "rationale": "Draft pending independent verification; hard negatives are unreviewed candidates.",
+    "verifier": "tbd-independent-verifier",
+    "verifier_model": "tbd"
+  },
+  "question_id": "qa-train-50",
+  "question_type": "factoid",
+  "split": "train",
+  "text": "How detailed was Hitchcock's storyboarding, and did he look through the viewfinder?"
+}

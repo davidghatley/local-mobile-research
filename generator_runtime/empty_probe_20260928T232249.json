@@ -1,0 +1,395 @@
+{
+  "B_empty_matches_A_set": true,
+  "C_empty_matches_A_set": true,
+  "adapter_unmodified": true,
+  "attribution_rule": "A-identical + B==A => intrinsic; B systematically != A => possible contamination; variance everywhere => no attribution",
+  "config_snapshot": {
+    "generation": {
+      "cache_prompt": false,
+      "max_tokens": 256,
+      "seed": 1234,
+      "temperature": 0.0,
+      "top_k": 1,
+      "top_p": 1.0
+    },
+    "model_sha256": "1adf0b11065d8ad2e8123ea110d1ec956dab4ab038eab665614adba04b6c3370",
+    "n_ctx": 4096,
+    "prompt_hash": "d858050940fa5a0a9656fb2b853b7433d9eda7294dc15f47942d666a0d8bfc63",
+    "sha256": "5f0975d665367bdfa855b5a46bc5c335590277726bd4b4bd8d08bb8be3bda9fc",
+    "threads": 1,
+    "tokenizer": "gguf-embedded:gpt2-bpe:vocab151936:bos151643:eos151645:addbos0:tplsha-cd8e9439"
+  },
+  "label": "SYNTHETIC-INFRA-ONLY empty-evidence diagnostic: model behavior vs session-state contamination. Not an acceptance gate.",
+  "legA_distinct_texts": 1,
+  "legB_empty_distinct_texts": 1,
+  "legC_empty_distinct_texts": 1,
+  "legs": {
+    "A_fresh_empty": [
+      {
+        "answer_sha256": "c3cd974d293be432041c6323a3edb361f26a4f46cb46b812852b50e0d361a51c",
+        "answer_text": "The synthetic widget tolerance threshold is 0.5.",
+        "citation_audit": {
+          "available_not_cited": [],
+          "cited_unknown": [],
+          "cited_valid": []
+        },
+        "citations": [],
+        "finish_reason": "stop",
+        "kind": "A0",
+        "load_ms": 1509.9680479615927,
+        "port": 40775,
+        "request": {
+          "cache_prompt_pinned_false": true,
+          "evidence_block_empty": true,
+          "rendered": "You are an offline research assistant. Answer the question using ONLY the provided evidence. Cite the exact bracketed identifier printed before the supporting evidence. For example, evidence labeled [source-7] must be cited as [source-7]. Do not write placeholder identifiers. If the evidence is insufficient, say so explicitly and list what is missing.\n\nEVIDENCE:\n\n\nQUESTION:\nWhat is the synthetic widget tolerance threshold?\n\nANSWER:",
+          "rendered_sha256": "f699b59bdee5ccd0e9b51bc0188fde4ae4e51e25d3a9045d7c54f7a8b621626f",
+          "seed": 1234,
+          "single_user_message_only": true,
+          "threads": 1
+        },
+        "server_pid": 1673164,
+        "token_accounting": {
+          "evidence_tokens": 0,
+          "templated_input_tokens": 115,
+          "usage_completion_tokens": 12,
+          "usage_prompt_tokens": 115,
+          "user_prompt_tokens": 86
+        }
+      },
+      {
+        "answer_sha256": "c3cd974d293be432041c6323a3edb361f26a4f46cb46b812852b50e0d361a51c",
+        "answer_text": "The synthetic widget tolerance threshold is 0.5.",
+        "citation_audit": {
+          "available_not_cited": [],
+          "cited_unknown": [],
+          "cited_valid": []
+        },
+        "citations": [],
+        "finish_reason": "stop",
+        "kind": "A1",
+        "load_ms": 1001.6616999637336,
+        "port": 33791,
+        "request": {
+          "cache_prompt_pinned_false": true,
+          "evidence_block_empty": true,
+          "rendered": "You are an offline research assistant. Answer the question using ONLY the provided evidence. Cite the exact bracketed identifier printed before the supporting evidence. For example, evidence labeled [source-7] must be cited as [source-7]. Do not write placeholder identifiers. If the evidence is insufficient, say so explicitly and list what is missing.\n\nEVIDENCE:\n\n\nQUESTION:\nWhat is the synthetic widget tolerance threshold?\n\nANSWER:",
+          "rendered_sha256": "f699b59bdee5ccd0e9b51bc0188fde4ae4e51e25d3a9045d7c54f7a8b621626f",
+          "seed": 1234,
+          "single_user_message_only": true,
+          "threads": 1
+        },
+        "server_pid": 1673197,
+        "token_accounting": {
+          "evidence_tokens": 0,
+          "templated_input_tokens": 115,
+          "usage_completion_tokens": 12,
+          "usage_prompt_tokens": 115,
+          "user_prompt_tokens": 86
+        }
+      },
+      {
+        "answer_sha256": "c3cd974d293be432041c6323a3edb361f26a4f46cb46b812852b50e0d361a51c",
+        "answer_text": "The synthetic widget tolerance threshold is 0.5.",
+        "citation_audit": {
+          "available_not_cited": [],
+          "cited_unknown": [],
+          "cited_valid": []
+        },
+        "citations": [],
+        "finish_reason": "stop",
+        "kind": "A2",
+        "load_ms": 1001.6500339843333,
+        "port": 39093,
+        "request": {
+          "cache_prompt_pinned_false": true,
+          "evidence_block_empty": true,
+          "rendered": "You are an offline research assistant. Answer the question using ONLY the provided evidence. Cite the exact bracketed identifier printed before the supporting evidence. For example, evidence labeled [source-7] must be cited as [source-7]. Do not write placeholder identifiers. If the evidence is insufficient, say so explicitly and list what is missing.\n\nEVIDENCE:\n\n\nQUESTION:\nWhat is the synthetic widget tolerance threshold?\n\nANSWER:",
+          "rendered_sha256": "f699b59bdee5ccd0e9b51bc0188fde4ae4e51e25d3a9045d7c54f7a8b621626f",
+          "seed": 1234,
+          "single_user_message_only": true,
+          "threads": 1
+        },
+        "server_pid": 1673226,
+        "token_accounting": {
+          "evidence_tokens": 0,
+          "templated_input_tokens": 115,
+          "usage_completion_tokens": 12,
+          "usage_prompt_tokens": 115,
+          "user_prompt_tokens": 86
+        }
+      }
+    ],
+    "B_evidence_then_empty": [
+      {
+        "first": {
+          "answer_sha256": "b301a33aac39eb8460c312439e1054c7b9d686d49e704ff2237e6db0db611e31",
+          "answer_text": "The synthetic widget tolerance threshold is 5 units. This information is provided in paragraph two of the synthetic fixture paragraph, which states \"the tolerance threshold is 5 units.\"",
+          "citation_audit": {
+            "available_not_cited": [
+              "synth-para-001",
+              "synth-para-002"
+            ],
+            "cited_unknown": [],
+            "cited_valid": []
+          },
+          "citations": [],
+          "finish_reason": "stop",
+          "kind": "B0-evidence",
+          "load_ms": 1001.5743670519441,
+          "port": 53847,
+          "request": {
+            "cache_prompt_pinned_false": true,
+            "evidence_block_empty": false,
+            "rendered": "You are an offline research assistant. Answer the question using ONLY the provided evidence. Cite the exact bracketed identifier printed before the supporting evidence. For example, evidence labeled [source-7] must be cited as [source-7]. Do not write placeholder identifiers. If the evidence is insufficient, say so explicitly and list what is missing.\n\nEVIDENCE:\n[synth-para-001] Synthetic fixture paragraph one about test widget calibration procedures.\n[synth-para-002] Synthetic fixture paragraph two says the tolerance threshold is 5 units.\n\nQUESTION:\nWhat is the synthetic widget tolerance threshold?\n\nANSWER:",
+            "rendered_sha256": "5ea671eda2ffc9e658fe84e7121973c7d91426884af0f52f4dbbacaff299f25a",
+            "seed": 1234,
+            "single_user_message_only": true,
+            "threads": 1
+          },
+          "server_pid": 1673277,
+          "token_accounting": {
+            "evidence_tokens": 41,
+            "templated_input_tokens": 156,
+            "usage_completion_tokens": 35,
+            "usage_prompt_tokens": 156,
+            "user_prompt_tokens": 127
+          }
+        },
+        "second": {
+          "answer_sha256": "c3cd974d293be432041c6323a3edb361f26a4f46cb46b812852b50e0d361a51c",
+          "answer_text": "The synthetic widget tolerance threshold is 0.5.",
+          "citation_audit": {
+            "available_not_cited": [],
+            "cited_unknown": [],
+            "cited_valid": []
+          },
+          "citations": [],
+          "finish_reason": "stop",
+          "kind": "B0-empty",
+          "request": {
+            "cache_prompt_pinned_false": true,
+            "evidence_block_empty": true,
+            "rendered": "You are an offline research assistant. Answer the question using ONLY the provided evidence. Cite the exact bracketed identifier printed before the supporting evidence. For example, evidence labeled [source-7] must be cited as [source-7]. Do not write placeholder identifiers. If the evidence is insufficient, say so explicitly and list what is missing.\n\nEVIDENCE:\n\n\nQUESTION:\nWhat is the synthetic widget tolerance threshold?\n\nANSWER:",
+            "rendered_sha256": "f699b59bdee5ccd0e9b51bc0188fde4ae4e51e25d3a9045d7c54f7a8b621626f",
+            "seed": 1234,
+            "single_user_message_only": true,
+            "threads": 1
+          },
+          "token_accounting": {
+            "evidence_tokens": 0,
+            "templated_input_tokens": 115,
+            "usage_completion_tokens": 12,
+            "usage_prompt_tokens": 115,
+            "user_prompt_tokens": 86
+          }
+        }
+      },
+      {
+        "first": {
+          "answer_sha256": "b301a33aac39eb8460c312439e1054c7b9d686d49e704ff2237e6db0db611e31",
+          "answer_text": "The synthetic widget tolerance threshold is 5 units. This information is provided in paragraph two of the synthetic fixture paragraph, which states \"the tolerance threshold is 5 units.\"",
+          "citation_audit": {
+            "available_not_cited": [
+              "synth-para-001",
+              "synth-para-002"
+            ],
+            "cited_unknown": [],
+            "cited_valid": []
+          },
+          "citations": [],
+          "finish_reason": "stop",
+          "kind": "B1-evidence",
+          "load_ms": 1502.238469896838,
+          "port": 34637,
+          "request": {
+            "cache_prompt_pinned_false": true,
+            "evidence_block_empty": false,
+            "rendered": "You are an offline research assistant. Answer the question using ONLY the provided evidence. Cite the exact bracketed identifier printed before the supporting evidence. For example, evidence labeled [source-7] must be cited as [source-7]. Do not write placeholder identifiers. If the evidence is insufficient, say so explicitly and list what is missing.\n\nEVIDENCE:\n[synth-para-001] Synthetic fixture paragraph one about test widget calibration procedures.\n[synth-para-002] Synthetic fixture paragraph two says the tolerance threshold is 5 units.\n\nQUESTION:\nWhat is the synthetic widget tolerance threshold?\n\nANSWER:",
+            "rendered_sha256": "5ea671eda2ffc9e658fe84e7121973c7d91426884af0f52f4dbbacaff299f25a",
+            "seed": 1234,
+            "single_user_message_only": true,
+            "threads": 1
+          },
+          "server_pid": 1673319,
+          "token_accounting": {
+            "evidence_tokens": 41,
+            "templated_input_tokens": 156,
+            "usage_completion_tokens": 35,
+            "usage_prompt_tokens": 156,
+            "user_prompt_tokens": 127
+          }
+        },
+        "second": {
+          "answer_sha256": "c3cd974d293be432041c6323a3edb361f26a4f46cb46b812852b50e0d361a51c",
+          "answer_text": "The synthetic widget tolerance threshold is 0.5.",
+          "citation_audit": {
+            "available_not_cited": [],
+            "cited_unknown": [],
+            "cited_valid": []
+          },
+          "citations": [],
+          "finish_reason": "stop",
+          "kind": "B1-empty",
+          "request": {
+            "cache_prompt_pinned_false": true,
+            "evidence_block_empty": true,
+            "rendered": "You are an offline research assistant. Answer the question using ONLY the provided evidence. Cite the exact bracketed identifier printed before the supporting evidence. For example, evidence labeled [source-7] must be cited as [source-7]. Do not write placeholder identifiers. If the evidence is insufficient, say so explicitly and list what is missing.\n\nEVIDENCE:\n\n\nQUESTION:\nWhat is the synthetic widget tolerance threshold?\n\nANSWER:",
+            "rendered_sha256": "f699b59bdee5ccd0e9b51bc0188fde4ae4e51e25d3a9045d7c54f7a8b621626f",
+            "seed": 1234,
+            "single_user_message_only": true,
+            "threads": 1
+          },
+          "token_accounting": {
+            "evidence_tokens": 0,
+            "templated_input_tokens": 115,
+            "usage_completion_tokens": 12,
+            "usage_prompt_tokens": 115,
+            "user_prompt_tokens": 86
+          }
+        }
+      }
+    ],
+    "C_empty_then_evidence": [
+      {
+        "first": {
+          "answer_sha256": "c3cd974d293be432041c6323a3edb361f26a4f46cb46b812852b50e0d361a51c",
+          "answer_text": "The synthetic widget tolerance threshold is 0.5.",
+          "citation_audit": {
+            "available_not_cited": [],
+            "cited_unknown": [],
+            "cited_valid": []
+          },
+          "citations": [],
+          "finish_reason": "stop",
+          "kind": "C0-empty",
+          "load_ms": 1001.6510409768671,
+          "port": 60365,
+          "request": {
+            "cache_prompt_pinned_false": true,
+            "evidence_block_empty": true,
+            "rendered": "You are an offline research assistant. Answer the question using ONLY the provided evidence. Cite the exact bracketed identifier printed before the supporting evidence. For example, evidence labeled [source-7] must be cited as [source-7]. Do not write placeholder identifiers. If the evidence is insufficient, say so explicitly and list what is missing.\n\nEVIDENCE:\n\n\nQUESTION:\nWhat is the synthetic widget tolerance threshold?\n\nANSWER:",
+            "rendered_sha256": "f699b59bdee5ccd0e9b51bc0188fde4ae4e51e25d3a9045d7c54f7a8b621626f",
+            "seed": 1234,
+            "single_user_message_only": true,
+            "threads": 1
+          },
+          "server_pid": 1673362,
+          "token_accounting": {
+            "evidence_tokens": 0,
+            "templated_input_tokens": 115,
+            "usage_completion_tokens": 12,
+            "usage_prompt_tokens": 115,
+            "user_prompt_tokens": 86
+          }
+        },
+        "second": {
+          "answer_sha256": "b301a33aac39eb8460c312439e1054c7b9d686d49e704ff2237e6db0db611e31",
+          "answer_text": "The synthetic widget tolerance threshold is 5 units. This information is provided in paragraph two of the synthetic fixture paragraph, which states \"the tolerance threshold is 5 units.\"",
+          "citation_audit": {
+            "available_not_cited": [
+              "synth-para-001",
+              "synth-para-002"
+            ],
+            "cited_unknown": [],
+            "cited_valid": []
+          },
+          "citations": [],
+          "finish_reason": "stop",
+          "kind": "C0-evidence",
+          "request": {
+            "cache_prompt_pinned_false": true,
+            "evidence_block_empty": false,
+            "rendered": "You are an offline research assistant. Answer the question using ONLY the provided evidence. Cite the exact bracketed identifier printed before the supporting evidence. For example, evidence labeled [source-7] must be cited as [source-7]. Do not write placeholder identifiers. If the evidence is insufficient, say so explicitly and list what is missing.\n\nEVIDENCE:\n[synth-para-001] Synthetic fixture paragraph one about test widget calibration procedures.\n[synth-para-002] Synthetic fixture paragraph two says the tolerance threshold is 5 units.\n\nQUESTION:\nWhat is the synthetic widget tolerance threshold?\n\nANSWER:",
+            "rendered_sha256": "5ea671eda2ffc9e658fe84e7121973c7d91426884af0f52f4dbbacaff299f25a",
+            "seed": 1234,
+            "single_user_message_only": true,
+            "threads": 1
+          },
+          "token_accounting": {
+            "evidence_tokens": 41,
+            "templated_input_tokens": 156,
+            "usage_completion_tokens": 35,
+            "usage_prompt_tokens": 156,
+            "user_prompt_tokens": 127
+          }
+        }
+      },
+      {
+        "first": {
+          "answer_sha256": "c3cd974d293be432041c6323a3edb361f26a4f46cb46b812852b50e0d361a51c",
+          "answer_text": "The synthetic widget tolerance threshold is 0.5.",
+          "citation_audit": {
+            "available_not_cited": [],
+            "cited_unknown": [],
+            "cited_valid": []
+          },
+          "citations": [],
+          "finish_reason": "stop",
+          "kind": "C1-empty",
+          "load_ms": 1001.6133668832481,
+          "port": 52117,
+          "request": {
+            "cache_prompt_pinned_false": true,
+            "evidence_block_empty": true,
+            "rendered": "You are an offline research assistant. Answer the question using ONLY the provided evidence. Cite the exact bracketed identifier printed before the supporting evidence. For example, evidence labeled [source-7] must be cited as [source-7]. Do not write placeholder identifiers. If the evidence is insufficient, say so explicitly and list what is missing.\n\nEVIDENCE:\n\n\nQUESTION:\nWhat is the synthetic widget tolerance threshold?\n\nANSWER:",
+            "rendered_sha256": "f699b59bdee5ccd0e9b51bc0188fde4ae4e51e25d3a9045d7c54f7a8b621626f",
+            "seed": 1234,
+            "single_user_message_only": true,
+            "threads": 1
+          },
+          "server_pid": 1673581,
+          "token_accounting": {
+            "evidence_tokens": 0,
+            "templated_input_tokens": 115,
+            "usage_completion_tokens": 12,
+            "usage_prompt_tokens": 115,
+            "user_prompt_tokens": 86
+          }
+        },
+        "second": {
+          "answer_sha256": "b301a33aac39eb8460c312439e1054c7b9d686d49e704ff2237e6db0db611e31",
+          "answer_text": "The synthetic widget tolerance threshold is 5 units. This information is provided in paragraph two of the synthetic fixture paragraph, which states \"the tolerance threshold is 5 units.\"",
+          "citation_audit": {
+            "available_not_cited": [
+              "synth-para-001",
+              "synth-para-002"
+            ],
+            "cited_unknown": [],
+            "cited_valid": []
+          },
+          "citations": [],
+          "finish_reason": "stop",
+          "kind": "C1-evidence",
+          "request": {
+            "cache_prompt_pinned_false": true,
+            "evidence_block_empty": false,
+            "rendered": "You are an offline research assistant. Answer the question using ONLY the provided evidence. Cite the exact bracketed identifier printed before the supporting evidence. For example, evidence labeled [source-7] must be cited as [source-7]. Do not write placeholder identifiers. If the evidence is insufficient, say so explicitly and list what is missing.\n\nEVIDENCE:\n[synth-para-001] Synthetic fixture paragraph one about test widget calibration procedures.\n[synth-para-002] Synthetic fixture paragraph two says the tolerance threshold is 5 units.\n\nQUESTION:\nWhat is the synthetic widget tolerance threshold?\n\nANSWER:",
+            "rendered_sha256": "5ea671eda2ffc9e658fe84e7121973c7d91426884af0f52f4dbbacaff299f25a",
+            "seed": 1234,
+            "single_user_message_only": true,
+            "threads": 1
+          },
+          "token_accounting": {
+            "evidence_tokens": 41,
+            "templated_input_tokens": 156,
+            "usage_completion_tokens": 35,
+            "usage_prompt_tokens": 156,
+            "user_prompt_tokens": 127
+          }
+        }
+      }
+    ]
+  },
+  "no_tuning": true,
+  "prepare_report": {
+    "binary": {
+      "path": "/home/davidhatley/Work/tools/llama.cpp/build/bin/llama-server",
+      "sha256": "5a5aa40edb8d5aee3638ff292c1e676b934fdb48a9b50029338e2600da4b128f"
+    },
+    "libs_checked": 8,
+    "model": {
+      "bytes": 986048768,
+      "sha256": "1adf0b11065d8ad2e8123ea110d1ec956dab4ab038eab665614adba04b6c3370"
+    }
+  }
+}

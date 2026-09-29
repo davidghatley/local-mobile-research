@@ -1,0 +1,44 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:rome:00:000:00",
+          "text": "Rome is the capital and largest city of Italy."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "p:ancient_rome:05:000",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "Rome",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "rome",
+    "source_articles": [
+      "a:rome"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "d9c45678ec10cba3639273f8f7291e10e640f642ca71ccdbd15547b130d9e0f8",
+    "decision": "approve",
+    "rationale": "Pass-4 verification: evidence t:rome:00:000:00 exact match; answer supported; hard negative p:ancient_rome:05:000 genuine non-evidence same-group distractor, no overlap. Approve.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-34",
+  "question_type": "factoid",
+  "split": "train",
+  "text": "What is the capital and largest city of Italy?"
+}

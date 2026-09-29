@@ -1,0 +1,54 @@
+{
+  "evidence": {
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:seashell:11:000",
+        "p:seashell:01:000"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:seashell:11:000",
+          "text": "Almost all genera of hermit crabs use or \"wear\" empty marine gastropod shells throughout their lifespan, in order to protect their soft abdomens, and in order to have a strong shell to withdraw into if attacked by a predator. Each individual hermit crab is forced to find another gastropod shell on a regular basis, whenever it grows too large for the one it is currently using.\nSome hermit crab species live on land and may be found quite some distance from the sea, including those in the tropical genus Coenobita."
+        },
+        {
+          "node_id": "p:seashell:01:000",
+          "text": "When the word \"seashells\" refers only to the shells of marine mollusks, then studying seashells is part of conchology. Conchologists and amateur researchers are in general careful not to disturb living populations and habitats. Most responsible collectors do not over-collect or otherwise disturb ecosystems even if they capture few live specimens.\nThe study of mollusks (including their shells) is known as malacology; a person who studies mollusks is known as a malacologist."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "entity_confusion",
+      "node_id": "p:shell_plc:14:000",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "conchology",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "shell",
+    "source_articles": [
+      "a:seashell"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "578514fc826ecec75104070b2d0007556bcc3460e39f763c80a4622a38dde800",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 5 (content): evidence spans p:seashell:11:000 and p:seashell:01:000 exact corpus text matches, answer conchology supported by span 1; hard negative p:shell_plc:14:000 genuine entity-confusion non-evidence with no overlap; single-group shell compliant; no tautology. Pre-approval content hash cb6ecda1a1e58b5b6e4bbb1e8ad9dcb27d42f9742286638c335c561d9b272061 verified exact match before binding.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-42",
+  "question_type": "multihop",
+  "split": "train",
+  "text": "Hermit crabs wear empty marine gastropod shells; which field studies the seashells of marine mollusks?"
+}

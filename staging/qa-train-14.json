@@ -1,0 +1,54 @@
+{
+  "evidence": {
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:lunar_eclipse:00:000:00",
+        "t:lunar_eclipse:00:000:01"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:lunar_eclipse:00:000:00",
+          "text": "A lunar eclipse, also called a blood moon, is an astronomical event that occurs when the Moon orbits through Earth's shadow."
+        },
+        {
+          "node_id": "t:lunar_eclipse:00:000:01",
+          "text": "Lunar eclipses occur during eclipse season, when the Moon's orbital plane is approximately in line with Earth and the Sun."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "entity_confusion",
+      "node_id": "t:eclipse_software:00:000:00",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "eclipse season",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "eclipse",
+    "source_articles": [
+      "a:lunar_eclipse"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "557d5854e50a09cca1d9ed97d2d6afdee577b0dbfbe1b55ace57c8feb6e2c150",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 2 (content): multihop evidence spans t:lunar_eclipse:00:000:00 (blood moon) and t:lunar_eclipse:00:000:01 (eclipse season) exact corpus text matches with reference hop chain, answer eclipse season supported by span 1; hard negative t:eclipse_software:00:000:00 genuine entity-confusion non-evidence with no overlap; single-group eclipse compliant; no tautology. Pre-approval content hash 8f850084 verified exact match before binding.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-14",
+  "question_type": "multihop",
+  "split": "train",
+  "text": "A blood moon is a kind of lunar eclipse; during which recurring season do lunar eclipses occur?"
+}

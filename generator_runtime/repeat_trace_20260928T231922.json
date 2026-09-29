@@ -1,0 +1,115 @@
+{
+  "all_identical": true,
+  "distinct_answer_texts": 1,
+  "label": "SYNTHETIC-INFRA-ONLY repeat protocol: reproducibility probe, not a universality guarantee",
+  "load_ms_per_process": [
+    1510.0743148941547,
+    1001.6101638320833,
+    1502.2227119188756
+  ],
+  "page_cache_note": "process-cold only (fresh PID per run); OS page cache state uncontrolled \u2014 no cache-cold claim",
+  "prepare_report": {
+    "binary": {
+      "path": "/home/davidhatley/Work/tools/llama.cpp/build/bin/llama-server",
+      "sha256": "5a5aa40edb8d5aee3638ff292c1e676b934fdb48a9b50029338e2600da4b128f"
+    },
+    "libs_checked": 8,
+    "model": {
+      "bytes": 986048768,
+      "sha256": "1adf0b11065d8ad2e8123ea110d1ec956dab4ab038eab665614adba04b6c3370"
+    }
+  },
+  "protocol": "3 independent fresh processes, fixed synthetic prompt, threads=1, seed 1234, temp 0.0/top_k 1",
+  "runs": [
+    {
+      "answer_sha256": "b301a33aac39eb8460c312439e1054c7b9d686d49e704ff2237e6db0db611e31",
+      "answer_text": "The synthetic widget tolerance threshold is 5 units. This information is provided in paragraph two of the synthetic fixture paragraph, which states \"the tolerance threshold is 5 units.\"",
+      "citation_audit": {
+        "available_not_cited": [
+          "synth-para-001",
+          "synth-para-002"
+        ],
+        "cited_unknown": [],
+        "cited_valid": []
+      },
+      "citations": [],
+      "close_report": {
+        "port_closed": true,
+        "reaped": true,
+        "returncode": 0,
+        "terminated_cleanly": true
+      },
+      "finish_reason": "stop",
+      "load_ms": 1510.0743148941547,
+      "run": 0,
+      "threads": 1,
+      "token_accounting": {
+        "evidence_tokens": 41,
+        "templated_input_tokens": 156,
+        "usage_completion_tokens": 35,
+        "usage_prompt_tokens": 156,
+        "user_prompt_tokens": 127
+      }
+    },
+    {
+      "answer_sha256": "b301a33aac39eb8460c312439e1054c7b9d686d49e704ff2237e6db0db611e31",
+      "answer_text": "The synthetic widget tolerance threshold is 5 units. This information is provided in paragraph two of the synthetic fixture paragraph, which states \"the tolerance threshold is 5 units.\"",
+      "citation_audit": {
+        "available_not_cited": [
+          "synth-para-001",
+          "synth-para-002"
+        ],
+        "cited_unknown": [],
+        "cited_valid": []
+      },
+      "citations": [],
+      "close_report": {
+        "port_closed": true,
+        "reaped": true,
+        "returncode": 0,
+        "terminated_cleanly": true
+      },
+      "finish_reason": "stop",
+      "load_ms": 1001.6101638320833,
+      "run": 1,
+      "threads": 1,
+      "token_accounting": {
+        "evidence_tokens": 41,
+        "templated_input_tokens": 156,
+        "usage_completion_tokens": 35,
+        "usage_prompt_tokens": 156,
+        "user_prompt_tokens": 127
+      }
+    },
+    {
+      "answer_sha256": "b301a33aac39eb8460c312439e1054c7b9d686d49e704ff2237e6db0db611e31",
+      "answer_text": "The synthetic widget tolerance threshold is 5 units. This information is provided in paragraph two of the synthetic fixture paragraph, which states \"the tolerance threshold is 5 units.\"",
+      "citation_audit": {
+        "available_not_cited": [
+          "synth-para-001",
+          "synth-para-002"
+        ],
+        "cited_unknown": [],
+        "cited_valid": []
+      },
+      "citations": [],
+      "close_report": {
+        "port_closed": true,
+        "reaped": true,
+        "returncode": 0,
+        "terminated_cleanly": true
+      },
+      "finish_reason": "stop",
+      "load_ms": 1502.2227119188756,
+      "run": 2,
+      "threads": 1,
+      "token_accounting": {
+        "evidence_tokens": 41,
+        "templated_input_tokens": 156,
+        "usage_completion_tokens": 35,
+        "usage_prompt_tokens": 156,
+        "user_prompt_tokens": 127
+      }
+    }
+  ]
+}

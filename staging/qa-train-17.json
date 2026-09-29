@@ -1,0 +1,44 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:london_bridge:05:002",
+          "text": "In 1896 the bridge was the busiest point in London, and one of its most congested; 8,000 pedestrians and 900 vehicles crossed every hour. To designs by engineer Edward Cruttwell, it was widened by 13 ft, using granite corbels. Subsequent surveys showed that the bridge was sinking an inch (about 2.5 cm) every eight years, and by 1924 the east side had sunk some three to four inches (about 9 cm) lower than the west side. The bridge would have to be removed and replaced."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "t:greater_london:00:000:03",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "8,000 pedestrians and 900 vehicles",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "london",
+    "source_articles": [
+      "a:london_bridge"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "e5b283c036afcf27d3dcd77762c5e1f3f66bfcd4fe19a8544caae914b3551405",
+    "decision": "approve",
+    "rationale": "Pass-4 re-verification: evidence p:london_bridge:05:002 exact code-point match incl NBSP; answer supported; hard negative t:greater_london:00:000:03 genuine non-evidence same-group distractor, no overlap. Approve.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-17",
+  "question_type": "factoid",
+  "split": "train",
+  "text": "When the bridge was the busiest point in London in 1896, how many pedestrians and vehicles crossed it every hour?"
+}

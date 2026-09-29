@@ -1,0 +1,116 @@
+{
+  "artifact_path": "generator_runtime/artifacts/Qwen2.5-1.5B-Instruct-Q4_K_M.gguf",
+  "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "bytes": 986048768,
+  "chat_template_sha256": "55b2f4a26ac9ee719330a61a0c39d9e538b0e9322212f048326318cff4f8674a",
+  "context_window": 4096,
+  "context_window_pinned": 4096,
+  "download_budget_bytes": 2147483648,
+  "download_url": "https://huggingface.co/bartowski/Qwen2.5-1.5B-Instruct-GGUF/resolve/9eadc66189c7641e1ddd226b8267a9119b2ce2d4/Qwen2.5-1.5B-Instruct-Q4_K_M.gguf",
+  "file": "Qwen2.5-1.5B-Instruct-Q4_K_M.gguf",
+  "generation": {
+    "cache_prompt": false,
+    "max_tokens": 256,
+    "seed": 1234,
+    "temperature": 0.0,
+    "top_k": 1,
+    "top_p": 1.0
+  },
+  "generator_id": "qwen25-1.5b-q4km-fixed-v1",
+  "license": "Apache-2.0",
+  "license_evidence": [
+    "live HF API tags license:apache-2.0 (2026-09-29)",
+    "repo README license_link to Qwen/Qwen2.5-1.5B-Instruct LICENSE"
+  ],
+  "model_id": "bartowski/Qwen2.5-1.5B-Instruct-GGUF",
+  "prompt_delivery": "full rendered substrate prompt sent as a single user message through the model's embedded Jinja ChatML template (no custom template override)",
+  "prompt_hash": "d858050940fa5a0a9656fb2b853b7433d9eda7294dc15f47942d666a0d8bfc63",
+  "prompt_version": "substrate v0.2 (citation instruction rewritten; no [node_id] literal)",
+  "quantization": "Q4_K_M",
+  "revision": "9eadc66189c7641e1ddd226b8267a9119b2ce2d4",
+  "runtime": "llama.cpp b1-050dde5 (build 1, commit 050dde5), CPU-only (-ngl 0), ephemeral llama-server, no persistent service",
+  "runtime_binaries": {
+    "lib_dir": "/home/davidhatley/Work/tools/llama.cpp/build/bin",
+    "libs": {
+      "libggml-base.so.0": {
+        "sha256": "7ef052df40e5bc7d0523557a19992383882a2595c5df2bb7e44ac5b94181bf35",
+        "soname_target": "libggml-base.so.0.23.0"
+      },
+      "libggml-cpu.so.0": {
+        "sha256": "0e6be8d7f23ebca41f5b0e98d7b60ad81f6d57876184a574c69ea546dcc1a06f",
+        "soname_target": "libggml-cpu.so.0.23.0"
+      },
+      "libggml-vulkan.so.0": {
+        "sha256": "e7d68b0300e39b315debff20d8e4236051a1b43d1741646a164b7739a145cc4b",
+        "soname_target": "libggml-vulkan.so.0.23.0"
+      },
+      "libggml.so.0": {
+        "sha256": "da7fe88c49e72063c073665339501f09180abfff9c73d02e1d53a20a2541d205",
+        "soname_target": "libggml.so.0.23.0"
+      },
+      "libllama-common.so.0": {
+        "sha256": "46ac8d996dc62391fc64059e8d9a2de5d85cff7dd8557973c22df45a304f802b",
+        "soname_target": "libllama-common.so.0.4.0"
+      },
+      "libllama-server-impl.so": {
+        "sha256": "09e0cb0b92ec790385b7da2c667d2b256f4e88549f2d02a4de6607a92d52a73a",
+        "soname_target": "libllama-server-impl.so"
+      },
+      "libllama.so.0": {
+        "sha256": "f61b05acb49be9a5826688277673cd9e23df126b2b37347e75f2b6ccc1291dad",
+        "soname_target": "libllama.so.0.4.0"
+      },
+      "libmtmd.so.0": {
+        "sha256": "f2abfb2154224502cfbbda453bcc8540a62e6210d1e973195ee7e0e61fabf52d",
+        "soname_target": "libmtmd.so.0.4.0"
+      }
+    },
+    "llama-server": {
+      "path": "/home/davidhatley/Work/tools/llama.cpp/build/bin/llama-server",
+      "sha256": "5a5aa40edb8d5aee3638ff292c1e676b934fdb48a9b50029338e2600da4b128f"
+    }
+  },
+  "runtime_full": {
+    "build_compiler": "GNU 16.2.1",
+    "build_target": "Linux x86_64",
+    "git_clean": true,
+    "source_commit_full": "050dde50c9d70cf207db84f7224eedc491d817b2",
+    "source_commit_short": "050dde5",
+    "source_commit_subject": "hexagon: add RELU and LEAKY_RELU ops (#28585)",
+    "source_date": "2026-09-07 17:04:25 -0700",
+    "source_tree": "/home/davidhatley/Work/tools/llama.cpp",
+    "version_string": "version: 0.4.0-dev (build 1, commit 050dde5)"
+  },
+  "runtime_threads_measured": 1,
+  "sha256": "1adf0b11065d8ad2e8123ea110d1ec956dab4ab038eab665614adba04b6c3370",
+  "threads_decision": "orchestrator-pinned threads=1 for controlled Round 1 (cross-process reproducibility; multi-threaded reduction nondeterminism observed at threads=6)",
+  "tokenizer": "gguf-embedded:gpt2-bpe:vocab151936:bos151643:eos151645:addbos0:tplsha-cd8e9439",
+  "tokenizer_gguf": {
+    "add_bos_token": false,
+    "add_eos_token": "absent-from-header",
+    "architecture": "qwen2",
+    "block_count": 28,
+    "bos_token_id": 151643,
+    "chat_template_bytes_artifact": 2507,
+    "chat_template_bytes_runtime_props": 2506,
+    "chat_template_runtime_sha256": "55b2f4a26ac9ee719330a61a0c39d9e538b0e9322212f048326318cff4f8674a",
+    "chat_template_sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f",
+    "embedding_length": 1536,
+    "eos_token_id": 151645,
+    "gguf_version": 3,
+    "kv_count": 38,
+    "measured": "2026-09-29, local GGUF-header walk (see PROVENANCE.json)",
+    "model": "gpt2",
+    "template_delta": "llama-server /props string is the GGUF bytes minus the single trailing newline; accounting uses the runtime path (/apply-template) consistently",
+    "tensor_count": 338,
+    "vocab_size": 151936
+  },
+  "verification": {
+    "hf_header_etag_match": true,
+    "hf_header_size_match": true,
+    "hf_repo_sha_live": "9eadc66189c7641e1ddd226b8267a9119b2ce2d4",
+    "local_bytes_match": true,
+    "local_sha256_match": true,
+    "manifest_claim_source": "boar-app src/models/manifest.ts via docs/reference-audit.md"
+  }
+}

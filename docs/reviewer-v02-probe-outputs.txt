@@ -1,0 +1,152 @@
+Raw probe outputs from v0.2 adversarial review (opencode/nemotron-3-ultra-free)
+================================================================================
+
+=== TEST 1: Questions content hash not in manifest ===
+Initial freeze: True
+After changing question text (same splits): True
+Questions content change NOT detected by validate_freeze
+[REVIEWER-v02] Questions content hash not in manifest: CHANGE UNDETECTED
+
+=== TEST 2: Generator disk comparison coverage ===
+Initial freeze: True
+After changing context_window on disk: True
+Gaps: []
+After changing tokenizer_id on disk: True
+Gaps: []
+After changing sampling on disk: True
+Gaps: []
+[REVIEWER-v02] Generator disk compare misses context_window: PASSES
+[REVIEWER-v02] Generator disk compare misses tokenizer_id: PASSES
+[REVIEWER-v02] Generator disk compare misses sampling: PASSES
+
+Additional fields not compared (verified by inspecting manifest.py lines 230-240):
+- generator_id
+- chat_template_sha256
+- context_window_pinned
+- download_url
+- license / license_evidence
+- verification
+- runtime_binaries (llama-server + 8 .so hashes)
+- runtime_full (build compiler, git commit, source tree)
+- tokenizer / tokenizer_gguf
+- runtime_threads_measured
+[REVIEWER-v02] Generator disk compare misses generator_id: PASSES
+[REVIEWER-v02] Generator disk compare misses chat_template_sha256: PASSES
+[REVIEWER-v02] Generator disk compare misses runtime_binaries: PASSES
+[REVIEWER-v02] Generator disk compare misses tokenizer_gguf: PASSES
+
+=== TEST 3: Runtime binary/library verification ===
+Freeze passes without runtime_binary hashes: True
+Manifest has no field for runtime binary/library hashes
+GeneratorConfig has no runtime_binaries or runtime_libs fields
+[REVIEWER-v02] Runtime binary hashes not in manifest/config: CONFIRMED
+
+=== TEST 4: Group-map split method validation ===
+Freeze passes with empty group-map: True
+Gaps: []
+Freeze passes with overlapping supervised articles: True
+Gaps: []
+No validation of supervised article disjointness
+[REVIEWER-v02] Group-map empty groups accepted: PASSES
+[REVIEWER-v02] Group-map overlapping supervised articles: PASSES
+
+=== TEST 5: Trace validation vs policy validation ===
+Trace with none_ranking_only for probability threshold: []
+[REVIEWER-v02] Trace accepts none_ranking_only for probability: ACCEPTS (policy rejects)
+
+Trace with unknown interpretation: []
+[REVIEWER-v02] Trace accepts unknown interpretation: ACCEPTS (policy rejects)
+
+Trace logit + probability interp: []
+[REVIEWER-v02] Trace accepts logit + probability interp: ACCEPTS (policy rejects)
+
+Trace calibrated + raw_score_absolute: []
+[REVIEWER-v02] Trace accepts calibrated + raw_score_absolute: ACCEPTS (policy rejects)
+
+Policy validation results (ThresholdPolicy.validate()):
+Logit + raw_score_absolute: []
+Logit + probability: ['probability interpretation requires calibrated_probability scores']
+Legacy float: ['threshold interpretation is unspecified (fail closed)']
+Unknown interpretation: ["unknown threshold interpretation: 'unknown'"]
+[REVIEWER-v02] Policy validation stricter than trace: CONFIRMED
+
+=== TEST 6: Corpus hash recomputation works ===
+Corpus hash mismatch detected: True
+Gaps: ['corpus_hash mismatch: manifest does not match corpus.jsonl content']
+[REVIEWER-v02] Corpus hash recomputation works: DETECTS mismatch
+
+=== TEST 7: Seal tamper detected without reading labels ===
+Freeze with tampered labels: False
+Gaps: ['sealed labels hash mismatch: artifact changed since seal']
+Labels content must never leak into gap messages.
+[REVIEWER-v02] Seal tamper detected without reading labels: DETECTS
+
+=== TEST 8: Split inconsistency detected ===
+Freeze with split inconsistency: False
+Gaps: ["split inconsistency for 1 question ids (e.g. ['q1']): declared split != assign_split(seed)"]
+[REVIEWER-v02] Split inconsistency detected: DETECTS
+
+=== TEST 9: Code hash verification works ===
+Freeze with wrong seed derivation log: False
+Gaps: ["seed derivation mismatch for component 'model'", "seed derivation mismatch for component 'split'"]
+Freeze with correct seed derivation log: True
+Gaps: []
+[REVIEWER-v02] Code hash verification works: DETECTS mismatch
+[REVIEWER-v02] Seed derivation log verified: DETECTS mismatch
+
+=== TEST 10: Stub generator rejected ===
+Freeze fails on stub generator: True
+[REVIEWER-v02] Stub generator rejected: REJECTED
+
+=== TEST 11: Whitespace estimate rejected for empirical ===
+Trace with whitespace-estimate: ['whitespace-estimate token budget rejected for empirical runs']
+[REVIEWER-v02] Whitespace estimate rejected for empirical: REJECTED
+
+=== TEST 12: Negative latencies rejected ===
+Negative latency: ['retrieval_latency_ms: must be >= 0 or null (not measured), got -1.0']
+Negative per_stage latency: ['per_stage_latency_ms[stage0]: must be >= 0 or null, got -1.0']
+Negative storage: ['storage_bytes: must be a non-negative int or null, got -1']
+Negative peak_rss: ['peak_rss_mb: must be >= 0 or null (not measured), got -1.0']
+[REVIEWER-v02] Negative latencies rejected: REJECTED
+
+=== TEST 13: Unknown citations rejected ===
+Unknown citation: ["unknown emitted citations without evidence: ['ghost']"]
+[REVIEWER-v02] Unknown citations rejected: REJECTED
+
+=== TEST 14: Logit scores legal when score_kind=logit ===
+Logit scores accepted: []
+[REVIEWER-v02] Logit scores legal when score_kind=logit: ACCEPTED
+
+=== TEST 15: ECE/Brier reject logits/out-of-range ===
+Logits rejected ECE: True (ValueError raised)
+Logits rejected Brier: True (ValueError raised)
+Out of range rejected: True (ValueError raised)
+Nonfinite rejected: True (ValueError raised)
+Nonbinary labels rejected: True (ValueError raised)
+[REVIEWER-v02] ECE/Brier reject logits/out-of-range: REJECTED
+
+=== TEST 16: Sufficient set completion distinct from recall ===
+Alternative set completes: {'completion': 1.0, 'best_set_index': 1, 'per_set_coverage': [0.0, 1.0], 'complete_sets': [1]}
+Partial completion is max fraction: {'completion': 0.5, 'best_set_index': 0, 'per_set_coverage': [0.5, 0.0], 'complete_sets': []}
+No ground truth is none not zero: {'completion': None, 'best_set_index': None, 'per_set_coverage': [], 'complete_sets': []}
+Recall preserved (traditional): 0.5
+[REVIEWER-v02] Sufficient set completion distinct from recall: WORKING
+
+=== TEST 17: Survival vocabulary (lineage/coverage/recovery) ===
+Lineage is uninterrupted: [1.0, 0.0, 0.0]
+Stage coverage recovers: 0.0 then 1.0
+Conditional retention reports denominators: {'rate': 0.5, 'numerator': 1, 'denominator': 2}
+Conditional retention undefined not zero: {'rate': None, 'numerator': 0, 'denominator': 0}
+Lost and recovered: {'lost': ['p1'], 'recovered': ['p3']}
+[REVIEWER-v02] Survival vocabulary (lineage/coverage/recovery): WORKING
+
+=== TEST 18: Custodian same-UID bypass ===
+Direct file read bypasses custodian: {'q1': ['p1']}
+Env var set -> access granted: {'q1': ['p1']}
+Seal hash: 2b5ae8951a540816f817472163269d2f6ecfaf2b3837cc513aae101d5ff70e16
+Verify seal: True
+Custodian seal_hash: 2b5ae8951a540816f817472163269d2f6ecfaf2b3837cc513aae101d5ff70e16
+[REVIEWER-v02] Custodian same-UID bypass: CONFIRMED (by design)
+
+=== TEST 19: 88 test suite passes ===
+All 88 tests pass (test_corpus, test_evidence, test_splits, test_metrics, test_contract, test_freeze_adversarial, test_semantics_adversarial)

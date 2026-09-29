@@ -1,0 +1,75 @@
+{
+  "answer_citations_parsed_only": [],
+  "answer_text": "The synthetic widget tolerance threshold is 5 units. This information is provided in [node_id] synth-para-002.",
+  "citation_audit": {
+    "available_not_cited": [
+      "synth-para-001",
+      "synth-para-002"
+    ],
+    "cited_unknown": [
+      "node_id"
+    ],
+    "cited_valid": []
+  },
+  "citations_subset_of_packet": true,
+  "client_peak_rss_mb": 28.875,
+  "completion_within_max_tokens": true,
+  "config_pinned_compat": false,
+  "deterministic_repeat_identical": true,
+  "evidence_cap": 1000,
+  "evidence_text_matches_render_prompt": true,
+  "evidence_within_cap": true,
+  "finish_reason_run1": "stop",
+  "generator_id": "qwen25-1.5b-q4km-fixed-v1",
+  "generator_id_pinned": true,
+  "label": "SYNTHETIC-INFRA-ONLY v2: not a benchmark or architecture result",
+  "load_note": "fresh process; OS page cache state not controlled, so this is NOT a true cold-cache measurement",
+  "no_unknown_cited_ids": false,
+  "prepare_report": {
+    "binary": {
+      "path": "/home/davidhatley/Work/tools/llama.cpp/build/bin/llama-server",
+      "sha256": "5a5aa40edb8d5aee3638ff292c1e676b934fdb48a9b50029338e2600da4b128f"
+    },
+    "libs_checked": 8,
+    "model": {
+      "bytes": 986048768,
+      "sha256": "1adf0b11065d8ad2e8123ea110d1ec956dab4ab038eab665614adba04b6c3370"
+    }
+  },
+  "prepare_verify_ms": 2067.676060134545,
+  "prompt_hash": "dfe7b0a67f83e8e5b0bad2accb7893754271c1d2cf6da571c85646955d90df45",
+  "prompt_hash_matches_substrate": true,
+  "question_id": "synth-infra-001",
+  "run1_timings_ms": {
+    "http_generate_ms": 1301.491332007572,
+    "predicted_ms": 1083.578,
+    "predicted_n": 28.0,
+    "prompt_ms": 213.697,
+    "prompt_n": 133.0,
+    "server_load_ms": 1009.1140200383961
+  },
+  "run2_warm_timings_ms": {
+    "http_generate_ms": 1304.6177867799997,
+    "predicted_ms": 1086.209,
+    "predicted_n": 28.0,
+    "prompt_ms": 213.73,
+    "prompt_n": 133.0,
+    "server_load_ms": 1009.1140200383961
+  },
+  "server_process_gone": true,
+  "session_close_report": {
+    "port_closed": true,
+    "reaped": true,
+    "returncode": 0,
+    "terminated_cleanly": true
+  },
+  "session_load_ms_fresh_process": 1009.1140200383961,
+  "token_accounting_run1": {
+    "evidence_tokens": 41,
+    "templated_input_tokens": 133,
+    "usage_completion_tokens": 28,
+    "usage_prompt_tokens": 133,
+    "user_prompt_tokens": 104
+  },
+  "usage_matches_templated": true
+}

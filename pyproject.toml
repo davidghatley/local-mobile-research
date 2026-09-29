@@ -1,0 +1,19 @@
+[project]
+name = "offline-research-substrate"
+version = "0.2.0"
+description = "Round 0 common experimental substrate for the offline System-1 retrieval tournament (interfaces, schemas, measurement, freeze validation). Research infrastructure only; not an architecture implementation."
+readme = "docs/experimental-contract.md"
+requires-python = ">=3.11"
+dependencies = []
+authors = [{ name = "Round 0 substrate lead" }]
+
+[project.optional-dependencies]
+dev = []
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["substrate*", "eval*"]

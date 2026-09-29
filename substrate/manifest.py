@@ -1,0 +1,512 @@
+"""Run manifests and freeze validation (fail-closed).
+
+A run is reproducible from ONE master seed: per-component seeds are derived
+deterministically via ``derive_seed`` and the derivation is logged in the
+manifest. No fixed multi-seed table is invented.
+
+``manifest.phase`` distinguishes the Round 0 substrate freeze
+("round0-substrate") from later experiment freezes. Round 0 records
+threshold-policy DECLARATIONS (presence + validity); learned/fitted
+thresholds are produced by architecture teams in Round 1, never required
+before they exist.
+
+``validate_freeze`` RECOMPUTES every hash it checks (corpus content, questions
+bytes, split-map bytes, sealed labels opaque bytes, generator config bytes,
+code files, generator artifact, runtime binaries) and compares against the
+manifest and the on-disk configs. Generic ``ArtifactPin`` inventory entries
+cover content hashes without endless field whitelisting; the semantic
+contract compare covers the fields the substrate acts on. Everything else in
+the raw config is still pinned by its byte hash. Placeholders, stubs,
+estimates-as-empirical, and missing hash paths all fail. Malformed artifacts
+produce structured gaps, never crashes. Gap text carries ids/counts/hashes
+only — never question text, label content, or article text.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import platform
+import sys
+from dataclasses import dataclass, field
+
+from .corpus import hash_corpus_file
+from .generator import PROMPT_HASH, GeneratorConfig, is_stub_generator
+from .splits import (
+  assign_split,
+  build_article_index,
+  norm_title,
+  validate_group_map,
+  validate_question_provenance,
+  validate_questions_file,
+  verify_seal_opaque,
+)
+from .types import ThresholdPolicy
+
+
+def sha256_file(path: str) -> str:
+  h = hashlib.sha256()
+  with open(path, "rb") as fh:
+    for chunk in iter(lambda: fh.read(1 << 20), b""):
+      h.update(chunk)
+  return h.hexdigest()
+
+
+def hash_paths(paths: list[str]) -> dict[str, str]:
+  """Hash files. MISSING paths raise FileNotFoundError (fail closed)."""
+  out: dict[str, str] = {}
+  for path in sorted(paths):
+    if not os.path.isfile(path):
+      raise FileNotFoundError(f"hash path missing (fail closed): {path}")
+    out[path] = sha256_file(path)
+  return out
+
+
+def derive_seed(master_seed: int, component: str) -> int:
+  """Deterministically derive a per-component seed from the master seed."""
+  digest = hashlib.sha256(f"{master_seed}\x00{component}".encode("utf-8")).hexdigest()
+  return int(digest[:16], 16)
+
+
+def derive_seeds(master_seed: int, components: list[str]) -> dict[str, int]:
+  """Derive + log per-component seeds (the log goes in the manifest)."""
+  return {c: derive_seed(master_seed, c) for c in components}
+
+
+@dataclass(frozen=True)
+class ArtifactPin:
+  """Generic content pin for one artifact file.
+
+  ``path`` is repo-relative; absolute paths are allowed ONLY with a role
+  starting "external-" (explicit inventory role for out-of-tree files such as
+  the inference runtime). ``bytes`` is verified when set.
+  """
+
+  path: str
+  role: str
+  sha256: str
+  bytes: int | None = None
+
+  def resolve(self, root: str) -> str:
+    if os.path.isabs(self.path):
+      return os.path.normpath(self.path)
+    return os.path.normpath(os.path.join(root, self.path))
+
+  def verify(self, root: str) -> list[str]:
+    full = self.resolve(root)
+    if os.path.isabs(self.path) and not self.role.startswith("external-"):
+      return [f"inventory {self.role}: absolute path requires an external- role"]
+    if not os.path.isfile(full):
+      return [f"inventory {self.role}: file missing: {self.path}"]
+    if sha256_file(full) != self.sha256:
+      return [f"inventory {self.role}: sha256 mismatch (recomputed): {self.path}"]
+    if self.bytes is not None and os.path.getsize(full) != self.bytes:
+      return [f"inventory {self.role}: byte size mismatch: {self.path}"]
+    return []
+
+  def to_dict(self) -> dict:
+    return {"path": self.path, "role": self.role, "sha256": self.sha256, "bytes": self.bytes}
+
+  @staticmethod
+  def from_dict(d: dict) -> "ArtifactPin":
+    for f in ("path", "role", "sha256"):
+      if f not in d:
+        raise ValueError(f"ArtifactPin missing required field: {f}")
+    return ArtifactPin(
+      path=d["path"],
+      role=d["role"],
+      sha256=d["sha256"],
+      bytes=None if d.get("bytes") is None else int(d["bytes"]),
+    )
+
+
+@dataclass
+class RunManifest:
+  run_id: str
+  seed: int  # single master seed; components derived via derive_seed
+  corpus_hash: str
+  code_hashes: dict[str, str]
+  generator: GeneratorConfig
+  thresholds: dict[str, ThresholdPolicy]
+  sealed_labels_sha256: str = "TBD"
+  questions_sha256: str = "TBD"
+  split_seed: str = "TBD"
+  split_method: str = "seeded-hash"  # "seeded-hash" | "group-map"
+  split_map_path: str = ""
+  split_map_sha256: str = "TBD"
+  generator_config_sha256: str = "TBD"
+  inventory: list[ArtifactPin] = field(default_factory=list)
+  phase: str = "round0-substrate"
+  seed_derivation_log: dict[str, int] = field(default_factory=dict)
+  python_version: str = field(default_factory=lambda: platform.python_version())
+  platform: str = field(default_factory=lambda: platform.platform())
+  argv: list[str] = field(default_factory=lambda: list(sys.argv))
+
+  def to_dict(self) -> dict:
+    return {
+      "run_id": self.run_id,
+      "seed": self.seed,
+      "corpus_hash": self.corpus_hash,
+      "code_hashes": dict(self.code_hashes),
+      "generator": self.generator.to_dict(),
+      "thresholds": {k: v.to_dict() for k, v in self.thresholds.items()},
+      "sealed_labels_sha256": self.sealed_labels_sha256,
+      "questions_sha256": self.questions_sha256,
+      "split_seed": self.split_seed,
+      "split_method": self.split_method,
+      "split_map_path": self.split_map_path,
+      "split_map_sha256": self.split_map_sha256,
+      "generator_config_sha256": self.generator_config_sha256,
+      "inventory": [p.to_dict() for p in self.inventory],
+      "phase": self.phase,
+      "seed_derivation_log": dict(self.seed_derivation_log),
+      "python_version": self.python_version,
+      "platform": self.platform,
+      "argv": list(self.argv),
+    }
+
+  def write(self, path: str) -> None:
+    with open(path, "w", encoding="utf-8") as fh:
+      json.dump(self.to_dict(), fh, indent=2, sort_keys=True)
+      fh.write("\n")
+
+  @staticmethod
+  def read(path: str) -> "RunManifest":
+    with open(path, "r", encoding="utf-8") as fh:
+      d = json.load(fh)
+    raw_thresholds = d.get("thresholds", {})
+    thresholds = {
+      k: (v if isinstance(v, ThresholdPolicy) else ThresholdPolicy.from_dict(v))
+      for k, v in raw_thresholds.items()
+    }
+    return RunManifest(
+      run_id=d["run_id"],
+      seed=int(d["seed"]),
+      corpus_hash=d["corpus_hash"],
+      code_hashes=dict(d["code_hashes"]),
+      generator=GeneratorConfig.from_dict(d["generator"]),
+      thresholds=thresholds,
+      sealed_labels_sha256=d.get("sealed_labels_sha256", "TBD"),
+      questions_sha256=d.get("questions_sha256", "TBD"),
+      split_seed=d.get("split_seed", "TBD"),
+      split_method=d.get("split_method", "seeded-hash"),
+      split_map_path=d.get("split_map_path", ""),
+      split_map_sha256=d.get("split_map_sha256", "TBD"),
+      generator_config_sha256=d.get("generator_config_sha256", "TBD"),
+      inventory=[ArtifactPin.from_dict(p) for p in d.get("inventory", [])],
+      phase=d.get("phase", "round0-substrate"),
+      seed_derivation_log={k: int(v) for k, v in d.get("seed_derivation_log", {}).items()},
+      python_version=d.get("python_version", "?"),
+      platform=d.get("platform", "?"),
+      argv=list(d.get("argv", [])),
+    )
+
+
+@dataclass
+class FreezeCheck:
+  passed: bool
+  gaps: list[str]
+
+  def to_dict(self) -> dict:
+    return {"passed": self.passed, "gaps": list(self.gaps)}
+
+
+# Artifacts that MUST exist with real pinned content before any freeze claim.
+REQUIRED_CORPUS_FILE = "corpus/corpus.jsonl"
+REQUIRED_QUESTIONS_FILE = "corpus/questions.json"
+REQUIRED_LABELS_FILE = "corpus/heldout_labels.sealed.json"
+REQUIRED_GENERATOR_FILE = "corpus/generator_config.json"
+
+PLACEHOLDER_HASHES = frozenset({"", "TBD", "SYNTHETIC"})
+
+# Semantic generator fields compared manifest-vs-disk. All OTHER raw config
+# fields (license, download_url, verification, tokenizer detail, runtime_full,
+# threads, budgets, prompt_delivery...) are pinned generically by the raw
+# config byte hash, not whitelisted one by one.
+GENERATOR_SEMANTIC_FIELDS = (
+  "model_id",
+  "revision",
+  "prompt_hash",
+  "quantization",
+  "runtime",
+  "file",
+  "artifact_sha256",
+  "generator_id",
+  "tokenizer_id",
+  "chat_template_sha256",
+  "context_window",
+)
+
+
+def _runtime_declarations(disk: dict) -> tuple[list[dict], list[str]]:
+  """Declared executable/library files from the raw generator config.
+
+  Returns (declarations, errors). Each declaration: {name, path, sha256,
+  role}. Absolute out-of-tree paths get explicit external- roles. Malformed
+  declarations are errors, never crashes.
+  """
+  rb = disk.get("runtime_binaries")
+  if not isinstance(rb, dict):
+    return [], ["generator config: runtime_binaries inventory missing or malformed"]
+  errors: list[str] = []
+  declarations: list[dict] = []
+  lib_dir = rb.get("lib_dir", "")
+  libs = rb.get("libs", {})
+  if not isinstance(libs, dict):
+    errors.append("generator config: runtime_binaries.libs malformed")
+    libs = {}
+  for name, rec in libs.items():
+    if not isinstance(rec, dict) or "sha256" not in rec:
+      errors.append(f"generator config: runtime lib {str(name)[:80]} malformed")
+      continue
+    filename = rec.get("soname_target") or name
+    path = os.path.join(lib_dir, filename) if lib_dir else filename
+    role = "external-runtime-library" if os.path.isabs(path) else "runtime-library"
+    declarations.append({"name": str(name), "path": path, "sha256": rec["sha256"], "role": role})
+  server = rb.get("llama-server", {})
+  if isinstance(server, dict) and server.get("path") and server.get("sha256"):
+    spath = server["path"]
+    role = "external-runtime-binary" if os.path.isabs(spath) else "runtime-binary"
+    declarations.append(
+      {"name": "llama-server", "path": spath, "sha256": server["sha256"], "role": role}
+    )
+  elif server:
+    errors.append("generator config: llama-server declaration malformed")
+  return declarations, errors
+
+
+def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
+  """Fail-closed freeze validation with hash recomputation.
+
+  Verifies: phase, artifact presence, recomputed corpus hash, questions byte
+  hash + schema + split consistency, group-map bytes + structure + article
+  resolution + QA consistency, opaque seal hash (bytes only, labels never
+  parsed/printed), full generator contract (raw config bytes, semantic
+  fields, artifact bytes/hash, prompt pin, runtime binaries incl. external
+  paths with explicit roles, manifest inventory coverage), stub/placeholder
+  rejection, per-file code hashes, threshold policy declarations, seed-log
+  consistency. Malformed artifacts yield structured gaps, never crashes; gap
+  text carries ids/counts/hashes only.
+  """
+  gaps: list[str] = []
+  paths = {
+    "corpus": os.path.join(root, REQUIRED_CORPUS_FILE),
+    "questions": os.path.join(root, REQUIRED_QUESTIONS_FILE),
+    "labels": os.path.join(root, REQUIRED_LABELS_FILE),
+    "generator": os.path.join(root, REQUIRED_GENERATOR_FILE),
+  }
+  for name, full in paths.items():
+    if not os.path.isfile(full):
+      gaps.append(f"missing required artifact: {os.path.relpath(full, root)}")
+
+  if manifest.phase != "round0-substrate":
+    gaps.append(f"unknown freeze phase: {manifest.phase!r}")
+
+  # --- corpus: recompute hash from content; collect article titles ---
+  corpus_titles: set[str] | None = None
+  corpus_nodes: list = []
+  if os.path.isfile(paths["corpus"]):
+    try:
+      nodes, actual = hash_corpus_file(paths["corpus"])
+      corpus_nodes = nodes
+      if actual != manifest.corpus_hash:
+        gaps.append("corpus_hash mismatch: manifest does not match corpus.jsonl content")
+      corpus_titles = {norm_title(n.text) for n in nodes if n.kind == "article"}
+    except ValueError as exc:
+      gaps.append(f"corpus artifact invalid: {str(exc)[:200]}")
+  if manifest.corpus_hash in PLACEHOLDER_HASHES:
+    gaps.append("corpus_hash is a placeholder, not a real pinned hash")
+
+  # --- sealed labels: opaque byte-hash only; never parse or print ---
+  if manifest.sealed_labels_sha256 in PLACEHOLDER_HASHES:
+    gaps.append("sealed_labels_sha256 unrecorded")
+  elif os.path.isfile(paths["labels"]):
+    try:
+      if not verify_seal_opaque(paths["labels"], manifest.sealed_labels_sha256):
+        gaps.append("sealed labels hash mismatch: artifact changed since seal")
+    except FileNotFoundError as exc:
+      gaps.append(str(exc))
+
+  # --- questions: byte hash + schema + split consistency (labels untouched) ---
+  question_entries: list[dict] = []
+  if manifest.questions_sha256 in PLACEHOLDER_HASHES:
+    gaps.append("questions_sha256 unrecorded")
+  elif os.path.isfile(paths["questions"]):
+    try:
+      if sha256_file(paths["questions"]) != manifest.questions_sha256:
+        gaps.append("questions_sha256 mismatch: manifest does not match questions.json bytes")
+    except OSError as exc:
+      gaps.append(f"questions file unreadable: {str(exc)[:120]}")
+  if os.path.isfile(paths["questions"]):
+    try:
+      checked = validate_questions_file(paths["questions"])
+    except (ValueError, OSError) as exc:
+      checked = {"ids": [], "errors": [str(exc)[:200]]}
+    gaps.extend(f"questions file: {e}" for e in checked["errors"])
+    try:
+      with open(paths["questions"], "r", encoding="utf-8") as fh:
+        raw_entries = json.load(fh)
+      question_entries = [e for e in raw_entries if isinstance(e, dict)]
+    except (ValueError, OSError) as exc:
+      gaps.append(f"questions file malformed: {str(exc)[:120]}")
+    map_groups: dict[str, str] = {}
+    article_to_group: dict[str, str] = {}
+    if manifest.split_method == "seeded-hash":
+      if manifest.split_seed in ("", "TBD"):
+        gaps.append("split_seed unrecorded for seeded-hash split method")
+      else:
+        declared = {e["question_id"]: e.get("split", "dev") for e in question_entries}
+        mismatched = [
+          qid
+          for qid in checked["ids"]
+          if declared.get(qid) != assign_split(qid, manifest.split_seed)
+        ]
+        if mismatched:
+          gaps.append(
+            f"split inconsistency for {len(mismatched)} question ids "
+            f"(e.g. {mismatched[:3]}): declared split != assign_split(seed)"
+          )
+    elif manifest.split_method == "group-map":
+      map_full = os.path.join(root, manifest.split_map_path) if manifest.split_map_path else ""
+      if not manifest.split_map_path or not os.path.isfile(map_full):
+        gaps.append("group-map split method without a pinned split_map_path artifact")
+      else:
+        if manifest.split_map_sha256 in PLACEHOLDER_HASHES:
+          gaps.append("split_map_sha256 unrecorded")
+        else:
+          try:
+            if sha256_file(map_full) != manifest.split_map_sha256:
+              gaps.append("split_map_sha256 mismatch: manifest does not match map bytes")
+          except OSError as exc:
+            gaps.append(f"split map unreadable: {str(exc)[:120]}")
+        try:
+          with open(map_full, "r", encoding="utf-8") as fh:
+            map_data = json.load(fh)
+        except (ValueError, OSError) as exc:
+          map_data = None
+          gaps.append(f"split map malformed: {str(exc)[:120]}")
+        if isinstance(map_data, dict):
+          res = validate_group_map(map_data, corpus_titles)
+          gaps.extend(f"split map: {e}" for e in res["errors"])
+          article_to_group = res["article_to_group"]
+          groups_raw = map_data.get("groups", {})
+          map_groups = {
+            g: rec.get("split")
+            for g, rec in groups_raw.items()
+            if isinstance(rec, dict)
+          }
+    else:
+      gaps.append(f"unknown split_method: {manifest.split_method}")
+
+  # --- QA provenance: mandatory for controlled, dev-only public exception ---
+  if os.path.isfile(paths["questions"]):
+    if not corpus_nodes:
+      gaps.append("qa provenance: unresolvable without corpus artifact")
+    else:
+      prov = validate_question_provenance(
+        question_entries,
+        article_index=build_article_index(corpus_nodes),
+        map_groups=map_groups if manifest.split_method == "group-map" else {},
+        article_to_group=article_to_group
+        if manifest.split_method == "group-map"
+        else {},
+        split_seed=manifest.split_seed,
+        use_map_splits=manifest.split_method == "group-map",
+      )
+      gaps.extend(f"qa provenance: {e}" for e in prov["errors"])
+
+  # --- generator: raw config bytes, semantic contract, artifact, runtime ---
+  gen = manifest.generator
+  if is_stub_generator(gen.generator_id) or is_stub_generator(gen.model_id):
+    gaps.append("generator is an infrastructure stub (disallowed for freeze)")
+  unpinned = gen.unpinned_fields()
+  if unpinned:
+    gaps.append(f"generator contract unpinned fields: {sorted(unpinned)}")
+  if gen.prompt_hash != PROMPT_HASH:
+    gaps.append("generator prompt_hash does not match the fixed Round 0 prompt")
+  if manifest.generator_config_sha256 in PLACEHOLDER_HASHES:
+    gaps.append("generator_config_sha256 unrecorded")
+  elif os.path.isfile(paths["generator"]):
+    try:
+      if sha256_file(paths["generator"]) != manifest.generator_config_sha256:
+        gaps.append("generator_config_sha256 mismatch: manifest does not match config bytes")
+    except OSError as exc:
+      gaps.append(f"generator config unreadable: {str(exc)[:120]}")
+  disk: dict = {}
+  if os.path.isfile(paths["generator"]):
+    try:
+      with open(paths["generator"], "r", encoding="utf-8") as fh:
+        loaded = json.load(fh)
+      if not isinstance(loaded, dict):
+        gaps.append("generator config malformed: top level must be an object")
+      else:
+        disk = loaded
+    except (ValueError, OSError) as exc:
+      gaps.append(f"generator config malformed: {str(exc)[:120]}")
+  if disk:
+    disk_cfg = GeneratorConfig.from_dict(disk)
+    for field_name in GENERATOR_SEMANTIC_FIELDS:
+      if getattr(disk_cfg, field_name) != getattr(gen, field_name):
+        gaps.append(f"generator manifest/disk mismatch on {field_name}")
+    if disk_cfg.artifact_bytes != gen.artifact_bytes:
+      gaps.append("generator manifest/disk mismatch on artifact_bytes")
+    if disk_cfg.sampling != gen.sampling:
+      gaps.append("generator manifest/disk mismatch on sampling")
+    artifact_rel = disk.get("artifact_path", disk_cfg.file)
+    artifact_full = os.path.join(root, artifact_rel)
+    if not os.path.isfile(artifact_full):
+      gaps.append(f"generator artifact missing on disk: {artifact_rel}")
+    else:
+      if gen.artifact_bytes is not None and os.path.getsize(artifact_full) != gen.artifact_bytes:
+        gaps.append("generator artifact byte size mismatch")
+      if gen.artifact_sha256 not in ("", "TBD") and (
+        sha256_file(artifact_full) != gen.artifact_sha256
+      ):
+        gaps.append("generator artifact sha256 mismatch (recomputed)")
+    declarations, decl_errors = _runtime_declarations(disk)
+    gaps.extend(decl_errors)
+    pinned = {
+      (os.path.normpath(p.path), p.sha256)
+      for p in manifest.inventory
+      if p.role.startswith("runtime-") or p.role.startswith("external-runtime")
+    }
+    for decl in declarations:
+      # Verify executable/library bytes at declared paths, incl. external.
+      dpath = decl["path"] if os.path.isabs(decl["path"]) else os.path.join(root, decl["path"])
+      if not os.path.isfile(dpath):
+        gaps.append(f"runtime binary missing: {decl['name']} ({decl['role']})")
+      elif sha256_file(dpath) != decl["sha256"]:
+        gaps.append(f"runtime binary sha256 mismatch (recomputed): {decl['name']}")
+      if (os.path.normpath(decl["path"]), decl["sha256"]) not in pinned:
+        gaps.append(f"runtime binary unpinned in manifest inventory: {decl['name']}")
+
+  # --- manifest inventory: every entry verifies ---
+  for pin in manifest.inventory:
+    gaps.extend(pin.verify(root))
+
+  # --- code hashes: every listed file must exist and match (fail closed) ---
+  if not manifest.code_hashes:
+    gaps.append("code_hashes empty: run manifest has no provenance")
+  for rel, expected in sorted(manifest.code_hashes.items()):
+    full = os.path.join(root, rel)
+    if not os.path.isfile(full):
+      gaps.append(f"code hash path missing (fail closed): {rel}")
+    elif sha256_file(full) != expected:
+      gaps.append(f"code hash mismatch (recomputed): {rel}")
+
+  # --- threshold policies: Round 0 records DECLARATIONS, not learned fits ---
+  if not manifest.thresholds:
+    gaps.append("thresholds empty: calibration policy unrecorded")
+  for stage, policy in sorted(manifest.thresholds.items()):
+    if not isinstance(policy, ThresholdPolicy):
+      gaps.append(f"thresholds[{stage}]: not a ThresholdPolicy")
+      continue
+    gaps.extend(f"thresholds[{stage}]: {e}" for e in policy.validate())
+
+  # --- seed derivation log consistency ---
+  for component, logged in sorted(manifest.seed_derivation_log.items()):
+    if derive_seed(manifest.seed, component) != logged:
+      gaps.append(f"seed derivation mismatch for component {component!r}")
+
+  return FreezeCheck(passed=not gaps, gaps=gaps)

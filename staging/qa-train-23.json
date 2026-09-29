@@ -1,0 +1,44 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:giza_pyramid_complex:06:000",
+          "text": "The Sphinx dates from the reign of king Khafre. During the New Kingdom, Amenhotep II dedicated a new temple to Hauron-Haremakhet and this structure was added onto by later rulers."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "t:ancient_egypt:00:000:03",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "king Khafre",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "nile",
+    "source_articles": [
+      "a:giza_pyramid_complex"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "c8168986eed36072197cdd211fca83736921c4c61dcee4e91c86ab975108f62f",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 3 (content): evidence p:giza_pyramid_complex:06:000 exact corpus text match, answer king Khafre supported; hard negative t:ancient_egypt:00:000:03 genuine same-group distractor with no ancestor/descendant overlap; single-group nile compliant; no tautology. Pre-approval content hash 2ba6c96c verified exact match before binding.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-23",
+  "question_type": "factoid",
+  "split": "train",
+  "text": "From whose reign does the Sphinx date?"
+}

@@ -1,0 +1,3438 @@
+{
+  "builder": {
+    "converter": "corpus/build_pilot.py converter fns (stats hooks, sent_cap=None)",
+    "network": "none: offline path never calls api_get/fetch_article",
+    "path": "corpus/build_offline.py",
+    "sha256": "14f0434a7ce38a4207656f90f046d7ed862aad213404abedbf68557d76d5cbcf"
+  },
+  "candidate_list": {
+    "method": "Hand-curated candidate list frozen BEFORE any fetch or question creation. Confusable/near-duplicate sets share a group id so split reservation keeps them together. Fill order: main list in file order, then spares in order, until 500 successful fetches or list exhaustion. Independent of benchmark answers: no questions exist at build time.",
+    "path": "corpus/article_candidates.json",
+    "seed": "pilot-v1",
+    "sha256": "f0f453411fc8900aeb4cb5b100d97b414b286fe195a9df511d42ac4c0d5b9e29"
+  },
+  "excluded_duplicates": [],
+  "load_problems": [],
+  "order_notes": [
+    {
+      "candidate": "Roman Empire",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Colosseum",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Nile",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Lion",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Tiger",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Leopard",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Cheetah",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Polar bear",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Brown bear",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "World War I",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "World War II",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Treaty of Versailles",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "The Holocaust",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "French Revolution",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "General relativity",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Special relativity",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Black hole",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Higgs boson",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Dark matter",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "String theory",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Graphene",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Laser",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Fiber-optic communication",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Artificial intelligence",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Machine learning",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Computer vision",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Internet",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "World Wide Web",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Cryptography",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Computer virus",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Database",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Hubble Space Telescope",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "James Webb Space Telescope",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Apollo 11",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Voyager 1",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "SpaceX",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Falcon 9",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Hydroelectricity",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Battery (electricity)",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Lithium-ion battery",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Calculus",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Algebra",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Geometry",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Statistics",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "DNA",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Photosynthesis",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Evolution",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Periodic table",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Exoplanet",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Mesopotamia",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Ancient Greece",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Sparta",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Athens",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Alexander the Great",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Roman Republic",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Byzantine Empire",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Viking Age",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Genghis Khan",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Mongol Empire",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Ottoman Empire",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Renaissance",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Protestant Reformation",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Age of Discovery",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Christopher Columbus",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Transatlantic slave trade",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Great Depression",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Atomic bombings of Hiroshima and Nagasaki",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Cold War",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Cuban Missile Crisis",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Space Race",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Vietnam War",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Apartheid",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Rwandan genocide",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "September 11 attacks",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Ming dynasty",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Aztec Empire",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Achaemenid Empire",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Macedon",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Canada",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Brazil",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Japan",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "India",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Argentina",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Norway",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Iceland",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "New Zealand",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Kenya",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Kyoto",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "New York City",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Los Angeles",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Chicago",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Madrid",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Barcelona",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Prague",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Budapest",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Warsaw",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Istanbul",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Cairo",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Cape Town",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Melbourne",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Auckland",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Singapore",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Hong Kong",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Dubai",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Nairobi",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Marrakesh",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Santorini",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Reykjavik",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Sahara",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Antarctica",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Greenland",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Galápagos Islands",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Easter Island",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Danube",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Mount Fuji",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Giraffe",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Hippopotamus",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Rhinoceros",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Koala",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Kangaroo",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Gray wolf",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Honey bee",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Monarch butterfly",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Komodo dragon",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Crocodile",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "King cobra",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Oak",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Rafflesia arnoldii",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Dodo",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Great auk",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Thylacine",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Passenger pigeon",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Owl",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Malaria",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Tuberculosis",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Cholera",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Smallpox",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Cancer",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Alzheimer's disease",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Parkinson's disease",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Asthma",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Antibiotic",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Vaccine",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Magnetic resonance imaging",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "William Shakespeare",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Hamlet",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Don Quixote",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Moby-Dick",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Frankenstein",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Leonardo da Vinci",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Mona Lisa",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Michelangelo",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Vincent van Gogh",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Pablo Picasso",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "The Beatles",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Jazz",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Blues",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Hip hop music",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Opera",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Socrates",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Confucius",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Buddhism",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Christianity",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Islam",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Hinduism",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Judaism",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Casablanca (film)",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Film",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Tunguska event",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Dancing Plague of 1518",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Eruption of Mount Tambora in 1815",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Manx language",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Ainu language",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Basque language",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Voynich manuscript",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Antikythera mechanism",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Library of Alexandria",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Timbuktu",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Petra",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Angkor Wat",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Machu Picchu",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Chichen Itza",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Cappadocia",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Hashima Island",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Pripyat",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Oradour-sur-Glane",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Lidice",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Katyn massacre",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Sutton Hoo",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Rosetta Stone",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Dead Sea Scrolls",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Bayeux Tapestry",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Book of Kells",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Codex Gigas",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Chess",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Go (game)",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Poker",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Tea",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Coffee",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Chocolate",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Paper",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Calendar",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Time zone",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Currency",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Stock market",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Helsinki",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Copenhagen",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Dublin",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Lisbon",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Naples",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Florence",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Hamburg",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Lyon",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Marseille",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Seville",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Porto",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Kraków",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Vilnius",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Ljubljana",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Zagreb",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Belgrade",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Sofia",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Yerevan",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Baku",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Almaty",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Tashkent",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Ulaanbaatar",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Kathmandu",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Seoul",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Osaka",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Busan",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Perth",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Brisbane",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Geneva",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Brussels",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Edinburgh",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Glasgow",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Quebec City",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Havana",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "GPS",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Radar",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Telescope",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Microscope",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Particle accelerator",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Large Hadron Collider",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Meiji Restoration",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Maya civilization",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Kingdom of Kush",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Red panda",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Wombat",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Bamboo",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Impressionism",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Poetry",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Novel",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Theatre",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Ballet",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Brain",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Surgery",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Surfing",
+      "status": "no snapshot"
+    },
+    {
+      "candidate": "Mountaineering",
+      "status": "no snapshot"
+    }
+  ],
+  "raw_dir": "/home/davidhatley/Projects/testing/local_mobile_research/corpus/raw",
+  "revision": "pilot-297-r1",
+  "snapshots": [
+    {
+      "file": "abraham_lincoln.json",
+      "included": true,
+      "normalized_title": "Abraham Lincoln",
+      "pageid": 307,
+      "revid": 1377115412,
+      "sha256": "ae2e64610d1254e20e0456910ad0c835030ff423a7dd6cc3760dc2ae3d5f5541"
+    },
+    {
+      "file": "acid.json",
+      "included": true,
+      "normalized_title": "Acid",
+      "pageid": 656,
+      "revid": 1375977233,
+      "sha256": "165bbbae6eed45713b0da46d88a4c89492ba0e516287f2efa82a75d08fadb07d"
+    },
+    {
+      "file": "african_elephant.json",
+      "included": true,
+      "normalized_title": "African elephant",
+      "pageid": 1416251,
+      "revid": 1372949285,
+      "sha256": "7413ea8868d16710da89d27369b8864a07af01d979c6108820afa86870f8456a"
+    },
+    {
+      "file": "alfred_hitchcock.json",
+      "included": true,
+      "normalized_title": "Alfred Hitchcock",
+      "pageid": 808,
+      "revid": 1376852219,
+      "sha256": "1d53491857c85025526b03aa943a25722ae8893e381bd919fc8a0d288f3e25d2"
+    },
+    {
+      "file": "alps.json",
+      "included": true,
+      "normalized_title": "Alps",
+      "pageid": 981,
+      "revid": 1377288973,
+      "sha256": "e462b3ebb1554674ee6d9e7fb36c0d43bd8c39be476ad60c1cab6a131bb477af"
+    },
+    {
+      "file": "alternating_current.json",
+      "included": true,
+      "normalized_title": "Alternating current",
+      "pageid": 42986,
+      "revid": 1373603096,
+      "sha256": "8bb8e2670a15fd540d4d6ad8339139a9cd5f7205eb89bb4dced7612f2766e278"
+    },
+    {
+      "file": "amazon_company.json",
+      "included": true,
+      "normalized_title": "Amazon (company)",
+      "pageid": 90451,
+      "revid": 1376802016,
+      "sha256": "05868aed2c72abca8e9aa5a585deb3e999669428557aa0a26815962799972371"
+    },
+    {
+      "file": "amazon_rainforest.json",
+      "included": true,
+      "normalized_title": "Amazon rainforest",
+      "pageid": 48139,
+      "revid": 1377214628,
+      "sha256": "309d45b4ad833e085af6c07cc2d8dafeff3d70747fd31f43ab13fa0092030e7b"
+    },
+    {
+      "file": "amazon_river.json",
+      "included": true,
+      "normalized_title": "Amazon River",
+      "pageid": 1701,
+      "revid": 1376437983,
+      "sha256": "3489dd5783f08989a3c380b36edf7fc2298d86655d865e9fa96d61db05868431"
+    },
+    {
+      "file": "amazons.json",
+      "included": true,
+      "normalized_title": "Amazons",
+      "pageid": 1695,
+      "revid": 1377085408,
+      "sha256": "e1475366b34ef181e4f4371106f330fca6be1d49ac7defae4dc81d37e6a9679d"
+    },
+    {
+      "file": "american_civil_war.json",
+      "included": true,
+      "normalized_title": "American Civil War",
+      "pageid": 863,
+      "revid": 1376558734,
+      "sha256": "c4d4fdb726247b9ece1bef131cf2fe05a7b086d77ca094f58253a2049e22805d"
+    },
+    {
+      "file": "amsterdam.json",
+      "included": true,
+      "normalized_title": "Amsterdam",
+      "pageid": 844,
+      "revid": 1376334485,
+      "sha256": "1ae72cd068c44d92723692ea4b5e9f0aa2f3ad2e7f2aa486595b9d45e03c291e"
+    },
+    {
+      "file": "anchorage.json",
+      "included": true,
+      "normalized_title": "Anchorage, Alaska",
+      "pageid": 7004698,
+      "revid": 1376366589,
+      "sha256": "c377d4337009f055efdf4107b99157e3d711bd3467d734368cbdcf88aaf5eb37"
+    },
+    {
+      "file": "ancient_egypt.json",
+      "included": true,
+      "normalized_title": "Ancient Egypt",
+      "pageid": 874,
+      "revid": 1376471813,
+      "sha256": "d5b7b97109c6600d3db3c7678120e43b9ea2e660a0cd4fa785dbd404fa8e93b3"
+    },
+    {
+      "file": "ancient_rome.json",
+      "included": true,
+      "normalized_title": "Ancient Rome",
+      "pageid": 521555,
+      "revid": 1376179205,
+      "sha256": "4ffb79b76f0076b1e672eac9e6cb1f01a57ec3f3b2ef12359aedacc4aaca4b73"
+    },
+    {
+      "file": "andes.json",
+      "included": true,
+      "normalized_title": "Andes",
+      "pageid": 1354,
+      "revid": 1375882999,
+      "sha256": "c144e9b1fe28a62cb5e424e2152aa3459e3b3bc00c87dfa9975a9d4c3f4fb99a"
+    },
+    {
+      "file": "anesthesia.json",
+      "included": true,
+      "normalized_title": "Anesthesia",
+      "pageid": 56561,
+      "revid": 1376992745,
+      "sha256": "81d2fa309baddb29879a97587c43caeaccbe103039f759ad7174453f6012a1cb"
+    },
+    {
+      "file": "apple.json",
+      "included": true,
+      "normalized_title": "Apple",
+      "pageid": 18978754,
+      "revid": 1376890199,
+      "sha256": "b9880f29b41806a04deb41340cea3a3855b87f01802ecd8946ffbefa794c27a5"
+    },
+    {
+      "file": "apple_inc.json",
+      "included": true,
+      "normalized_title": "Apple Inc.",
+      "pageid": 856,
+      "revid": 1376757568,
+      "sha256": "6d004c700176a808a5f10ebdb20076b5a86ebe8b8fcf5e144ef04d50875bb78f"
+    },
+    {
+      "file": "apple_records.json",
+      "included": true,
+      "normalized_title": "Apple Records",
+      "pageid": 187668,
+      "revid": 1377220513,
+      "sha256": "b0f0b4da21ec25c515929fdb63a04383aea75b84ba4f358ed289b1fb46160aef"
+    },
+    {
+      "file": "aristotle.json",
+      "included": true,
+      "normalized_title": "Aristotle",
+      "pageid": 308,
+      "revid": 1375412759,
+      "sha256": "f31fef493ba91b2fdd6c8c5ea0401d5fd311774308cdc39ae21d1783743d9921"
+    },
+    {
+      "file": "armadillo.json",
+      "included": true,
+      "normalized_title": "Armadillo",
+      "pageid": 2186,
+      "revid": 1377011893,
+      "sha256": "eb8117a52ac5910877e77ea10650ba338f06eaacfc702fa823e7e604695ca006"
+    },
+    {
+      "file": "artemis_program.json",
+      "included": true,
+      "normalized_title": "Artemis program",
+      "pageid": 60758751,
+      "revid": 1374648718,
+      "sha256": "0d26547a5903a2099c20095b6ab93419ac9faa8881df2e5fc38c7876ba831940"
+    },
+    {
+      "file": "aswan_dam.json",
+      "included": true,
+      "normalized_title": "Aswan High Dam",
+      "pageid": 191295,
+      "revid": 1377163647,
+      "sha256": "11a0031a2639eb9c7c4c5498716d3f6305ee0e829a23d3a0819fc419f5a741d4"
+    },
+    {
+      "file": "atalh_y_k.json",
+      "included": true,
+      "normalized_title": "Çatalhöyük",
+      "pageid": 5765,
+      "revid": 1376870662,
+      "sha256": "2cd545860fdbb0b354cc022323bf82e5f7424d679b4b0bda2f66513d604ab793"
+    },
+    {
+      "file": "atari_jaguar.json",
+      "included": true,
+      "normalized_title": "Atari Jaguar",
+      "pageid": 2782,
+      "revid": 1374221241,
+      "sha256": "8395729585b25e45fdcf33fe4372ab1c9eec73fb495750eec8d1e16817bf874a"
+    },
+    {
+      "file": "augustus.json",
+      "included": true,
+      "normalized_title": "Augustus",
+      "pageid": 1273,
+      "revid": 1376715022,
+      "sha256": "7fc2d3e3fb86df9f9c972899d421eb83e7d7a8c6d3c150fffca08732e7184951"
+    },
+    {
+      "file": "australia.json",
+      "included": true,
+      "normalized_title": "Australia",
+      "pageid": 4689264,
+      "revid": 1376823573,
+      "sha256": "b67ddbe046e85f20de4bca1e9dcf93dc8801f746ed46bcc048a1ac50f22922ea"
+    },
+    {
+      "file": "axolotl.json",
+      "included": true,
+      "normalized_title": "Axolotl",
+      "pageid": 235589,
+      "revid": 1376730498,
+      "sha256": "84745479ad316fa403a5bb994289679cd4327816d49930abec517ae983afc783"
+    },
+    {
+      "file": "bald_eagle.json",
+      "included": true,
+      "normalized_title": "Bald eagle",
+      "pageid": 4401,
+      "revid": 1376662679,
+      "sha256": "d55b9e57f535a11e6de4d60eab7daa23a179d6c2107ee59515a48df2c3702827"
+    },
+    {
+      "file": "bangkok.json",
+      "included": true,
+      "normalized_title": "Bangkok",
+      "pageid": 56615,
+      "revid": 1376831987,
+      "sha256": "46445df99a2397f26a5e5bbcdb60d8ebba3ac494f13d8fbd667b6da6b0f2f5e1"
+    },
+    {
+      "file": "baobab.json",
+      "included": true,
+      "normalized_title": "Adansonia",
+      "pageid": 563290,
+      "revid": 1374964536,
+      "sha256": "521d2497cef850edd6f3d0cc0799fb995c8fc089f51a6dce9dc16dde6fc205b9"
+    },
+    {
+      "file": "bat.json",
+      "included": true,
+      "normalized_title": "Bat",
+      "pageid": 23538713,
+      "revid": 1376905005,
+      "sha256": "ddb29bc5e6105449f9671cd9e6159690f4959bbc29d5d814c83475e2b8acf824"
+    },
+    {
+      "file": "berlin.json",
+      "included": true,
+      "normalized_title": "Berlin",
+      "pageid": 3354,
+      "revid": 1376294941,
+      "sha256": "127aaa6e52c814183308f0dfaf43fe2a2d079c77b8382c3daf569da211168b6a"
+    },
+    {
+      "file": "berlin_wall.json",
+      "included": true,
+      "normalized_title": "Berlin Wall",
+      "pageid": 3722,
+      "revid": 1377202610,
+      "sha256": "845f8c54ffaa0aa866d06b2ecdd201ce8de1511d217b8d1acf1b09c35bccb114"
+    },
+    {
+      "file": "black_death.json",
+      "included": true,
+      "normalized_title": "Black Death",
+      "pageid": 4501,
+      "revid": 1377102371,
+      "sha256": "cc7852cd4c8309a8e9a57c8c7df20aaf6dafadb004396098daa244fddcf97aff"
+    },
+    {
+      "file": "blockchain.json",
+      "included": true,
+      "normalized_title": "Blockchain",
+      "pageid": 44065971,
+      "revid": 1374155035,
+      "sha256": "9cb203bab3855497d85eccd3381d97267ae3b0edd45ddca9c4b00a1a0eb9194d"
+    },
+    {
+      "file": "blood.json",
+      "included": true,
+      "normalized_title": "Blood",
+      "pageid": 3997,
+      "revid": 1375927092,
+      "sha256": "4f8dd116d0f47c8b9efa85a4c656786af5380ce0bf35888e86db414b7a3b73b9"
+    },
+    {
+      "file": "blue_whale.json",
+      "included": true,
+      "normalized_title": "Blue whale",
+      "pageid": 4925,
+      "revid": 1375542390,
+      "sha256": "65f08926191d52d74858c90bdbe7d730909df65ab35ba0bcda3cb82598e99f36"
+    },
+    {
+      "file": "bog_body.json",
+      "included": true,
+      "normalized_title": "Bog body",
+      "pageid": 102411,
+      "revid": 1373812973,
+      "sha256": "8ff70bbca6fca01a5fb9cb05ef1f1b6a55201bfa197998758f62d44c223ed443"
+    },
+    {
+      "file": "borneo.json",
+      "included": true,
+      "normalized_title": "Borneo",
+      "pageid": 4518,
+      "revid": 1377323386,
+      "sha256": "5ecb8612a138339c072728047938bcd994e23a3b860dc2d42ce44234b78af79d"
+    },
+    {
+      "file": "bread.json",
+      "included": true,
+      "normalized_title": "Bread",
+      "pageid": 36969,
+      "revid": 1377065879,
+      "sha256": "dd87cb1a71192d63db76608b4325cf33e7896c78d90f8de97d8ad22afe84c993"
+    },
+    {
+      "file": "bucharest.json",
+      "included": true,
+      "normalized_title": "Bucharest",
+      "pageid": 36877,
+      "revid": 1377215226,
+      "sha256": "d6ef792cc2df92f71a72a401cd29e8b1488a400338a7971c00eca5213011c9db"
+    },
+    {
+      "file": "buenos_aires.json",
+      "included": true,
+      "normalized_title": "Buenos Aires",
+      "pageid": 255919,
+      "revid": 1374990569,
+      "sha256": "e9aed8cbd33fcc5880a943d21f402482e001c052ad53b09cf3b2de995fc2cff3"
+    },
+    {
+      "file": "buford_wyoming.json",
+      "included": true,
+      "normalized_title": "Buford, Wyoming",
+      "pageid": 1585542,
+      "revid": 1374147843,
+      "sha256": "d58b5c899847c04128f07da96e16541a85661766c18c72149a6b35c149c225ae"
+    },
+    {
+      "file": "cactus.json",
+      "included": true,
+      "normalized_title": "Cactus",
+      "pageid": 7819,
+      "revid": 1376819227,
+      "sha256": "a5e8c9b208a154e4279d51d5b0f2cb14d33f3f05f446ba77f7dd77a01a698a59"
+    },
+    {
+      "file": "cambridge.json",
+      "included": true,
+      "normalized_title": "Cambridge",
+      "pageid": 36995,
+      "revid": 1376156582,
+      "sha256": "1f50f2107aba2fc47f32b0b0ab4b34d38945f071cc4dbf70cb2ea6620bad4241"
+    },
+    {
+      "file": "cambridge_massachusetts.json",
+      "included": true,
+      "normalized_title": "Cambridge, Massachusetts",
+      "pageid": 5685,
+      "revid": 1376004390,
+      "sha256": "832ff23895b4a740c2fbd7f4046d278c8068f2f23e289bab5d113f090c31a817"
+    },
+    {
+      "file": "carthage.json",
+      "included": true,
+      "normalized_title": "Carthage",
+      "pageid": 6555,
+      "revid": 1374089910,
+      "sha256": "4c8c4c57128498ea3de876cb563e90261a29b8b28e53953ed351e25b4f6633d5"
+    },
+    {
+      "file": "chameleon.json",
+      "included": true,
+      "normalized_title": "Chameleon",
+      "pageid": 175442,
+      "revid": 1375617328,
+      "sha256": "dfda2a85564750cf3f786a4d77a178f4c08c21550667b125765ebccb0b06782f"
+    },
+    {
+      "file": "chaos_theory.json",
+      "included": true,
+      "normalized_title": "Chaos theory",
+      "pageid": 6295,
+      "revid": 1375559969,
+      "sha256": "87adf7e5f744042062d3a693b6111722f9119412612b89b4804bae663090f4cb"
+    },
+    {
+      "file": "charlie_chaplin.json",
+      "included": true,
+      "normalized_title": "Charlie Chaplin",
+      "pageid": 5142,
+      "revid": 1375055395,
+      "sha256": "846e168167fbd64e70e61cf56fe5d03cd15e5183f11602ad0306a0bf9bbebb73"
+    },
+    {
+      "file": "cheese.json",
+      "included": true,
+      "normalized_title": "Cheese",
+      "pageid": 11749910,
+      "revid": 1376859092,
+      "sha256": "bfb799676174cc5ca46eae089888ef8bac1b5c11726618d4509d0aab31966407"
+    },
+    {
+      "file": "chemical_bond.json",
+      "included": true,
+      "normalized_title": "Chemical bond",
+      "pageid": 5993,
+      "revid": 1368837112,
+      "sha256": "fca3effe492f87673231fb17dea244724a67f57b58f7bed51c53e8da93f284bc"
+    },
+    {
+      "file": "chimpanzee.json",
+      "included": true,
+      "normalized_title": "Chimpanzee",
+      "pageid": 7844,
+      "revid": 1377333756,
+      "sha256": "e82211197c827e112d97aebd11c674fd461fa43fb7abf516ee0235bee749b0c0"
+    },
+    {
+      "file": "city_of_london.json",
+      "included": true,
+      "normalized_title": "City of London",
+      "pageid": 6883,
+      "revid": 1376662203,
+      "sha256": "b08471efcff79fc0d8bf7452e4fd0d148339abc52f8aa9b4e8f9ac080e5e84ed"
+    },
+    {
+      "file": "cloud_computing.json",
+      "included": true,
+      "normalized_title": "Cloud computing",
+      "pageid": 19541494,
+      "revid": 1373605538,
+      "sha256": "8711de87309bf715b69dc3567c95704ecb7200c0b7aae0e1a8beb882453f78d6"
+    },
+    {
+      "file": "colombia.json",
+      "included": true,
+      "normalized_title": "Colombia",
+      "pageid": 5222,
+      "revid": 1375822420,
+      "sha256": "b8ae0b00edb2aa6aa22693bb362ecdc6f50c80bb1e5df2168a0f69a7eac4863f"
+    },
+    {
+      "file": "colombo.json",
+      "included": true,
+      "normalized_title": "Colombo",
+      "pageid": 56636,
+      "revid": 1375649963,
+      "sha256": "b12c180f860357dae70a29de1b7d1d7e8349de404654f29215fd33a0b5b858bf"
+    },
+    {
+      "file": "columbia_river.json",
+      "included": true,
+      "normalized_title": "Columbia River",
+      "pageid": 5408,
+      "revid": 1376671568,
+      "sha256": "fdf6833fbcb5331f049fb516f15f0ffb0e6a4e4fc36114afbd686c2e1030aefd"
+    },
+    {
+      "file": "columbia_university.json",
+      "included": true,
+      "normalized_title": "Columbia University",
+      "pageid": 6310,
+      "revid": 1377333126,
+      "sha256": "e1c8d8a9e9fb7a20a01a26fefe8de58915c729c76ef2f8fc997c2c2bd8bc1e22"
+    },
+    {
+      "file": "compass.json",
+      "included": true,
+      "normalized_title": "Compass",
+      "pageid": 39316,
+      "revid": 1376670463,
+      "sha256": "359900b49bd18808b99c9fca10ce0f08b4dee555664df8b51ff1d0ec4bc753e8"
+    },
+    {
+      "file": "congo_basin.json",
+      "included": true,
+      "normalized_title": "Congo Basin",
+      "pageid": 1866767,
+      "revid": 1377202244,
+      "sha256": "e37f9527b5d9b0e776b5e6c9eb9414bf3b07fdae751545fc08f1bced5c33003d"
+    },
+    {
+      "file": "corona_australis.json",
+      "included": true,
+      "normalized_title": "Corona Australis",
+      "pageid": 6424,
+      "revid": 1376872877,
+      "sha256": "878e04414e0858f682752a1f41958099503f17c920c9840f608c992df054d620"
+    },
+    {
+      "file": "corona_beer.json",
+      "included": true,
+      "normalized_title": "Corona (beer)",
+      "pageid": 1485447,
+      "revid": 1372666513,
+      "sha256": "c404efd66de739464ebe832ffc664061952060b705f12fc03ba10e4f23c06f05"
+    },
+    {
+      "file": "coronavirus.json",
+      "included": true,
+      "normalized_title": "Coronavirus",
+      "pageid": 201983,
+      "revid": 1375814109,
+      "sha256": "956c75a1b1982860466c971e535dac3bfe39604ce35b75221e95e2c2d18c863e"
+    },
+    {
+      "file": "crispr.json",
+      "included": true,
+      "normalized_title": "CRISPR",
+      "pageid": 2146034,
+      "revid": 1376493355,
+      "sha256": "b2b415ea572b76e2ab12f8e6e6eb2a5e692752af502389831f9b9f369ee3af12"
+    },
+    {
+      "file": "crusades.json",
+      "included": true,
+      "normalized_title": "Crusades",
+      "pageid": 4412145,
+      "revid": 1375946654,
+      "sha256": "22e7ac3410fb220f0dd5809bf28b5a8b7354e8d1da2e7dc9f0aedc952ae430b9"
+    },
+    {
+      "file": "danakil_depression.json",
+      "included": true,
+      "normalized_title": "Danakil Depression",
+      "pageid": 32945564,
+      "revid": 1373582047,
+      "sha256": "37a9012e6a72fc3a385ce08691f104384f95f0622bf9e515173a4e74d36ad706"
+    },
+    {
+      "file": "darvaza_gas_crater.json",
+      "included": true,
+      "normalized_title": "Darvaza gas crater",
+      "pageid": 37268324,
+      "revid": 1372424359,
+      "sha256": "61c8b416465c6a591e7bb97cf8c1d124d90ef6127889dfea47810bb0fb9ba7b2"
+    },
+    {
+      "file": "dead_sea.json",
+      "included": true,
+      "normalized_title": "Dead Sea",
+      "pageid": 8530,
+      "revid": 1375131266,
+      "sha256": "6f444eebccffd9455283e0d989ced7247f3de02ea0600fcace2dbb3418db7493"
+    },
+    {
+      "file": "delhi.json",
+      "included": true,
+      "normalized_title": "Delhi",
+      "pageid": 37756,
+      "revid": 1377370115,
+      "sha256": "b6e91dbbea9cbe28284170c61d6bb54c6a34f3761eabfc3cd3c773f4302542e1"
+    },
+    {
+      "file": "delta_air_lines.json",
+      "included": true,
+      "normalized_title": "Delta Air Lines",
+      "pageid": 77549,
+      "revid": 1377369578,
+      "sha256": "81981504220a50f5139181e4803a601f900860db3eeebcd0dae9448c4c839af4"
+    },
+    {
+      "file": "diabetes.json",
+      "included": true,
+      "normalized_title": "Diabetes",
+      "pageid": 40017873,
+      "revid": 1375812815,
+      "sha256": "359548b3524dba1622223b58355b20118da4534b279ee6b9c244d198293516bb"
+    },
+    {
+      "file": "dissolution_of_the_soviet_union.json",
+      "included": true,
+      "normalized_title": "Dissolution of the Soviet Union",
+      "pageid": 40494892,
+      "revid": 1376065642,
+      "sha256": "7ceae106c89497f33fd8430604466ac83d756bd7fb1c26bb6ec0748d497fa9ff"
+    },
+    {
+      "file": "dolphin.json",
+      "included": true,
+      "normalized_title": "Dolphin",
+      "pageid": 9061,
+      "revid": 1375794602,
+      "sha256": "3b5a3c52f407e08ff88c77ec368458fcfb2e35ef1b32649df93b649e74dce962"
+    },
+    {
+      "file": "donner_party.json",
+      "included": true,
+      "normalized_title": "Donner Party",
+      "pageid": 268988,
+      "revid": 1377302935,
+      "sha256": "e95966baa304db72a8a376058ee794ccb5ef29f88eeff69aaf3fb537f710963f"
+    },
+    {
+      "file": "ebola.json",
+      "included": true,
+      "normalized_title": "Ebola",
+      "pageid": 40817590,
+      "revid": 1375659179,
+      "sha256": "13976671fea809dad9bd3afaa6237420abf1104516bb755ef0fde707f954c31d"
+    },
+    {
+      "file": "eclipse_software.json",
+      "included": true,
+      "normalized_title": "Eclipse (software)",
+      "pageid": 216958,
+      "revid": 1375102056,
+      "sha256": "96b7fe0c36d4d194b7688f064441ed40cb1152617ab3b574a5117e0c3b91ffae"
+    },
+    {
+      "file": "eiffel_tower.json",
+      "included": true,
+      "normalized_title": "Eiffel Tower",
+      "pageid": 9232,
+      "revid": 1376706466,
+      "sha256": "baa585d3f8b70ecf4a068e425027bda8dfea26fdb72e975aec0f82872d7c67c3"
+    },
+    {
+      "file": "electric_car.json",
+      "included": true,
+      "normalized_title": "Electric car",
+      "pageid": 16105186,
+      "revid": 1377225414,
+      "sha256": "e793fb39905ff241919a4d73431803eb5ca26e9a0189ace7731a2d6d08b0d38e"
+    },
+    {
+      "file": "electric_motor.json",
+      "included": true,
+      "normalized_title": "Electric motor",
+      "pageid": 76086,
+      "revid": 1374766051,
+      "sha256": "5607d1027d2da5ac01b818ec0b067d01fd1e811dc1394cec625c2c963f2e4877"
+    },
+    {
+      "file": "electromagnetism.json",
+      "included": true,
+      "normalized_title": "Electromagnetism",
+      "pageid": 9532,
+      "revid": 1377325848,
+      "sha256": "6478f94db75dedf75ccbc8f8a2ee37af9b7cbd40caf754cf5a6b18a5e66d47a6"
+    },
+    {
+      "file": "emancipation_proclamation.json",
+      "included": true,
+      "normalized_title": "Emancipation Proclamation",
+      "pageid": 9515,
+      "revid": 1376309888,
+      "sha256": "0b3ce631774ed704a360ed7869d4445bca834a20352411523436d97a852efba6"
+    },
+    {
+      "file": "fall_of_the_berlin_wall.json",
+      "included": true,
+      "normalized_title": "Fall of the Berlin Wall",
+      "pageid": 61917089,
+      "revid": 1374725469,
+      "sha256": "cc8273399d6313fe5ada83d934a1ee06f4c4a2abf62f932285950d7aac8a2ec6"
+    },
+    {
+      "file": "faroe_islands.json",
+      "included": true,
+      "normalized_title": "Faroe Islands",
+      "pageid": 17238607,
+      "revid": 1375921432,
+      "sha256": "526b404a02e94a171c6ea0af06073c121ac512d27073579e08fd37e966f17d83"
+    },
+    {
+      "file": "fibonacci_sequence.json",
+      "included": true,
+      "normalized_title": "Fibonacci sequence",
+      "pageid": 10918,
+      "revid": 1377114891,
+      "sha256": "542fef773eb0602e4a9b2408e983383008f707e40f47404be9c6a757b6dd05e2"
+    },
+    {
+      "file": "fifa_world_cup.json",
+      "included": true,
+      "normalized_title": "FIFA World Cup",
+      "pageid": 11370,
+      "revid": 1375858240,
+      "sha256": "5b6e8772f734c16bc5c78adaaa4d11f3bdebed6ea9e7fe179838428bedecfc45"
+    },
+    {
+      "file": "franklin_s_lost_expedition.json",
+      "included": true,
+      "normalized_title": "Franklin's lost expedition",
+      "pageid": 15746136,
+      "revid": 1376138126,
+      "sha256": "b47d08832be74a9173bd096f27a291139f71dec548ebe633e6ac78edd6d01465"
+    },
+    {
+      "file": "freddie_mercury.json",
+      "included": true,
+      "normalized_title": "Freddie Mercury",
+      "pageid": 42068,
+      "revid": 1375669390,
+      "sha256": "7b3f8d6a6ae9d65e55ec0a86476a7ef619d1ee2fe58e5f41e406aa2fc9188b11"
+    },
+    {
+      "file": "game_theory.json",
+      "included": true,
+      "normalized_title": "Game theory",
+      "pageid": 11924,
+      "revid": 1376531176,
+      "sha256": "760719212f3b939c2d9e01f31b3f27b86b3227c5471edee95e703ba6811672e4"
+    },
+    {
+      "file": "gda_sk.json",
+      "included": true,
+      "normalized_title": "Gdańsk",
+      "pageid": 12099,
+      "revid": 1375638474,
+      "sha256": "95cfb32100b79d6fbd18f1ac7ec482fd211a356284b6146e3505d0f7678f5cd5"
+    },
+    {
+      "file": "george_washington.json",
+      "included": true,
+      "normalized_title": "George Washington",
+      "pageid": 11968,
+      "revid": 1376970478,
+      "sha256": "1e7a46288f9c2cebb6dfa16ae1e119de5c69cb8e09a5fb85515acf18ed9c2cee"
+    },
+    {
+      "file": "giant_panda.json",
+      "included": true,
+      "normalized_title": "Giant panda",
+      "pageid": 12713,
+      "revid": 1377298625,
+      "sha256": "9f1c9d7e1be6ccd517369544972d7ea75d614924178203c3f5d2db07fd24d394"
+    },
+    {
+      "file": "giant_sequoia.json",
+      "included": true,
+      "normalized_title": "Sequoiadendron giganteum",
+      "pageid": 50637,
+      "revid": 1377242060,
+      "sha256": "389254386cf6058d8fe28995ae71baf6f03d0996e2504639a8511248adc0697c"
+    },
+    {
+      "file": "gorilla.json",
+      "included": true,
+      "normalized_title": "Gorilla",
+      "pageid": 12546,
+      "revid": 1372671781,
+      "sha256": "34e4eb073013a1e8c21d2e085317ecbf6a243d456f732bd758459be222efc9cc"
+    },
+    {
+      "file": "grand_canyon.json",
+      "included": true,
+      "normalized_title": "Grand Canyon",
+      "pageid": 46989,
+      "revid": 1373003633,
+      "sha256": "0df3f4ef1c43f358c96103b7787fce3019eef84d36579eb56a8e28c107d0a18a"
+    },
+    {
+      "file": "great_barrier_reef.json",
+      "included": true,
+      "normalized_title": "Great Barrier Reef",
+      "pageid": 70983,
+      "revid": 1375964325,
+      "sha256": "cbd32dbec6e5fb0dd3b00ac1b37d30c3cbdf91e5f6041886ea92d9de4cede04a"
+    },
+    {
+      "file": "great_white_shark.json",
+      "included": true,
+      "normalized_title": "Great white shark",
+      "pageid": 43619,
+      "revid": 1374051428,
+      "sha256": "d92773d6593ac5747159fb48384576eb88784dfabebd98f9efd24d24a2dae63d"
+    },
+    {
+      "file": "great_zimbabwe.json",
+      "included": true,
+      "normalized_title": "Great Zimbabwe",
+      "pageid": 177952,
+      "revid": 1377049742,
+      "sha256": "18a2be96602264d6ba43cde84aadcfeb2d40c40996e216c0817a52cdef667a81"
+    },
+    {
+      "file": "greater_london.json",
+      "included": true,
+      "normalized_title": "Greater London",
+      "pageid": 45367389,
+      "revid": 1376257960,
+      "sha256": "935b19c8a9ff0740129b9711b4bdec6df9955ea36a9b3235403803382540280f"
+    },
+    {
+      "file": "guido_van_rossum.json",
+      "included": true,
+      "normalized_title": "Guido van Rossum",
+      "pageid": 226402,
+      "revid": 1375989779,
+      "sha256": "2760e4aafec6e1a0765ba6622ce46b0f6c1d0012f7a2073220fb98fbbd95800f"
+    },
+    {
+      "file": "guitar.json",
+      "included": true,
+      "normalized_title": "Guitar",
+      "pageid": 11846,
+      "revid": 1376507708,
+      "sha256": "ddb9672c57bf60f060f8913ea255f55a219dad5f9fbe32bc096376822e2dee1a"
+    },
+    {
+      "file": "gunpowder.json",
+      "included": true,
+      "normalized_title": "Gunpowder",
+      "pageid": 12737,
+      "revid": 1376179972,
+      "sha256": "7f7dde40cf64c33b0eb98ec4978dec55174fad52e25402baa90fc8f3f72802a9"
+    },
+    {
+      "file": "han_dynasty.json",
+      "included": true,
+      "normalized_title": "Han dynasty",
+      "pageid": 43460,
+      "revid": 1377320621,
+      "sha256": "0617ef41b94e656eda39fa0d4c21eeb53f285056609559ab22085aa898b129c3"
+    },
+    {
+      "file": "hanoi.json",
+      "included": true,
+      "normalized_title": "Hanoi",
+      "pageid": 56667,
+      "revid": 1376488621,
+      "sha256": "88c8e95fff79bf4733dfe89a84e3c9e37d24406578f2712ab849ce0667f21f43"
+    },
+    {
+      "file": "harry_potter.json",
+      "included": true,
+      "normalized_title": "Harry Potter",
+      "pageid": 2387806,
+      "revid": 1376011630,
+      "sha256": "a3be12fd85f1d43b7717678852c9eb83f696f00c414a63540403055b5c390c41"
+    },
+    {
+      "file": "harvard_university.json",
+      "included": true,
+      "normalized_title": "Harvard University",
+      "pageid": 18426501,
+      "revid": 1377324460,
+      "sha256": "b1dad639d843a3ab4584a611fd31066f53198f946bcc86ce44e25ffb4363f3cb"
+    },
+    {
+      "file": "heart.json",
+      "included": true,
+      "normalized_title": "Heart",
+      "pageid": 36808,
+      "revid": 1375195018,
+      "sha256": "0c393b1af9db861e106050a275f90089cd29f8ec518f2f1629b9488bfd7b5467"
+    },
+    {
+      "file": "hedgehog.json",
+      "included": true,
+      "normalized_title": "Hedgehog",
+      "pageid": 46590,
+      "revid": 1372111733,
+      "sha256": "a084e002a6e670effbedce358b0996416d2f5e7e20679ee17a19deccc825fc5f"
+    },
+    {
+      "file": "himalayas.json",
+      "included": true,
+      "normalized_title": "Himalayas",
+      "pageid": 37966,
+      "revid": 1375398506,
+      "sha256": "c6fcfbdd52d9226e83bf9511b82ce65ca54a93ab1666b97ce98dd16c59690f6c"
+    },
+    {
+      "file": "hiv_aids.json",
+      "included": true,
+      "normalized_title": "HIV/AIDS",
+      "pageid": 5069516,
+      "revid": 1376424162,
+      "sha256": "a3db2ca9d5b30b1dd36228d424153a5cf1d429a68908143633fcb6c94f9bfc82"
+    },
+    {
+      "file": "honolulu.json",
+      "included": true,
+      "normalized_title": "Honolulu",
+      "pageid": 13887,
+      "revid": 1376521633,
+      "sha256": "6a0d06f45d92261accc1f0deb3add7b2c449a96f37cf0106c13b68de491680f5"
+    },
+    {
+      "file": "human_genome.json",
+      "included": true,
+      "normalized_title": "Human genome",
+      "pageid": 42888,
+      "revid": 1374041821,
+      "sha256": "6243f06b99cd25c3892829108d40a5e6808161e19f4c843de50febd4a1c39ac6"
+    },
+    {
+      "file": "hummingbird.json",
+      "included": true,
+      "normalized_title": "Hummingbird",
+      "pageid": 70649,
+      "revid": 1376784857,
+      "sha256": "a4d7413ab9068d24ce89c46403e85b43dee33104a13c50aa2ec00975988852c1"
+    },
+    {
+      "file": "hundred_years_war.json",
+      "included": true,
+      "normalized_title": "Hundred Years' War",
+      "pageid": 19038039,
+      "revid": 1376801097,
+      "sha256": "3485fee2df986749e3da0b0f13d7221e08941b951b012d4088006d6e9f486c26"
+    },
+    {
+      "file": "immune_system.json",
+      "included": true,
+      "normalized_title": "Immune system",
+      "pageid": 14958,
+      "revid": 1375442429,
+      "sha256": "0834850612553ad1aa318de406b3da82c542ac157b08f911b86f827aed2113d5"
+    },
+    {
+      "file": "inca_empire.json",
+      "included": true,
+      "normalized_title": "Inca Empire",
+      "pageid": 15319,
+      "revid": 1375989014,
+      "sha256": "84b3905b12d2b9856740a21809a6c2db5ce41cbdb9dcc830960ac9e6bd9be323"
+    },
+    {
+      "file": "industrial_revolution.json",
+      "included": true,
+      "normalized_title": "Industrial Revolution",
+      "pageid": 14914,
+      "revid": 1376873072,
+      "sha256": "3ff0b579a489498c88ce88285438f10e3ecde260606f74fde7950700961c6404"
+    },
+    {
+      "file": "influenza.json",
+      "included": true,
+      "normalized_title": "Influenza",
+      "pageid": 19572217,
+      "revid": 1369108661,
+      "sha256": "75b6238d0f3d1bf3f482c68d162bcfd2822e0abaad03386d3cb6058560ff8c62"
+    },
+    {
+      "file": "insulin.json",
+      "included": true,
+      "normalized_title": "Insulin",
+      "pageid": 14895,
+      "revid": 1373900133,
+      "sha256": "6b11a2f31c570d0e879a83f0a2c40e0d21865eb2da5ab4b0e99b9587052df3d7"
+    },
+    {
+      "file": "international_space_station.json",
+      "included": true,
+      "normalized_title": "International Space Station",
+      "pageid": 15043,
+      "revid": 1377169701,
+      "sha256": "5f1240852094ef5089f7716576ac78b0f6aea3b148f50c8b92c9530334a0ddc4"
+    },
+    {
+      "file": "irving_berlin.json",
+      "included": true,
+      "normalized_title": "Irving Berlin",
+      "pageid": 48351,
+      "revid": 1376647017,
+      "sha256": "79bdfb7bfa076afcfe4ad9436d6dbc87819ccc17246e8e550860f14f4f72d626"
+    },
+    {
+      "file": "j_r_r_tolkien.json",
+      "included": true,
+      "normalized_title": "J. R. R. Tolkien",
+      "pageid": 15872,
+      "revid": 1376088996,
+      "sha256": "a26a9ac0d2845aa396e8c922d284a6452391d37b97de2e45f5fbc8d454044e47"
+    },
+    {
+      "file": "jaguar.json",
+      "included": true,
+      "normalized_title": "Jaguar",
+      "pageid": 16217,
+      "revid": 1375822215,
+      "sha256": "35c35ac0639ab9fc79af9879f2ddadb4e3247b1a4cab09d271a74e7b10d6b295"
+    },
+    {
+      "file": "jaguar_cars.json",
+      "included": true,
+      "normalized_title": "Jaguar Cars",
+      "pageid": 147676,
+      "revid": 1376637880,
+      "sha256": "896893f66396cbd02b28be163614d5cad22292cee5646aeb3c28628401aea0b3"
+    },
+    {
+      "file": "jaguar_supercomputer.json",
+      "included": true,
+      "normalized_title": "Jaguar (supercomputer)",
+      "pageid": 22379203,
+      "revid": 1373971039,
+      "sha256": "bf084407b7dce3d6dfc54e5f38da94f15c392ea73b6d16fd6363aefa1a765f23"
+    },
+    {
+      "file": "jakarta.json",
+      "included": true,
+      "normalized_title": "Jakarta",
+      "pageid": 16275,
+      "revid": 1377084641,
+      "sha256": "3fa5a3dcf0d653b1512b21b34bf996a90949b4542b06ed39d29bb9931abeab5a"
+    },
+    {
+      "file": "java.json",
+      "included": true,
+      "normalized_title": "Java",
+      "pageid": 69336,
+      "revid": 1376782458,
+      "sha256": "5691187cb2e1f76f0d069c2d502ed8aafea2445f510b99608d6c0a8ff50db737"
+    },
+    {
+      "file": "java_programming_language.json",
+      "included": true,
+      "normalized_title": "Java (programming language)",
+      "pageid": 15881,
+      "revid": 1375186425,
+      "sha256": "3e02af6f85b819909ecc80a57753b121623e6dea91f77755eb63702da6bb5c23"
+    },
+    {
+      "file": "jeff_bezos.json",
+      "included": true,
+      "normalized_title": "Jeff Bezos",
+      "pageid": 142528,
+      "revid": 1372574419,
+      "sha256": "425a99f08f7d48b0097b4832da088cc730c734998254c34ad01ab1d9939913e7"
+    },
+    {
+      "file": "jellyfish.json",
+      "included": true,
+      "normalized_title": "Jellyfish",
+      "pageid": 50185,
+      "revid": 1371938446,
+      "sha256": "01649a517ddcd41ed999168bf3e8aa53a1007f6d3a388ce55ed7c7442b0cf86c"
+    },
+    {
+      "file": "johann_sebastian_bach.json",
+      "included": true,
+      "normalized_title": "Johann Sebastian Bach",
+      "pageid": 9906294,
+      "revid": 1375553739,
+      "sha256": "2b8a321f8c96427a68ede58e5ab4c6e8951430e77261762325433683bcb9fe9c"
+    },
+    {
+      "file": "julius_caesar.json",
+      "included": true,
+      "normalized_title": "Julius Caesar",
+      "pageid": 15924,
+      "revid": 1376122478,
+      "sha256": "c5bf1db5f681c4cdb33b628469acb16c5214bd0ae0c42fac66276838ee8b2016"
+    },
+    {
+      "file": "k2.json",
+      "included": true,
+      "normalized_title": "K2",
+      "pageid": 17359,
+      "revid": 1377011777,
+      "sha256": "04f375e45f7f0248896948a9ad7ae299ee7ee44f540fef2ec263b8705eadc86d"
+    },
+    {
+      "file": "kamchatka_peninsula.json",
+      "included": true,
+      "normalized_title": "Kamchatka Peninsula",
+      "pageid": 678671,
+      "revid": 1366154660,
+      "sha256": "9c06c55092dbf037661353ddd45d153d96eab435388be9bd288a625c4d5d8def"
+    },
+    {
+      "file": "kilimanjaro.json",
+      "included": true,
+      "normalized_title": "Mount Kilimanjaro",
+      "pageid": 159461,
+      "revid": 1376962211,
+      "sha256": "d32dafee6f2da0b17a624994919c78bbd6ab3f14188da987e52dccdb4d68301e"
+    },
+    {
+      "file": "kyiv.json",
+      "included": true,
+      "normalized_title": "Kyiv",
+      "pageid": 585629,
+      "revid": 1375938274,
+      "sha256": "b351eb75fb5661c393f77cf6b4ffc9dcf63cf2f0598fe4667440a55df33aa604"
+    },
+    {
+      "file": "lake_baikal.json",
+      "included": true,
+      "normalized_title": "Lake Baikal",
+      "pageid": 56865,
+      "revid": 1375969070,
+      "sha256": "d5612589cc5cb48f3c25d9091ad57d1bb7add8ca732b43df01859c6c8c17eb2d"
+    },
+    {
+      "file": "lascaux.json",
+      "included": true,
+      "normalized_title": "Lascaux",
+      "pageid": 18594,
+      "revid": 1377161794,
+      "sha256": "e50f59904c47e8f263d103424ef316c645b388a0e37a3ce53e6e8747a248a85b"
+    },
+    {
+      "file": "light_bulb.json",
+      "included": true,
+      "normalized_title": "Electric light",
+      "pageid": 9656,
+      "revid": 1374432727,
+      "sha256": "09940a27c2df78ff69c52c112d71fdf7aabb94c7187728c198fd33d23535e8a3"
+    },
+    {
+      "file": "light_emitting_diode.json",
+      "included": true,
+      "normalized_title": "Light-emitting diode",
+      "pageid": 18290,
+      "revid": 1377021952,
+      "sha256": "02054c5771ae5bfc9af8ef53f37a37806492a3944901d9889720cd74e77c0b08"
+    },
+    {
+      "file": "lincoln_motor_company.json",
+      "included": true,
+      "normalized_title": "Lincoln Motor Company",
+      "pageid": 62705,
+      "revid": 1376744953,
+      "sha256": "d97f2d8af7d73cc89059c29120ff93e7c4fa9b0cb46f9de9a81965c7c9bac071"
+    },
+    {
+      "file": "lincolnshire.json",
+      "included": true,
+      "normalized_title": "Lincolnshire",
+      "pageid": 53295,
+      "revid": 1375516597,
+      "sha256": "d9ebebece329f5c4164a17c9d44e3c12bf1333af22d760109df6be16ab80dc8d"
+    },
+    {
+      "file": "linux.json",
+      "included": true,
+      "normalized_title": "Linux",
+      "pageid": 6097297,
+      "revid": 1376870463,
+      "sha256": "49d39873c63ee43236062553132dc7fa2feddbf900288f7434bc8339e77ea488"
+    },
+    {
+      "file": "london_bridge.json",
+      "included": true,
+      "normalized_title": "London Bridge",
+      "pageid": 98370,
+      "revid": 1376507543,
+      "sha256": "f9e29226c50d8e318848245d047f9b705440f989986a582312c1b34bb4c71b3a"
+    },
+    {
+      "file": "ludwig_van_beethoven.json",
+      "included": true,
+      "normalized_title": "Ludwig van Beethoven",
+      "pageid": 17914,
+      "revid": 1375816694,
+      "sha256": "437abe4d29a5d9adfd5e5f0a4d11d12f1114b06ff1d592e97211d6389fc2db71"
+    },
+    {
+      "file": "lunar_eclipse.json",
+      "included": true,
+      "normalized_title": "Lunar eclipse",
+      "pageid": 18298,
+      "revid": 1370490127,
+      "sha256": "c4f077df5338888175562444cabdcf2baabd8a7d464b98063042cc757d8bf191"
+    },
+    {
+      "file": "malus.json",
+      "included": true,
+      "normalized_title": "Malus",
+      "pageid": 289445,
+      "revid": 1375285370,
+      "sha256": "998c4f71acc7267d8aa7033158a04c56b03f777084122d54cdda66291ec37d5a"
+    },
+    {
+      "file": "manatee.json",
+      "included": true,
+      "normalized_title": "Manatee",
+      "pageid": 20204,
+      "revid": 1368884279,
+      "sha256": "37ca2ff42af555d53a15b2cc01eba0f1d25b8fbed1080703e752c10e064bef05"
+    },
+    {
+      "file": "manila.json",
+      "included": true,
+      "normalized_title": "Manila",
+      "pageid": 184334,
+      "revid": 1377340097,
+      "sha256": "9bca643c018e9e42c7ff40748dbeec2eb8c1799e5377c5d59044a22bad5a5a09"
+    },
+    {
+      "file": "marathon.json",
+      "included": true,
+      "normalized_title": "Marathon",
+      "pageid": 49132,
+      "revid": 1377371785,
+      "sha256": "c27a2df90156eb51b8f8dad233dfba228bd69261564e0660e5ed14db5cdc5e20"
+    },
+    {
+      "file": "mariana_trench.json",
+      "included": true,
+      "normalized_title": "Mariana Trench",
+      "pageid": 19036,
+      "revid": 1376894318,
+      "sha256": "a59e6ac9ebe11e83c085d4756ea74f1963b0ab5f8ce84733496eef2b0cad7bb7"
+    },
+    {
+      "file": "mars.json",
+      "included": true,
+      "normalized_title": "Mars",
+      "pageid": 14640471,
+      "revid": 1375821898,
+      "sha256": "fc559c48ace0df464b7b5022f2c6430ae5c40e9eece4ee8d0a999be45b8e8ad9"
+    },
+    {
+      "file": "mars_chocolate_bar.json",
+      "included": true,
+      "normalized_title": "Mars bar",
+      "pageid": 247079,
+      "revid": 1373149545,
+      "sha256": "aa695429303bf7a13576c2f921264800bf3d3b3bf285e2d0189678a6755cbf81"
+    },
+    {
+      "file": "mars_inc.json",
+      "included": true,
+      "normalized_title": "Mars Inc.",
+      "pageid": 245067,
+      "revid": 1376828041,
+      "sha256": "ddd5c261836febeaba557d94e817fd256ea00b2a7ccb0b00eb087e34f223b272"
+    },
+    {
+      "file": "mars_mythology.json",
+      "included": true,
+      "normalized_title": "Mars (mythology)",
+      "pageid": 19638032,
+      "revid": 1376497749,
+      "sha256": "a32d609018985e38715e54bf6ec52b09acde86bb23e45c260cd2cc51cfafaed1"
+    },
+    {
+      "file": "mary_celeste.json",
+      "included": true,
+      "normalized_title": "Mary Celeste",
+      "pageid": 408092,
+      "revid": 1376334626,
+      "sha256": "caec828514a7b89b725694795975ad4c9d9abbcfb1ec41a2639797a7d13431f0"
+    },
+    {
+      "file": "mercury_automobile.json",
+      "included": true,
+      "normalized_title": "Mercury (automobile)",
+      "pageid": 256339,
+      "revid": 1371028699,
+      "sha256": "b41d4faebcb65066aef5a335c528380f9edeaefca28d548143b316fb347a85b1"
+    },
+    {
+      "file": "mercury_element.json",
+      "included": true,
+      "normalized_title": "Mercury (element)",
+      "pageid": 18617142,
+      "revid": 1375319675,
+      "sha256": "1cbcf8aada80ef818b6abb293690075dda9b2536afe3a5e912e77e785d9b5d54"
+    },
+    {
+      "file": "mercury_mythology.json",
+      "included": true,
+      "normalized_title": "Mercury (mythology)",
+      "pageid": 37417,
+      "revid": 1371076149,
+      "sha256": "34e762bad7a69ca03b3b04b8e25ca6ee54cc584a704b40bef4038e1e717ac93c"
+    },
+    {
+      "file": "mercury_planet.json",
+      "included": true,
+      "normalized_title": "Mercury (planet)",
+      "pageid": 19694,
+      "revid": 1376521668,
+      "sha256": "c99ba7bce25c776e809142c91aff7af7383cc8e98efce87833b1a9e4dc2bc9d2"
+    },
+    {
+      "file": "mercury_records.json",
+      "included": true,
+      "normalized_title": "Mercury Records",
+      "pageid": 325909,
+      "revid": 1372340065,
+      "sha256": "f9caf3238f70365c9751ef97430c2c4949bba50fbadd1b775b97cc69541cf0fe"
+    },
+    {
+      "file": "meteora.json",
+      "included": true,
+      "normalized_title": "Meteora",
+      "pageid": 144979,
+      "revid": 1373214966,
+      "sha256": "0cdbcc0c07008e7aa94ec4196909817e7fd2120afcecbea5688a3df51b16484e"
+    },
+    {
+      "file": "mexico.json",
+      "included": true,
+      "normalized_title": "Mexico",
+      "pageid": 3966054,
+      "revid": 1375825264,
+      "sha256": "3f8661858ed36e8ab407778f79548b6776a4f500da55138851fe5c5e3ce5d42b"
+    },
+    {
+      "file": "microprocessor.json",
+      "included": true,
+      "normalized_title": "Microprocessor",
+      "pageid": 19553,
+      "revid": 1375502931,
+      "sha256": "5cf5f29cdde62393e90685b0f693a016afa80311242ac126221eab806699432f"
+    },
+    {
+      "file": "milan.json",
+      "included": true,
+      "normalized_title": "Milan",
+      "pageid": 36511,
+      "revid": 1377249558,
+      "sha256": "10213ee72ea4f77c0a721523b07aafa778ed8bbe6bcf2f4000c3099bdb7dba96"
+    },
+    {
+      "file": "mitsubishi_eclipse.json",
+      "included": true,
+      "normalized_title": "Mitsubishi Eclipse",
+      "pageid": 570605,
+      "revid": 1365987433,
+      "sha256": "0eb6d18f488c39e8590483547469e45b4d762cf821f9e2359023839fb36fabe8"
+    },
+    {
+      "file": "moai.json",
+      "included": true,
+      "normalized_title": "Moai",
+      "pageid": 455038,
+      "revid": 1377330292,
+      "sha256": "3b90e31dc8c8c93eeefd655ae47b4e40e47c62ecb95ecc7b37ec9c10899a24d4"
+    },
+    {
+      "file": "monty_python.json",
+      "included": true,
+      "normalized_title": "Monty Python",
+      "pageid": 18942,
+      "revid": 1376307544,
+      "sha256": "ded385de0004221bdac091aeb49ac0963a770f903212ae2c745ffc222f7a29d3"
+    },
+    {
+      "file": "mount_everest.json",
+      "included": true,
+      "normalized_title": "Mount Everest",
+      "pageid": 42179,
+      "revid": 1376942985,
+      "sha256": "4f38d00b1b1ee9002c1b428c9efcc562195d712ac5fb31a3679c9928f55eb1f0"
+    },
+    {
+      "file": "mount_vernon.json",
+      "included": true,
+      "normalized_title": "Mount Vernon",
+      "pageid": 152271,
+      "revid": 1375438281,
+      "sha256": "2b49b1a7e0bd04290cfc8dc47924b1a54ff610997f8168b4251e4b72a3b440a5"
+    },
+    {
+      "file": "mumbai.json",
+      "included": true,
+      "normalized_title": "Mumbai",
+      "pageid": 19189,
+      "revid": 1376775272,
+      "sha256": "209ff9ef30db0d794410a332f90dde5b2ea7d4760728c4e4d9a904b4a87fa8e2"
+    },
+    {
+      "file": "munich.json",
+      "included": true,
+      "normalized_title": "Munich",
+      "pageid": 19058,
+      "revid": 1376810855,
+      "sha256": "1a02f37cb7505b8b9adeee6da799fe53fc0882f06cf588b8e9fc8a4e4225c1a4"
+    },
+    {
+      "file": "my_lai_massacre.json",
+      "included": true,
+      "normalized_title": "My Lai massacre",
+      "pageid": 68292,
+      "revid": 1377268640,
+      "sha256": "c2aed98d042dc04d4685829bec319ec09dc3629ab06a42fac8d7c40b192f5537"
+    },
+    {
+      "file": "nanotechnology.json",
+      "included": true,
+      "normalized_title": "Nanotechnology",
+      "pageid": 21488,
+      "revid": 1376103705,
+      "sha256": "5eb305f9ce85f7f43f2530807acc1b74ca2275682c72adbcf703b0b9f46efb5c"
+    },
+    {
+      "file": "napoleon.json",
+      "included": true,
+      "normalized_title": "Napoleon",
+      "pageid": 69880,
+      "revid": 1377100680,
+      "sha256": "093735d244c9a02540d36cadd20c36a3a00219bec1702c4151d725217e086c83"
+    },
+    {
+      "file": "narwhal.json",
+      "included": true,
+      "normalized_title": "Narwhal",
+      "pageid": 53484,
+      "revid": 1373658534,
+      "sha256": "2ece1a0aa4978d502606b7552f06ed335696c8bea597635839a0623341b661b9"
+    },
+    {
+      "file": "natural_language_processing.json",
+      "included": true,
+      "normalized_title": "Natural language processing",
+      "pageid": 21652,
+      "revid": 1374356070,
+      "sha256": "9bb87d27faaee48f5c90d153b7a521ad0065a7fb479bcd37a782cb2d4505c636"
+    },
+    {
+      "file": "neutron_star.json",
+      "included": true,
+      "normalized_title": "Neutron star",
+      "pageid": 21869,
+      "revid": 1377191248,
+      "sha256": "e7985936bf82856f5b387f0effe30dd26a2ae3a8a64c06bd2277dd6a3f41b7a6"
+    },
+    {
+      "file": "nikola_tesla.json",
+      "included": true,
+      "normalized_title": "Nikola Tesla",
+      "pageid": 21473,
+      "revid": 1377356849,
+      "sha256": "34696b587f0f9ac08037343f0e83f33914fa5537e42b852d4973e86a7bb9c434"
+    },
+    {
+      "file": "nuclear_fission.json",
+      "included": true,
+      "normalized_title": "Nuclear fission",
+      "pageid": 22054,
+      "revid": 1369434153,
+      "sha256": "e34b21a64bc897097e7fde07771336ee5cb9415cf3abd6dd31efcd1eabd76a1a"
+    },
+    {
+      "file": "nuclear_fusion.json",
+      "included": true,
+      "normalized_title": "Nuclear fusion",
+      "pageid": 21544,
+      "revid": 1375403221,
+      "sha256": "5b26654af4ff2f92775e4366a5b3a5ed98be07fea4226463ced1d74f57813ba3"
+    },
+    {
+      "file": "nuclear_power.json",
+      "included": true,
+      "normalized_title": "Nuclear power",
+      "pageid": 22153,
+      "revid": 1376008950,
+      "sha256": "0a917ccf777ba5d7b2426c03d87308f025e85ff7040edaa76b4e93df79f6ad18"
+    },
+    {
+      "file": "octopus.json",
+      "included": true,
+      "normalized_title": "Octopus",
+      "pageid": 22780,
+      "revid": 1376790243,
+      "sha256": "0d31e4e29d27753ace5ac4424bf2882d05539050bf267f602fcef57b531dc9ab"
+    },
+    {
+      "file": "okapi.json",
+      "included": true,
+      "normalized_title": "Okapi",
+      "pageid": 22709,
+      "revid": 1373618990,
+      "sha256": "4d4bc4a4a1ae0f698cc67aa6975e6adb3e86255d0045bcefe93ef0c709fc9884"
+    },
+    {
+      "file": "okavango_delta.json",
+      "included": true,
+      "normalized_title": "Okavango Delta",
+      "pageid": 514209,
+      "revid": 1376679529,
+      "sha256": "d28a6fa94cfeec5753c7bb6a07e98cac6aa4f6531a304a55c30b5f70a58e77bf"
+    },
+    {
+      "file": "olympic_games.json",
+      "included": true,
+      "normalized_title": "Olympic Games",
+      "pageid": 22576,
+      "revid": 1376486612,
+      "sha256": "e2ebdb288948ed7474b03bd2bacbdfb0a51b8eecf8e90dd0e66d78656caff15d"
+    },
+    {
+      "file": "olympus_mons.json",
+      "included": true,
+      "normalized_title": "Olympus Mons",
+      "pageid": 22818,
+      "revid": 1376662605,
+      "sha256": "10c643b5f4d709a4530132334827134f0b3ce20b8a6a75cf750fb2eeb6bd3130"
+    },
+    {
+      "file": "operating_system.json",
+      "included": true,
+      "normalized_title": "Operating system",
+      "pageid": 22194,
+      "revid": 1372175185,
+      "sha256": "d7f904370e82ae3cdfd9cf9478ebfc1703ff646b17ad8c28c584bc9412fcbb32"
+    },
+    {
+      "file": "orange_colour.json",
+      "included": true,
+      "normalized_title": "Orange (colour)",
+      "pageid": 71234,
+      "revid": 1374303635,
+      "sha256": "2359cbaa59b94aa02fd575b56b91fab2fe683b4a2b378ccb0ca43a50419f0b8d"
+    },
+    {
+      "file": "orange_county_california.json",
+      "included": true,
+      "normalized_title": "Orange County, California",
+      "pageid": 45330,
+      "revid": 1376959919,
+      "sha256": "7a81b04b9c162b70a7f2b883ec1a1d20aa90cd40f3ad65c2138e24604c8aaa5a"
+    },
+    {
+      "file": "orange_fruit.json",
+      "included": true,
+      "normalized_title": "Orange (fruit)",
+      "pageid": 4984440,
+      "revid": 1375103780,
+      "sha256": "e1b05da4d8aca828b32e64f4cf8196f54a926b84e6a38bce74c71ccbd559d6aa"
+    },
+    {
+      "file": "orange_s_a.json",
+      "included": true,
+      "normalized_title": "Orange Group",
+      "pageid": 54314,
+      "revid": 1377030597,
+      "sha256": "091bc51f67d67f01f6f328b29da1308a2a04d823b95903a85d1cf55b43b396bc"
+    },
+    {
+      "file": "orangutan.json",
+      "included": true,
+      "normalized_title": "Orangutan",
+      "pageid": 22433,
+      "revid": 1376950508,
+      "sha256": "b05e618dbeb782b45daa6f70b5493d69c2bfae06f7070db53ed1092a2b0e75d5"
+    },
+    {
+      "file": "oslo.json",
+      "included": true,
+      "normalized_title": "Oslo",
+      "pageid": 22309,
+      "revid": 1376859488,
+      "sha256": "d62904b3864a1191a981692ef98ea1763f463464584c0cb392e04d37e865cc01"
+    },
+    {
+      "file": "oymyakon.json",
+      "included": true,
+      "normalized_title": "Oymyakon",
+      "pageid": 566327,
+      "revid": 1376042045,
+      "sha256": "9c3b460ac74c8ee4d0f08d96ade04cb4787d5a45e4d3a6b7aebc2b900e5efdc4"
+    },
+    {
+      "file": "paris.json",
+      "included": true,
+      "normalized_title": "Paris",
+      "pageid": 22989,
+      "revid": 1375901741,
+      "sha256": "1ef1c6fa26e844e1aec9236f83e1b287f39de6c858a740168191642248403c5c"
+    },
+    {
+      "file": "paris_commune.json",
+      "included": true,
+      "normalized_title": "Paris Commune",
+      "pageid": 59134,
+      "revid": 1377326613,
+      "sha256": "8fc7ac2997e625b229af7001180b593b03d9398641831bff08dc7f9bdf561282"
+    },
+    {
+      "file": "paris_mythology.json",
+      "included": true,
+      "normalized_title": "Paris (mythology)",
+      "pageid": 63416,
+      "revid": 1377070780,
+      "sha256": "4c08de17063204ea3d69c924c8571db960ff3d4d9690ae076c75335f0cbc6a8a"
+    },
+    {
+      "file": "particle_physics.json",
+      "included": true,
+      "normalized_title": "Particle physics",
+      "pageid": 23259,
+      "revid": 1377339297,
+      "sha256": "e783c534e3a3e2eeebe3e86540a6f303a60361130cd2568b71f3a024244b1bac"
+    },
+    {
+      "file": "penguin.json",
+      "included": true,
+      "normalized_title": "Penguin",
+      "pageid": 23878,
+      "revid": 1375836195,
+      "sha256": "d1ae2e0b8c3a446c91d983f008463e44bd356cef72cbed5a10b5d45e975e2d5a"
+    },
+    {
+      "file": "penicillin.json",
+      "included": true,
+      "normalized_title": "Penicillin",
+      "pageid": 23312,
+      "revid": 1368621719,
+      "sha256": "832cb525a45943c69524a1f26680a54266eaf5a1140180b40a195b4a2604a151"
+    },
+    {
+      "file": "peru.json",
+      "included": true,
+      "normalized_title": "Peru",
+      "pageid": 170691,
+      "revid": 1375830185,
+      "sha256": "e09a35c2d02145fbe61db63ceba33f0ba94a73b676a1e254e6a2f56b4a6409d0"
+    },
+    {
+      "file": "phoenicia.json",
+      "included": true,
+      "normalized_title": "Phoenicia",
+      "pageid": 34076091,
+      "revid": 1376930119,
+      "sha256": "dbfdb58285544e8a711c21e7b5be090241d31d68844fe7cd183fe1bf75eec43a"
+    },
+    {
+      "file": "pi.json",
+      "included": true,
+      "normalized_title": "Pi",
+      "pageid": 23601,
+      "revid": 1377229620,
+      "sha256": "6678d379291d830063e4a1f8cf939e3c546b4e8789a12202fc5b68a117e2d060"
+    },
+    {
+      "file": "piano.json",
+      "included": true,
+      "normalized_title": "Piano",
+      "pageid": 23034,
+      "revid": 1369845613,
+      "sha256": "8dab7964e782c2312f2ff271f816ccf5b08c42e57211385037714dd6472e7b8b"
+    },
+    {
+      "file": "pitcairn_islands.json",
+      "included": true,
+      "normalized_title": "Pitcairn Islands",
+      "pageid": 23450,
+      "revid": 1376460422,
+      "sha256": "a229677dc5dd4f922a5cbec1f4c74c6507c1affa9bbc63c2bb0a8a0db7f77680"
+    },
+    {
+      "file": "plato.json",
+      "included": true,
+      "normalized_title": "Plato",
+      "pageid": 22954,
+      "revid": 1377268668,
+      "sha256": "7c0d4cf7f96d3330d756daad8d5d8defbebf9ed1491759a5707f1865f96ab95f"
+    },
+    {
+      "file": "platypus.json",
+      "included": true,
+      "normalized_title": "Platypus",
+      "pageid": 23749,
+      "revid": 1376973599,
+      "sha256": "efca76b516cafca63601c46e6bb78625ea4957100b14d4c90a9336670c022549"
+    },
+    {
+      "file": "plitvice_lakes_national_park.json",
+      "included": true,
+      "normalized_title": "Plitvice Lakes National Park",
+      "pageid": 342090,
+      "revid": 1367683581,
+      "sha256": "bc20bee4e8048aa40ad4092c862e512fbfeb83371acc03b3aedcfcc08aece047"
+    },
+    {
+      "file": "poison_dart_frog.json",
+      "included": true,
+      "normalized_title": "Poison dart frog",
+      "pageid": 812186,
+      "revid": 1354641277,
+      "sha256": "bb7c24d862663f70efe0638762f448c5ca08dca8bc526f1a2d8bbfa7fc55274b"
+    },
+    {
+      "file": "polio.json",
+      "included": true,
+      "normalized_title": "Polio",
+      "pageid": 25107,
+      "revid": 1377298388,
+      "sha256": "729fe0b35f697c7965e2cd8e3a20b4b3ca5fe1e77512821e49f5782af421fd47"
+    },
+    {
+      "file": "porcupine.json",
+      "included": true,
+      "normalized_title": "Porcupine",
+      "pageid": 44668,
+      "revid": 1374798523,
+      "sha256": "3a0c00dae80bad5793be36944c0c18aae018cd61787c9ac8f23bd9982552b7e1"
+    },
+    {
+      "file": "prime_number.json",
+      "included": true,
+      "normalized_title": "Prime number",
+      "pageid": 23666,
+      "revid": 1376977902,
+      "sha256": "1fc41bdae90b7375c67ac1a2595e123a0e24f3874a7800d0971eb13bb944bf09"
+    },
+    {
+      "file": "printing_press.json",
+      "included": true,
+      "normalized_title": "Printing press",
+      "pageid": 23295,
+      "revid": 1377208052,
+      "sha256": "d65989d63acfca233620210bdfaa81d871299e2d2a2f34e82f3a89049afd85a0"
+    },
+    {
+      "file": "pyramids_of_giza.json",
+      "included": true,
+      "normalized_title": "Giza pyramid complex",
+      "pageid": 1979299,
+      "revid": 1370654383,
+      "sha256": "3622c2a798ee2d9e6b7740e92a460b31436c13afaadd3c87ad4833871cf49ea0"
+    },
+    {
+      "file": "python_genus.json",
+      "included": true,
+      "normalized_title": "Python (genus)",
+      "pageid": 4920126,
+      "revid": 1354644814,
+      "sha256": "3e9cac6566b989d6393318f12491852ca60f7efee7b872605f424951d2b341b7"
+    },
+    {
+      "file": "python_programming_language.json",
+      "included": true,
+      "normalized_title": "Python (programming language)",
+      "pageid": 23862,
+      "revid": 1377273173,
+      "sha256": "d120696d5b2c89ec82c1fa6bb3f0b73ca1ddbd19c716475315990a63135b05e0"
+    },
+    {
+      "file": "pythonidae.json",
+      "included": true,
+      "normalized_title": "Pythonidae",
+      "pageid": 23329,
+      "revid": 1373943528,
+      "sha256": "e26312889cbf24a0f9dab0cf67c2f50a10b1a3007e780197869e5bdd174e0df1"
+    },
+    {
+      "file": "quantum_computing.json",
+      "included": true,
+      "normalized_title": "Quantum computing",
+      "pageid": 25220,
+      "revid": 1377133559,
+      "sha256": "dcf5ba7ba3c5d55267dfb75f6e232127402e7b81cae0ed18f51c26f71b752933"
+    },
+    {
+      "file": "quantum_mechanics.json",
+      "included": true,
+      "normalized_title": "Quantum mechanics",
+      "pageid": 25202,
+      "revid": 1376093531,
+      "sha256": "06d659a0d71c8cd5caf2aff82b3e97cda33922d8b209e9323d37178d17cbe40b"
+    },
+    {
+      "file": "red_fox.json",
+      "included": true,
+      "normalized_title": "Red fox",
+      "pageid": 20647108,
+      "revid": 1377019085,
+      "sha256": "6c4bc7c0004ac6b03ce1e8db9eb5c8f8fb6cd20142b7fa3e06a4c46cb930bbee"
+    },
+    {
+      "file": "riga.json",
+      "included": true,
+      "normalized_title": "Riga",
+      "pageid": 25508,
+      "revid": 1377258457,
+      "sha256": "84bdcaf2e52a8133c9ba6bc38e84c3f4e7b029dd082d00d11d277bef23733eb7"
+    },
+    {
+      "file": "rio_de_janeiro.json",
+      "included": true,
+      "normalized_title": "Rio de Janeiro",
+      "pageid": 25936,
+      "revid": 1376682244,
+      "sha256": "09600fa978b31a1c2019002201d672621e78b61359d70ca78d5ab9402489e89c"
+    },
+    {
+      "file": "river_delta.json",
+      "included": true,
+      "normalized_title": "River delta",
+      "pageid": 166931,
+      "revid": 1375877615,
+      "sha256": "f08322496a5ca46694f64bb22b3ae28c9e7e2d7c5968ba8deed1b99f30aacc09"
+    },
+    {
+      "file": "roanoke_colony.json",
+      "included": true,
+      "normalized_title": "Roanoke Colony",
+      "pageid": 74547,
+      "revid": 1377396100,
+      "sha256": "14ea9d42ebc6b04b3968b37502532ab5a9f5c83c296c2328db9ba668cd1ea9a5"
+    },
+    {
+      "file": "robotics.json",
+      "included": true,
+      "normalized_title": "Robotics",
+      "pageid": 20903754,
+      "revid": 1376342027,
+      "sha256": "0fe5c7b2118eeca7078d2beff536e3289a939bdcaf67cf8599a577af05bb859a"
+    },
+    {
+      "file": "rocky_mountains.json",
+      "included": true,
+      "normalized_title": "Rocky Mountains",
+      "pageid": 25459,
+      "revid": 1376702968,
+      "sha256": "db136018692aef79414bce8ae35e2380115e6ed8ae4ef9a2afbd1bdd7b3ffe82"
+    },
+    {
+      "file": "rome.json",
+      "included": true,
+      "normalized_title": "Rome",
+      "pageid": 25458,
+      "revid": 1376612745,
+      "sha256": "02efe339442ac8a14565c11a4ff96cfcd3dbf674bb8a0337356de2b8c4af1ba6"
+    },
+    {
+      "file": "russian_revolution.json",
+      "included": true,
+      "normalized_title": "Russian Revolution",
+      "pageid": 25762,
+      "revid": 1371936873,
+      "sha256": "2c0926ca024a3d5271feeb45a9205269f56a38bc63272ae4c284f5fb50c31da4"
+    },
+    {
+      "file": "salar_de_uyuni.json",
+      "included": true,
+      "normalized_title": "Salar de Uyuni",
+      "pageid": 199529,
+      "revid": 1369101391,
+      "sha256": "493763e51371db9c2dcd9120b17427574a9b7ffa07e80164b0c2853d7db1145b"
+    },
+    {
+      "file": "samurai.json",
+      "included": true,
+      "normalized_title": "Samurai",
+      "pageid": 28288,
+      "revid": 1371929883,
+      "sha256": "5dd8455eef147a54dfa3da28cde2f5b79327ba45ca697fd16987b02af47ce2ee"
+    },
+    {
+      "file": "saola.json",
+      "included": true,
+      "normalized_title": "Saola",
+      "pageid": 922723,
+      "revid": 1374075198,
+      "sha256": "ee4f97bdf3c151b9138d2482834c3b12b38c78e935454bca9e98fd10323874a0"
+    },
+    {
+      "file": "sars_cov_2_delta_variant.json",
+      "included": true,
+      "normalized_title": "SARS-CoV-2 Delta variant",
+      "pageid": 67445633,
+      "revid": 1376717544,
+      "sha256": "136b8e93a83251f210b3b84e406eb8f7ef221839f11ebfa4fb21755685a123c3"
+    },
+    {
+      "file": "saturn.json",
+      "included": true,
+      "normalized_title": "Saturn",
+      "pageid": 44474,
+      "revid": 1375061756,
+      "sha256": "2f9a5b692d88380ff1841c4824d10ede969ad4a9a92719ba88e1e6f050d58410"
+    },
+    {
+      "file": "saturn_corporation.json",
+      "included": true,
+      "normalized_title": "Saturn Corporation",
+      "pageid": 161812,
+      "revid": 1368580530,
+      "sha256": "5dbd423663f85cab8588abe59693adf188356c09be4aeda52fc42ab18029b306"
+    },
+    {
+      "file": "saturn_mythology.json",
+      "included": true,
+      "normalized_title": "Saturn (mythology)",
+      "pageid": 19230710,
+      "revid": 1375007673,
+      "sha256": "4496ba738a8ff93c597e1adc4e43a966c3d9a470c2b2652431957b77421085d7"
+    },
+    {
+      "file": "seashell.json",
+      "included": true,
+      "normalized_title": "Seashell",
+      "pageid": 80849,
+      "revid": 1375909868,
+      "sha256": "69c75a4388020baeb32b99c310d5d8882b692847a6a92d5bd6756e3ebe7f8155"
+    },
+    {
+      "file": "semiconductor.json",
+      "included": true,
+      "normalized_title": "Semiconductor",
+      "pageid": 27709,
+      "revid": 1376790125,
+      "sha256": "48abf675cf3faebba50b3341deb50c083975d96c78b6d5a2cffad00e338fb358"
+    },
+    {
+      "file": "shell_computing.json",
+      "included": true,
+      "normalized_title": "Shell (computing)",
+      "pageid": 2281397,
+      "revid": 1370175776,
+      "sha256": "2cf3d7827ebf828561b7cd05853e5e0cafed087715deabae5cf7797b80a63b9b"
+    },
+    {
+      "file": "shell_plc.json",
+      "included": true,
+      "normalized_title": "Shell plc",
+      "pageid": 23409980,
+      "revid": 1377204151,
+      "sha256": "ae6dbf471ef9e8b507500fd0867752ba33cca4d1712fbcd261036374fece0f3c"
+    },
+    {
+      "file": "sherlock_holmes.json",
+      "included": true,
+      "normalized_title": "Sherlock Holmes",
+      "pageid": 27159,
+      "revid": 1370676109,
+      "sha256": "467c08a43ef421fb1d7bebb461422ef19fa8e5ad0c6ed2d659f4f2be5e6016b3"
+    },
+    {
+      "file": "shogun.json",
+      "included": true,
+      "normalized_title": "Shogun",
+      "pageid": 28943,
+      "revid": 1377201581,
+      "sha256": "eb24a89246a5e99eb3351391726733dd70ce123346900232775a2277ee05701e"
+    },
+    {
+      "file": "silk_road.json",
+      "included": true,
+      "normalized_title": "Silk Road",
+      "pageid": 54253,
+      "revid": 1376821937,
+      "sha256": "88fcb4d371d1e4bdd892e4e1265210055eac0949225b7347816bb66dfee6f061"
+    },
+    {
+      "file": "sloth.json",
+      "included": true,
+      "normalized_title": "Sloth",
+      "pageid": 5168174,
+      "revid": 1374804819,
+      "sha256": "45df59cabc3bc9281495d239c7509fa3b7a5a7227af93009049820dbb6c1cbde"
+    },
+    {
+      "file": "snow_leopard.json",
+      "included": true,
+      "normalized_title": "Snow leopard",
+      "pageid": 15295535,
+      "revid": 1376969533,
+      "sha256": "360979d811789516e2e667e6894c99b9fa3cf5c0c387190822b04752e678e797"
+    },
+    {
+      "file": "socotra.json",
+      "included": true,
+      "normalized_title": "Socotra",
+      "pageid": 489570,
+      "revid": 1376114721,
+      "sha256": "ff780378ce1f186535b2c220fb232a7048722ce14134be285f3091ce6979ef65"
+    },
+    {
+      "file": "solar_cell.json",
+      "included": true,
+      "normalized_title": "Solar cell",
+      "pageid": 2352910,
+      "revid": 1375385313,
+      "sha256": "81eb4aed10071841db6684a9cf66cc439c983a82affb6189ff0055a811e360eb"
+    },
+    {
+      "file": "solar_corona.json",
+      "included": true,
+      "normalized_title": "Solar corona",
+      "pageid": 2785838,
+      "revid": 1370968143,
+      "sha256": "efea4ea50f7775c5df864c75952a503954fbe344bb534c66865408847ddb00bc"
+    },
+    {
+      "file": "solar_eclipse.json",
+      "included": true,
+      "normalized_title": "Solar eclipse",
+      "pageid": 5024887,
+      "revid": 1374695796,
+      "sha256": "0f77c2104018c6f7db81ad1535d76b711da803b469a00e3e22159a6dbf7dfa09"
+    },
+    {
+      "file": "solar_power.json",
+      "included": true,
+      "normalized_title": "Solar power",
+      "pageid": 13690575,
+      "revid": 1376712484,
+      "sha256": "704b890ccc7314d8f46c0e6ffc6869952b33945f9d4c7060361f1638b945b76b"
+    },
+    {
+      "file": "south_africa.json",
+      "included": true,
+      "normalized_title": "South Africa",
+      "pageid": 17416221,
+      "revid": 1375439630,
+      "sha256": "51ae264f0a6dae66392beabcdba54d2ca9b401bbdfbe5799d82ef777e82d6ab6"
+    },
+    {
+      "file": "space_shuttle_columbia.json",
+      "included": true,
+      "normalized_title": "Space Shuttle Columbia",
+      "pageid": 28237,
+      "revid": 1375494937,
+      "sha256": "10b422b064a3b029320cc6f4bcd1987abeabb9ababd135456c906d77006aa264"
+    },
+    {
+      "file": "star_wars.json",
+      "included": true,
+      "normalized_title": "Star Wars",
+      "pageid": 26678,
+      "revid": 1377037263,
+      "sha256": "6a312fea4c926af5b91b4b17dd426e7295f57a4141ab99f10e3d0e477082158f"
+    },
+    {
+      "file": "steam_engine.json",
+      "included": true,
+      "normalized_title": "Steam engine",
+      "pageid": 27692,
+      "revid": 1376844426,
+      "sha256": "fb56d714e258a5105300eb79ea731ee0cbaaca3d0c58eda309a81ac7ee2c9489"
+    },
+    {
+      "file": "steve_jobs.json",
+      "included": true,
+      "normalized_title": "Steve Jobs",
+      "pageid": 7412236,
+      "revid": 1377364490,
+      "sha256": "875d99aa8c05b0eb2bb3eaed45d87600a8a81bb743ccb2402e65141c3d00887c"
+    },
+    {
+      "file": "stockholm.json",
+      "included": true,
+      "normalized_title": "Stockholm",
+      "pageid": 26741,
+      "revid": 1376924927,
+      "sha256": "7a980f8365653703344c70edd0d35b7db0a04cf180be673b127a813f85a7ad4e"
+    },
+    {
+      "file": "sumer.json",
+      "included": true,
+      "normalized_title": "Sumer",
+      "pageid": 50521,
+      "revid": 1374731709,
+      "sha256": "cd7d7b43872c421385d3445dc5e1c7c549b9298edc4ec831ae90186b40a9388e"
+    },
+    {
+      "file": "superconductivity.json",
+      "included": true,
+      "normalized_title": "Superconductivity",
+      "pageid": 26884,
+      "revid": 1374788281,
+      "sha256": "863bbeadb0ed89d849c2ecfd225b7a86e232fc06b811afb6b68360a3f52bec6d"
+    },
+    {
+      "file": "supernova.json",
+      "included": true,
+      "normalized_title": "Supernova",
+      "pageid": 27680,
+      "revid": 1377240816,
+      "sha256": "5bb31e2dcd1b5772069248c6396ca42db48afa5f2e90b84ad3068f51e14b1437"
+    },
+    {
+      "file": "surtsey.json",
+      "included": true,
+      "normalized_title": "Surtsey",
+      "pageid": 28876,
+      "revid": 1365740599,
+      "sha256": "346c1e851fee25244bcbc3c29f3fc390812cbcf28d7250845b5530cc5de63903"
+    },
+    {
+      "file": "suva.json",
+      "included": true,
+      "normalized_title": "Suva",
+      "pageid": 42904,
+      "revid": 1374942465,
+      "sha256": "5a7fdb8a040705a23848d5b0218d61dba3017b09bccdcc1dae217c79e3f4b7c2"
+    },
+    {
+      "file": "svalbard.json",
+      "included": true,
+      "normalized_title": "Svalbard",
+      "pageid": 27441,
+      "revid": 1374884355,
+      "sha256": "6f623bdf226f14cc67b7a8e30478c42e7371f057c4f07b19d978d25234f90714"
+    },
+    {
+      "file": "sydney.json",
+      "included": true,
+      "normalized_title": "Sydney",
+      "pageid": 27862,
+      "revid": 1376399713,
+      "sha256": "f2a187edce2a4943c695df4089896b15e938f12e4de433f986f9a1a6d533c94d"
+    },
+    {
+      "file": "symphony.json",
+      "included": true,
+      "normalized_title": "Symphony",
+      "pageid": 44114,
+      "revid": 1374497286,
+      "sha256": "a5eb7c7d821c64d63bac6e8ef53724b27695e7893d7f07aedce40f0f1c0eb9ff"
+    },
+    {
+      "file": "taipei.json",
+      "included": true,
+      "normalized_title": "Taipei",
+      "pageid": 57648,
+      "revid": 1377024958,
+      "sha256": "ee71deaf45307cd5cd67a16d8426f5ef1c87feee95146338087f5e562d0e127b"
+    },
+    {
+      "file": "tallinn.json",
+      "included": true,
+      "normalized_title": "Tallinn",
+      "pageid": 31577,
+      "revid": 1376998275,
+      "sha256": "256938a385ff660911177c7dcb3972329359e177289606beab785fce9ec4ce6c"
+    },
+    {
+      "file": "tasmanian_devil.json",
+      "included": true,
+      "normalized_title": "Tasmanian devil",
+      "pageid": 31392,
+      "revid": 1375246517,
+      "sha256": "d0724155160bd6ee92a3eaef735d7bcd3fa9ccfc3248d5823840a39c154c8dc3"
+    },
+    {
+      "file": "tbilisi.json",
+      "included": true,
+      "normalized_title": "Tbilisi",
+      "pageid": 42298,
+      "revid": 1376783587,
+      "sha256": "62657417cea375a6204ae9fc7b3811c32f094d09efb7db2a681ef59da36442f8"
+    },
+    {
+      "file": "terracotta_army.json",
+      "included": true,
+      "normalized_title": "Terracotta Army",
+      "pageid": 148653,
+      "revid": 1374573318,
+      "sha256": "b0c3eee687f8489c751758369f513942033fc8ecccc9ca37651f93c337664050"
+    },
+    {
+      "file": "tesla_inc.json",
+      "included": true,
+      "normalized_title": "Tesla, Inc.",
+      "pageid": 5533631,
+      "revid": 1377170333,
+      "sha256": "e946712365efdf72e712f89875962fb6711318fb87ed803000a9c1397e4c9ec1"
+    },
+    {
+      "file": "thailand.json",
+      "included": true,
+      "normalized_title": "Thailand",
+      "pageid": 30128,
+      "revid": 1376993408,
+      "sha256": "4931766f05e9cc5e375a56bf31bf1d56e7e3b587bb346c5910a329f0fdedcf01"
+    },
+    {
+      "file": "the_lord_of_the_rings.json",
+      "included": true,
+      "normalized_title": "The Lord of the Rings",
+      "pageid": 29798,
+      "revid": 1376999674,
+      "sha256": "a9428e6606b9e30fcab67b0ff5b272818e5a0d37e4faa713b97a795a4249d7f5"
+    },
+    {
+      "file": "thermodynamics.json",
+      "included": true,
+      "normalized_title": "Thermodynamics",
+      "pageid": 29952,
+      "revid": 1377203325,
+      "sha256": "5a6d8f9c0ace891981e3e1d138d737450c537f43511c3db04a663a4d8033de9e"
+    },
+    {
+      "file": "thomas_edison.json",
+      "included": true,
+      "normalized_title": "Thomas Edison",
+      "pageid": 29778,
+      "revid": 1376447903,
+      "sha256": "9eed4ad3d27bf4eb8e12d63010a47965b7eb93c5e0ce561edc40369689bf67dd"
+    },
+    {
+      "file": "tokyo.json",
+      "included": true,
+      "normalized_title": "Tokyo",
+      "pageid": 30057,
+      "revid": 1376798297,
+      "sha256": "c0574b39fe1011d0a99990c9753c7d268e75bb48d3ef6abeea25adf3df066568"
+    },
+    {
+      "file": "tower_of_london.json",
+      "included": true,
+      "normalized_title": "Tower of London",
+      "pageid": 31165,
+      "revid": 1375009669,
+      "sha256": "b39f1898c3ed6f60390c907d38e25f76634f8f560f740e3ca8e76c268e5a4aa8"
+    },
+    {
+      "file": "transistor.json",
+      "included": true,
+      "normalized_title": "Transistor",
+      "pageid": 30011,
+      "revid": 1375502785,
+      "sha256": "84ebae269e6b21bfd6fa16ba52970173d28e04a6fbc0029251a097bbd06ea8c2"
+    },
+    {
+      "file": "tzi.json",
+      "included": true,
+      "normalized_title": "Ötzi",
+      "pageid": 22742,
+      "revid": 1377171338,
+      "sha256": "b3ea7a4f86cb88f10baedb943d31d1dc493e05b015b6bec17e43496ca17f1129"
+    },
+    {
+      "file": "university_of_cambridge.json",
+      "included": true,
+      "normalized_title": "University of Cambridge",
+      "pageid": 25978572,
+      "revid": 1376915146,
+      "sha256": "50d2478e3f4a0ef7e82accc32d4ade8bfd1020e7d559951c3d715622e6abd50d"
+    },
+    {
+      "file": "university_of_washington.json",
+      "included": true,
+      "normalized_title": "University of Washington",
+      "pageid": 31776,
+      "revid": 1376595667,
+      "sha256": "b88eb292cbe893e029b55b7b370f7da26cae6324d827dde7bc19299338acac0a"
+    },
+    {
+      "file": "vaquita.json",
+      "included": true,
+      "normalized_title": "Vaquita",
+      "pageid": 379609,
+      "revid": 1377304990,
+      "sha256": "beb5b40f08b7f4fd653b9481e9898e987384a0cdb20dad1804075facf97bec58"
+    },
+    {
+      "file": "venice.json",
+      "included": true,
+      "normalized_title": "Venice",
+      "pageid": 32616,
+      "revid": 1377057269,
+      "sha256": "31ef69384af270de9d72321bc1a2cb4a1dc59d06d75859bab34f065f998da432"
+    },
+    {
+      "file": "venus.json",
+      "included": true,
+      "normalized_title": "Venus",
+      "pageid": 32745,
+      "revid": 1375690330,
+      "sha256": "2d80d5d5270b49351af0f146cabc4718f267884602fd97e4d5dc0d75cd312951"
+    },
+    {
+      "file": "venus_flytrap.json",
+      "included": true,
+      "normalized_title": "Venus flytrap",
+      "pageid": 310678,
+      "revid": 1369357722,
+      "sha256": "8b023a402c4b332946d2d574d5718b1fef63013c9faf226db66e71d6d59a5da8"
+    },
+    {
+      "file": "venus_mythology.json",
+      "included": true,
+      "normalized_title": "Venus (mythology)",
+      "pageid": 37622,
+      "revid": 1377318155,
+      "sha256": "f23f3db4545c50ecbabcdd36bb38664da07d43164d2ea7d3bd84399553ea1ebb"
+    },
+    {
+      "file": "vienna.json",
+      "included": true,
+      "normalized_title": "Vienna",
+      "pageid": 55866,
+      "revid": 1376496640,
+      "sha256": "65ce28be7ee92252f0fe8792e96281ef3899b2cfe8e0e7126ddb9342aeb55700"
+    },
+    {
+      "file": "virtual_reality.json",
+      "included": true,
+      "normalized_title": "Virtual reality",
+      "pageid": 32612,
+      "revid": 1372695458,
+      "sha256": "608eaddde0780678cc8456ba65d7e12dd4fe28287c36d12a995507b5d8e90a21"
+    },
+    {
+      "file": "washington_d_c.json",
+      "included": true,
+      "normalized_title": "Washington, D.C.",
+      "pageid": 108956,
+      "revid": 1377175389,
+      "sha256": "78913a2fdebbba594ea7ca6a399dbe7ff8644e9965f8c722112fba6cd0f6a430"
+    },
+    {
+      "file": "washington_state.json",
+      "included": true,
+      "normalized_title": "Washington (state)",
+      "pageid": 13015878,
+      "revid": 1376909096,
+      "sha256": "631c0e5b12ce0452fd9391c0c46f90663840208d051a8fc203d2d43f4c081056"
+    },
+    {
+      "file": "wellington.json",
+      "included": true,
+      "normalized_title": "Wellington",
+      "pageid": 33804,
+      "revid": 1376521718,
+      "sha256": "0febd076140e80263df451e9f2fc130137c5382ca2953e8d2841ed167d7c13dd"
+    },
+    {
+      "file": "whittier_alaska.json",
+      "included": true,
+      "normalized_title": "Whittier, Alaska",
+      "pageid": 105698,
+      "revid": 1373110007,
+      "sha256": "1e85cb1e67dfb0d9da8995b059696cf94acc584b4a16722ac135ae3f6b5336ad"
+    },
+    {
+      "file": "wind_power.json",
+      "included": true,
+      "normalized_title": "Wind power",
+      "pageid": 277289,
+      "revid": 1376631361,
+      "sha256": "341a94c9c5cd68116a913cad3f566ba0f4df35ab690b23f203f067da66d7178c"
+    },
+    {
+      "file": "wolfgang_amadeus_mozart.json",
+      "included": true,
+      "normalized_title": "Wolfgang Amadeus Mozart",
+      "pageid": 33163,
+      "revid": 1376814233,
+      "sha256": "4bc7cdb9f542f9c193c056320093579af5d9ef9d7c8e77a5fd00fd6575be0e4d"
+    },
+    {
+      "file": "x_ray.json",
+      "included": true,
+      "normalized_title": "X-ray",
+      "pageid": 34197,
+      "revid": 1369977424,
+      "sha256": "688a103652f752da374ac71bf13359df7550a189a7c67be2deb78f31eed77af6"
+    },
+    {
+      "file": "zurich.json",
+      "included": true,
+      "normalized_title": "Zurich",
+      "pageid": 40334603,
+      "revid": 1376479225,
+      "sha256": "46fe35a9804c70bb28a2b889e9cb14d2af6689720fcd02ddf53d01ad8d50416c"
+    }
+  ]
+}

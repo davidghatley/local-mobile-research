@@ -1,0 +1,26 @@
+{
+  "artifacts": [
+    {
+      "bytes": 43876251,
+      "path": "corpus/corpus.jsonl",
+      "sha256": "98e1237e74a40574ed9a41104bc7ae9612cfbed656e2240cea6ee9d5e98d5f64"
+    },
+    {
+      "bytes": 341364,
+      "path": "corpus/provenance.json",
+      "sha256": "e6e33910491e9ea86f5e8e5067ba45baee22c89efbad72bd59343d1ebf89761e"
+    },
+    {
+      "bytes": 25219,
+      "path": "corpus/split_map.json",
+      "sha256": "b80a774dc9bbb799eb88d5b31975a22073ab054de93f9c5c02d562d32ec89ec1"
+    },
+    {
+      "bytes": 94270,
+      "path": "corpus/input_manifest.json",
+      "sha256": "685ca5c02c4869ae22d84dd5039c84e3b35e097bc5754ee15ec904cf60b141b4"
+    }
+  ],
+  "input_manifest_sha256": "685ca5c02c4869ae22d84dd5039c84e3b35e097bc5754ee15ec904cf60b141b4",
+  "revision": "pilot-297-r1"
+}

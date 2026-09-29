@@ -1,0 +1,17 @@
+# Large binary/data artifacts — preserved on disk, pinned by hash in manifests.
+# Generator weights (986 MB): pinned in corpus/generator_config.json
+generator_runtime/artifacts/
+# Corpus canonical JSONL (42 MB): pinned in corpus/build_manifest.json + provenance.json
+corpus/corpus.jsonl
+# Raw Wikipedia snapshots (41 MB) and the superseded pilot archive (39 MB)
+corpus/raw/
+corpus/archive/
+# Sealed held-out labels: never published; custody is orchestrator/procedural
+corpus/heldout_labels.sealed.json
+corpus/labels.json
+corpus/labels.sealed.json
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/

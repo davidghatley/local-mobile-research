@@ -1,0 +1,44 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:octopus:00:000:03",
+          "text": "An octopus can radically deform its shape, enabling it to squeeze through small gaps."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "p:octopus:07:000",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "it can radically deform its shape",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:octopus",
+    "source_articles": [
+      "a:octopus"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "56aa8acb12b08c1d8de17dc489810ee29517541fe05f6a2629c3d5eeb7a82d96",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 6 (content): evidence t:octopus:00:000:03 exact corpus text match, answer supported verbatim; hard negative p:octopus:07:000 genuine non-evidence (ink sac paragraph) with no ancestor/descendant overlap; single-group solo:octopus compliant; no tautology. Pre-approval content hash 03c6be911dbe5fb81b985d43f33ce3bfd2cf5f8789a43322f68906c6b2f2efd4 verified exact match before binding.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-58",
+  "question_type": "factoid",
+  "split": "train",
+  "text": "What ability lets an octopus squeeze through small gaps?"
+}

@@ -1,0 +1,49 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:tower_of_london:00:000:02",
+          "text": "It was founded toward the end of 1066 as part of the Norman Conquest."
+        },
+        {
+          "node_id": "t:london_bridge:00:000:04",
+          "text": "The medieval bridge was preceded by a succession of timber bridges, the first of which was built by the Roman founders of London (Londinium) around AD 50."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "p:city_of_london:29:000",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "the Roman-built timber bridge",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "london",
+    "source_articles": [
+      "a:tower_of_london",
+      "a:london_bridge"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "afe671673477e696af2cb81bb941d3b2a7f218a943d650e277198edae45f4208",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 2 (content): comparison evidence spans t:tower_of_london:00:000:02 (founded 1066) and t:london_bridge:00:000:04 (Roman timber bridge AD 50) exact corpus text matches, answer the Roman-built timber bridge a valid inference from span 1; hard negative p:city_of_london:29:000 genuine same-group distractor with no overlap; single-group london compliant; no tautology. Pre-approval content hash d0ff5757 verified exact match before binding.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-18",
+  "question_type": "comparison",
+  "split": "train",
+  "text": "The Tower of London was founded toward the end of 1066; is it older or younger than the original Roman timber crossing of the Thames?"
+}

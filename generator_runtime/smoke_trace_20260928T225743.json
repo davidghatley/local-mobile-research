@@ -1,0 +1,35 @@
+{
+  "answer_text": "The synthetic widget tolerance threshold is 5 units. This information is provided in [node_id] synth-para-002.",
+  "citation_present_in_text": true,
+  "citations": [
+    "synth-para-001",
+    "synth-para-002"
+  ],
+  "client_peak_rss_mb": 28.3828125,
+  "config_pinned_compat": true,
+  "deterministic_repeat_identical": true,
+  "exact_model_evidence_tokens": 104,
+  "generator_id": "qwen25-1.5b-q4km-fixed-v1",
+  "generator_id_pinned": true,
+  "label": "SYNTHETIC-INFRA-ONLY: not a benchmark or architecture result",
+  "prompt_hash": "dfe7b0a67f83e8e5b0bad2accb7893754271c1d2cf6da571c85646955d90df45",
+  "prompt_hash_matches_substrate": true,
+  "question_id": "synth-infra-001",
+  "run1_timings_ms": {
+    "http_generate_ms": 5542.026934912428,
+    "predicted_ms": 1009.77,
+    "predicted_n": 28.0,
+    "prompt_ms": 4527.873,
+    "prompt_n": 133.0,
+    "server_load_ms": 1009.2106850352138
+  },
+  "run2_timings_ms": {
+    "http_generate_ms": 1214.187938021496,
+    "predicted_ms": 996.957,
+    "predicted_n": 28.0,
+    "prompt_ms": 212.684,
+    "prompt_n": 133.0,
+    "server_load_ms": 1001.7517961096019
+  },
+  "whitespace_token_estimate": 20
+}

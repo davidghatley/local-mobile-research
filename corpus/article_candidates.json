@@ -1,0 +1,2794 @@
+{
+ "method": "Hand-curated candidate list frozen BEFORE any fetch or question creation. Confusable/near-duplicate sets share a group id so split reservation keeps them together. Fill order: main list in file order, then spares in order, until 500 successful fetches or list exhaustion. Independent of benchmark answers: no questions exist at build time.",
+ "seed": "pilot-v1",
+ "target_articles": 500,
+ "articles": [
+  {
+   "c": "confusable",
+   "g": "mercury",
+   "t": "Mercury (planet)"
+  },
+  {
+   "c": "confusable",
+   "g": "mercury",
+   "t": "Mercury (element)"
+  },
+  {
+   "c": "confusable",
+   "g": "mercury",
+   "t": "Mercury (mythology)"
+  },
+  {
+   "c": "confusable",
+   "g": "mercury",
+   "t": "Mercury (automobile)"
+  },
+  {
+   "c": "confusable",
+   "g": "mercury",
+   "t": "Mercury Records"
+  },
+  {
+   "c": "confusable",
+   "g": "mercury",
+   "t": "Freddie Mercury"
+  },
+  {
+   "c": "confusable",
+   "g": "python",
+   "t": "Python (programming language)"
+  },
+  {
+   "c": "confusable",
+   "g": "python",
+   "t": "Pythonidae"
+  },
+  {
+   "c": "confusable",
+   "g": "python",
+   "t": "Monty Python"
+  },
+  {
+   "c": "confusable",
+   "g": "python",
+   "t": "Python (genus)"
+  },
+  {
+   "c": "confusable",
+   "g": "python",
+   "t": "Guido van Rossum"
+  },
+  {
+   "c": "confusable",
+   "g": "apple",
+   "t": "Apple"
+  },
+  {
+   "c": "confusable",
+   "g": "apple",
+   "t": "Apple Inc."
+  },
+  {
+   "c": "confusable",
+   "g": "apple",
+   "t": "Apple Records"
+  },
+  {
+   "c": "confusable",
+   "g": "apple",
+   "t": "Steve Jobs"
+  },
+  {
+   "c": "confusable",
+   "g": "apple",
+   "t": "Malus"
+  },
+  {
+   "c": "confusable",
+   "g": "jaguar",
+   "t": "Jaguar"
+  },
+  {
+   "c": "confusable",
+   "g": "jaguar",
+   "t": "Jaguar Cars"
+  },
+  {
+   "c": "confusable",
+   "g": "jaguar",
+   "t": "Atari Jaguar"
+  },
+  {
+   "c": "confusable",
+   "g": "jaguar",
+   "t": "Jaguar (supercomputer)"
+  },
+  {
+   "c": "confusable",
+   "g": "amazon",
+   "t": "Amazon River"
+  },
+  {
+   "c": "confusable",
+   "g": "amazon",
+   "t": "Amazon rainforest"
+  },
+  {
+   "c": "confusable",
+   "g": "amazon",
+   "t": "Amazon (company)"
+  },
+  {
+   "c": "confusable",
+   "g": "amazon",
+   "t": "Amazons"
+  },
+  {
+   "c": "confusable",
+   "g": "amazon",
+   "t": "Jeff Bezos"
+  },
+  {
+   "c": "confusable",
+   "g": "java",
+   "t": "Java"
+  },
+  {
+   "c": "confusable",
+   "g": "java",
+   "t": "Java (programming language)"
+  },
+  {
+   "c": "confusable",
+   "g": "java",
+   "t": "Jakarta"
+  },
+  {
+   "c": "confusable",
+   "g": "java",
+   "t": "Borneo"
+  },
+  {
+   "c": "confusable",
+   "g": "mars",
+   "t": "Mars"
+  },
+  {
+   "c": "confusable",
+   "g": "mars",
+   "t": "Mars (mythology)"
+  },
+  {
+   "c": "confusable",
+   "g": "mars",
+   "t": "Mars Inc."
+  },
+  {
+   "c": "confusable",
+   "g": "mars",
+   "t": "Mars (chocolate bar)"
+  },
+  {
+   "c": "confusable",
+   "g": "mars",
+   "t": "Olympus Mons"
+  },
+  {
+   "c": "confusable",
+   "g": "venus",
+   "t": "Venus"
+  },
+  {
+   "c": "confusable",
+   "g": "venus",
+   "t": "Venus (mythology)"
+  },
+  {
+   "c": "confusable",
+   "g": "venus",
+   "t": "Venus flytrap"
+  },
+  {
+   "c": "confusable",
+   "g": "saturn",
+   "t": "Saturn"
+  },
+  {
+   "c": "confusable",
+   "g": "saturn",
+   "t": "Saturn (mythology)"
+  },
+  {
+   "c": "confusable",
+   "g": "saturn",
+   "t": "Saturn Corporation"
+  },
+  {
+   "c": "confusable",
+   "g": "eclipse",
+   "t": "Solar eclipse"
+  },
+  {
+   "c": "confusable",
+   "g": "eclipse",
+   "t": "Lunar eclipse"
+  },
+  {
+   "c": "confusable",
+   "g": "eclipse",
+   "t": "Eclipse (software)"
+  },
+  {
+   "c": "confusable",
+   "g": "eclipse",
+   "t": "Mitsubishi Eclipse"
+  },
+  {
+   "c": "confusable",
+   "g": "corona",
+   "t": "Coronavirus"
+  },
+  {
+   "c": "confusable",
+   "g": "corona",
+   "t": "Solar corona"
+  },
+  {
+   "c": "confusable",
+   "g": "corona",
+   "t": "Corona (beer)"
+  },
+  {
+   "c": "confusable",
+   "g": "corona",
+   "t": "Corona Australis"
+  },
+  {
+   "c": "confusable",
+   "g": "delta",
+   "t": "River delta"
+  },
+  {
+   "c": "confusable",
+   "g": "delta",
+   "t": "Delta Air Lines"
+  },
+  {
+   "c": "confusable",
+   "g": "delta",
+   "t": "SARS-CoV-2 Delta variant"
+  },
+  {
+   "c": "confusable",
+   "g": "delta",
+   "t": "Okavango Delta"
+  },
+  {
+   "c": "confusable",
+   "g": "orange",
+   "t": "Orange (fruit)"
+  },
+  {
+   "c": "confusable",
+   "g": "orange",
+   "t": "Orange (colour)"
+  },
+  {
+   "c": "confusable",
+   "g": "orange",
+   "t": "Orange S.A."
+  },
+  {
+   "c": "confusable",
+   "g": "orange",
+   "t": "Orange County, California"
+  },
+  {
+   "c": "confusable",
+   "g": "shell",
+   "t": "Shell plc"
+  },
+  {
+   "c": "confusable",
+   "g": "shell",
+   "t": "Seashell"
+  },
+  {
+   "c": "confusable",
+   "g": "shell",
+   "t": "Shell (computing)"
+  },
+  {
+   "c": "confusable",
+   "g": "tesla",
+   "t": "Nikola Tesla"
+  },
+  {
+   "c": "confusable",
+   "g": "tesla",
+   "t": "Tesla, Inc."
+  },
+  {
+   "c": "confusable",
+   "g": "tesla",
+   "t": "Thomas Edison"
+  },
+  {
+   "c": "confusable",
+   "g": "tesla",
+   "t": "Electric car"
+  },
+  {
+   "c": "confusable",
+   "g": "tesla",
+   "t": "Alternating current"
+  },
+  {
+   "c": "confusable",
+   "g": "tesla",
+   "t": "Light bulb"
+  },
+  {
+   "c": "confusable",
+   "g": "lincoln",
+   "t": "Abraham Lincoln"
+  },
+  {
+   "c": "confusable",
+   "g": "lincoln",
+   "t": "Lincoln Motor Company"
+  },
+  {
+   "c": "confusable",
+   "g": "lincoln",
+   "t": "Lincolnshire"
+  },
+  {
+   "c": "confusable",
+   "g": "lincoln",
+   "t": "Emancipation Proclamation"
+  },
+  {
+   "c": "confusable",
+   "g": "washington",
+   "t": "George Washington"
+  },
+  {
+   "c": "confusable",
+   "g": "washington",
+   "t": "Washington (state)"
+  },
+  {
+   "c": "confusable",
+   "g": "washington",
+   "t": "Washington, D.C."
+  },
+  {
+   "c": "confusable",
+   "g": "washington",
+   "t": "University of Washington"
+  },
+  {
+   "c": "confusable",
+   "g": "washington",
+   "t": "Mount Vernon"
+  },
+  {
+   "c": "confusable",
+   "g": "columbia",
+   "t": "Columbia River"
+  },
+  {
+   "c": "confusable",
+   "g": "columbia",
+   "t": "Columbia University"
+  },
+  {
+   "c": "confusable",
+   "g": "columbia",
+   "t": "Space Shuttle Columbia"
+  },
+  {
+   "c": "confusable",
+   "g": "columbia",
+   "t": "Colombia"
+  },
+  {
+   "c": "confusable",
+   "g": "cambridge",
+   "t": "Cambridge"
+  },
+  {
+   "c": "confusable",
+   "g": "cambridge",
+   "t": "Cambridge, Massachusetts"
+  },
+  {
+   "c": "confusable",
+   "g": "cambridge",
+   "t": "University of Cambridge"
+  },
+  {
+   "c": "confusable",
+   "g": "cambridge",
+   "t": "Harvard University"
+  },
+  {
+   "c": "confusable",
+   "g": "paris",
+   "t": "Paris"
+  },
+  {
+   "c": "confusable",
+   "g": "paris",
+   "t": "Paris (mythology)"
+  },
+  {
+   "c": "confusable",
+   "g": "paris",
+   "t": "Paris Commune"
+  },
+  {
+   "c": "confusable",
+   "g": "paris",
+   "t": "Eiffel Tower"
+  },
+  {
+   "c": "confusable",
+   "g": "berlin",
+   "t": "Berlin"
+  },
+  {
+   "c": "confusable",
+   "g": "berlin",
+   "t": "Berlin Wall"
+  },
+  {
+   "c": "confusable",
+   "g": "berlin",
+   "t": "Irving Berlin"
+  },
+  {
+   "c": "confusable",
+   "g": "london",
+   "t": "City of London"
+  },
+  {
+   "c": "confusable",
+   "g": "london",
+   "t": "London Bridge"
+  },
+  {
+   "c": "confusable",
+   "g": "london",
+   "t": "Tower of London"
+  },
+  {
+   "c": "confusable",
+   "g": "london",
+   "t": "Greater London"
+  },
+  {
+   "c": "confusable",
+   "g": "rome",
+   "t": "Rome"
+  },
+  {
+   "c": "confusable",
+   "g": "rome",
+   "t": "Ancient Rome"
+  },
+  {
+   "c": "confusable",
+   "g": "rome",
+   "t": "Roman Empire"
+  },
+  {
+   "c": "confusable",
+   "g": "rome",
+   "t": "Colosseum"
+  },
+  {
+   "c": "confusable",
+   "g": "nile",
+   "t": "Nile"
+  },
+  {
+   "c": "confusable",
+   "g": "nile",
+   "t": "Aswan Dam"
+  },
+  {
+   "c": "confusable",
+   "g": "nile",
+   "t": "Ancient Egypt"
+  },
+  {
+   "c": "confusable",
+   "g": "nile",
+   "t": "Pyramids of Giza"
+  },
+  {
+   "c": "confusable",
+   "g": "peaks",
+   "t": "Mount Everest"
+  },
+  {
+   "c": "confusable",
+   "g": "peaks",
+   "t": "K2"
+  },
+  {
+   "c": "confusable",
+   "g": "peaks",
+   "t": "Kilimanjaro"
+  },
+  {
+   "c": "confusable",
+   "g": "bigcats",
+   "t": "Lion"
+  },
+  {
+   "c": "confusable",
+   "g": "bigcats",
+   "t": "Tiger"
+  },
+  {
+   "c": "confusable",
+   "g": "bigcats",
+   "t": "Leopard"
+  },
+  {
+   "c": "confusable",
+   "g": "bigcats",
+   "t": "Cheetah"
+  },
+  {
+   "c": "confusable",
+   "g": "bears",
+   "t": "Polar bear"
+  },
+  {
+   "c": "confusable",
+   "g": "bears",
+   "t": "Brown bear"
+  },
+  {
+   "c": "confusable",
+   "g": "bears",
+   "t": "Giant panda"
+  },
+  {
+   "c": "confusable",
+   "g": "apes",
+   "t": "Chimpanzee"
+  },
+  {
+   "c": "confusable",
+   "g": "apes",
+   "t": "Gorilla"
+  },
+  {
+   "c": "confusable",
+   "g": "apes",
+   "t": "Orangutan"
+  },
+  {
+   "c": "confusable",
+   "g": "worldwars",
+   "t": "World War I"
+  },
+  {
+   "c": "confusable",
+   "g": "worldwars",
+   "t": "World War II"
+  },
+  {
+   "c": "confusable",
+   "g": "worldwars",
+   "t": "Treaty of Versailles"
+  },
+  {
+   "c": "confusable",
+   "g": "worldwars",
+   "t": "The Holocaust"
+  },
+  {
+   "c": "confusable",
+   "g": "revolutions",
+   "t": "French Revolution"
+  },
+  {
+   "c": "confusable",
+   "g": "revolutions",
+   "t": "Napoleon"
+  },
+  {
+   "c": "confusable",
+   "g": "revolutions",
+   "t": "Russian Revolution"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Quantum mechanics"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "General relativity"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Special relativity"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Black hole"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Higgs boson"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Dark matter"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "String theory"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Thermodynamics"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Electromagnetism"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Nuclear fission"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Nuclear fusion"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Superconductivity"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Graphene"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Laser"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Fiber-optic communication"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Artificial intelligence"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Machine learning"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Computer vision"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Natural language processing"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Blockchain"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Quantum computing"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Operating system"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Linux"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Internet"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "World Wide Web"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Cryptography"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Computer virus"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Database"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Cloud computing"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Microprocessor"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "International Space Station"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Hubble Space Telescope"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "James Webb Space Telescope"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Apollo 11"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Voyager 1"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "SpaceX"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Falcon 9"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Artemis program"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Solar power"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Wind power"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Nuclear power"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Hydroelectricity"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Battery (electricity)"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Lithium-ion battery"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Calculus"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Algebra"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Geometry"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Prime number"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Pi"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Fibonacci sequence"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Chaos theory"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Game theory"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Statistics"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "DNA"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Photosynthesis"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Evolution"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Periodic table"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Chemical bond"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Acid"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Particle physics"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Neutron star"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Supernova"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Exoplanet"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Mesopotamia"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Ancient Greece"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Sparta"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Athens"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Alexander the Great"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Julius Caesar"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Augustus"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Han dynasty"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Roman Republic"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Byzantine Empire"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Viking Age"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Genghis Khan"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Mongol Empire"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Crusades"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Black Death"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Hundred Years' War"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Ottoman Empire"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Renaissance"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Protestant Reformation"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Age of Discovery"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Christopher Columbus"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Transatlantic slave trade"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "American Civil War"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Industrial Revolution"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Great Depression"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Atomic bombings of Hiroshima and Nagasaki"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Cold War"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Cuban Missile Crisis"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Space Race"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Vietnam War"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Fall of the Berlin Wall"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Dissolution of the Soviet Union"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Apartheid"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Rwandan genocide"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "September 11 attacks"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Ming dynasty"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Aztec Empire"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Inca Empire"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Sumer"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Phoenicia"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Carthage"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Achaemenid Empire"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Macedon"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Canada"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Brazil"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Japan"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "India"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Australia"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "South Africa"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Mexico"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Argentina"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Norway"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Iceland"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "New Zealand"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Kenya"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Peru"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Thailand"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Tokyo"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Kyoto"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "New York City"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Los Angeles"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Chicago"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Madrid"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Barcelona"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Venice"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Amsterdam"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Vienna"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Prague"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Budapest"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Warsaw"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Istanbul"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Cairo"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Cape Town"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Rio de Janeiro"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Buenos Aires"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Sydney"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Melbourne"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Auckland"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Singapore"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Hong Kong"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Dubai"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Mumbai"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Delhi"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Bangkok"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Nairobi"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Marrakesh"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Santorini"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Reykjavik"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Sahara"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Congo Basin"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Grand Canyon"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Great Barrier Reef"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Mariana Trench"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Dead Sea"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Lake Baikal"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Antarctica"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Greenland"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Galápagos Islands"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Easter Island"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Danube"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Mount Fuji"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Himalayas"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Alps"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Andes"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Rocky Mountains"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "African elephant"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Giraffe"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Hippopotamus"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Rhinoceros"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Koala"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Kangaroo"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Gray wolf"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Red fox"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Bald eagle"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Penguin"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Great white shark"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Blue whale"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Octopus"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Honey bee"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Monarch butterfly"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Komodo dragon"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Crocodile"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "King cobra"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Poison dart frog"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Axolotl"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Okapi"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Vaquita"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Saola"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Snow leopard"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Baobab"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Giant sequoia"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Oak"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Rafflesia arnoldii"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Dodo"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Great auk"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Thylacine"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Passenger pigeon"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Platypus"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Sloth"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Armadillo"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Porcupine"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Hedgehog"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Bat"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Dolphin"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Owl"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Malaria"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Tuberculosis"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Cholera"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Smallpox"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Polio"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "HIV/AIDS"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Influenza"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Ebola"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Diabetes"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Cancer"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Alzheimer's disease"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Parkinson's disease"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Asthma"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Antibiotic"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Vaccine"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Penicillin"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Immune system"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Human genome"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "CRISPR"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Anesthesia"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "X-ray"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Magnetic resonance imaging"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "William Shakespeare"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Hamlet"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Don Quixote"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Moby-Dick"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Frankenstein"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Sherlock Holmes"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "J. R. R. Tolkien"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "The Lord of the Rings"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Harry Potter"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Leonardo da Vinci"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Mona Lisa"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Michelangelo"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Vincent van Gogh"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Pablo Picasso"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Ludwig van Beethoven"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Wolfgang Amadeus Mozart"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Johann Sebastian Bach"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "The Beatles"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Jazz"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Blues"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Hip hop music"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Opera"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Socrates"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Plato"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Aristotle"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Confucius"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Buddhism"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Christianity"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Islam"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Hinduism"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Judaism"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Charlie Chaplin"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Alfred Hitchcock"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Star Wars"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Casablanca (film)"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Film"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Tunguska event"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Dancing Plague of 1518"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Eruption of Mount Tambora in 1815"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Buford, Wyoming"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Whittier, Alaska"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Pitcairn Islands"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Svalbard"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Faroe Islands"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Manx language"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Ainu language"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Basque language"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Voynich manuscript"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Antikythera mechanism"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Library of Alexandria"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Terracotta Army"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Moai"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Lascaux"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Çatalhöyük"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Great Zimbabwe"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Timbuktu"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Petra"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Angkor Wat"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Machu Picchu"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Chichen Itza"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Cappadocia"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Meteora"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Plitvice Lakes National Park"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Salar de Uyuni"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Socotra"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Kamchatka Peninsula"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Oymyakon"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Danakil Depression"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Darvaza gas crater"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Surtsey"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Hashima Island"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Pripyat"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Oradour-sur-Glane"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Lidice"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Katyn massacre"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "My Lai massacre"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Donner Party"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Franklin's lost expedition"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Mary Celeste"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Roanoke Colony"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Bog body"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Ötzi"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Sutton Hoo"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Rosetta Stone"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Dead Sea Scrolls"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Bayeux Tapestry"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Book of Kells"
+  },
+  {
+   "c": "longtail",
+   "g": null,
+   "t": "Codex Gigas"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Olympic Games"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "FIFA World Cup"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Chess"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Go (game)"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Poker"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Tea"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Coffee"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Chocolate"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Bread"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Cheese"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Silk Road"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Printing press"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Compass"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Gunpowder"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Paper"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Calendar"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Time zone"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Currency"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Stock market"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Marathon"
+  }
+ ],
+ "spares": [
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Oslo"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Stockholm"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Helsinki"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Copenhagen"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Dublin"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Lisbon"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Naples"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Florence"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Milan"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Munich"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Hamburg"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Lyon"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Marseille"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Seville"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Porto"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Kraków"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Gdańsk"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Riga"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Tallinn"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Vilnius"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Ljubljana"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Zagreb"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Belgrade"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Sofia"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Bucharest"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Kyiv"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Tbilisi"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Yerevan"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Baku"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Almaty"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Tashkent"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Ulaanbaatar"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Kathmandu"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Colombo"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Hanoi"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Manila"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Taipei"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Seoul"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Osaka"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Busan"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Perth"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Brisbane"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Wellington"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Suva"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Honolulu"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Anchorage"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Zurich"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Geneva"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Brussels"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Edinburgh"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Glasgow"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Quebec City"
+  },
+  {
+   "c": "geography",
+   "g": null,
+   "t": "Havana"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Nanotechnology"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Robotics"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Virtual reality"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Semiconductor"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Transistor"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "GPS"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Radar"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Telescope"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Microscope"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Particle accelerator"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Large Hadron Collider"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Solar cell"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Electric motor"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Steam engine"
+  },
+  {
+   "c": "science",
+   "g": null,
+   "t": "Light-emitting diode"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Samurai"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Shogun"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Meiji Restoration"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Maya civilization"
+  },
+  {
+   "c": "history",
+   "g": null,
+   "t": "Kingdom of Kush"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Red panda"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Wombat"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Tasmanian devil"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Narwhal"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Manatee"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Hummingbird"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Chameleon"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Jellyfish"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Cactus"
+  },
+  {
+   "c": "biology",
+   "g": null,
+   "t": "Bamboo"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Impressionism"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Poetry"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Novel"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Theatre"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Ballet"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Symphony"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Guitar"
+  },
+  {
+   "c": "culture",
+   "g": null,
+   "t": "Piano"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Insulin"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Blood"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Heart"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Brain"
+  },
+  {
+   "c": "medicine",
+   "g": null,
+   "t": "Surgery"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Surfing"
+  },
+  {
+   "c": "misc",
+   "g": null,
+   "t": "Mountaineering"
+  }
+ ]
+}

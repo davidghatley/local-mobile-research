@@ -1,0 +1,99 @@
+Raw probe outputs from provenance gate final review (opencode/nemotron-3-ultra-free)
+================================================================================
+
+=== TEST 1: No-provenance bypass closed ===
+Missing meta: ['q1: controlled QA requires nonempty source_articles']
+Results: {}
+Empty meta: ['q2: controlled QA requires nonempty source_articles']
+Group-only without sources: ['q3: controlled QA requires nonempty source_articles']
+Sources-only without group: ['q4: controlled QA requires an explicit group']
+
+=== TEST 2: Invalid types/empty/unknown/ambiguous sources ===
+Unknown source: ['q1: unknown source article']
+Ambiguous title: ['q2: ambiguous source article']
+Canonical node ID a2: [] ['a2']
+Title Beta: [] ['a2']
+Title with whitespace: [] ['a2']
+Underscore normalization: [] ['a2']
+
+=== TEST 3: Conflicting group / cross-split / valid controlled ===
+Conflicting group (Alpha in g-train, question claims g-dev): ['q1: inconsistent group metadata for source article(s)']
+Cross-split multihop (Alpha train + Beta dev): ["q2: source articles span multiple splits ['dev', 'train'] (cross-split chain)"]
+Valid controlled (Gamma in g-held): [] {'q3': {'category': 'controlled', 'group': 'g-held', 'split': 'heldout', 'sources': ['a3'], 'ground_truth': 'known'}}
+
+=== TEST 4: Public reference dev-only / unknown not zero ===
+Valid public dev: [] {'q1': {'category': 'public_reference', 'group': None, 'split': 'dev', 'sources': [], 'ground_truth': 'unknown'}}
+Public train: ['q2: public_reference allowed only on dev, not train']
+Public heldout: ['q3: public_reference allowed only on dev, not heldout']
+Public missing fields: ["q4: public_reference missing ['original_question_id', 'source_benchmark', 'source_revision']"]
+Public without sources: unknown
+Public unresolvable sources: unknown
+Public resolvable sources: known
+Unknown category: ["q8: unknown question category 'mystery'"]
+
+=== TEST 5: Seeded-hash mode derivation + corroboration ===
+Derived split for g-seed with seed1: train
+Question declares derived split train: ['q1: inconsistent group metadata for source article(s)'] {}
+Question declares dev (node corroborates g-train): []
+Mapless node without group meta: []
+  assign_split(g-x, seed1): train
+[Note: Case 2 passed because assign_split(g-train, seed1) = dev matches declared split]
+
+Case 1 - g-seed: ['q1: inconsistent group metadata for source article(s)']
+Case 2 - g-train dev: []
+Case 3 - g-train train: ['q3: declared split train != source group split dev'] {}
+
+=== TEST 6: Canonical ID and title aliases normalized ===
+Canonical node ID a2: [] ['a2']
+Title Beta: [] ['a2']
+Title with whitespace: [] ['a2']
+Underscore normalization: [] ['a2']
+
+=== TEST 7: Same-split multihop across different groups (PILOT LIMITATION) ===
+Same-split multihop across different groups:
+  Errors: ["q1: source articles span multiple splits ['train'] (cross-split chain)"]
+  (This is a pilot limitation - one-group restriction rejects valid same-split cross-group retrieval)
+Claims g-train-A, uses Beta from g-train-B: ['q2: inconsistent group metadata for source article(s)']
+
+=== TEST 8: Manifest integration with validate_question_provenance ===
+Freeze with valid group-map provenance: False
+QA provenance gaps: []
+All gaps: ['runtime binary missing: llama-server (external-runtime-binary)', 'runtime binary unpinned in manifest inventory: llama-server']
+
+Freeze with missing provenance: False
+QA provenance gaps: ['qa provenance: q1: controlled QA requires nonempty source_articles']
+All gaps: ['qa provenance: q1: controlled QA requires nonempty source_articles', 'runtime binary missing: llama-server (external-runtime-binary)', 'runtime binary unpinned in manifest inventory: llama-server']
+
+=== TEST 9: Error text carries no content ===
+Errors: ['q1: controlled QA requires nonempty source_articles']
+Contains secret: False
+Errors: ['q2: unknown group for split map']
+Contains secret group: False
+
+=== TEST 10: Split map validation ===
+Valid map: []
+Missing seed: ['split map missing seed', "1 mapped articles resolve to no corpus node (e.g. ['a'])"]
+Empty groups: ['split map declares no groups']
+No articles: ['group g1: no articles assigned']
+Invalid split: ["group g1: invalid split 'invalid'", "1 mapped articles resolve to no corpus node (e.g. ['a'])"]
+Duplicate article: ['article assigned to multiple groups: A (train vs dev)', "1 mapped articles resolve to no corpus node (e.g. ['a'])"]
+Not in corpus: ["1 mapped articles resolve to no corpus node (e.g. ['not in corpus'])"]
+Empty title: ['group g1: empty article title']
+
+=== TEST 11: Corpus shared across splits ===
+Shared corpus multi-split: []
+Results: {'q1': 'train', 'q2': 'dev', 'q3': 'heldout'}
+
+=== TEST 12: Pilot limitation - same-split multihop rejected ===
+Same-split multihop across different groups:
+  Errors: ["q1: source articles span multiple splits ['train'] (cross-split chain)"]
+  (This is a pilot limitation - one-group restriction rejects valid same-split cross-group retrieval)
+
+=== TEST 13: Unknown evidence remains unknown ===
+Public without sources: unknown
+Public unresolvable sources: unknown
+Public resolvable sources: known
+sufficient_set_completion with empty sets: {'completion': None, 'best_fractional_coverage': None, 'best_set_index': None, 'per_set_coverage': [], 'complete_sets': []}
+
+=== TEST 14: 175 test suite passes ===
+All 175 tests pass (test_corpus, test_evidence, test_evidence_packing, test_splits, test_metrics, test_contract, test_freeze_adversarial, test_semantics_adversarial, test_freeze_v03, test_provenance)

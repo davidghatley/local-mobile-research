@@ -1,0 +1,44 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:amazon_company:12:000",
+          "text": "Amazon owns over 100 subsidiaries, including Amazon Web Services, Audible, Diapers.com, Goodreads, IMDb, Kiva Systems (now Amazon Robotics), One Medical, Shopbop, Teachstreet, Twitch, Zappos, and Zoox."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "p:amazon_rainforest:03:000",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "Amazon",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "amazon",
+    "source_articles": [
+      "a:amazon_company"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "939812ae7332238c916f54aae0380550b5ec6e1181c8e153d7c454637ca0059b",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 1 (content): evidence p:amazon_company:12:000 exact corpus text match, answer Amazon supported; hard negative p:amazon_rainforest:03:000 genuine same-group distractor with no ancestor/descendant overlap; single-group amazon compliant; no tautology. Pre-approval content hash fb1e00a6 verified exact match before binding.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-01",
+  "question_type": "factoid",
+  "split": "train",
+  "text": "Which company owns the subsidiaries Audible, Goodreads, Twitch, and Zappos?"
+}

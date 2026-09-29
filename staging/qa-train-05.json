@@ -1,0 +1,60 @@
+{
+  "evidence": {
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:steve_jobs:09:000",
+        "p:steve_jobs:12:000"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:steve_jobs:09:000",
+          "text": "In 1986, Jobs funded the spinout of The Graphics Group (later renamed Pixar) from Lucasfilm's computer graphics division for the price of $10 million, $5 million of which was given to the company as capital and $5 million of which was paid to Lucasfilm for technology rights."
+        },
+        {
+          "node_id": "p:steve_jobs:12:000",
+          "text": "The Apple I was designed entirely by Wozniak, but Jobs had the idea of selling the computer, which led to the founding of Apple Computer in 1976. Jobs and Wozniak constructed several of the Apple I prototype by hand, funded by selling some of their belongings. Eventually, 200 units were produced. One of the main innovations of the Apple I was that it included video display terminal circuitry on its circuit board, allowing it to connect to a low-cost composite video monitor or television, instead of an expensive computer terminal, compared to most existing computers at the time."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "t:apple_records:00:000:03",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    },
+    {
+      "negative_type": "linked_article",
+      "node_id": "p:apple_inc:03:000",
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
+    }
+  ],
+  "labels": {
+    "answer_text": "Apple Computer",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "apple",
+    "source_articles": [
+      "a:steve_jobs"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-train-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "c915abbf785838e6947f85da87bb439c71ac295e2b15cb632a845e335c75e0f1",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 1 (content): evidence p:steve_jobs:09:000 and p:steve_jobs:12:000 exact matches forming multihop chain to Apple Computer; hard negatives t:apple_records:00:000:03 and p:apple_inc:03:000 genuine non-evidence, no overlap; single-group apple compliant. Pre-approval content hash 1f674024 verified exact match before binding.",
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
+  },
+  "question_id": "qa-train-05",
+  "question_type": "multihop",
+  "split": "train",
+  "text": "The entrepreneur who funded the 1986 Pixar spinout from Lucasfilm also co-founded which computer company a decade earlier?"
+}
