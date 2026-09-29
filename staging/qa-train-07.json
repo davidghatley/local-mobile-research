@@ -33,7 +33,7 @@
     "author_model": "opencode/muse-spark-1.3-contributor-free",
     "content_hash": "c7a761e88c413dd525a952783d401f4997e08fad458c91f739380df1323ff0b5",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 1 (content): evidence t:columbia_river:00:000:03 exact match (1,243 mi + Snake River tributary), answer supported; hard negative p:colombia:09:000 genuine entity-confusion non-evidence, no overlap; single-group columbia compliant. Pre-approval content hash ce1bc343 verified exact match before binding.",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 1 (content): evidence t:columbia_river:00:000:03 exact match (1,243 mi + Snake River tributary), answer supported; hard negative p:colombia:09:000 genuine entity-confusion non-evidence, no overlap; single-group columbia compliant. Approval is bound to the current content hash c7a761e88c41.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

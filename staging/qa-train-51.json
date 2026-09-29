@@ -33,7 +33,7 @@
     "author_model": "opencode/muse-spark-1.3-contributor-free",
     "content_hash": "5d49b213e6be3b3e3976b39abde542713ccc0effc7de4eb24244357873d16e7c",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 6 (content): evidence p:amsterdam:09:000 exact corpus text match, answer supported verbatim; hard negative p:amsterdam:20:000 genuine non-evidence (Port of Amsterdam sibling paragraph) with no ancestor/descendant overlap; single-group solo:amsterdam compliant; no tautology. Pre-approval content hash b2924d31bd76c9b225853cadcfdc92289903c9a117c63f33f3e855b7b1e1a73d verified exact match before binding.",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 6 (content): evidence p:amsterdam:09:000 exact corpus text match, answer supported verbatim; hard negative p:amsterdam:20:000 genuine non-evidence (Port of Amsterdam sibling paragraph) with no ancestor/descendant overlap; single-group solo:amsterdam compliant; no tautology. Approval is bound to the current content hash 5d49b213e6be.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

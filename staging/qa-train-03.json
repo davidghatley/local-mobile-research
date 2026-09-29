@@ -33,7 +33,7 @@
     "author_model": "opencode/muse-spark-1.3-contributor-free",
     "content_hash": "01c48659cac55c2af83dce00b8bc9e4ced15b46a51df10d1f9c7bb0cedcaed11",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 1 (content): evidence p:amazon_rainforest:03:000 exact match containing 58.4% Brazil figure, answer supported; hard negative t:amazon_rainforest:00:000:01 genuine neighbor-sentence non-evidence, no overlap; single-group amazon compliant. Pre-approval content hash 126b03de verified exact match before binding.",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 1 (content): evidence p:amazon_rainforest:03:000 exact match containing 58.4% Brazil figure, answer supported; hard negative t:amazon_rainforest:00:000:01 genuine neighbor-sentence non-evidence, no overlap; single-group amazon compliant. Approval is bound to the current content hash 01c48659cac5.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

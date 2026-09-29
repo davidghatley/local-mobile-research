@@ -31,9 +31,9 @@
   "provenance": {
     "author": "round0-qa-train-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "5bfa1aaf8186160e56cc04d5fd5cdaccde6f0d899ef7ef80d56c8c79c2118d15",
+    "content_hash": "a8097e250c97cf5420bb7e864bd1c2298cd29d92b4a30bfbb8ce6a9703d6114a",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Re-verification of Repaired Drafts (content): evidence p:blockchain:04:000 exact match, answer exact verbatim substring; hard negative p:blockchain:09:000 genuine sibling_paragraph with no ancestor/descendant overlap; single-group solo:blockchain compliant. Pre-approval content hash 5bfa1aaf verified exact match before binding.",
+    "rationale": "APPROVE per docs/qa-train-verification.md Re-verification of Repaired Drafts (content): evidence p:blockchain:04:000 exact match, answer exact verbatim substring; hard negative p:blockchain:09:000 genuine sibling_paragraph with no ancestor/descendant overlap; single-group solo:blockchain compliant. Approval is bound to the current content hash a8097e250c97.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

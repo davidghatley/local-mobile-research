@@ -793,3 +793,16 @@ No structural/content errors for these 5 drafts. All prior rejection reasons res
 1. Independent reviewer sets `reviewed: true` on all 5 hard negatives with rationale
 2. Verifier (distinct from author) sets `provenance.decision: "approve"` on corrected drafts, adds nonempty rationale, verifier_model, and ensures `provenance.content_hash` matches `draft_content_hash` (hashes above)
 3. Re-run validate_qa to confirm zero errors
+
+---
+
+## 2026-09-29 Hash Reissue (authoritative repo-function values)
+
+Prior reissue attempt used a reimplemented serializer; these values are the authoritative `data_tools.verify.draft_content_hash` outputs for the approved repaired content.
+
+| Item | Content Hash (SHA-256) | Verdict |
+|------|------------------------|---------|
+| qa-train-31 | da0a2f12f189cfb58455b97f608f317d265dae73a262cc492ae8adf2160c6832 | APPROVE |
+| qa-train-35 | 376daa30dd3324d9a991459109c2cffcf0fb95f515d499807b969a2032652745 | APPROVE |
+| qa-train-37 | 30ca4f71ab3e113d7057e06ec5e8289dfbb65e415e5f98e4e7d4031366c567a8 | APPROVE |
+| qa-train-50 | e19533f62562ba8e7c8c706c5894b80189511a4c4ab502a5b5b183640e3e4041 | APPROVE |

@@ -39,7 +39,7 @@
     "author_model": "opencode/muse-spark-1.3-contributor-free",
     "content_hash": "03f97c15cf9ee90057b61ff98a1698a40031b3d1882c6b00f99fb42ad1b0a198",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 1 (content): evidence p:apple:14:000 exact match (2024 production, China 52%), answer China supported; hard negatives p:malus:00:000 and p:malus:02:000 genuine same-group/token-overlap non-evidence, no overlap; single-group apple compliant. Pre-approval content hash efb51b07 verified exact match before binding.",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 1 (content): evidence p:apple:14:000 exact match (2024 production, China 52%), answer China supported; hard negatives p:malus:00:000 and p:malus:02:000 genuine same-group/token-overlap non-evidence, no overlap; single-group apple compliant. Approval is bound to the current content hash 03f97c15cf9e.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

@@ -38,7 +38,7 @@
     "author_model": "opencode/muse-spark-1.3-contributor-free",
     "content_hash": "afe671673477e696af2cb81bb941d3b2a7f218a943d650e277198edae45f4208",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 2 (content): comparison evidence spans t:tower_of_london:00:000:02 (founded 1066) and t:london_bridge:00:000:04 (Roman timber bridge AD 50) exact corpus text matches, answer the Roman-built timber bridge a valid inference from span 1; hard negative p:city_of_london:29:000 genuine same-group distractor with no overlap; single-group london compliant; no tautology. Pre-approval content hash d0ff5757 verified exact match before binding.",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 2 (content): comparison evidence spans t:tower_of_london:00:000:02 (founded 1066) and t:london_bridge:00:000:04 (Roman timber bridge AD 50) exact corpus text matches, answer the Roman-built timber bridge a valid inference from span 1; hard negative p:city_of_london:29:000 genuine same-group distractor with no overlap; single-group london compliant; no tautology. Approval is bound to the current content hash afe671673477.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

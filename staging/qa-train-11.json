@@ -33,7 +33,7 @@
     "author_model": "opencode/muse-spark-1.3-contributor-free",
     "content_hash": "4e2528e37b98dec48bc2573d28f42e482098c3cc93da99c4c39424f9f62daa3b",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 2 (content): evidence t:sars_cov_2_delta_variant:00:000:01 exact corpus text match, answer India on 5 October 2020 supported; hard negative p:delta_air_lines:09:000 genuine same-group distractor with no ancestor/descendant overlap; single-group delta compliant; no tautology. Pre-approval content hash e926f263 verified exact match before binding.",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 2 (content): evidence t:sars_cov_2_delta_variant:00:000:01 exact corpus text match, answer India on 5 October 2020 supported; hard negative p:delta_air_lines:09:000 genuine same-group distractor with no ancestor/descendant overlap; single-group delta compliant; no tautology. Approval is bound to the current content hash 4e2528e37b98.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

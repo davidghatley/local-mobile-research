@@ -33,7 +33,7 @@
     "author_model": "opencode/muse-spark-1.3-contributor-free",
     "content_hash": "a03d382342e519dd11efb00e873a333cbb6c85a1df0d22dc7af9f3cd4afb2af2",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 5 (content): evidence p:venus_flytrap:19:000 exact corpus text match, answer 2005 supported; hard negative t:venus_mythology:00:000:02 genuine entity-confusion non-evidence with no overlap; single-group venus compliant; no tautology. Pre-approval content hash f61c15eaffbda04684f9e4c05dc9c57d318c7546f3d97d5291c82f41043576fc verified exact match before binding.",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 5 (content): evidence p:venus_flytrap:19:000 exact corpus text match, answer 2005 supported; hard negative t:venus_mythology:00:000:02 genuine entity-confusion non-evidence with no overlap; single-group venus compliant; no tautology. Approval is bound to the current content hash a03d382342e5.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

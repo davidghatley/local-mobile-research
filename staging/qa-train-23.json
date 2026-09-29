@@ -33,7 +33,7 @@
     "author_model": "opencode/muse-spark-1.3-contributor-free",
     "content_hash": "c8168986eed36072197cdd211fca83736921c4c61dcee4e91c86ab975108f62f",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 3 (content): evidence p:giza_pyramid_complex:06:000 exact corpus text match, answer king Khafre supported; hard negative t:ancient_egypt:00:000:03 genuine same-group distractor with no ancestor/descendant overlap; single-group nile compliant; no tautology. Pre-approval content hash 2ba6c96c verified exact match before binding.",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 3 (content): evidence p:giza_pyramid_complex:06:000 exact corpus text match, answer king Khafre supported; hard negative t:ancient_egypt:00:000:03 genuine same-group distractor with no ancestor/descendant overlap; single-group nile compliant; no tautology. Approval is bound to the current content hash c8168986eed3.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

@@ -32,7 +32,7 @@
     "author_model": "opencode/muse-spark-1.3-contributor-free",
     "content_hash": "e00fedcfeb8b74375073b369a5768eb673c6c40876181af16677145ea5e1008c",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-pilot-verification.md Pass 2 plus Hash Correction Note: factoid grounded, t:freddie_mercury:00:000:00 text matches corpus, answer Farrokh Bulsara supported, single-group mercury compliant, hard negative entity-confusion distractor reviewed=true. Recomputed draft_content_hash matches corrected hash e00fedcfeb8b74375073b369a5768eb673c6c40876181af16677145ea5e1008c.",
+    "rationale": "APPROVE per docs/qa-pilot-verification.md Pass 2 plus Hash Correction Note: factoid grounded, t:freddie_mercury:00:000:00 text matches corpus, answer Farrokh Bulsara supported, single-group mercury compliant, hard negative entity-confusion distractor reviewed=true. Approval is bound to the current content hash e00fedcfeb8b.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

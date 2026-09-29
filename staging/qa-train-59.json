@@ -33,7 +33,7 @@
     "author_model": "opencode/muse-spark-1.3-contributor-free",
     "content_hash": "9b000eb353245b91f293d22ddb57bdca1866e53ba3746bad2f87c9b870207f15",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 6 (content): evidence p:penicillin:04:000 exact corpus text match, answer supported verbatim; hard negative p:penicillin:03:000 genuine non-evidence (penicillin structure sibling paragraph) with no ancestor/descendant overlap; single-group solo:penicillin compliant; no tautology. Pre-approval content hash a61e980ba96e1408dda7f181dc94c659f13b98402c96f29cbfaf834403c4659e verified exact match before binding.",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 6 (content): evidence p:penicillin:04:000 exact corpus text match, answer supported verbatim; hard negative p:penicillin:03:000 genuine non-evidence (penicillin structure sibling paragraph) with no ancestor/descendant overlap; single-group solo:penicillin compliant; no tautology. Approval is bound to the current content hash 9b000eb35324.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

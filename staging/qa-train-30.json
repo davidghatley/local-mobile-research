@@ -27,7 +27,7 @@
     "author_model": "opencode/muse-spark-1.3-contributor-free",
     "content_hash": "cb33dd5bc3f7cf98eab58cbd6507523e77d2c59865b415801058ff517dfeb4f8",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 3 (content): unanswerable with empty sufficient sets and absent reason, corpus-wide grep confirms no Machame-specific 2024 summit rate; hard negative p:mount_everest:18:000 genuine same-group distractor with no ancestor/descendant overlap; single-group peaks compliant; no tautology. Pre-approval content hash 0a2a1ce0 verified exact match before binding.",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 3 (content): unanswerable with empty sufficient sets and absent reason, corpus-wide grep confirms no Machame-specific 2024 summit rate; hard negative p:mount_everest:18:000 genuine same-group distractor with no ancestor/descendant overlap; single-group peaks compliant; no tautology. Approval is bound to the current content hash cb33dd5bc3f7.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

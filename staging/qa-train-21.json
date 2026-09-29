@@ -43,7 +43,7 @@
     "author_model": "opencode/muse-spark-1.3-contributor-free",
     "content_hash": "7ae75e751cca5a709c257bbbeb913a5903f0d8d6552ea6b8595f44996d712416",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 3 (content): evidence t:mars_bar:00:000:01 + p:mars_bar:01:000 exact corpus text match, answer his father Frank C. Mars's Milky Way bar supported by multihop chain; hard negative p:mars_inc:09:000 genuine same-group distractor with no ancestor/descendant overlap; single-group mars compliant; no tautology. Pre-approval content hash 9fbef443 verified exact match before binding.",
+    "rationale": "APPROVE per docs/qa-train-verification.md Pass 3 (content): evidence t:mars_bar:00:000:01 + p:mars_bar:01:000 exact corpus text match, answer his father Frank C. Mars's Milky Way bar supported by multihop chain; hard negative p:mars_inc:09:000 genuine same-group distractor with no ancestor/descendant overlap; single-group mars compliant; no tautology. Approval is bound to the current content hash 7ae75e751cca.",
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

@@ -38,7 +38,19 @@ Train batch authored: 60 drafts (`staging/qa-train-01..60`), validated with only
 
 **Also recorded:** a hard-negative "reviewed" flag was initially bound with an incorrect verifier-model attribution (spark instead of ultra) and corrected metadata-only; content hashes are unaffected because `provenance` is excluded from the semantic hash.
 
-**Rate limit:** one binding subagent failed with `Rate limit exceeded`; replacement work is queued on a different verified free endpoint.
+**Root cause of the stale-hash class (orchestrator-confirmed):** `data_tools.verify.draft_content_hash` excludes only the top-level `provenance` key, so the `reviewed`/`reviewer` markers written *inside* each `hard_negatives` entry are part of the semantic hash. Any binding that writes those markers after capturing a hash invalidates it. Correct binding order is: write the review markers first, then compute and store the hash. All bindings now follow this order.
+
+**Audit-trail correction completed:** 55 of 70 approval rationales asserted a superseded pre-approval hash; they were rewritten to state that approval binds to the current content hash, with all substantive verification findings preserved verbatim. The other 15 made no hash claim and were left byte-identical. All 70 files verified `draft_content_hash == provenance.content_hash`; validation still 70/70 approved, 0 errors, and the retriever-visible runtime projection hash is bit-identical (`f7679798…bee0`), proving question inputs were unaffected.
+
+**Residual honesty note:** the correction makes the audit trail accurate going forward. It does not make the superseded pre-approval hash claims true, and the pre-binding byte state is not reconstructible from current bytes for five files. This is recorded as a known provenance limitation rather than papered over.
+
+**Rate limits:** three subagents hit `Rate limit exceeded` (Muse, Ling, Mimo). Work was redistributed across four different verified free endpoints (Space Bunny, LongCat, Nemotron Ultra). No paid fallback.
+
+### Train batch complete: 70/70 approved (2026-09-29)
+
+Orchestrator independently reran `python3 -m data_tools.validate_qa`: drafts 70, approved 70, errors 0, exit 0. Splits train 60 / dev 10 / held-out 0. Types: 42 factoid, 10 multihop, 7 comparison, 6 ambiguous, 5 unanswerable. Runtime projection (hint-free question input) sha256 `f76797988f77a92d41f437eb16e45673d4f0e3a8b2cb9b3e12b7febf4abdbee0`.
+
+Remaining before freeze: dev remainder (20), held-out batch (30) under orchestrator custody, rationale-correction pass, then seal and final freeze review.
 
 ### Version control checkpoint (2026-09-29)
 
