@@ -1,0 +1,53 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:harvard_university:00:000",
+          "text": "Harvard University is a private Ivy League research university in Cambridge, Massachusetts, United States. Founded in 1636, and named Harvard College in 1639 in honor of its first benefactor, Puritan clergyman John Harvard, it is the oldest institution of higher learning in the United States. Its influence, wealth, and rankings have made it one of the most prestigious universities in the world.\nHarvard was founded and authorized by the Massachusetts General Court, the governing legislature of colonial-era Massachusetts Bay Colony. While never formally affiliated with any Protestant denomination, Harvard trained Christian clergy of Congregational denomination until its curriculum and student body were gradually secularized in the 18th century. In 1780, the Constitution of Massachusetts referred to it as a university, and a new medical school established in 1782 was named the Medical Institution of Harvard University; but this was a new name, not a new foundation. Harvard College soon became the name of the university's undergraduate division.\nBy the 19th century, Harvard had emerged as the most prominent academic and cultural institution among the Boston elite. Following the American Civil War, under Harvard president Charles William Eliot's long tenure from 1869 to 1909, Harvard developed multiple professional schools, which transformed it into a modern research university. In 1900, Harvard co-founded the Association of American Universities. James B. Conant led the university through the Great Depression and World War II, and liberalized admissions after the war.\nThe university has ten academic faculties and a faculty attached to Harvard Radcliffe Institute. The Faculty of Arts and Sciences offers study in a wide range of undergraduate and graduate academic disciplines, and other faculties offer graduate degrees, including professional degrees. Harvard has three campuses:\nthe main campus, a 209 acre in Cambridge centered on Harvard Yard; an adjoining campus immediately across Charles River in the Allston neighborhood of Boston; and the medical campus in Boston's Longwood Medical Area. Harvard's endowment, valued at , makes it the wealthiest academic institution in the world. Harvard Library, with more than 20 million volumes, is the world's largest academic library."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "sibling_paragraph",
+      "node_id": "p:harvard_university:05:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    },
+    {
+      "negative_type": "entity_confusion",
+      "node_id": "p:university_of_cambridge:03:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    }
+  ],
+  "labels": {
+    "answer_text": "1636",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "evidence_groups": [
+      "cambridge"
+    ],
+    "group": "cambridge",
+    "source_articles": [
+      "a:harvard_university"
+    ]
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "content_hash": "",
+    "decision": "pending",
+    "rationale": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd"
+  },
+  "question_id": "qa-heldout-03",
+  "question_type": "factoid",
+  "split": "heldout",
+  "text": "In which year was Harvard University, the private Ivy League research university in Cambridge, Massachusetts, founded?"
+}

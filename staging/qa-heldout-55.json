@@ -1,0 +1,66 @@
+{
+  "question_id": "qa-heldout-55",
+  "text": "The national team that was already a two-time official world champion when named host of the inaugural World Cup defeated which team in that tournament's final?",
+  "split": "heldout",
+  "question_type": "multihop",
+  "meta": {
+    "source_articles": [
+      "a:fifa_world_cup"
+    ],
+    "group": "solo:fifa world cup",
+    "evidence_groups": [
+      "solo:fifa world cup"
+    ]
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:fifa_world_cup:02:000",
+          "text": "After the success of the Olympic football tournaments, FIFA, with President Jules Rimet as the driving force, again started looking at staging its own international tournament outside of the Olympics. On 28 May 1928, the FIFA Congress in Amsterdam decided to stage a world championship. With Uruguay now two-time official football world champions and to celebrate their centenary of independence in 1930, FIFA named Uruguay as the host country of the inaugural World Cup tournament.\nThe national associations of selected nations were invited to send a team, but the choice of Uruguay as a venue for the competition meant a long and costly trip across the Atlantic Ocean for European sides, especially in the midst of the Great Depression. As such, no European country pledged to send a team until two months before the start of the competition. Rimet eventually persuaded teams from Belgium, France, Romania, and Yugoslavia to make the trip. In total, 13 nations took part: seven from South America, four from Europe, and two from North America."
+        },
+        {
+          "node_id": "p:fifa_world_cup:02:001",
+          "text": "The first two World Cup matches took place simultaneously on 13 July 1930 and were won by France and the United States, who defeated Mexico 4–1 and Belgium 3–0, respectively. The first goal in World Cup history was scored by Lucien Laurent of France. In the final, Uruguay defeated Argentina 4–2 in front of 93,000 spectators in Montevideo and became the first nation to win the World Cup. After the creation of the World Cup, FIFA and the IOC disagreed over the status of amateur players; football was dropped from the 1932 Summer Olympics. After the IOC and FIFA worked out their differences, Olympic football returned at the 1936 Summer Olympics but was now overshadowed by the more prestigious World Cup.\nThe issues facing the early World Cup tournaments were the difficulties of intercontinental travel and war. Few South American teams were willing to travel to Europe for the 1934 World Cup and all North and South American nations except Brazil and Cuba boycotted the 1938 World Cup. Brazil was the only South American team to compete in both. World War II forced the cancellation of the 1942 and 1946 competitions, which Germany and Brazil had sought to host."
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:fifa_world_cup:02:000",
+        "p:fifa_world_cup:02:001"
+      ]
+    ],
+    "hop_glosses": [
+      "Hop 1 discovers the bridge entity (the two-time champion named host was Uruguay); hop 2 supplies whom Uruguay defeated in the first final (Argentina)."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:fifa_world_cup:04:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    },
+    {
+      "node_id": "p:fifa_world_cup:01:000",
+      "negative_type": "token_overlap_nearmiss",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    }
+  ],
+  "labels": {
+    "answer_text": "Argentina",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b2",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": ""
+  }
+}

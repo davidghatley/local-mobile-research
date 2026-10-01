@@ -1,0 +1,53 @@
+{
+  "question_id": "qa-heldout-75",
+  "text": "Which game launched with the Atari Jaguar as its pack-in game?",
+  "split": "heldout",
+  "question_type": "factoid",
+  "meta": {
+    "source_articles": [
+      "a:atari_jaguar"
+    ],
+    "group": "jaguar",
+    "evidence_groups": [
+      "jaguar"
+    ]
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:atari_jaguar:00:000",
+          "text": "The Atari Jaguar is a home video game console developed by Atari Corporation and released in North America in November 1993. Atari marketed it as the world's first 64-bit game system, drawing controversy as some argued that this configuration did not meet the definition of a 64-bit system. The Jaguar launched with Cybermorph as the pack-in game. A total of 63 licensed games (50 on cartridge, 13 on CD-ROM) were released for the system prior to its discontinuation in 1996.\nDevelopment started in the early 1990s by Flare Technology, which focused on the system after cancellation of the Panther console. The Jaguar became a more important system for Atari after discontinuing Atari ST computers in favor of consoles. However, game development was complicated by the complex multi-chip architecture, hardware bugs, and poor programming tools. Underwhelming sales further eroded third-party support.\nThe Jaguar launched as part of the fifth generation of video game consoles, but like other early fifth generation consoles, it struggled to capture major market share from the dominant last generation consoles, the Genesis and Super NES. Atari attempted to extend the system's lifespan by releasing the Jaguar CD add-on, and emphasizing the Jaguar's price, which was over cheaper than that of its fifth generation competitors, among them the Sega Saturn and Sony PlayStation, which both launched in 1995. However, the Jaguar failed to find its niche. Atari internally abandoned the system by the end of that year, liquidating its inventory by 1996. The commercial failure of the Jaguar prompted Atari to leave the console market and restructure itself as a third-party developer. After Hasbro Interactive acquired all of Atari Corporation's properties, it released the Jaguar patents into the public domain in 1999 and declared it an open platform. Since its discontinuation, the Jaguar has gained a cult following, with new games being released for the system by a large homebrew community."
+        }
+      ]
+    ],
+    "is_multi_hop": false
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:atari_jaguar:01:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    },
+    {
+      "node_id": "p:jaguar_supercomputer:01:000",
+      "negative_type": "entity_confusion",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    }
+  ],
+  "labels": {
+    "answer_text": "Cybermorph",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b3",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": ""
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "question_id": "qa-heldout-64",
+  "text": "The Founding Father for whom both the Pacific Northwest state and the national capital were named served as the first president during which years?",
+  "split": "heldout",
+  "question_type": "multihop",
+  "meta": {
+    "source_articles": [
+      "a:george_washington",
+      "a:washington_state"
+    ],
+    "group": "washington",
+    "evidence_groups": [
+      "washington"
+    ]
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:washington_state:00:000",
+          "text": "Washington is a state in the Pacific Northwest region of the United States. It is often referred to as Washington state to distinguish it from the national capital; both are named after George Washington, a U.S. Founding Father and the first U.S. president. Washington borders the Pacific Ocean to the west, Oregon to the south, and Idaho to the east; it shares an international border with the Canadian province of British Columbia to the north. Olympia is the state capital, and the state's most populous city is Seattle.\nWashington is the 18th-largest state, with an area of , and the 13th-most populous state, with a population of over 8 million. The majority of Washington's residents live in the Seattle metropolitan area, the center of transportation, business, and industry on Puget Sound, an inlet of the Pacific Ocean consisting of numerous islands, deep fjords and bays carved out by glaciers. The remainder of the state consists of deep temperate rainforests in the west; mountain ranges in the west, center, northeast, and far southeast, and a semi-arid basin region in the east, center, and south, given over to intensive agriculture. Washington is the second-most populous state on the West Coast and in the Western United States, after California. Mount Rainier, an active stratovolcano, is the state's highest elevation at 4,389 m, and is the most topographically prominent mountain in the contiguous U.S.\nWashington is a leading lumber producer, the largest producer of apples, hops, pears, blueberries, spearmint oil, and sweet cherries in the U.S., and ranks high in the production of apricots, asparagus, dry edible peas, grapes, lentils, peppermint oil, potatoes and wheat. Livestock, livestock products, and commercial fishing—particularly of salmon, halibut, and bottomfish—are also significant contributors to the state's economy. Washington ranks third in wine production. Manufacturing industries in Washington include aircraft, missiles, shipbuilding, and other transportation equipment, food processing, metals, and metal products, chemicals, and machinery.\nThe state was formed from the western part of the Washington Territory, the claims to which were ceded by the British Empire in the Oregon Treaty of 1846. Most of the land that would become Washington state was ceded by the Indigenous peoples of the region in the Stevens treaties of 1854–1855. It was admitted to the Union as the 42nd state in 1889. One of the wealthiest and most socially liberal states in the country, Washington consistently ranks among the top states for highest life expectancy and employment rates. It was one of the first states (alongside Colorado) to legalize medicinal and recreational cannabis, was among the first states to introduce same-sex marriage, and permitted legal abortions on request before Roe v. Wade in 1973."
+        }
+      ],
+      [
+        {
+          "node_id": "p:george_washington:00:000",
+          "text": "George Washington (, 1799) was a Founding Father and the first president of the United States, serving from 1789 to 1797. As commander of the Continental Army, Washington led Patriot forces to victory in the American Revolutionary War against the British Empire. He is commonly known as the Father of His Country for his role in bringing about American independence.\nBorn in the Colony of Virginia, Washington became the commander of the Virginia Regiment during the French and Indian War from 1754 to 1763. He was later elected to the Virginia House of Burgesses, and opposed the oppression of the American colonists by the British Crown. When the American Revolutionary War against the British began in 1775, Washington was appointed commander-in-chief of the Continental Army. He directed a poorly organized and equipped force against disciplined British troops.\nWashington and his army achieved an early victory at the Siege of Boston in March 1776 but were forced to retreat from New York City in November. Washington crossed the Delaware River and won the battles of Trenton in late 1776 and of Princeton in early 1777, then lost the battles of Brandywine and Germantown later that year. He faced criticism of his command, low troop morale, and a lack of provisions for his forces as the war continued. Ultimately Washington led a combined French and American force to a decisive victory over the British at Yorktown in 1781. In the resulting Treaty of Paris in 1783, the British acknowledged the sovereign independence of the United States. Washington then served as president of the Constitutional Convention in 1787, which drafted the current Constitution of the United States.\nWashington was unanimously elected the first U.S. president by the Electoral College in 1789 and 1792. He established a strong, well-financed national government while remaining impartial in the fierce rivalry that emerged within his cabinet between Thomas Jefferson and Alexander Hamilton. During the French Revolution, he adopted a policy of neutrality while supporting the Jay Treaty with Britain. Washington set enduring precedents for the office of president, including republicanism, a peaceful transfer of power, the use of the title \"Mr. President\", and the two-term tradition. His 1796 farewell address became a preeminent statement on republicanism: Washington wrote about the importance of national unity and the dangers that regionalism, partisanship, and foreign influence pose to it. As a planter of tobacco and wheat at Mount Vernon, Washington owned many slaves. He began opposing slavery near the end of his life, and provided in his will for the eventual manumission of his slaves.\nWashington's image is an icon of American culture and he has been extensively memorialized. His namesakes include the national capital and the State of Washington. In both popular and scholarly polls, he is consistently considered one of the greatest presidents in American history."
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:washington_state:00:000",
+        "p:george_washington:00:000"
+      ]
+    ],
+    "hop_glosses": [
+      "Hop 1 fixes the person via the naming relation (both the state and the capital were named after George Washington); hop 2 supplies his presidential tenure (from 1789 to 1797)."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:washington_state:02:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    },
+    {
+      "node_id": "p:washington_d_c:02:000",
+      "negative_type": "same_group_distractor",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    }
+  ],
+  "labels": {
+    "answer_text": "from 1789 to 1797",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b3",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": ""
+  }
+}

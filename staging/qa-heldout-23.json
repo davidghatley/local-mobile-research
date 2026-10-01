@@ -1,0 +1,68 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 fixes the person via the election event (Abraham Lincoln won in 1860); hop 2 chains person to organization (the company named after him)."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:american_civil_war:02:000",
+        "p:lincoln_motor_company:01:000"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:american_civil_war:02:000",
+          "text": "Abraham Lincoln won the 1860 presidential election. Southern leaders feared Lincoln would stop slavery's expansion and put it on a course toward extinction. His victory triggered declarations of secession by seven slave states of the Deep South, all of whose riverfront or coastal economies were based on cotton that was cultivated by slave labor.\nLincoln was inaugurated on March 4, 1861, four months after his 1860 election, which afforded the South time to prepare for war. Nationalists in the North and \"Unionists\" in the South refused to accept the declarations of secession, and no foreign government ever recognized the Confederacy. The US government, under President James Buchanan, refused to relinquish the nation's forts, which the Confederacy claimed were located in their territory.\nAccording to Lincoln, the American people had demonstrated, beginning with their victory in the American Revolution and Revolutionary War and subsequent establishment of a sovereign nation, that they could successfully establish and administer a republic. Yet, Lincoln believed, a question remained unanswered: Could the nation be maintained as a republic, with its government selected by vote of the people, in the face of internal attempts to destroy it or separate from it?"
+        },
+        {
+          "node_id": "p:lincoln_motor_company:01:000",
+          "text": "The Lincoln Motor Company was founded in August 1917 by Henry Leland and his son Wilfred. Among the founders of Cadillac, Leland had sold Cadillac to General Motors in 1909; staying on as an executive, he left in 1917 over a dispute with GM President William Durant regarding war production.\nLeland named Lincoln Motor Company after Abraham Lincoln, stating that Lincoln was the first President for whom he ever voted (1864). The company was financed by securing a contract to produce Liberty V12 aircraft engines for use during World War I. The Lelands broke ground on the Lincoln Motor Company Plant in Detroit. Lincoln Motor Company acted as the final assembly point for the engines, with the company securing parts from other manufacturers; cylinders were produced by Ford, with other parts sourced from Buick, Cadillac, Marmon, and Packard.\nIn total, Lincoln Motor Company would assemble 6,500 Liberty V12 engines by the end of World War I concluding production; by the end of the war, Lincoln would employ 6,000 workers.\nOn January 26, 1920, Lincoln Motor Company was reorganized as an automobile manufacturer, retooling its Detroit factory to produce automobiles. On September 16, 1920, Lincoln Motor Company produced its first automobile, the Lincoln Model L.\nLincoln Motor Company had struggled with the transition from military to automobile production, with some customers having to wait nearly a year for their vehicles to be completed from the time of purchase. By 1922, the company was on the verge of bankruptcy and was placed in receivership.\nUnder the influence of Edsel Ford, Lincoln Motor Company was purchased by Henry Ford for on February 4, 1922. While Lincoln was valued at $16 million, a $5 million bid by Ford was the sole bid received for the company (forced to be increased by the court)."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "sibling_paragraph",
+      "node_id": "p:american_civil_war:01:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    },
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "p:lincoln_motor_company:03:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    }
+  ],
+  "labels": {
+    "answer_text": "Lincoln Motor Company",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "evidence_groups": [
+      "lincoln",
+      "solo:american civil war"
+    ],
+    "group": "lincoln",
+    "source_articles": [
+      "a:american_civil_war",
+      "a:lincoln_motor_company"
+    ]
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "content_hash": "",
+    "decision": "pending",
+    "rationale": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd"
+  },
+  "question_id": "qa-heldout-23",
+  "question_type": "multihop",
+  "split": "heldout",
+  "text": "The winner of the 1860 presidential election whose victory triggered secession declarations was the namesake of which motor company?"
+}

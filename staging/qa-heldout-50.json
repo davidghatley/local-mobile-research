@@ -1,0 +1,67 @@
+{
+  "question_id": "qa-heldout-50",
+  "text": "The virus family whose name was coined by June Almeida and David Tyrrell shares its Latin root with which constellation in the Southern Celestial Hemisphere?",
+  "split": "heldout",
+  "question_type": "multihop",
+  "meta": {
+    "source_articles": [
+      "a:coronavirus",
+      "a:corona_australis"
+    ],
+    "group": "corona",
+    "evidence_groups": [
+      "corona"
+    ]
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:coronavirus:01:000",
+          "text": "The name \"coronavirus\" is derived from Latin corona, meaning \"crown\" or \"wreath\", itself a borrowing from Greek κορώνη korṓnē, \"garland, wreath\". The name was coined by June Almeida and David Tyrrell who first observed and studied human coronaviruses. The word was first used in print in 1968 by an informal group of virologists in the journal Nature to designate the new family of viruses. The name refers to the characteristic appearance of virions (the infective form of the virus) by electron microscopy, which have a fringe of large, bulbous surface projections creating an image reminiscent of the solar corona or halo. This morphology is created by the viral spike peplomers, which are proteins on the surface of the virus.\nThe scientific name Coronavirus was accepted as a genus name by the International Committee for the Nomenclature of Viruses (later renamed International Committee on Taxonomy of Viruses) in 1971. As the number of new species increased, the genus was split into four genera, namely Alphacoronavirus, Betacoronavirus, Deltacoronavirus, and Gammacoronavirus in 2009. The common name coronavirus is used to refer to any member of the subfamily Orthocoronavirinae. As of 2020, 45 species are officially recognised."
+        },
+        {
+          "node_id": "p:corona_australis:00:000",
+          "text": "Corona Australis is a constellation in the Southern Celestial Hemisphere. Its Latin name means \"southern crown\", and it is the southern counterpart of Corona Borealis, the northern crown. It is one of the 48 constellations listed by the 2nd-century astronomer Ptolemy, and it remains one of the 88 modern constellations. The Ancient Greeks saw Corona Australis as a wreath rather than a crown and associated it with Sagittarius or Centaurus. Other cultures have likened the pattern to a turtle, ostrich nest, a tent, or even a hut belonging to a rock hyrax.\nAlthough fainter than its northern counterpart, the oval- or horseshoe-shaped pattern of its brighter stars renders it distinctive. Alpha and Beta Coronae Australis are the two brightest stars with an apparent magnitude of around 4.1. Epsilon Coronae Australis is the brightest example of a W Ursae Majoris variable in the southern sky. Lying alongside the Milky Way, Corona Australis contains one of the closest star-forming regions to the Solar System—a dusty dark nebula known as the Corona Australis Molecular Cloud, lying about 430 light years away. Within it are stars at the earliest stages of their lifespan. The variable stars R and TY Coronae Australis light up parts of the nebula, which varies in brightness accordingly."
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:coronavirus:01:000",
+        "p:corona_australis:00:000"
+      ]
+    ],
+    "hop_glosses": [
+      "Hop 1 discovers the shared root (Almeida and Tyrrell coined coronavirus from Latin corona); hop 2 identifies the southern constellation carrying that root (Corona Australis)."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:corona_beer:00:000",
+      "negative_type": "entity_confusion",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    },
+    {
+      "node_id": "p:solar_corona:00:000",
+      "negative_type": "same_group_distractor",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    }
+  ],
+  "labels": {
+    "answer_text": "Corona Australis",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b2",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": ""
+  }
+}

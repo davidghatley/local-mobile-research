@@ -1,0 +1,47 @@
+{
+  "evidence": {
+    "absent_reason": "The Atari Jaguar article states the launch date (November 23, 1993) with the launch price blank (t:atari_jaguar:02:000:00), and its only other price statements are a redacted 1995 price drop, an unquantified 'low price point', and 2001 UK resale prices; no corpus node states the November 1993 launch price.",
+    "is_multi_hop": false,
+    "sufficient_sets": []
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "sibling_paragraph",
+      "node_id": "p:atari_jaguar:04:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    },
+    {
+      "negative_type": "sibling_paragraph",
+      "node_id": "p:atari_jaguar:11:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    }
+  ],
+  "labels": {
+    "answer_text": "",
+    "answerability": "unanswerable"
+  },
+  "meta": {
+    "evidence_groups": [
+      "jaguar"
+    ],
+    "group": "jaguar",
+    "source_articles": [
+      "a:atari_jaguar"
+    ]
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "content_hash": "",
+    "decision": "pending",
+    "rationale": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd"
+  },
+  "question_id": "qa-heldout-29",
+  "question_type": "unanswerable",
+  "split": "heldout",
+  "text": "At what price did the Atari Jaguar launch on November 23, 1993?"
+}

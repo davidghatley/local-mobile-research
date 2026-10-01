@@ -1,0 +1,67 @@
+{
+  "question_id": "qa-heldout-52",
+  "text": "The half-brother who inherited the remainder interest in Mount Vernon in 1752 lived there with whom after his 1759 marriage?",
+  "split": "heldout",
+  "question_type": "multihop",
+  "meta": {
+    "source_articles": [
+      "a:mount_vernon",
+      "a:george_washington"
+    ],
+    "group": "washington",
+    "evidence_groups": [
+      "washington"
+    ]
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:mount_vernon:07:000",
+          "text": "Lawrence died in 1752, and his will stipulated that his widow should own a life estate in Mount Vernon, the remainder interest falling to his half-brother George; George Washington was already living at Mount Vernon and probably managing the plantation. Lawrence's widow, Anne Fairfax, remarried into the Lee family and moved out. Following the death of Anne and Lawrence's only surviving child in 1754, George, as executor of his brother's estate leased his sister-in-law's estate. Upon the death of Anne Fairfax in 1761, he succeeded to the remainder interest and became sole owner of the property.\nIn 1758, Washington began the first of two major additions and improvements by raising the house to two-and-a-half stories. The second expansion was begun during the 1770s, shortly before the outbreak of the Revolutionary War. Washington had rooms added to the north and south ends, unifying the whole with the addition of the cupola and two-story piazza overlooking the Potomac River. The final expansion increased the mansion to 21 rooms and an area of 11,028 square feet. The great majority of the work was performed by enslaved African Americans and artisans."
+        },
+        {
+          "node_id": "p:george_washington:04:000",
+          "text": "On January 6, 1759, Washington, at age 26, married Martha Dandridge Custis, the 27-year-old widow of wealthy plantation owner Daniel Parke Custis. Martha was intelligent, gracious, and experienced in managing a planter's estate, and the couple had a happy marriage. They lived at Mount Vernon, where Washington cultivated tobacco and wheat. The marriage gave Washington control over Martha's one-third dower interest in the 18000 acre Custis estate, and he managed the remaining two-thirds for Martha's children. As a result, he became one of the wealthiest men in Virginia, which increased his social standing.\nAt Washington's urging, Governor Lord Botetourt fulfilled Dinwiddie's 1754 promise to grant land bounties to those who served with volunteer militias during the French and Indian War. In late 1770, Washington inspected the lands in the Ohio and Great Kanawha regions, and he engaged surveyor William Crawford to subdivide it. Crawford allotted 23200 acre to Washington, who told the veterans that their land was unsuitable for farming and agreed to purchase 20147 acre, leaving some feeling that they had been duped. He also doubled the size of Mount Vernon to 6500 acre and, by 1775, had more than doubled its slave population to over one hundred.\nAs a respected military hero and large landowner, Washington held local offices and was elected to the Virginia provincial legislature, representing Frederick County in the Virginia House of Burgesses for seven years beginning in 1758. Early in his legislative career, Washington rarely spoke at or even attended legislative sessions, but was more politically active starting in the 1760s, becoming a prominent critic of Britain's taxation and mercantilist policies towards the American colonies. Washington imported luxury goods from England, paying for them by exporting tobacco. His profligate spending combined with low tobacco prices left him £1,800 in debt by 1764. Washington's complete reliance on London tobacco buyer and merchant Robert Cary also threatened his economic security. Between 1764 and 1766, he sought to diversify his holdings: he changed Mount Vernon's primary cash crop from tobacco to wheat and expanded operations to include flour milling and hemp farming. Washington's stepdaughter Patsy suffered from epileptic attacks, and she died at Mount Vernon in 1773, allowing Washington to use part of the inheritance from her estate to settle his debts."
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:mount_vernon:07:000",
+        "p:george_washington:04:000"
+      ]
+    ],
+    "hop_glosses": [
+      "Hop 1 discovers the heir (the remainder interest fell to half-brother George Washington); hop 2 supplies whom he married in 1759 and lived with at Mount Vernon (Martha Dandridge Custis)."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:washington_d_c:00:000",
+      "negative_type": "same_group_distractor",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    },
+    {
+      "node_id": "p:mount_vernon:04:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    }
+  ],
+  "labels": {
+    "answer_text": "Martha Dandridge Custis",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b2",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": ""
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:mount_vernon:00:000",
+          "text": "Mount Vernon is the former residence and plantation of George Washington, a Founding Father, commander of the Continental Army in the Revolutionary War, and the first president of the United States, and his wife, Martha. An American landmark, the estate lies on the banks of the Potomac River in Fairfax County, Virginia, approximately 15 mi south of Washington, D.C.\nThe Washington family acquired land in the area in 1674. Around 1734, the family embarked on an expansion of its estate that continued under George Washington, who began leasing the estate in 1754 before becoming its sole owner in 1761. The mansion was built of wood in a loose Palladian style; the original house was built in about 1734 by George Washington's father Augustine Washington. George Washington expanded the house twice, once in the late 1750s and again in the 1770s. It remained Washington's home for the rest of his life.\nAfter Washington's death in 1799, the estate progressively declined under the ownership of several successive generations of the Washington family. In 1858, the house's historical importance was recognized and was taken over by the Mount Vernon Ladies' Association, along with part of the Washington property estate. The mansion and its surrounding buildings escaped significant damage from the American Civil War, which damaged many properties in the Confederate States of America during the Civil War.\nMount Vernon was designated a National Historic Landmark in 1960 and is listed on the National Register of Historic Places. It is still owned and maintained in trust by the Mount Vernon Ladies' Association, being open to the public daily in recognition of George Washington's 1794 acknowledgement of public interest in his estate: \"I have no objection to any sober or orderly person's gratifying their curiosity in viewing the buildings, Gardens, &ca. about Mount Vernon.\""
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "sibling_paragraph",
+      "node_id": "p:mount_vernon:03:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    },
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "p:george_washington:04:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    }
+  ],
+  "labels": {
+    "answer_text": "Potomac River",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "evidence_groups": [
+      "washington"
+    ],
+    "group": "washington",
+    "source_articles": [
+      "a:mount_vernon"
+    ]
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "content_hash": "",
+    "decision": "pending",
+    "rationale": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd"
+  },
+  "question_id": "qa-heldout-11",
+  "question_type": "factoid",
+  "split": "heldout",
+  "text": "On the banks of which river does the Mount Vernon estate lie?"
+}

@@ -1,0 +1,69 @@
+{
+  "question_id": "qa-heldout-67",
+  "text": "The first U.S. president for whom the federal capital district was named led Patriot forces to victory in which war?",
+  "split": "heldout",
+  "question_type": "multihop",
+  "meta": {
+    "source_articles": [
+      "a:george_washington",
+      "a:washington_d_c"
+    ],
+    "group": "washington",
+    "evidence_groups": [
+      "washington"
+    ]
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:washington_d_c:00:000",
+          "text": "Washington, D.C., officially the District of Columbia and commonly known as Washington, is the federal capital city of the United States, and its only federal district.\nThe city stands on the north-east bank of the Potomac River, across from the state of Virginia, surrounded by Maryland to its north, east, and south. The district was named for Columbia, the female personification of the American nation, through which human form and attributes are applied to the United States. \"Washington\" is a more recent addition to the city's common name, and is from the name of George Washington, the first U.S. president.\nThe U.S. Constitution in 1789 called for the creation of a federal district under exclusive jurisdiction of the U.S. Congress, which would become a constituent part of the Union that is not part of any state or territory. The Residence Act, adopted on July 16, 1790, approved the creation of the capital district along the Potomac River, and is considered the city's founding date. In 1800, when the capital was moved from Philadelphia, the 6th Congress started meeting in the then-unfinished Capitol Building, and the second president, John Adams, moved into the newly finished White House. In 1801, the District of Columbia, formerly part of Maryland and Virginia and including the existing settlements of Georgetown and Alexandria, was officially made the federal district; initially, the city was a separate settlement within the larger district. In 1846, Congress reduced the size of the district when it returned the land that Virginia had ceded, including the city of Alexandria. In 1871, it made the entire district into a single municipality. There have been several failed efforts to reduce the district further and admit the rest as a state since the 1880s, including a statehood bill that passed the House of Representatives in 2021 but was not adopted by the U.S. Senate.\nDesigned in 1791 by Pierre Charles L'Enfant, the city is split into quadrants that meet at the Capitol Building, with 131 neighborhoods overall. As of the 2020 census, the city's population was 689,545. During the workweek, commuters from the city's Maryland and Virginia suburbs increase the city's daytime population to more than one million. The Washington metropolitan area, which includes parts of Maryland, Virginia, and West Virginia, is the country's seventh-largest metropolitan area, with a 2023 population of 6.3 million residents. A locally elected mayor and 13-member council have governed the district since 1973, though Congress retains the power to overturn local laws. Washington, D.C., residents do not have voting representation in Congress, but elect a single non-voting congressional delegate to the U.S. House of Representatives. The city's voters choose three presidential electors in accordance with the Twenty-third Amendment, passed in 1961.\nWashington, D.C., anchors the southern end of the Northeast megalopolis. As the seat of the U.S. federal government, the city is an important world political capital. The city hosts buildings that house federal government headquarters, including the White House, U.S. Capitol, Supreme Court Building, and multiple federal departments and agencies. The city is home to many national monuments and museums, located most prominently on or around the National Mall, including the Jefferson Memorial, Lincoln Memorial, and Washington Monument. It hosts 177 foreign embassies and the global headquarters of the World Bank, International Monetary Fund, Organization of American States, and other international organizations. Home to many of the nation's largest industry associations, non-profit organizations, and think tanks, the city is known as a lobbying hub, which is centered on and around K Street. It is also among the country's top tourist destinations; in 2022, it had an estimated 20.7 million domestic and 1.2 million international visitors, the seventh-most among U.S. cities."
+        }
+      ],
+      [
+        {
+          "node_id": "p:george_washington:00:000",
+          "text": "George Washington (, 1799) was a Founding Father and the first president of the United States, serving from 1789 to 1797. As commander of the Continental Army, Washington led Patriot forces to victory in the American Revolutionary War against the British Empire. He is commonly known as the Father of His Country for his role in bringing about American independence.\nBorn in the Colony of Virginia, Washington became the commander of the Virginia Regiment during the French and Indian War from 1754 to 1763. He was later elected to the Virginia House of Burgesses, and opposed the oppression of the American colonists by the British Crown. When the American Revolutionary War against the British began in 1775, Washington was appointed commander-in-chief of the Continental Army. He directed a poorly organized and equipped force against disciplined British troops.\nWashington and his army achieved an early victory at the Siege of Boston in March 1776 but were forced to retreat from New York City in November. Washington crossed the Delaware River and won the battles of Trenton in late 1776 and of Princeton in early 1777, then lost the battles of Brandywine and Germantown later that year. He faced criticism of his command, low troop morale, and a lack of provisions for his forces as the war continued. Ultimately Washington led a combined French and American force to a decisive victory over the British at Yorktown in 1781. In the resulting Treaty of Paris in 1783, the British acknowledged the sovereign independence of the United States. Washington then served as president of the Constitutional Convention in 1787, which drafted the current Constitution of the United States.\nWashington was unanimously elected the first U.S. president by the Electoral College in 1789 and 1792. He established a strong, well-financed national government while remaining impartial in the fierce rivalry that emerged within his cabinet between Thomas Jefferson and Alexander Hamilton. During the French Revolution, he adopted a policy of neutrality while supporting the Jay Treaty with Britain. Washington set enduring precedents for the office of president, including republicanism, a peaceful transfer of power, the use of the title \"Mr. President\", and the two-term tradition. His 1796 farewell address became a preeminent statement on republicanism: Washington wrote about the importance of national unity and the dangers that regionalism, partisanship, and foreign influence pose to it. As a planter of tobacco and wheat at Mount Vernon, Washington owned many slaves. He began opposing slavery near the end of his life, and provided in his will for the eventual manumission of his slaves.\nWashington's image is an icon of American culture and he has been extensively memorialized. His namesakes include the national capital and the State of Washington. In both popular and scholarly polls, he is consistently considered one of the greatest presidents in American history."
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:washington_d_c:00:000",
+        "p:george_washington:00:000"
+      ]
+    ],
+    "hop_glosses": [
+      "Hop 1 fixes the person via the district naming (the capital district was named for George Washington, the first president); hop 2 supplies the war he won leading Patriot forces."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:washington_d_c:05:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    },
+    {
+      "node_id": "p:mount_vernon:02:000",
+      "negative_type": "same_group_distractor",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    }
+  ],
+  "labels": {
+    "answer_text": "the American Revolutionary War",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b3",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": ""
+  }
+}

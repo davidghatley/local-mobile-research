@@ -1,0 +1,66 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 fixes the product (the November 1993 console is the Atari Jaguar); hop 2 supplies its American-market tagline."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:atari_jaguar:00:000",
+        "p:atari_jaguar:03:000"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:atari_jaguar:00:000",
+          "text": "The Atari Jaguar is a home video game console developed by Atari Corporation and released in North America in November 1993. Atari marketed it as the world's first 64-bit game system, drawing controversy as some argued that this configuration did not meet the definition of a 64-bit system. The Jaguar launched with Cybermorph as the pack-in game. A total of 63 licensed games (50 on cartridge, 13 on CD-ROM) were released for the system prior to its discontinuation in 1996.\nDevelopment started in the early 1990s by Flare Technology, which focused on the system after cancellation of the Panther console. The Jaguar became a more important system for Atari after discontinuing Atari ST computers in favor of consoles. However, game development was complicated by the complex multi-chip architecture, hardware bugs, and poor programming tools. Underwhelming sales further eroded third-party support.\nThe Jaguar launched as part of the fifth generation of video game consoles, but like other early fifth generation consoles, it struggled to capture major market share from the dominant last generation consoles, the Genesis and Super NES. Atari attempted to extend the system's lifespan by releasing the Jaguar CD add-on, and emphasizing the Jaguar's price, which was over cheaper than that of its fifth generation competitors, among them the Sega Saturn and Sony PlayStation, which both launched in 1995. However, the Jaguar failed to find its niche. Atari internally abandoned the system by the end of that year, liquidating its inventory by 1996. The commercial failure of the Jaguar prompted Atari to leave the console market and restructure itself as a third-party developer. After Hasbro Interactive acquired all of Atari Corporation's properties, it released the Jaguar patents into the public domain in 1999 and declared it an open platform. Since its discontinuation, the Jaguar has gained a cult following, with new games being released for the system by a large homebrew community."
+        },
+        {
+          "node_id": "p:atari_jaguar:03:000",
+          "text": "Atari tried to downplay competing consoles by proclaiming the Jaguar was the only \"64-bit\" system; in its marketing in the American market the company used the tagline \"Do the math!\", in reference to the 64 number. This claim was widely derided as misleading, because the Motorola 68000 CPU and the Tom and Jerry coprocessors execute 32-bit instruction sets. Atari's reasoning that the 32-bit Tom and Jerry chips work in tandem to add up to a 64-bit system was ridiculed in a mini-editorial by Electronic Gaming Monthly, which commented that \"If Sega did the math for the Sega Saturn the way Atari did the math for their 64-bit Jaguar system, the Sega Saturn would be a 112-bit monster of a machine.\" Next Generation, in a mostly negative review of the Jaguar, maintained that it is a true 64-bit system, because the data path from the DRAM to the CPU and Tom and Jerry chips is 64 bits wide."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "sibling_paragraph",
+      "node_id": "p:atari_jaguar:10:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    },
+    {
+      "negative_type": "neighbor_sentence",
+      "node_id": "t:atari_jaguar:01:000:00",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    }
+  ],
+  "labels": {
+    "answer_text": "Do the math!",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "evidence_groups": [
+      "jaguar"
+    ],
+    "group": "jaguar",
+    "source_articles": [
+      "a:atari_jaguar"
+    ]
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "content_hash": "",
+    "decision": "pending",
+    "rationale": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd"
+  },
+  "question_id": "qa-heldout-25",
+  "question_type": "multihop",
+  "split": "heldout",
+  "text": "The home video game console released in North America in November 1993 used which tagline in its American marketing?"
+}

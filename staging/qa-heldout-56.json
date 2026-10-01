@@ -1,0 +1,66 @@
+{
+  "question_id": "qa-heldout-56",
+  "text": "The university whose light rail station connecting Capitol Hill to Husky Stadium was completed in March 2016 has its main campus in which district of Seattle?",
+  "split": "heldout",
+  "question_type": "multihop",
+  "meta": {
+    "source_articles": [
+      "a:university_of_washington"
+    ],
+    "group": "washington",
+    "evidence_groups": [
+      "washington"
+    ]
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:university_of_washington:04:000",
+          "text": "In 1990, the University of Washington opened its additional campuses in Bothell and Tacoma. Originally designed for students who had completed two years of higher education, both schools have since evolved into four-year universities with the authority to award degrees. The first freshman classes were admitted in the fall of 2006. Today, both the Bothell and Tacoma campuses also offer a range of master's degree programs.\nIn 2012, the university began exploring plans and governmental approval to expand the main Seattle campus, including significant increases in student housing, teaching facilities for the growing student body and faculty, as well as expanded public transit options. The University of Washington light rail station was completed in March 2016, connecting Seattle's Capitol Hill neighborhood to the UW Husky Stadium within five minutes of rail travel time. It offers a previously unavailable option of transportation into and out of the campus, designed specifically to reduce dependence on private vehicles, bicycles and local King County buses."
+        },
+        {
+          "node_id": "p:university_of_washington:00:000",
+          "text": "The University of Washington (UW, and informally U-Dub or U Dub) is a public research university in Seattle, Washington, United States. Founded in 1861, it is one of the oldest universities on the West Coast of the United States.\nThe university has a 700 acre main campus in the city's University District, with satellite campuses in nearby cities of Tacoma and Bothell. Overall, UW encompasses more than 500 buildings and over 20 million gross square footage of space, including one of the largest library systems in the world with more than 26 university libraries, art centers, museums, laboratories, lecture halls, and stadiums.\nWashington is the flagship institution of the state's six public universities. Known for its medical, engineering, and scientific research, Washington is a member of the Association of American Universities. According to the National Science Foundation, UW spent $1.73 billion on research and development in 2024, ranking it fifth in the nation. Its 22 varsity sports teams compete as the Huskies in the Big Ten Conference of NCAA Division I."
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:university_of_washington:04:000",
+        "p:university_of_washington:00:000"
+      ]
+    ],
+    "hop_glosses": [
+      "Hop 1 discovers the bridge entity (the 2016 light rail station belongs to the University of Washington); hop 2 supplies where its main campus sits (the University District)."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:washington_state:07:000",
+      "negative_type": "linked_article",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    },
+    {
+      "node_id": "p:university_of_washington:02:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    }
+  ],
+  "labels": {
+    "answer_text": "University District",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b2",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": ""
+  }
+}

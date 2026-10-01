@@ -1,0 +1,69 @@
+{
+  "question_id": "qa-heldout-66",
+  "text": "The president born in a log cabin in Kentucky issued which proclamation on January 1, 1863?",
+  "split": "heldout",
+  "question_type": "multihop",
+  "meta": {
+    "source_articles": [
+      "a:abraham_lincoln",
+      "a:emancipation_proclamation"
+    ],
+    "group": "lincoln",
+    "evidence_groups": [
+      "lincoln"
+    ]
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:abraham_lincoln:01:000",
+          "text": "Born in a one-room log cabin in Kentucky on February 12, 1809, Abraham Lincoln was raised on Sinking Spring Farm and Knob Creek Farm near Hodgenville, Kentucky. The second child of Thomas Lincoln and Nancy Hanks Lincoln, he was a descendant of Samuel Lincoln, an Englishman who emigrated to Massachusetts in 1637 (Abraham Lincoln said that Samuel Lincoln \"came from Norwich, England, in 1638\".) His paternal grandfather and namesake, Captain Abraham Lincoln, moved the family from Virginia to Kentucky. The captain was killed in a Native American raid in 1786. The family settled in Hardin County, Kentucky, in the early 1800s. Nancy is widely assumed to have been the daughter of Lucy Hanks. Thomas and Nancy married on June 12, 1806, and moved to Elizabethtown, Kentucky. They had three children: Sarah, Abraham, and Thomas Jr., who died as an infant.\nLincoln's father bought multiple farms in Kentucky but could not get clear property titles to any, losing hundreds of acres in legal disputes. In 1816, the family moved to Indiana, where land titles were more reliable. They settled on a forested plot in Little Pigeon Creek Community. In Kentucky and Indiana, Thomas worked as a farmer, cabinetmaker, and carpenter. At various times, he owned farms, livestock, and town lots, appraised estates, and served on county patrols. Thomas and Nancy were members of a Separate Baptist Church, a pious evangelical group whose members largely opposed slavery. Overcoming financial challenges, Thomas obtained clear title to 80 acre in Little Pigeon Creek Community in 1827.\nOn October 5, 1818, Nancy died from milk sickness, leaving 11-year-old Sarah in charge of the household, which included her father, 9-year-old Abraham, and Nancy's 19-year-old orphan cousin, Dennis Hanks. Thomas married Sarah Bush Johnston, a widow with three children of her own, on December 2, 1819. Abraham became close to his stepmother and called her \"Mama\". On January 20, 1828, Lincoln's sister died in childbirth, devastating him."
+        }
+      ],
+      [
+        {
+          "node_id": "p:emancipation_proclamation:00:000",
+          "text": "The Emancipation Proclamation, officially Proclamation 95, was a presidential proclamation and executive order issued by United States president Abraham Lincoln on January 1, 1863, during the American Civil War. The Proclamation changed the legal status of more than 3.5 million enslaved African Americans in the secessionist Confederate states from enslaved to free. As soon as slaves escaped the control of their enslavers, either by fleeing to Union lines or through the advance of federal troops, they were permanently free. In addition, the Proclamation allowed for former slaves to \"be received into the armed service of the United States\". The Emancipation Proclamation played a significant part in the end of slavery in the United States.\nOn September 22, 1862, Lincoln issued the Preliminary Emancipation Proclamation (Proclamation 93). Its third paragraph begins:"
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:abraham_lincoln:01:000",
+        "p:emancipation_proclamation:00:000"
+      ]
+    ],
+    "hop_glosses": [
+      "Hop 1 fixes the issuer via birthplace (the log-cabin-born Kentuckian is Abraham Lincoln); hop 2 supplies the proclamation he issued on January 1, 1863."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:abraham_lincoln:03:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    },
+    {
+      "node_id": "p:american_civil_war:05:000",
+      "negative_type": "linked_article",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    }
+  ],
+  "labels": {
+    "answer_text": "The Emancipation Proclamation",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b3",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": ""
+  }
+}

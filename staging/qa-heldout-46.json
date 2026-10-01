@@ -1,0 +1,70 @@
+{
+  "question_id": "qa-heldout-46",
+  "text": "Which municipality is more populous: the Polish city at the mouth of the Motlawa River, or the largest city in Switzerland?",
+  "split": "heldout",
+  "question_type": "comparison",
+  "meta": {
+    "source_articles": [
+      "a:gda_sk",
+      "a:zurich"
+    ],
+    "group": "solo:gdańsk",
+    "evidence_groups": [
+      "solo:gdańsk",
+      "solo:zurich"
+    ]
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:gda_sk:00:000",
+          "text": "Gdańsk (; ) is a city on the Baltic coast of northern Poland, and the capital of the Pomeranian Voivodeship. With a population of 486,492, it is Poland's sixth-largest city and its major seaport. Gdańsk lies at the mouth of the Motława River and is situated at the southern edge of Gdańsk Bay, close to the city of Gdynia and the resort town of Sopot; these form a metropolitan area called the Tricity (Trójmiasto), with a population of approximately 1.5 million.\nGdańsk was first mentioned in 997 as part of the Duchy of Poland, and thereafter grew into a trading town under the Piast and Samboride dynasties. Shifting between Polish and Teutonic control during the Middle Ages, it subsequently joined the Hanseatic League and, with considerable autonomy, served as the Polish Crown's principal seaport and largest city until the early 18th century. With the Partitions of Poland, the city was annexed by Prussia in 1793, and was integrated into the German Empire in 1871. It was a free city from 1807 to 1814 and from 1920 to 1939. On 1 September 1939, it was the site of a military clash at Westerplatte, one of the first events of World War II. The contemporary city was shaped by extensive border changes, the flight and expulsion of the German population and Polish resettlement after 1945. In the 1980s, Gdańsk was the birthplace of the Solidarity trade union and movement, which helped precipitate the collapse of communism in Europe.\nThe city is home to the University of Gdańsk, Gdańsk University of Technology, the National Museum, the Gdańsk Shakespeare Theatre, the Museum of the Second World War, the Polish Baltic Philharmonic, the Polish Space Agency and the European Solidarity Centre. Among Gdańsk's most notable historical landmarks are the Town Hall, the Green Gate, Artus Court, Neptune's Fountain, and St. Mary's Church, one of the largest brick churches in the world. The city is served by Gdańsk Lech Wałęsa Airport, the country's third busiest airport and the most important international airport in northern Poland.\nGdańsk is one of the most visited cities in Poland, having received 4.5 million tourists in 2024, especially from Scandinavia and Germany. The city hosts St. Dominic's Fair, which dates back to 1260, and is regarded as one of the biggest trade and cultural events in Europe. In a 2019 quality of life poll, Gdańsk ranked highest among Polish cities. Its historic city centre has been listed as one of Poland's national monuments. In 2025, Gdańsk became a UNESCO City of Literature."
+        }
+      ],
+      [
+        {
+          "node_id": "p:zurich:00:000",
+          "text": "Zurich (; ; see below) is the largest city in Switzerland and the capital of the canton of Zurich. It is in north-central Switzerland, at the northwestern tip of Lake Zurich. As of the end of 2025, the municipality had a population of 440,935, while the urban area was home to 1.45 million people (2020), and the Zurich metropolitan area had a total population of 2.1 million (2020). Zurich is a hub for railways, roads, and air traffic. Both Zurich Airport and Zurich's main railway station are the largest and busiest in the country.\nZurich is a cosmopolitan city. While German is the official language and Zurich German, the most widely spoken variety, the use of both German and Swiss German at home is steadily declining, whereas the use of English has increased by 60% over ten years, reaching 14% of the population in 2024, and 40% of Zurich residents speak English at work.\nEvidence of early, sparse settlements in the area dates back more than 6,400 years, indicating human presence prior to the establishment of the town. Permanently settled for over 2,000 years, Zurich was eventually founded by the Romans, who called it Turicum. During the Middle Ages, Zurich gained the independent and privileged status of imperial immediacy and, in 1519, became a primary centre of the Protestant Reformation in Europe under the leadership of Huldrych Zwingli.\nWith 7 of the 10 globally leading AI companies having major operations in the city and with the presence of ETH Zurich, Zurich is a world-renowned technology hub. It is also a major financial and insurance center - the leading one in continental Europe according to the Global Financial Centres Index in 2026.\nMany museums and art galleries can be found in the city, including the Swiss National Museum, Natural History Museum and Kunsthaus. Schauspielhaus Zürich is generally considered to be one of the most important theatres in the German-speaking world."
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:gda_sk:00:000",
+        "p:zurich:00:000"
+      ]
+    ],
+    "hop_glosses": [
+      "Each city passage supplies one municipality population (486,492 vs 440,935); comparing them selects Gdansk."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:gda_sk:01:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    },
+    {
+      "node_id": "p:zurich:02:000",
+      "negative_type": "same_group_distractor",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    }
+  ],
+  "labels": {
+    "answer_text": "Gdańsk",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b2",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": ""
+  }
+}
