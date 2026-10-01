@@ -1,0 +1,81 @@
+{
+  "question_id": "qa-shadow-dev-85",
+  "text": "Which university's main campus covers more land: the Ivy League university founded in Cambridge in 1636, or the Seattle public research university known informally as U-Dub?",
+  "split": "shadow_dev",
+  "question_type": "comparison",
+  "meta": {
+    "source_articles": [
+      "a:harvard_university",
+      "a:university_of_washington"
+    ],
+    "group": "washington",
+    "evidence_groups": [
+      "cambridge",
+      "washington"
+    ],
+    "original_id": "qa-heldout-85",
+    "exposure_note": "exposed in git history through f819d9b; reclassified shadow-dev per Issue 1; never sealed"
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:harvard_university:08:000",
+          "text": "The 209 acre main campus of Harvard University is centered on Harvard Yard, colloquially known as \"the Yard\", in Cambridge, Massachusetts, about three miles (five km) west-northwest of downtown Boston, and extending to the surrounding Harvard Square neighborhood. The Yard houses several Harvard buildings, including four of the university's libraries, Houghton, Lamont, Pusey, and Widener. Also on Harvard Yard are Massachusetts Hall, built between 1718 and 1720 and the university's oldest still standing building, Memorial Church, and University Hall.\nHarvard Yard and adjacent areas include the main academic buildings of the Faculty of Arts and Sciences, including Sever Hall, Harvard Hall, and freshman dormitories. Upperclassmen live in the twelve residential houses: nine south of Harvard Yard near the Charles River, and three on the Radcliffe Quadrangle, which formerly housed Radcliffe College students. Each house is a community of undergraduates, faculty deans, and resident tutors, with its own dining hall, library, and recreational facilities.\nAlso on the main campus in Cambridge are the Law, Divinity (theology), Engineering and Applied Science, Design (architecture), Education, Kennedy (public policy), and Extension schools, and Harvard Radcliffe Institute in Radcliffe Yard. Harvard also has commercial real estate holdings in Cambridge."
+        }
+      ],
+      [
+        {
+          "node_id": "p:university_of_washington:00:000",
+          "text": "The University of Washington (UW, and informally U-Dub or U Dub) is a public research university in Seattle, Washington, United States. Founded in 1861, it is one of the oldest universities on the West Coast of the United States.\nThe university has a 700 acre main campus in the city's University District, with satellite campuses in nearby cities of Tacoma and Bothell. Overall, UW encompasses more than 500 buildings and over 20 million gross square footage of space, including one of the largest library systems in the world with more than 26 university libraries, art centers, museums, laboratories, lecture halls, and stadiums.\nWashington is the flagship institution of the state's six public universities. Known for its medical, engineering, and scientific research, Washington is a member of the Association of American Universities. According to the National Science Foundation, UW spent $1.73 billion on research and development in 2024, ranking it fifth in the nation. Its 22 varsity sports teams compete as the Huskies in the Big Ten Conference of NCAA Division I."
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:harvard_university:08:000",
+        "p:university_of_washington:00:000"
+      ]
+    ],
+    "hop_glosses": [
+      "Each campus passage supplies one main-campus area (209 acres vs 700 acres); comparing them selects the University of Washington."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:harvard_university:09:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    },
+    {
+      "node_id": "p:university_of_washington:01:000",
+      "negative_type": "same_group_distractor",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    }
+  ],
+  "labels": {
+    "answer_text": "The University of Washington",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b3",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": "",
+    "reclassification": {
+      "by": "round0-repair-worker-phase1",
+      "at": "2026-10-01",
+      "from_split": "heldout",
+      "to_split": "shadow_dev",
+      "from_id": "qa-heldout-85",
+      "to_id": "qa-shadow-dev-85",
+      "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
+    }
+  }
+}

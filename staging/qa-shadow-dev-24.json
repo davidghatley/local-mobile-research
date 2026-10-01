@@ -1,0 +1,77 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 discovers the person (June Almeida co-coined the name with Tyrrell); hop 2 supplies where she worked."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:coronavirus:01:000",
+        "p:coronavirus:02:001"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:coronavirus:01:000",
+          "text": "The name \"coronavirus\" is derived from Latin corona, meaning \"crown\" or \"wreath\", itself a borrowing from Greek κορώνη korṓnē, \"garland, wreath\". The name was coined by June Almeida and David Tyrrell who first observed and studied human coronaviruses. The word was first used in print in 1968 by an informal group of virologists in the journal Nature to designate the new family of viruses. The name refers to the characteristic appearance of virions (the infective form of the virus) by electron microscopy, which have a fringe of large, bulbous surface projections creating an image reminiscent of the solar corona or halo. This morphology is created by the viral spike peplomers, which are proteins on the surface of the virus.\nThe scientific name Coronavirus was accepted as a genus name by the International Committee for the Nomenclature of Viruses (later renamed International Committee on Taxonomy of Viruses) in 1971. As the number of new species increased, the genus was split into four genera, namely Alphacoronavirus, Betacoronavirus, Deltacoronavirus, and Gammacoronavirus in 2009. The common name coronavirus is used to refer to any member of the subfamily Orthocoronavirinae. As of 2020, 45 species are officially recognised."
+        },
+        {
+          "node_id": "p:coronavirus:02:001",
+          "text": "Scottish virologist June Almeida at St Thomas' Hospital in London, collaborating with Tyrrell, compared the structures of IBV, B814 and 229E in 1967. Using electron microscopy the three viruses were shown to be morphologically related by their general shape and distinctive club-like spikes. A research group at the National Institute of Health the same year was able to isolate another member of this new group of viruses using organ culture and named one of the samples OC43 (OC for organ culture). Like B814, 229E, and IBV, the novel cold virus OC43 had distinctive club-like spikes when observed with the electron microscope.\nThe IBV-like novel cold viruses were soon shown to be also morphologically related to the mouse hepatitis virus. This new group of viruses were named coronaviruses after their distinctive morphological appearance. Human coronavirus 229E and human coronavirus OC43 continued to be studied in subsequent decades. The coronavirus strain B814 was lost. It is not known which present human coronavirus it was. Other human coronaviruses have since been identified, including SARS-CoV in 2003, HCoV NL63 in 2003, HCoV HKU1 in 2004, MERS-CoV in 2013, and SARS-CoV-2 in 2019. There have also been a large number of animal coronaviruses identified since the 1960s.''''"
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "sibling_paragraph",
+      "node_id": "p:coronavirus:03:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    },
+    {
+      "negative_type": "entity_confusion",
+      "node_id": "p:corona_beer:02:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    }
+  ],
+  "labels": {
+    "answer_text": "St Thomas' Hospital",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "evidence_groups": [
+      "corona"
+    ],
+    "group": "corona",
+    "source_articles": [
+      "a:coronavirus"
+    ],
+    "original_id": "qa-heldout-24",
+    "exposure_note": "exposed in git history through f819d9b; reclassified shadow-dev per Issue 1; never sealed"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "content_hash": "",
+    "decision": "pending",
+    "rationale": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "reclassification": {
+      "by": "round0-repair-worker-phase1",
+      "at": "2026-10-01",
+      "from_split": "heldout",
+      "to_split": "shadow_dev",
+      "from_id": "qa-heldout-24",
+      "to_id": "qa-shadow-dev-24",
+      "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
+    }
+  },
+  "question_id": "qa-shadow-dev-24",
+  "question_type": "multihop",
+  "split": "shadow_dev",
+  "text": "The woman who co-coined the name 'coronavirus' alongside David Tyrrell worked at which hospital?"
+}

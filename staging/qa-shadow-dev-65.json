@@ -1,0 +1,80 @@
+{
+  "question_id": "qa-shadow-dev-65",
+  "text": "The president for whom Henry Leland cast his first-ever presidential vote in 1864 first won the presidency in which year?",
+  "split": "shadow_dev",
+  "question_type": "multihop",
+  "meta": {
+    "source_articles": [
+      "a:abraham_lincoln",
+      "a:lincoln_motor_company"
+    ],
+    "group": "lincoln",
+    "evidence_groups": [
+      "lincoln"
+    ],
+    "original_id": "qa-heldout-65",
+    "exposure_note": "exposed in git history through f819d9b; reclassified shadow-dev per Issue 1; never sealed"
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:lincoln_motor_company:01:000",
+          "text": "The Lincoln Motor Company was founded in August 1917 by Henry Leland and his son Wilfred. Among the founders of Cadillac, Leland had sold Cadillac to General Motors in 1909; staying on as an executive, he left in 1917 over a dispute with GM President William Durant regarding war production.\nLeland named Lincoln Motor Company after Abraham Lincoln, stating that Lincoln was the first President for whom he ever voted (1864). The company was financed by securing a contract to produce Liberty V12 aircraft engines for use during World War I. The Lelands broke ground on the Lincoln Motor Company Plant in Detroit. Lincoln Motor Company acted as the final assembly point for the engines, with the company securing parts from other manufacturers; cylinders were produced by Ford, with other parts sourced from Buick, Cadillac, Marmon, and Packard.\nIn total, Lincoln Motor Company would assemble 6,500 Liberty V12 engines by the end of World War I concluding production; by the end of the war, Lincoln would employ 6,000 workers.\nOn January 26, 1920, Lincoln Motor Company was reorganized as an automobile manufacturer, retooling its Detroit factory to produce automobiles. On September 16, 1920, Lincoln Motor Company produced its first automobile, the Lincoln Model L.\nLincoln Motor Company had struggled with the transition from military to automobile production, with some customers having to wait nearly a year for their vehicles to be completed from the time of purchase. By 1922, the company was on the verge of bankruptcy and was placed in receivership.\nUnder the influence of Edsel Ford, Lincoln Motor Company was purchased by Henry Ford for on February 4, 1922. While Lincoln was valued at $16 million, a $5 million bid by Ford was the sole bid received for the company (forced to be increased by the court)."
+        }
+      ],
+      [
+        {
+          "node_id": "p:abraham_lincoln:00:000",
+          "text": "Abraham Lincoln (February 12, 1809April 15, 1865) was the 16th president of the United States, serving from 1861 until his assassination in 1865. He led the United States through the American Civil War, defeating the Confederacy and playing a major role in the abolition of slavery.\nBorn in a one-room log cabin in Kentucky, Lincoln was raised on the frontier. He was self-educated and became a lawyer, Illinois state legislator, and U.S. representative. Angered by the Kansas–Nebraska Act of 1854, which opened the territories to slavery, he became a leader of the new Republican Party. He reached a national audience in the 1858 Senate campaign debates against Stephen A. Douglas. Lincoln won the 1860 presidential election, becoming the first Republican president. His victory prompted a majority of the slave states to begin seceding and form the Confederate States. A month after Lincoln assumed the presidency, Confederate forces attacked Fort Sumter, starting the Civil War.\nAs a moderate Republican, Lincoln had to navigate conflicting political opinions from contentious factions during the war effort. He closely supervised the Union's strategy and tactics, including the selection of generals and the implementation of a naval blockade of Southern ports. He suspended the writ of habeas corpus in April 1861, an action that Chief Justice Roger Taney found in Ex parte Merryman that only Congress could do, and he averted war with Britain by defusing the Trent Affair. On January 1, 1863, he issued the Emancipation Proclamation, which declared the slaves in the states \"in rebellion\" to be free. On November 19, 1863, he delivered the Gettysburg Address, which became one of the most famous speeches in American history. He promoted the Thirteenth Amendment to the U.S. Constitution, which, in 1865, abolished chattel slavery. Following his re-election in 1864, he sought to heal the war-torn nation through Reconstruction.\nOn April 14, 1865, five days after the Confederate surrender at Appomattox, Lincoln was fatally shot by John Wilkes Booth at Ford's Theatre in Washington, D.C., becoming the first U.S. president to be assassinated. Lincoln is remembered as a martyr and a national hero for his wartime leadership and for his efforts to preserve the Union and abolish slavery. He is consistently ranked in both popular and scholarly polls as among the greatest presidents in American history."
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:lincoln_motor_company:01:000",
+        "p:abraham_lincoln:00:000"
+      ]
+    ],
+    "hop_glosses": [
+      "Hop 1 fixes the person via the voter (Leland's first-ever presidential vote in 1864 was for Abraham Lincoln); hop 2 supplies that president's first winning year (1860)."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:lincoln_motor_company:02:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    },
+    {
+      "node_id": "p:abraham_lincoln:02:000",
+      "negative_type": "same_group_distractor",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    }
+  ],
+  "labels": {
+    "answer_text": "1860",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b3",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": "",
+    "reclassification": {
+      "by": "round0-repair-worker-phase1",
+      "at": "2026-10-01",
+      "from_split": "heldout",
+      "to_split": "shadow_dev",
+      "from_id": "qa-heldout-65",
+      "to_id": "qa-shadow-dev-65",
+      "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
+    }
+  }
+}

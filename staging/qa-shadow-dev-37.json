@@ -1,0 +1,64 @@
+{
+  "question_id": "qa-shadow-dev-37",
+  "text": "What distinction does Great Zimbabwe hold among precolonial Southern African structures?",
+  "split": "shadow_dev",
+  "question_type": "factoid",
+  "meta": {
+    "source_articles": [
+      "a:great_zimbabwe"
+    ],
+    "group": "solo:great zimbabwe",
+    "evidence_groups": [
+      "solo:great zimbabwe"
+    ],
+    "original_id": "qa-heldout-37",
+    "exposure_note": "exposed in git history through f819d9b; reclassified shadow-dev per Issue 1; never sealed"
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:great_zimbabwe:00:000",
+          "text": "Great Zimbabwe was a city in the south-eastern hills of the modern country of Zimbabwe, near Masvingo. It was settled from around 1000 AD, and served as the capital of the Kingdom of Great Zimbabwe from the 13th century. It is the largest stone structure in precolonial Southern Africa. Major construction on the city began in the 11th century and continued until the 15th century. The city was abandoned in the 16th or 17th century. The edifices were erected by ancestors of the Shona people, who are currently located in Zimbabwe and nearby countries. The stone city spans an area of 7.22 km2. Population estimates vary. Earlier estimates suggest a peak population of around 20,000 people. A recent study using archaeological, ethnographic, and historical evidence, along with statistical modeling, suggests that the site's population did not exceed 10,000 people. The Zimbabwe state centred on it likely covered 50,000 km² (19,000 sq mi). It is recognised as a World Heritage Site by UNESCO.\nThe site of Great Zimbabwe is composed of the Hill Complex, the Valley Complex, and the Great Enclosure (constructed at different times). It also contained area for commoner housing within the perimeter walls. Scholars disagree on the functions of the complexes. Some believe these to have been residences for the royals and elites at different periods of the site, while others infer them to have had separate functions. The Great Enclosure, with its 11 m (36 ft) high dry stone walls (that is, constructed without mortar), was built during the 13th and 14th centuries, and likely served as the royal residence, with demarcated public spaces for rituals.\nThe first confirmed visits by Europeans were in the late 19th century, with investigations of the site starting in 1871. Great Zimbabwe and surrounding sites were looted by European antiquarians between the 1890s and 1920s.\nSome later studies of the monument were controversial, as the white government of Rhodesia pressured archaeologists to deny its construction by black Africans. Its African origin did not become consensus among scholars until the 1950s. Great Zimbabwe has since been adopted as a national monument by the Zimbabwean government, and the modern independent state was named after it.\nThe word great distinguishes the site from the many smaller ruins, known as \"zimbabwes\", or \"houses of stone\", spread across the Zimbabwe Highveld. More than 400 such sites have been identified across Southern Africa, such as Bumbusi in Zimbabwe and Manyikeni in Mozambique, with monumental, mortarless walls."
+        }
+      ]
+    ],
+    "is_multi_hop": false
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:great_zimbabwe:03:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    },
+    {
+      "node_id": "p:great_zimbabwe:04:001",
+      "negative_type": "same_group_distractor",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    }
+  ],
+  "labels": {
+    "answer_text": "the largest stone structure in precolonial Southern Africa",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b2",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": "",
+    "reclassification": {
+      "by": "round0-repair-worker-phase1",
+      "at": "2026-10-01",
+      "from_split": "heldout",
+      "to_split": "shadow_dev",
+      "from_id": "qa-heldout-37",
+      "to_id": "qa-shadow-dev-37",
+      "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
+    }
+  }
+}

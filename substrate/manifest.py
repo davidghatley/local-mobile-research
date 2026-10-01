@@ -223,6 +223,9 @@ class FreezeCheck:
 
 
 # Artifacts that MUST exist with real pinned content before any freeze claim.
+# NOTE (Issue 1, Phase 1): the sealed-labels path below is the legacy in-repo
+# location. Phase 5 will repoint the private_test seal OUTSIDE the repo at
+# LMR_PRIVATE_EVAL_DIR; shadow_dev is dev-visible and never sealed.
 REQUIRED_CORPUS_FILE = "corpus/corpus.jsonl"
 REQUIRED_QUESTIONS_FILE = "corpus/questions.json"
 REQUIRED_LABELS_FILE = "corpus/heldout_labels.sealed.json"
@@ -520,8 +523,13 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
       gaps.append(f"seed derivation mismatch for component {component!r}")
 
   # --- Regime metadata validations (Round 0 additions) ---
-  # (a) regime A and B held-out groups together cover the held-out groups in the derived regime metadata
-  # (b) regime B groups are a subset of held-out groups, never train/dev
+  # NOTE (Issue 1, Phase 1): regime derivation still keys on the legacy
+  # "heldout" split (see substrate/regime_metadata.py). Forward vocabulary
+  # ("shadow_dev") is accepted alongside legacy "heldout" below so new maps
+  # validate; Phase 3 will rework regimes to paired conditions (NOT split
+  # names) — TODO, do not implement here.
+  # (a) regime A and B groups together cover the heldout/shadow_dev groups in the derived regime metadata
+  # (b) regime B groups are a subset of heldout/shadow_dev groups, never train/dev/private_test
   # (c) the document-heldout excluded-article artifact exists iff regime B groups are non-empty
   # (d) public_reference_pins_sha256 matches references/public_eval_pins.json bytes
   # (e) the custody audit log, if present, has entries whose seal_sha256 matches the sealed labels hash
@@ -554,18 +562,19 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
               f"manifest regime groups not in regime metadata heldout groups: {sorted(extra_in_manifest)}"
             )
 
-          # (b) Regime B groups must be subset of heldout groups, never train/dev
+          # (b) Regime B groups must be subset of heldout/shadow_dev groups, never train/dev/private_test
           regime_b_set = set(manifest.regime_b_document_heldout_groups)
           if regime_b_set:
-            # Verify none are train/dev groups
+            # Verify none are train/dev/private_test groups (legacy "heldout"
+            # accepted; forward "shadow_dev" accepted; Phase 3 reworks this).
             with open(map_full, "r", encoding="utf-8") as fh:
               map_data = json.load(fh)
             groups_raw = map_data.get("groups", {})
             for g in regime_b_set:
               if g in groups_raw:
                 gsplit = groups_raw[g].get("split")
-                if gsplit != "heldout":
-                  gaps.append(f"regime B group {g!r} has split {gsplit!r}, must be heldout")
+                if gsplit not in ("heldout", "shadow_dev"):
+                  gaps.append(f"regime B group {g!r} has split {gsplit!r}, must be heldout/shadow_dev")
               else:
                 gaps.append(f"regime B group {g!r} not found in split map")
           else:
@@ -576,10 +585,10 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
               map_data = json.load(fh)
             groups_raw = map_data.get("groups", {})
             heldout_groups_in_map = {
-              g for g, rec in groups_raw.items() if rec.get("split") == "heldout"
+              g for g, rec in groups_raw.items() if rec.get("split") in ("heldout", "shadow_dev")
             }
             if heldout_groups_in_map:
-              gaps.append("regime_b_document_heldout_groups is empty but split map has heldout groups")
+              gaps.append("regime_b_document_heldout_groups is empty but split map has heldout/shadow_dev groups")
 
           # (c) Document-heldout excluded-article artifact exists iff regime B groups non-empty
           if regime_b_set:

@@ -1,0 +1,80 @@
+{
+  "question_id": "qa-shadow-dev-86",
+  "text": "Which was established first: the federal capital district created by the 1790 Residence Act, or the 42nd state admitted in 1889?",
+  "split": "shadow_dev",
+  "question_type": "comparison",
+  "meta": {
+    "source_articles": [
+      "a:washington_d_c",
+      "a:washington_state"
+    ],
+    "group": "washington",
+    "evidence_groups": [
+      "washington"
+    ],
+    "original_id": "qa-heldout-86",
+    "exposure_note": "exposed in git history through f819d9b; reclassified shadow-dev per Issue 1; never sealed"
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:washington_d_c:00:000",
+          "text": "Washington, D.C., officially the District of Columbia and commonly known as Washington, is the federal capital city of the United States, and its only federal district.\nThe city stands on the north-east bank of the Potomac River, across from the state of Virginia, surrounded by Maryland to its north, east, and south. The district was named for Columbia, the female personification of the American nation, through which human form and attributes are applied to the United States. \"Washington\" is a more recent addition to the city's common name, and is from the name of George Washington, the first U.S. president.\nThe U.S. Constitution in 1789 called for the creation of a federal district under exclusive jurisdiction of the U.S. Congress, which would become a constituent part of the Union that is not part of any state or territory. The Residence Act, adopted on July 16, 1790, approved the creation of the capital district along the Potomac River, and is considered the city's founding date. In 1800, when the capital was moved from Philadelphia, the 6th Congress started meeting in the then-unfinished Capitol Building, and the second president, John Adams, moved into the newly finished White House. In 1801, the District of Columbia, formerly part of Maryland and Virginia and including the existing settlements of Georgetown and Alexandria, was officially made the federal district; initially, the city was a separate settlement within the larger district. In 1846, Congress reduced the size of the district when it returned the land that Virginia had ceded, including the city of Alexandria. In 1871, it made the entire district into a single municipality. There have been several failed efforts to reduce the district further and admit the rest as a state since the 1880s, including a statehood bill that passed the House of Representatives in 2021 but was not adopted by the U.S. Senate.\nDesigned in 1791 by Pierre Charles L'Enfant, the city is split into quadrants that meet at the Capitol Building, with 131 neighborhoods overall. As of the 2020 census, the city's population was 689,545. During the workweek, commuters from the city's Maryland and Virginia suburbs increase the city's daytime population to more than one million. The Washington metropolitan area, which includes parts of Maryland, Virginia, and West Virginia, is the country's seventh-largest metropolitan area, with a 2023 population of 6.3 million residents. A locally elected mayor and 13-member council have governed the district since 1973, though Congress retains the power to overturn local laws. Washington, D.C., residents do not have voting representation in Congress, but elect a single non-voting congressional delegate to the U.S. House of Representatives. The city's voters choose three presidential electors in accordance with the Twenty-third Amendment, passed in 1961.\nWashington, D.C., anchors the southern end of the Northeast megalopolis. As the seat of the U.S. federal government, the city is an important world political capital. The city hosts buildings that house federal government headquarters, including the White House, U.S. Capitol, Supreme Court Building, and multiple federal departments and agencies. The city is home to many national monuments and museums, located most prominently on or around the National Mall, including the Jefferson Memorial, Lincoln Memorial, and Washington Monument. It hosts 177 foreign embassies and the global headquarters of the World Bank, International Monetary Fund, Organization of American States, and other international organizations. Home to many of the nation's largest industry associations, non-profit organizations, and think tanks, the city is known as a lobbying hub, which is centered on and around K Street. It is also among the country's top tourist destinations; in 2022, it had an estimated 20.7 million domestic and 1.2 million international visitors, the seventh-most among U.S. cities."
+        }
+      ],
+      [
+        {
+          "node_id": "p:washington_state:05:000",
+          "text": "The growing population of Oregon Territory north of the Columbia River formally requested a new territory. As a result of the Monticello Convention, held in present-day Cowlitz County, the U.S. Congress passed legislation to create Washington Territory. It was signed into law by President Millard Fillmore on March 2, 1853. The boundary of Washington Territory initially extended farther east than the present state, including what is now the Idaho panhandle and parts of western Montana, and picked up more land to the southeast that was left behind when Oregon was admitted as a state; the creation of Idaho Territory in 1863 established the final eastern border.\nA Washington state constitution was drafted and ratified in 1878, but it was never officially adopted. Although never approved by the United States Congress, the 1878 constitution is an important historical document that shows the political thinking of the time; it was used extensively during the drafting of Washington state's 1889 constitution, the one and only official Constitution of the State of Washington. Washington became the 42nd state of the United States on November 11, 1889.\nEarly prominent industries in the new state included agriculture and lumber. In Eastern Washington, the Yakima River Valley became known for its apple orchards, while the growth of wheat using dry farming techniques became particularly productive. Heavy rainfall to the west of the Cascade Range produced dense forests, and the ports along Puget Sound prospered from the manufacturing and shipping of lumber products, particularly the Douglas fir. Other industries that developed in the state included fishing, salmon canning and mining."
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:washington_d_c:00:000",
+        "p:washington_state:05:000"
+      ]
+    ],
+    "hop_glosses": [
+      "Each passage supplies one establishment year (1790 vs 1889); comparing them selects the capital district."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:washington_d_c:01:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    },
+    {
+      "node_id": "p:washington_state:06:000",
+      "negative_type": "token_overlap_nearmiss",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    }
+  ],
+  "labels": {
+    "answer_text": "the capital district",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b3",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": "",
+    "reclassification": {
+      "by": "round0-repair-worker-phase1",
+      "at": "2026-10-01",
+      "from_split": "heldout",
+      "to_split": "shadow_dev",
+      "from_id": "qa-heldout-86",
+      "to_id": "qa-shadow-dev-86",
+      "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
+    }
+  }
+}

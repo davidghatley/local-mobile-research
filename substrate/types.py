@@ -212,7 +212,7 @@ class SupportAtom:
 class Question:
   question_id: str
   text: str
-  split: str = "dev"  # train | dev | heldout
+  split: str = "dev"  # train | dev | shadow_dev | private_test ("heldout" retired, legacy only)
   meta: dict[str, str] = field(default_factory=dict)
 
   def to_dict(self) -> dict:

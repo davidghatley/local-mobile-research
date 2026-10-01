@@ -607,6 +607,8 @@ def stage_qa_validation():
 
 # ===========================================================================
 # Stage 6 -- question/label partition, leakage and split validation
+# (Issue 1 vocabulary: shadow_dev is dev-visible; private_test lives
+# out-of-repo at LMR_PRIVATE_EVAL_DIR; "heldout" is retired legacy.)
 # ===========================================================================
 
 SEAL_REL = "corpus/heldout_labels.sealed.json"
@@ -637,7 +639,7 @@ def stage_partition():
       absent.append(SEAL_REL)
     detail("freeze artifacts absent: %s" % ", ".join(absent))
     detail("these are REAL freeze blockers; the benchmark question set and the")
-    detail("sealed held-out label artifact do not exist yet. Use --code-only")
+    detail("sealed private-test label artifact (out-of-repo, Phase 5) do not exist yet. Use --code-only")
     detail("to exercise the code-level portion before they are produced.")
     mark_fail()
     return finish()
@@ -652,17 +654,28 @@ def stage_partition():
   detail("questions: %d ids, %d structural error(s)"
          % (len(qids), len(checked["errors"])))
 
-  # No held-out entry may appear in the public/dev questions file.
+  # No legacy-heldout entry may appear in the public/dev questions file,
+  # and no private_test entry may appear in ANY in-repo file (private data
+  # lives OUTSIDE the repo at LMR_PRIVATE_EVAL_DIR, Phase 5).
   with open(questions_path, "r", encoding="utf-8") as fh:
     entries = json.load(fh)
   leaked = [e.get("question_id") for e in entries
             if isinstance(e, dict) and e.get("split") == "heldout"]
   if leaked:
-    detail("questions: %d entry/entries declare split=heldout (partition "
-           "violation)" % len(leaked))
+    detail("questions: %d entry/entries declare split=heldout (retired legacy "
+           "partition violation)" % len(leaked))
     mark_fail()
   else:
-    detail("questions: no entry declares split=heldout")
+    detail("questions: no entry declares retired split=heldout")
+  private_in_repo = [e.get("question_id") for e in entries
+            if isinstance(e, dict) and e.get("split") == "private_test"]
+  if private_in_repo:
+    detail("questions: %d entry/entries declare split=private_test IN-REPO "
+           "(rejected: private data lives outside the repo)"
+           % len(private_in_repo))
+    mark_fail()
+  else:
+    detail("questions: no entry declares split=private_test (out-of-repo, Phase 5)")
 
   # --- sealed side: opaque bytes only -------------------------------------
   seal_record_path = os.path.join(ROOT, SEAL_RECORD_REL)
@@ -1126,14 +1139,16 @@ def stage_leakage_artifacts():
 
   with open(sm_path, "r", encoding="utf-8") as fh:
     split_map = json.load(fh)
+  # Legacy "heldout" accepted alongside forward "shadow_dev" (Phase 1);
+  # Phase 3 reworks regimes to paired conditions (TODO, not here).
   bad_group = [g.group_key for g in meta.regime_b_groups
                if split_map.get("groups", {}).get(g.group_key, {}).get("split")
-               != "heldout"]
+               not in ("heldout", "shadow_dev")]
   if bad_group:
-    detail("regime B contains non-heldout group(s): %s" % bad_group[:3])
+    detail("regime B contains non-heldout/shadow_dev group(s): %s" % bad_group[:3])
     mark_fail()
   else:
-    detail("regime B groups are a strict subset of heldout groups: OK")
+    detail("regime B groups are a strict subset of heldout/shadow_dev groups: OK")
 
   excluded_rel = "corpus/regime_b_excluded_articles.json"
   excluded_path = os.path.join(ROOT, excluded_rel)

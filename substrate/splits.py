@@ -1,10 +1,13 @@
-"""Train / dev / sealed-heldout split assignment and custodian separation.
+"""Train / dev / shadow-dev / private-test split assignment and custodian separation.
 
 Design:
 - Deterministic seeded-hash assignment: split = f(sha256(seed + question_id)).
-- Sealed held-out labels live in a SEPARATE file owned by the custodian.
-- ``HeldoutCustodian`` refuses to disclose labels unless ``allow_heldout=true``
-  is passed explicitly (benchmark phase only). Dev code paths pass nothing.
+  Seeded-hash fractions apply to the train/dev/heldout-era only (legacy).
+  ``shadow_dev`` and ``private_test`` are EXPLICIT group-mapped splits, never
+  seeded-hash assigned (see Issue 1 decision below).
+- Sealed private-test labels live OUTSIDE the repo (LMR_PRIVATE_EVAL_DIR,
+  Phase 5). ``HeldoutCustodian`` refuses to disclose labels unless
+  ``allow_heldout=true`` is passed explicitly (benchmark phase only).
 - OPAQUE seal verification (``verify_seal_opaque`` / ``seal_hash``) hashes raw
   bytes WITHOUT parsing or printing labels, so freeze validation can confirm
   the sealed artifact without inspecting it.
@@ -14,6 +17,21 @@ Design:
   (separate file, access gate, opaque hash, audit log), not a kernel security
   boundary. True isolation requires the orchestrator to withhold the sealed
   file from development workers.
+
+Issue 1 split-vocabulary decision (2026-10-01, Phase 1):
+- SPLITS = ("train", "dev", "shadow_dev", "private_test"). "heldout" is
+  RETIRED: no new item may use it. Validators below still ACCEPT the legacy
+  "heldout" token as backward compatibility for pre-reclassification maps,
+  tests, and corpus artifacts (so existing seeded-hash branches keep working),
+  but new-item enforcement lives in the staging tripwire
+  (tests/test_shadow_dev.py: no staging file may use "heldout") and in
+  scripts/verify_round0 (in-repo "private_test" question files are rejected;
+  private data lives OUTSIDE the repo at LMR_PRIVATE_EVAL_DIR).
+- "shadow_dev" is DEV-VISIBLE (exposed in git history through f819d9b; never
+  sealed, never secret). "private_test" validates as a split NAME, but any
+  in-repo occurrence of private_test question files is rejected by
+  verification. Phase 5 hooks the out-of-repo private eval dir. Phase 3 will
+  rework regime derivation to paired conditions (not split names).
 
 No real benchmark questions exist yet; freeze is blocked until they are pinned.
 """
@@ -27,14 +45,30 @@ from dataclasses import dataclass, field
 
 TRAIN_FRACTION = 0.70
 DEV_FRACTION = 0.15
-# Remainder (0.15) -> heldout.
-SPLITS = ("train", "dev", "heldout")
+# Remainder (0.15) -> heldout (legacy seeded-hash era only).
+# Issue 1: "heldout" is RETIRED. SPLITS is the forward vocabulary;
+# DEPRECATED_HELDOUT_SPLIT is accepted by validators only as backward
+# compatibility for pre-reclassification artifacts/tests. No new item may
+# use it (enforced by tests/test_shadow_dev.py + verify_round0, not here).
+SPLITS = ("train", "dev", "shadow_dev", "private_test")
+DEPRECATED_HELDOUT_SPLIT = "heldout"
+
+
+def _is_known_split(split: object) -> bool:
+  """Forward vocabulary plus the retired legacy token (backward compat)."""
+  return split in SPLITS or split == DEPRECATED_HELDOUT_SPLIT
 
 CUSTODIAN_ENV_VAR = "HELDOUT_CUSTODIAN_MODE"
 CUSTODIAN_AUDIT_FILE = "heldout_access_log.jsonl"
 
 
 def assign_split(question_id: str, seed: str) -> str:
+  """Seeded-hash assignment for the train/dev/heldout-era only (legacy).
+
+  shadow_dev/private_test are explicit group-mapped splits and are NEVER
+  produced here. Returns "heldout" (retired token) for the remainder branch
+  to preserve determinism of pre-reclassification derivations.
+  """
   digest = hashlib.sha256(f"{seed}\x00{question_id}".encode("utf-8")).hexdigest()
   value = int(digest[:8], 16) / 0xFFFFFFFF
   if value < TRAIN_FRACTION:
@@ -94,7 +128,7 @@ def validate_questions_file(path: str) -> dict:
     ids.append(qid)
     if not entry.get("text") or not isinstance(entry.get("text"), str):
       errors.append(f"{qid}: missing/empty text")
-    if "split" in entry and entry["split"] not in SPLITS:
+    if "split" in entry and not _is_known_split(entry["split"]):
       errors.append(f"{qid}: invalid split {entry['split']!r}")
   return {"ids": ids, "errors": errors}
 
@@ -105,7 +139,13 @@ class HeldoutAccessDenied(RuntimeError):
 
 @dataclass
 class HeldoutCustodian:
-  """Gatekeeper for sealed held-out labels (procedural custody, see module doc).
+  """Gatekeeper for sealed private-test labels (procedural custody, see module doc).
+
+  NOTE (Issue 1, Phase 1): the "heldout" split name is retired. shadow_dev is
+  DEV-VISIBLE (never sealed, never secret); private_test custody is
+  OUT-OF-REPO (LMR_PRIVATE_EVAL_DIR, Phase 5 hook — not implemented here).
+  This class is retained for the sealed-label gate + audit log mechanics;
+  Phase 5 will repoint labels_path outside the repo.
 
   ``labels_path`` points at the sealed file. ``load_labels`` raises
   ``HeldoutAccessDenied`` unless ``allow_heldout=True`` AND the custodian
@@ -227,10 +267,15 @@ class HeldoutCustodian:
       fh.write(json.dumps(entry, sort_keys=True) + "\n")
 
   def question_ids_for(self, questions_path: str, split: str, seed: str) -> list[str]:
-    """List question ids for a NON-heldout split without touching labels."""
-    if split == "heldout":
+    """List question ids for a NON-sealed split without touching labels.
+
+    "heldout" (retired) and "private_test" (out-of-repo) are refused here;
+    enumerate them only through the benchmark runner with allow_heldout=True.
+    shadow_dev is dev-visible and allowed.
+    """
+    if split in ("heldout", "private_test"):
       raise HeldoutAccessDenied(
-        "enumerate held-out ids only through the benchmark runner with allow_heldout=True"
+        "enumerate sealed/private ids only through the benchmark runner with allow_heldout=True"
       )
     with open(questions_path, "r", encoding="utf-8") as fh:
       questions = json.load(fh)
@@ -247,7 +292,7 @@ def norm_title(title: str) -> str:
 
 # Question categories. Controlled QA needs full source provenance; public
 # reference questions are dev-only comparability anchors with benchmark
-# provenance (never training or heldout supervision).
+# provenance (never training, shadow_dev, private_test, or legacy-heldout supervision).
 CATEGORY_CONTROLLED = "controlled"
 CATEGORY_PUBLIC_REFERENCE = "public_reference"
 QUESTION_CATEGORIES = (CATEGORY_CONTROLLED, CATEGORY_PUBLIC_REFERENCE)
@@ -308,7 +353,7 @@ def validate_group_map(data: object, corpus_articles: set[str] | None = None) ->
       errors.append(f"group {str(group_key)[:60]}: not an object")
       continue
     split = rec.get("split")
-    if split not in SPLITS:
+    if not _is_known_split(split):
       errors.append(f"group {str(group_key)[:60]}: invalid split {split!r}")
     articles = rec.get("articles")
     if not isinstance(articles, list) or not articles:
@@ -352,8 +397,8 @@ def validate_question_provenance(
 ) -> dict:
   """Strict QA source provenance. NO implicit exemption for absent metadata.
 
-  Controlled (train/dev/heldout) questions MUST carry nonempty
-  ``meta.source_articles`` (canonical article node ids, or pilot title
+  Controlled (train/dev/shadow_dev/private_test, plus legacy "heldout")
+  questions MUST carry nonempty ``meta.source_articles`` (canonical article node ids, or pilot title
   identifiers with unambiguous resolution) AND a nonempty ``meta.group``.
   Group-only is insufficient: every source must resolve to a real corpus
   article node, belong to the claimed group, and sit in the QA's split;
@@ -361,9 +406,11 @@ def validate_question_provenance(
 
   ``public_reference`` questions are dev-only: they require
   ``meta.source_benchmark`` + ``meta.source_revision`` +
-  ``meta.original_question_id`` and are rejected on train/heldout. Their
+  ``meta.original_question_id`` and are rejected on train/shadow_dev/private_test/heldout. Their
   ``source_articles`` are optional; unresolvable/absent sources mean
   retrieval ground truth is UNKNOWN (callers must use None), never zero.
+  Controlled QA may sit on train/dev/shadow_dev/private_test (or legacy
+  "heldout" maps); public_reference is dev-only.
 
   The searchable corpus is SHARED across splits: resolution never filters by
   split; split equality is enforced on the QA declaration, not the corpus.
@@ -390,7 +437,7 @@ def validate_question_provenance(
   def group_split(group_key: str) -> str | None:
     if use_map_splits:
       split = map_groups.get(group_key)
-      return split if split in SPLITS else None
+      return split if _is_known_split(split) else None
     if split_seed in ("", "TBD"):
       return None
     return assign_split(group_key, split_seed)

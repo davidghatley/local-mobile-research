@@ -1,4 +1,10 @@
-"""QA record schema for controlled train/dev/heldout derivation (Round 0).
+"""QA record schema for controlled train/dev/shadow_dev/private_test derivation (Round 0).
+
+NOTE (Issue 1, Phase 1): "heldout" is retired; the exposed set is dev-visible
+shadow_dev, private_test lives out-of-repo (Phase 5). SPLITS below is the
+forward vocabulary; validate_draft_record still ACCEPTS the legacy "heldout"
+token as backward compatibility for pre-reclassification artifacts/tests.
+No new item may use it (enforced by tests/test_shadow_dev.py).
 
 No real questions or labels are created by this module. It defines the
 draft record shape, validation rules, and file layout used AFTER the
@@ -11,7 +17,9 @@ Layout (staging dir, human-authored drafts):
 Sealed layout (produced ONLY by the custodian seal step):
   questions.json                — qid/text/split/meta (no answers)
   labels.json                   — qid -> answer/sufficient sets (train/dev)
-  heldout_labels.sealed.json    — qid -> answer/sufficient sets (heldout, sealed)
+  heldout_labels.sealed.json    — qid -> answer/sufficient sets (legacy heldout
+                                path; Phase 5 repoints the private_test seal
+                                out-of-repo at LMR_PRIVATE_EVAL_DIR)
 
 Question types: factoid | multihop | comparison | unanswerable | ambiguous.
 Answerability: answerable | unanswerable | ambiguous (in labels, not questions).
@@ -58,7 +66,9 @@ NEGATIVE_TYPES = (
 # only with reviewed=True set by a human who confirmed it does not answer
 # the question. Lexical mining alone never establishes non-answering status.
 NEGATIVE_REVIEW_REQUIRED = True
-SPLITS = ("train", "dev", "heldout")
+SPLITS = ("train", "dev", "shadow_dev", "private_test")
+# Retired token, accepted only as backward compatibility (see module doc).
+DEPRECATED_HELDOUT_SPLIT = "heldout"
 RETRIEVER_INPUT_FIELDS = ("question_id", "text")
 
 REQUIRED_DRAFT_FIELDS = (
@@ -154,7 +164,7 @@ def validate_draft_record(rec: dict) -> list[str]:
     errors.append("record: missing/empty question_id")
   if not isinstance(rec["text"], str) or not rec["text"].strip():
     errors.append(f"{qid}: missing/empty text")
-  if rec.get("split") not in SPLITS:
+  if rec.get("split") not in SPLITS and rec.get("split") != DEPRECATED_HELDOUT_SPLIT:
     errors.append(f"{qid}: invalid split {rec.get('split')!r}")
   if rec.get("question_type") not in QUESTION_TYPES:
     errors.append(f"{qid}: invalid question_type {rec.get('question_type')!r}")

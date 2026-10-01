@@ -1,0 +1,64 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:cambridge_massachusetts:00:000",
+          "text": "Cambridge ( ) is a city in Middlesex County, Massachusetts, United States. It is located in the Greater Boston metropolitan area directly across the Charles River from Boston. The city's population as of the 2020 U.S. census was 118,403, making it the most populous city in the county, the fourth-largest in Massachusetts behind Boston, Worcester, and Springfield, and ninth-most populous in New England. The city was named in honor of the University of Cambridge in Cambridge, England, which was an important center of the Puritan theology that was embraced by the town's founders.\nFounded in December 1630 during the colonial era, Cambridge was one among the first cities established in the Thirteen Colonies, and it went on to play a historic role during the American Revolution. In May 1775, approximately 16,000 American patriots assembled in Cambridge Common to begin organizing a military retaliation against British troops following the Battles of Lexington and Concord. On July 2, 1775, two weeks after the Second Continental Congress in Philadelphia formally established the Continental Army and appointed George Washington commander of it, Washington arrived at Cambridge Common to take command of the Patriot soldiers camped there. Many of these soldiers played a role in supporting Washington's successful siege of Boston, which trapped garrisoned British troops from moving by land, forcing the British to ultimately abandon Boston. Cambridge Common is thus celebrated as the birthplace of the Continental Army.\nHarvard University, an Ivy League university founded in Cambridge in 1636, is the oldest institution of higher learning in the United States. The Massachusetts Institute of Technology (MIT), a private research university, has its 168-acre campus in Cambridge.\nKendall Square, near MIT in the eastern part of Cambridge, has been called \"the most innovative square mile on the planet\" due to the high concentration of startup companies that have emerged there since 2010. In 2022, Cambridge was home to over 250 biotech companies, with more than 120 located within the Kendall Square ZIP Code."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "p:cambridge_massachusetts:05:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    },
+    {
+      "negative_type": "sibling_paragraph",
+      "node_id": "p:cambridge_massachusetts:06:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    }
+  ],
+  "labels": {
+    "answer_text": "the University of Cambridge",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "evidence_groups": [
+      "cambridge"
+    ],
+    "group": "cambridge",
+    "source_articles": [
+      "a:cambridge_massachusetts"
+    ],
+    "original_id": "qa-heldout-02",
+    "exposure_note": "exposed in git history through f819d9b; reclassified shadow-dev per Issue 1; never sealed"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "content_hash": "",
+    "decision": "pending",
+    "rationale": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "reclassification": {
+      "by": "round0-repair-worker-phase1",
+      "at": "2026-10-01",
+      "from_split": "heldout",
+      "to_split": "shadow_dev",
+      "from_id": "qa-heldout-02",
+      "to_id": "qa-shadow-dev-02",
+      "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
+    }
+  },
+  "question_id": "qa-shadow-dev-02",
+  "question_type": "factoid",
+  "split": "shadow_dev",
+  "text": "In honor of which English university was the Middlesex County city across the Charles River from Boston named?"
+}

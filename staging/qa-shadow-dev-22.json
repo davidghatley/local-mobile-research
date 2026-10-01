@@ -1,0 +1,78 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 fixes the person (the issuing president is Abraham Lincoln); hop 2 chains to his ancestor's emigration place."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:emancipation_proclamation:00:000",
+        "p:abraham_lincoln:01:000"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:emancipation_proclamation:00:000",
+          "text": "The Emancipation Proclamation, officially Proclamation 95, was a presidential proclamation and executive order issued by United States president Abraham Lincoln on January 1, 1863, during the American Civil War. The Proclamation changed the legal status of more than 3.5 million enslaved African Americans in the secessionist Confederate states from enslaved to free. As soon as slaves escaped the control of their enslavers, either by fleeing to Union lines or through the advance of federal troops, they were permanently free. In addition, the Proclamation allowed for former slaves to \"be received into the armed service of the United States\". The Emancipation Proclamation played a significant part in the end of slavery in the United States.\nOn September 22, 1862, Lincoln issued the Preliminary Emancipation Proclamation (Proclamation 93). Its third paragraph begins:"
+        },
+        {
+          "node_id": "p:abraham_lincoln:01:000",
+          "text": "Born in a one-room log cabin in Kentucky on February 12, 1809, Abraham Lincoln was raised on Sinking Spring Farm and Knob Creek Farm near Hodgenville, Kentucky. The second child of Thomas Lincoln and Nancy Hanks Lincoln, he was a descendant of Samuel Lincoln, an Englishman who emigrated to Massachusetts in 1637 (Abraham Lincoln said that Samuel Lincoln \"came from Norwich, England, in 1638\".) His paternal grandfather and namesake, Captain Abraham Lincoln, moved the family from Virginia to Kentucky. The captain was killed in a Native American raid in 1786. The family settled in Hardin County, Kentucky, in the early 1800s. Nancy is widely assumed to have been the daughter of Lucy Hanks. Thomas and Nancy married on June 12, 1806, and moved to Elizabethtown, Kentucky. They had three children: Sarah, Abraham, and Thomas Jr., who died as an infant.\nLincoln's father bought multiple farms in Kentucky but could not get clear property titles to any, losing hundreds of acres in legal disputes. In 1816, the family moved to Indiana, where land titles were more reliable. They settled on a forested plot in Little Pigeon Creek Community. In Kentucky and Indiana, Thomas worked as a farmer, cabinetmaker, and carpenter. At various times, he owned farms, livestock, and town lots, appraised estates, and served on county patrols. Thomas and Nancy were members of a Separate Baptist Church, a pious evangelical group whose members largely opposed slavery. Overcoming financial challenges, Thomas obtained clear title to 80 acre in Little Pigeon Creek Community in 1827.\nOn October 5, 1818, Nancy died from milk sickness, leaving 11-year-old Sarah in charge of the household, which included her father, 9-year-old Abraham, and Nancy's 19-year-old orphan cousin, Dennis Hanks. Thomas married Sarah Bush Johnston, a widow with three children of her own, on December 2, 1819. Abraham became close to his stepmother and called her \"Mama\". On January 20, 1828, Lincoln's sister died in childbirth, devastating him."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "sibling_paragraph",
+      "node_id": "p:emancipation_proclamation:03:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    },
+    {
+      "negative_type": "linked_article",
+      "node_id": "p:abraham_lincoln:05:000",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d"
+    }
+  ],
+  "labels": {
+    "answer_text": "Massachusetts",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "evidence_groups": [
+      "lincoln"
+    ],
+    "group": "lincoln",
+    "source_articles": [
+      "a:emancipation_proclamation",
+      "a:abraham_lincoln"
+    ],
+    "original_id": "qa-heldout-22",
+    "exposure_note": "exposed in git history through f819d9b; reclassified shadow-dev per Issue 1; never sealed"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "content_hash": "",
+    "decision": "pending",
+    "rationale": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "reclassification": {
+      "by": "round0-repair-worker-phase1",
+      "at": "2026-10-01",
+      "from_split": "heldout",
+      "to_split": "shadow_dev",
+      "from_id": "qa-heldout-22",
+      "to_id": "qa-shadow-dev-22",
+      "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
+    }
+  },
+  "question_id": "qa-shadow-dev-22",
+  "question_type": "multihop",
+  "split": "shadow_dev",
+  "text": "The president who issued the Emancipation Proclamation on January 1, 1863 was a descendant of an Englishman who emigrated to which place in 1637?"
+}

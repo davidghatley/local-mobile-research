@@ -1,0 +1,79 @@
+{
+  "question_id": "qa-shadow-dev-48",
+  "text": "Who made their contribution first: the researcher who discovered superconductivity in solid mercury, or the theorist who predicted supercurrent through an insulating layer?",
+  "split": "shadow_dev",
+  "question_type": "comparison",
+  "meta": {
+    "source_articles": [
+      "a:superconductivity"
+    ],
+    "group": "solo:superconductivity",
+    "evidence_groups": [
+      "solo:superconductivity"
+    ],
+    "original_id": "qa-heldout-48",
+    "exposure_note": "exposed in git history through f819d9b; reclassified shadow-dev per Issue 1; never sealed"
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:superconductivity:01:000",
+          "text": "Superconductivity was discovered in solid mercury on April 8, 1911, by Heike Kamerlingh Onnes, who was studying the resistance of mercury at cryogenic temperatures using the recently produced liquid helium as a refrigerant. At the temperature of 4.2 K, he observed that the resistance abruptly disappeared. In the same experiment, he also observed the superfluid transition of helium at 2.2 K, without recognizing its significance. The precise date and circumstances of the discovery were only reconstructed a century later, when Onnes's notebook was found. In subsequent decades, superconductivity was observed in several other materials. In 1913, Tin and lead were found to superconduct at 3.8 K and 7 K respectively, and in 1941 niobium nitride was found to superconduct at 16 K.\nGreat efforts have been devoted to finding out how and why superconductivity works; the important step occurred in 1933, when Meissner and Ochsenfeld discovered that superconductors expelled applied magnetic fields, a phenomenon which has come to be known as the Meissner effect. In 1935, Fritz and Heinz London showed that the Meissner effect was a consequence of the minimization of the electromagnetic free energy carried by superconducting current."
+        }
+      ],
+      [
+        {
+          "node_id": "p:superconductivity:05:000",
+          "text": "In 1962, Josephson made the important theoretical prediction that a supercurrent can flow between two pieces of superconductor separated by a thin layer of insulator. This phenomenon, now called the Josephson effect, is exploited by superconducting devices such as SQUIDs. It is used in the most accurate available measurements of the magnetic flux quantum Φ0 = h/(2e), where h is the Planck constant. Coupled with the quantum Hall resistivity, this leads to a precise measurement of the Planck constant. Josephson was awarded the Nobel Prize for this work in 1973.\nIn 2008, it was proposed that the same mechanism that produces superconductivity could produce a superinsulator state in some materials, with almost infinite electrical resistance. The first development and study of superconducting Bose–Einstein condensate (BEC) in 2020 suggested a \"smooth transition between\" BEC and Bardeen-Cooper-Shrieffer regimes."
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:superconductivity:01:000",
+        "p:superconductivity:05:000"
+      ]
+    ],
+    "hop_glosses": [
+      "Each passage dates one contribution (1911 discovery vs 1962 prediction); comparing them selects Onnes."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:superconductivity:02:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    },
+    {
+      "node_id": "p:superconductivity:06:000",
+      "negative_type": "token_overlap_nearmiss",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b2"
+    }
+  ],
+  "labels": {
+    "answer_text": "Heike Kamerlingh Onnes",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b2",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": "",
+    "reclassification": {
+      "by": "round0-repair-worker-phase1",
+      "at": "2026-10-01",
+      "from_split": "heldout",
+      "to_split": "shadow_dev",
+      "from_id": "qa-heldout-48",
+      "to_id": "qa-shadow-dev-48",
+      "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
+    }
+  }
+}

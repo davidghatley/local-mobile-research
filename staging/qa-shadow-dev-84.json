@@ -1,0 +1,79 @@
+{
+  "question_id": "qa-shadow-dev-84",
+  "text": "Which consumer headset effort came first: the 1991 headset for the Mega Drive home console, or the headset first presented at the E3 video game trade show in 2012?",
+  "split": "shadow_dev",
+  "question_type": "comparison",
+  "meta": {
+    "source_articles": [
+      "a:virtual_reality"
+    ],
+    "group": "solo:virtual reality",
+    "evidence_groups": [
+      "solo:virtual reality"
+    ],
+    "original_id": "qa-heldout-84",
+    "exposure_note": "exposed in git history through f819d9b; reclassified shadow-dev per Issue 1; never sealed"
+  },
+  "evidence": {
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:virtual_reality:06:000",
+          "text": "The 1990s saw the first widespread commercial releases of consumer headsets. In 1992, for instance, Computer Gaming World predicted \"affordable VR by 1994\".\nIn 1991, Sega announced the Sega VR headset for the Mega Drive home console. It used LCD screens in the visor, stereo headphones, and inertial sensors that allowed the system to track and react to the movements of the user's head. In the same year, Virtuality launched and went on to become the first mass-produced, networked, multiplayer VR entertainment system that was released in many countries, including a dedicated VR arcade at Embarcadero Center. Costing up to $73,000 per multi-pod Virtuality system, they featured headsets and exoskeleton gloves that gave one of the first \"immersive\" VR experiences."
+        }
+      ],
+      [
+        {
+          "node_id": "p:virtual_reality:08:000",
+          "text": "In 2010, Palmer Luckey designed the first prototype of the Oculus Rift. This prototype, built on a shell of another virtual reality headset, was only capable of rotational tracking. However, it boasted a 90-degree field of vision that was previously unseen in the consumer market at the time. Luckey eliminated distortion issues arising from the type of lens used to create the wide field of vision using software that pre-distorted the rendered image in real-time. This initial design would later serve as a basis from which the later designs came. In 2012, the Rift was presented for the first time at the E3 video game trade show by John Carmack. In 2014, Facebook (later Meta) purchased Oculus VR for what at the time was stated as $2 billion but later revealed that the more accurate figure was $3 billion. This purchase occurred after the first development kits ordered through Oculus' 2012 Kickstarter had shipped in 2013 but before the shipping of their second development kits in 2014. ZeniMax, Carmack's former employer, sued Oculus and Facebook for taking company secrets to Facebook; the verdict was in favor of ZeniMax, settled out of court later."
+        }
+      ]
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:virtual_reality:06:000",
+        "p:virtual_reality:08:000"
+      ]
+    ],
+    "hop_glosses": [
+      "Each headset passage supplies one debut year (1991 vs 2012); comparing them selects the Sega VR headset."
+    ]
+  },
+  "hard_negatives": [
+    {
+      "node_id": "p:virtual_reality:07:000",
+      "negative_type": "sibling_paragraph",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    },
+    {
+      "node_id": "p:virtual_reality:09:000",
+      "negative_type": "token_overlap_nearmiss",
+      "reviewed": true,
+      "reviewer": "round0-heldout-author-5d-b3"
+    }
+  ],
+  "labels": {
+    "answer_text": "Sega VR",
+    "answerability": "answerable"
+  },
+  "provenance": {
+    "author": "round0-heldout-author-5d-b3",
+    "author_model": "opencode/muse-spark-1.3-free",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
+    "decision": "pending",
+    "rationale": "",
+    "content_hash": "",
+    "reclassification": {
+      "by": "round0-repair-worker-phase1",
+      "at": "2026-10-01",
+      "from_split": "heldout",
+      "to_split": "shadow_dev",
+      "from_id": "qa-heldout-84",
+      "to_id": "qa-shadow-dev-84",
+      "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
+    }
+  }
+}

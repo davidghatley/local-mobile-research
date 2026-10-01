@@ -16,6 +16,12 @@ Regime B groups are a small subset of held-out groups with >=4 articles each
 and diverse topics. Regime B groups are ALWAYS a subset of held-out groups,
 never train/dev.
 
+NOTE (Issue 1, Phase 1): derivation below still keys on the legacy "heldout"
+split for backward compatibility with the existing split map. shadow_dev is
+the forward dev-visible name for the exposed set; private_test lives
+out-of-repo (Phase 5). Phase 3 will rework regimes to paired conditions (NOT
+split names) — TODO, behavior intentionally unchanged here.
+
 Helper: aggregate_across_regimes() refuses to pool mixed-regime metrics
 (raises ValueError) rather than silently aggregating.
 """
@@ -39,7 +45,7 @@ REGIMES = (REGIME_A, REGIME_B)
 class RegimeGroup:
     """A group assigned to a generalization regime."""
     group_key: str
-    split: str  # always "heldout" for both regimes
+    split: str  # "heldout" (legacy) for both regimes; Phase 3 reworks to paired conditions
     article_count: int
     article_titles: list[str]
     regime: str  # REGIME_A or REGIME_B
@@ -137,7 +143,8 @@ def derive_regime_metadata(split_map_path: str) -> RegimeMetadata:
     regime_a_groups and regime_b_groups populated.
 
     Regime B selection criteria:
-    - Group must be in 'heldout' split
+    - Group must be in 'heldout' split (legacy; Phase 3 reworks to paired
+      conditions — behavior intentionally unchanged in Phase 1)
     - Group must have >= 4 articles
     - Select a diverse set of topics (prefer non-solo groups first,
       then diverse solo groups)

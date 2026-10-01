@@ -6,6 +6,12 @@ Defaults to train/dev ONLY: heldout drafts are refused unless BOTH
 (custodian seal path). Emits a manifest with hashes/counts/ids only —
 never question/answer/label text.
 
+NOTE (Issue 1, Phase 1): "heldout" is retired; the exposed set is now
+dev-visible shadow_dev (no custodian gate needed for shadow_dev itself —
+the legacy heldout gate below is retained for backward compat). private_test
+drafts are ALWAYS refused in-repo (private data lives OUTSIDE the repo at
+LMR_PRIVATE_EVAL_DIR, Phase 5).
+
 Usage:
   python3 -m data_tools.validate_qa --staging <dir> --corpus corpus/corpus.jsonl \\
       --split-map corpus/split_map.json [--allow-heldout]
@@ -75,6 +81,12 @@ def main(argv: list[str] | None = None) -> int:
     print(f"refused: {held} heldout draft(s); custodian seal path required",
           file=sys.stderr)
     return 2
+  priv = sum(1 for r in records if r.get("split") == "private_test")
+  if priv:
+    print(f"refused: {priv} private_test draft(s) in-repo; private data lives "
+          f"outside the repo (LMR_PRIVATE_EVAL_DIR, Phase 5)",
+          file=sys.stderr)
+    return 2
   ids = [r.get("question_id", "?") for r in records]
   if len(set(ids)) != len(ids):
     print("duplicate question ids", file=sys.stderr)
@@ -106,7 +118,7 @@ def main(argv: list[str] | None = None) -> int:
     "drafts": len(records),
     "question_ids": sorted(str(i) for i in ids),
     "splits": {s: sum(1 for r in records if r.get("split") == s)
-               for s in ("train", "dev", "heldout")},
+               for s in ("train", "dev", "heldout", "shadow_dev", "private_test")},
     "types": {},
     "approved": sum(1 for r in records
                     if isinstance(r, dict) and r.get("provenance", {}).get(
