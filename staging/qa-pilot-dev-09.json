@@ -17,6 +17,18 @@
           "node_id": "t:chimpanzee:00:000:07",
           "text": "Chimpanzees live in a strict male-dominated hierarchy, where disputes are generally settled without the need for violence."
         }
+      ],
+      [
+        {
+          "node_id": "p:gorilla:08:000",
+          "text": "Gorillas live in groups called troops. Troops tend to be made of one adult male or silverback, with a harem of multiple adult females and their offspring. However, multiple-male troops also exist. A silverback is typically more than 12 years of age, and is named after the distinctive patch of silver hair on his back, which comes with maturity. Silverbacks have large canine teeth that also come with maturity. Both males and females tend to emigrate from their natal groups. For mountain gorillas, females disperse from their natal troops more than males. Mountain gorillas and western lowland gorillas also commonly transfer to second new groups.\nMature males also tend to leave their groups and establish their own troops by attracting emigrating females. However, male mountain gorillas sometimes stay in their natal troops and become subordinate to the silverback. If the silverback dies, these males may be able to become dominant or mate with the females. This behaviour has not been observed in eastern lowland gorillas. In a single male group, when the silverback dies, the females and their offspring disperse and find a new troop.\nWithout a silverback to protect them, the infants will likely fall victim to infanticide. Joining a new group is likely to be a tactic against this. However, while gorilla troops usually disband after the silverback dies, female eastern lowland gorillas and their offspring have been recorded staying together until a new silverback transfers into the group. This likely serves as protection from leopards."
+        }
+      ],
+      [
+        {
+          "node_id": "p:chimpanzee:10:000",
+          "text": "Chimpanzees live in communities within home ranges which average 4 km in diameter. Communities can reach over 200 members, though the apes spend most of their time traveling in small, temporary groups consisting of six or fewer individuals. These groups may consist of any combination of age and sexes. Both males and females sometimes travel alone. Chimpanzee communities are considered fission–fusion societies, as individuals consistently leave and join groups. At the core of these social structures are males, who are the more dominant sex and remain in their natal communities, while females generally emigrate at adolescence. Males and sexually receptive females are the most social members of a community. Males appear to be social with individuals of any sex or class, while receptive females typically avoid each other and non-receptive females prefer to associate amongst themselves.\nMale chimpanzees compete aggressively and exist in a linear dominance hierarchy. Top-ranking males tend to be aggressive even when there is dominance stability in the hierarchy. This is probably due to the chimpanzee's fission-fusion society, with male chimpanzees leaving groups and returning after extended periods of time. With this, a dominant male is unsure if any changes have occurred in his absence and must re-establish his dominance. Thus, a large amount of aggression occurs within five to fifteen minutes after a reunion. During these encounters, displays of low level aggression are generally preferred over physical attacks of high aggression. Males maintain and improve their social ranks by forming coalitions, which have been characterised as \"exploitative\" and based on an individual's ability and readiness, in certain situations, to help achieve favourable outcomes during conflicts. Being in a coalition allows males to dominate a third individual when they could not by themselves, as politically apt chimpanzees can exert power over aggressive interactions regardless of their rank. Coalitions can also give an individual male the confidence to challenge a dominant or larger male. The more allies a male has, the better his chance of becoming dominant. However, most changes in hierarchical rank are caused by one-on-one interactions, usually involving low-level aggressive displays."
+        }
       ]
     ]
   },
@@ -24,7 +36,8 @@
     {
       "negative_type": "neighbor_sentence",
       "node_id": "t:gorilla:00:000:05",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -53,9 +66,66 @@
   "provenance": {
     "author": "round0-qa-pilot-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "bf87092e9deb7e91f2eb7e5bed09719f09460bba1420d21d52231e42fa6843dd",
+    "content_hash": "74fa4bd7ad0a674ac42cfeeb6adcf5b5b00cb76f9de5f57248239c0a67ff2d90",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-pilot-verification.md Q9 Correction Note (Pass 1 re-evaluation overturning REJECT): ambiguous structure correct, both readings grounded (gorilla t:gorilla:00:000:04; chimpanzee t:chimpanzee:00:000:06/07 verified at corpus lines 36533-36534), mutually exclusive sufficient sets, neighbor-sentence hard negative reviewed=true, no tautology.",
+    "rationale": "Phase 4 repair type repair-alternatives: independent re-verification (docs/qa-semantic-audit-reverify.md) reproduced every corpus atom, confirmed the repair and leave-one-out minimality, and APPROVED this draft; approval is bound to the current content hash 74fa4bd7ad0a674ac42cfeeb6adcf5b5b00cb76f9de5f57248239c0a67ff2d90.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:gorilla:00:000:04",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "supplies the gorilla reading (troops with a silverback leader); single-atom set, minimal on leave-one-out and unchanged by the Phase 4 repair",
+        "reviewed_utc": "2026-10-01T04:10:04+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:chimpanzee:00:000:06",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "supplies the 200-plus-member group size for the chimpanzee reading; removing it leaves only the hierarchy atom, so it is necessary - unchanged by the Phase 4 repair",
+        "reviewed_utc": "2026-10-01T04:10:04+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 1
+      },
+      {
+        "atom_node_id": "t:chimpanzee:00:000:07",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "supplies the male-dominated hierarchy for the chimpanzee reading; removing it leaves only the group-size atom, so it is necessary - unchanged by the Phase 4 repair",
+        "reviewed_utc": "2026-10-01T04:10:04+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 1
+      },
+      {
+        "atom_node_id": "p:gorilla:08:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "repair-alternatives",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "genuinely different sufficient set for reading 0: the section 08 gorilla paragraph is a different node id and a different passage from the lead atom and independently determines the gorilla reading; added by repair-alternatives",
+        "reviewed_utc": "2026-10-01T04:10:04+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 2
+      },
+      {
+        "atom_node_id": "p:chimpanzee:10:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "repair-alternatives",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "genuinely different sufficient set for reading 1: the section 10 chimpanzee paragraph is a different node id and a different passage from the lead atoms and independently determines the chimpanzee reading; added by repair-alternatives",
+        "reviewed_utc": "2026-10-01T04:10:04+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 3
+      }
+    ],
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

@@ -13,6 +13,12 @@
           "node_id": "t:amazon_rainforest:00:000:00",
           "text": "The Amazon rainforest, also called the Amazon jungle, Amazonia, or simply the Amazon, is a moist broadleaf tropical rainforest in the Amazon biome that covers most of the Amazon basin of South America."
         }
+      ],
+      [
+        {
+          "node_id": "p:amazon_company:00:000",
+          "text": "Amazon.com, Inc. (doing business as Amazon) is an American multinational technology conglomerate engaged in e-commerce, cloud computing, online advertising, digital streaming, entertainment, and artificial intelligence. Founded in 1994 by Jeff Bezos in Bellevue, Washington, the company started as an online book marketplace that gradually expanded to include virtually all consumer products as well as many other categories, positioned as \"The Everything Store\".\nAs of 2026 it was the world's biggest online retailer. Amazon sells books, electronics, pharmaceuticals, car parts, video games, dining products, jewelry, food, music, and sports equipment.\nThe company has multiple subsidiaries, including Amazon Web Services (AWS), which provides cloud computing; Zoox, a self-driving car division; satellite Internet provider Kuiper Systems; and Amazon Lab126, a computer hardware R&D provider. Other subsidiaries include Ring, Twitch, IMDb, and grocer Whole Foods Market. Amazon distributes downloadable and streaming content through its Amazon Prime Video, MGM+, Amazon Music, Twitch, Audible, and Wondery units. It publishes books through its publishing arm, Amazon Publishing; produces and distributes film and television content through Amazon MGM Studios, including the Metro-Goldwyn-Mayer studio; and owns Brilliance Audio and Audible, which produce and distribute audiobooks, respectively. Amazon produces consumer electronics, most notably Kindle e-readers, Echo devices, Fire tablets, and Fire TVs.\nAmazon has a reputation as an industry disruptor through innovation and aggressive reinvestment of profits. , it was the largest online retailer and marketplace, smart speaker provider, cloud computing service provider through AWS, live-streaming service provider through Twitch, and Internet company as measured by revenue and market share. In 2021, it surpassed Walmart as the world's largest retailer outside of China, supported by its subscription plan, Amazon Prime, which had 200 million subscribers worldwide. It is the second-largest private employer in the US, second-largest company in the US by revenue (after Walmart), and the largest company in the world by revenue as of 2026. , Amazon was the world's 12th-most visited website. 84% of its traffic comes from the US.\nAmazon has been criticized for its alleged business practices, including surveillance partnerships, poor working conditions, anti-union efforts, environmental harm, anticompetitive behavior, censorship controversies, and exploitative treatment of small businesses and suppliers."
+        }
       ]
     ]
   },
@@ -43,16 +49,52 @@
   "meta": {
     "group": "amazon",
     "source_articles": [
-      "a:jeff_bezos",
-      "a:amazon_rainforest"
+      "a:amazon_company",
+      "a:amazon_rainforest",
+      "a:jeff_bezos"
     ]
   },
   "provenance": {
     "author": "round0-qa-train-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "95eaacc0fa28a49f7e0b22edbc3ba82fc0d269907e3531b34706e62a184e23e5",
+    "content_hash": "05dedcf476fdfe692b4c4ae850929b7f44ced514bad67535c1ddebf8fa03c5e9",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 1 (content): evidence t:jeff_bezos:00:000:00 and t:amazon_rainforest:00:000:00 exact matches, both readings captured, answerability ambiguous correct; hard negative p:amazons:08:000 genuine entity-confusion non-evidence, no overlap; single-group amazon compliant. Approval is bound to the current content hash 95eaacc0fa28.",
+    "rationale": "Phase 4 repair type repair-alternatives: independent re-verification (docs/qa-semantic-audit-reverify.md) reproduced every corpus atom, confirmed the repair and leave-one-out minimality, and APPROVED this draft; approval is bound to the current content hash 05dedcf476fdfe692b4c4ae850929b7f44ced514bad67535c1ddebf8fa03c5e9.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:jeff_bezos:00:000:00",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "supplies the company reading (Amazon as the e-commerce and cloud company founded by Bezos); single-atom set, minimal on leave-one-out and unchanged by the Phase 4 repair",
+        "reviewed_utc": "2026-10-01T04:10:04+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:amazon_rainforest:00:000:00",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "supplies the rainforest reading (moist broadleaf tropical rainforest in South America); single-atom set, minimal on leave-one-out and unchanged by the Phase 4 repair",
+        "reviewed_utc": "2026-10-01T04:10:04+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 1
+      },
+      {
+        "atom_node_id": "p:amazon_company:00:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "repair-alternatives",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "genuinely different sufficient set for reading 0: the Amazon.com article lead paragraph is a different node id and a different passage from the Bezos atom and independently determines the company reading; added by repair-alternatives, and the sentence child t:amazon_company:00:000:01 was deliberately not recorded because it is a descendant, not a distinct set",
+        "reviewed_utc": "2026-10-01T04:10:04+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 2
+      }
+    ],
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

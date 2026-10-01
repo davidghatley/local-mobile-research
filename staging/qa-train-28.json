@@ -7,6 +7,12 @@
           "node_id": "t:k2:00:000:00",
           "text": "K2, also known as Mount Godwin-Austen, at 8611 metres above sea level, is the second-highest mountain on Earth, after Mount Everest at 8849 metres."
         }
+      ],
+      [
+        {
+          "node_id": "t:k2:03:000:00",
+          "text": "K2's height given on maps and encyclopaedias is 8611 metres."
+        }
       ]
     ]
   },
@@ -31,9 +37,33 @@
   "provenance": {
     "author": "round0-qa-train-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "592ed57933a5f520506a8e23552909fb48dc03c0efae46329af1ff4a8610f0da",
+    "content_hash": "bb55452056ff867fa53b58a05c752f74d7b5cce48b596d506f0fb29eed8c8d46",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 3 (content): evidence t:k2:00:000:00 exact corpus text match, answer 8611 metres supported; hard negative p:mount_everest:07:000 genuine same-group distractor with no ancestor/descendant overlap; single-group peaks compliant; no tautology. Approval is bound to the current content hash 592ed57933a5.",
+    "rationale": "Phase 4 repair type repair-alternatives: independent re-verification (docs/qa-semantic-audit-reverify.md) reproduced every corpus atom, confirmed the repair and leave-one-out minimality, and APPROVED this draft; approval is bound to the current content hash bb55452056ff867fa53b58a05c752f74d7b5cce48b596d506f0fb29eed8c8d46.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:k2:00:000:00",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "supplies the 8611 m answer from the K2 lead passage; single-atom set, minimal on leave-one-out and unchanged by the Phase 4 repair",
+        "reviewed_utc": "2026-10-01T04:10:04+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:k2:03:000:00",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "repair-alternatives",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "genuinely different sufficient set: the maps-and-encyclopaedias height sentence is a different node id and a different passage from the lead atom and independently gives the same 8611 m answer; added by repair-alternatives as the SENTENCE atom, with the parent p:k2:03:000 excluded because its continuation cites a conflicting 8609.02 m figure",
+        "reviewed_utc": "2026-10-01T04:10:04+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 1
+      }
+    ],
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },

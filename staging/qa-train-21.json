@@ -1,18 +1,8 @@
 {
   "evidence": {
-    "is_multi_hop": true,
-    "reference_hop_chains": [
-      [
-        "t:mars_bar:00:000:01",
-        "p:mars_bar:01:000"
-      ]
-    ],
+    "is_multi_hop": false,
     "sufficient_sets": [
       [
-        {
-          "node_id": "t:mars_bar:00:000:01",
-          "text": "It was first manufactured in 1932 in England by Forrest Mars Sr., modelled after his father's Milky Way bar."
-        },
         {
           "node_id": "p:mars_bar:01:000",
           "text": "The Mars bar was first manufactured in Slough, England, in 1932 by Forrest Mars Sr., son of American candy maker Frank C. Mars. He modelled the Mars bar after his father's Milky Way bar, which was already popular in the US, adjusting the recipe to better suit European tastes. He had a staff of twelve people, and originally advertised it as using Cadbury's chocolate couverture. As a result, the \"British\" Mars bar (also labelled the \"European\", \"Global\" or \"Original\" Mars bar) is considered to be a version of the American Milky Way bar, with only a slightly sweeter taste."
@@ -41,14 +31,28 @@
   "provenance": {
     "author": "round0-qa-train-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "7ae75e751cca5a709c257bbbeb913a5903f0d8d6552ea6b8595f44996d712416",
+    "content_hash": "09d30d6c8cfe432b4a6e9579da0466771fe05d7f55191a18f556245cc4aa9295",
     "decision": "approve",
-    "rationale": "APPROVE per docs/qa-train-verification.md Pass 3 (content): evidence t:mars_bar:00:000:01 + p:mars_bar:01:000 exact corpus text match, answer his father Frank C. Mars's Milky Way bar supported by multihop chain; hard negative p:mars_inc:09:000 genuine same-group distractor with no ancestor/descendant overlap; single-group mars compliant; no tautology. Approval is bound to the current content hash 7ae75e751cca.",
+    "rationale": "Phase 4 repair type repair-minimality: independent re-verification (docs/qa-semantic-audit-reverify.md) reproduced every corpus atom, confirmed the repair and leave-one-out minimality, and APPROVED this draft; approval is bound to the current content hash 09d30d6c8cfe432b4a6e9579da0466771fe05d7f55191a18f556245cc4aa9295.",
+    "semantic_audit": [
+      {
+        "additional_decision_token": "relabel-multihop",
+        "atom_node_id": "p:mars_bar:01:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "repair-minimality",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "single paragraph atom supplies both the modelled-after fact and the father/relationship answer; the redundant atom t:mars_bar:00:000:01 was dropped (entailed by this paragraph) and the now-single-atom set was relabelled factoid - repair-minimality plus relabel-multihop",
+        "reviewed_utc": "2026-10-01T04:10:04+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
     "verifier": "independent-ultra-verifier",
     "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-train-21",
-  "question_type": "multihop",
+  "question_type": "factoid",
   "split": "train",
   "text": "Forrest Mars Sr. first manufactured the Mars bar in 1932; after whose candy bar did he model it, and what was that person's relationship to him?"
 }
