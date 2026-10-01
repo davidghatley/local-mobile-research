@@ -17,9 +17,10 @@ SCOPE AND UNITS (all readings carry these explicitly):
 from __future__ import annotations
 
 import os
+import sys
 import time
 from contextlib import contextmanager
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass(frozen=True)
@@ -30,20 +31,38 @@ class MemoryReading:
   source: str = "unknown"
 
 
+def _ru_maxrss_divisor() -> tuple[str, float | None]:
+  """Explicit platform dispatch for ``resource.ru_maxrss`` units.
+
+  Returns (unit_label, divisor-to-MB). Linux reports KiB; macOS (darwin)
+  reports bytes. Any other platform returns None: unknown units are
+  reported as unmeasured, NEVER guessed by magnitude. Linux is the
+  measurement target; other platforms are best-effort or None.
+  """
+  if sys.platform.startswith("linux"):
+    return ("linux:KiB", 1024.0)
+  if sys.platform == "darwin":
+    return ("darwin:bytes", 1024.0 * 1024.0)
+  return ("unknown-platform", None)
+
+
 def peak_rss_mb() -> float | None:
   """Calling-process peak RSS in MB (``resource.ru_maxrss``).
 
   Scope: RUSAGE_SELF (calling process only, not children/subprocesses).
-  Returns None where unavailable. Desktop proxy only.
+  Units come from explicit ``sys.platform`` dispatch (see
+  ``_ru_maxrss_divisor``); unknown platforms return None. No magnitude
+  heuristic: a small byte count must never be misread as KiB or vice
+  versa. Returns None where unavailable. Desktop proxy only.
   """
   try:
     import resource
 
     peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-    # Linux reports KiB; macOS reports bytes. Heuristic: huge values are bytes.
-    if peak > 10**9:
-      return peak / (1024 * 1024)
-    return peak / 1024.0
+    _label, divisor = _ru_maxrss_divisor()
+    if divisor is None:
+      return None
+    return peak / divisor
   except Exception:
     return None
 
@@ -53,7 +72,8 @@ def peak_rss_reading() -> MemoryReading:
   try:
     import resource  # noqa: F401
 
-    source = "resource.ru_maxrss(RUSAGE_SELF)"
+    label, _ = _ru_maxrss_divisor()
+    source = f"resource.ru_maxrss(RUSAGE_SELF);platform={sys.platform};unit={label}"
   except Exception:
     source = "unavailable"
   return MemoryReading(value_mb=value, scope="calling-process-peak", source=source)
@@ -85,6 +105,51 @@ def proc_rss_reading(pid: int) -> MemoryReading:
   )
 
 
+def proc_peak_rss_mb(pid: int) -> float | None:
+  """High-water RSS in MB of an explicit OTHER process (Linux /proc).
+
+  Reads ``VmHWM`` from ``/proc/<pid>/status``: the PEAK resident set, kept
+  by the kernel and monotonic within the process lifetime. This is
+  DISTINCT from the point sample ``VmRSS`` (see ``proc_rss_mb``): never
+  conflate or substitute one for the other. Returns None off-Linux or
+  when the pid is unreadable.
+  """
+  try:
+    with open(f"/proc/{int(pid)}/status", "r", encoding="utf-8") as fh:
+      for line in fh:
+        if line.startswith("VmHWM:"):
+          kb = int(line.split()[1])
+          return kb / 1024.0
+  except Exception:
+    return None
+  return None
+
+
+def proc_peak_rss_reading(pid: int) -> MemoryReading:
+  return MemoryReading(
+    value_mb=proc_peak_rss_mb(pid),
+    scope=f"process:{int(pid)}-peak",
+    source="/proc/<pid>/status:VmHWM",
+  )
+
+
+def proc_memory(pid: int) -> dict:
+  """Point + peak RSS of one explicit process, distinctly named.
+
+  Returns {"pid", "rss_mb" (point VmRSS sample), "peak_rss_mb" (VmHWM
+  high-water), "rss_source", "peak_source"}. Either value may be None
+  (explicitly unmeasured); the two are never merged into one number.
+  """
+  pid = int(pid)
+  return {
+    "pid": pid,
+    "rss_mb": proc_rss_mb(pid),
+    "peak_rss_mb": proc_peak_rss_mb(pid),
+    "rss_source": "/proc/<pid>/status:VmRSS",
+    "peak_source": "/proc/<pid>/status:VmHWM",
+  }
+
+
 @contextmanager
 def timed_phase(phase: str):
   """Time one labeled phase (e.g. "model_load", "inference", "stage_1").
@@ -112,40 +177,72 @@ def timed_stage():
 @dataclass
 class StorageReport:
   paths: dict[str, int]
-  total_bytes: int
+  total_bytes: int | None
+  known_bytes: int = 0
+  complete: bool = True
+  missing: list[str] = field(default_factory=list)
 
   def to_dict(self) -> dict:
-    return {"paths": dict(self.paths), "total_bytes": self.total_bytes}
+    return {
+      "paths": dict(self.paths),
+      "total_bytes": self.total_bytes,
+      "known_bytes": self.known_bytes,
+      "complete": self.complete,
+      "missing": list(self.missing),
+    }
 
 
 def measure_storage(paths: list[str]) -> StorageReport:
-  sizes: dict[str, int] = {}
+  """Per-path byte sizes with FAIL-CLOSED totals.
+
+  A path that does not exist (or is unreadable) yields ``None`` — never 0.
+  ``total_bytes`` is ``None`` whenever any required component is unmeasured, so
+  a partial measurement can never masquerade as a complete storage total.
+  ``known_bytes`` carries the sum of measured components for diagnostics only.
+  """
+  sizes: dict[str, int | None] = {}
   total = 0
+  complete = True
   for path in paths:
-    size = 0
+    size: int | None = None
     if os.path.isfile(path):
       size = os.path.getsize(path)
     elif os.path.isdir(path):
+      acc = 0
       for root, _, files in os.walk(path):
         for name in files:
           try:
-            size += os.path.getsize(os.path.join(root, name))
+            acc += os.path.getsize(os.path.join(root, name))
           except OSError:
             continue
+      size = acc
     sizes[path] = size
-    total += size
-  return StorageReport(paths=sizes, total_bytes=total)
+    if size is None:
+      complete = False
+    else:
+      total += size
+  return StorageReport(
+    paths=sizes,
+    total_bytes=total if complete else None,
+    known_bytes=total,
+    complete=complete,
+    missing=[p for p, s in sizes.items() if s is None],
+  )
 
 
 def storage_manifest(entries: list[tuple[str, str]]) -> dict:
   """Categorized storage manifest: (path, role) entries with byte sizes.
 
   Roles name the budget component, e.g. "weights", "index", "corpus",
-  "preencoded", "tokenizer", "config". Missing paths are recorded with
-  size None (explicitly unmeasured), never silently zero.
+  "preencoded", "tokenizer", "config". FAIL-CLOSED: a missing path yields
+  ``size_bytes`` None (explicitly unmeasured, never silent zero);
+  ``total_bytes`` is None whenever ``complete`` is False, and ``known_bytes``
+  sums only measured components. A consumer MUST reject
+  ``complete=false`` paired with an integer ``total_bytes``.
   """
   components = []
-  total = 0
+  known_bytes = 0
+  missing: list[str] = []
   for path, role in entries:
     size: int | None = None
     if os.path.isfile(path):
@@ -159,5 +256,15 @@ def storage_manifest(entries: list[tuple[str, str]]) -> dict:
           except OSError:
             continue
     components.append({"path": path, "role": role, "size_bytes": size})
-    total += size or 0
-  return {"components": components, "total_bytes": total}
+    if size is None:
+      missing.append(path)
+    else:
+      known_bytes += size
+  complete = not missing
+  return {
+    "components": components,
+    "total_bytes": known_bytes if complete else None,
+    "complete": complete,
+    "known_bytes": known_bytes,
+    "missing": missing,
+  }

@@ -142,6 +142,10 @@ class RunManifest:
   python_version: str = field(default_factory=lambda: platform.python_version())
   platform: str = field(default_factory=lambda: platform.platform())
   argv: list[str] = field(default_factory=lambda: list(sys.argv))
+  # Regime metadata (Round 0 additions)
+  regime_a_heldout_groups: list[str] = field(default_factory=list)
+  regime_b_document_heldout_groups: list[str] = field(default_factory=list)
+  public_reference_pins_sha256: str = "TBD"
 
   def to_dict(self) -> dict:
     return {
@@ -164,6 +168,9 @@ class RunManifest:
       "python_version": self.python_version,
       "platform": self.platform,
       "argv": list(self.argv),
+      "regime_a_heldout_groups": list(self.regime_a_heldout_groups),
+      "regime_b_document_heldout_groups": list(self.regime_b_document_heldout_groups),
+      "public_reference_pins_sha256": self.public_reference_pins_sha256,
     }
 
   def write(self, path: str) -> None:
@@ -200,6 +207,9 @@ class RunManifest:
       python_version=d.get("python_version", "?"),
       platform=d.get("platform", "?"),
       argv=list(d.get("argv", [])),
+      regime_a_heldout_groups=list(d.get("regime_a_heldout_groups", [])),
+      regime_b_document_heldout_groups=list(d.get("regime_b_document_heldout_groups", [])),
+      public_reference_pins_sha256=d.get("public_reference_pins_sha256", "TBD"),
     )
 
 
@@ -508,5 +518,111 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
   for component, logged in sorted(manifest.seed_derivation_log.items()):
     if derive_seed(manifest.seed, component) != logged:
       gaps.append(f"seed derivation mismatch for component {component!r}")
+
+  # --- Regime metadata validations (Round 0 additions) ---
+  # (a) regime A and B held-out groups together cover the held-out groups in the derived regime metadata
+  # (b) regime B groups are a subset of held-out groups, never train/dev
+  # (c) the document-heldout excluded-article artifact exists iff regime B groups are non-empty
+  # (d) public_reference_pins_sha256 matches references/public_eval_pins.json bytes
+  # (e) the custody audit log, if present, has entries whose seal_sha256 matches the sealed labels hash
+
+  # Load regime metadata for validation (derived from split map)
+  if manifest.split_method == "group-map" and manifest.split_map_path:
+    map_full = os.path.join(root, manifest.split_map_path)
+    if os.path.isfile(map_full):
+      try:
+        from .regime_metadata import derive_regime_metadata, REGIME_A, REGIME_B
+        regime_meta = derive_regime_metadata(map_full)
+
+        # Collect all heldout groups from regime metadata
+        regime_meta_heldout_groups = {
+          g.group_key for g in regime_meta.regime_a_groups + regime_meta.regime_b_groups
+        }
+
+        # Only validate regime coverage if regime metadata has heldout groups
+        if regime_meta_heldout_groups:
+          # (a) Check coverage: manifest regime groups should cover regime metadata heldout groups
+          manifest_regime_groups = set(manifest.regime_a_heldout_groups) | set(manifest.regime_b_document_heldout_groups)
+          missing_in_manifest = regime_meta_heldout_groups - manifest_regime_groups
+          if missing_in_manifest:
+            gaps.append(
+              f"regime metadata heldout groups not covered in manifest: {sorted(missing_in_manifest)}"
+            )
+          extra_in_manifest = manifest_regime_groups - regime_meta_heldout_groups
+          if extra_in_manifest:
+            gaps.append(
+              f"manifest regime groups not in regime metadata heldout groups: {sorted(extra_in_manifest)}"
+            )
+
+          # (b) Regime B groups must be subset of heldout groups, never train/dev
+          regime_b_set = set(manifest.regime_b_document_heldout_groups)
+          if regime_b_set:
+            # Verify none are train/dev groups
+            with open(map_full, "r", encoding="utf-8") as fh:
+              map_data = json.load(fh)
+            groups_raw = map_data.get("groups", {})
+            for g in regime_b_set:
+              if g in groups_raw:
+                gsplit = groups_raw[g].get("split")
+                if gsplit != "heldout":
+                  gaps.append(f"regime B group {g!r} has split {gsplit!r}, must be heldout")
+              else:
+                gaps.append(f"regime B group {g!r} not found in split map")
+          else:
+            # Only flag empty regime B if the split map actually has heldout groups
+            # that could support a document-heldout regime. Read the split map
+            # here: the `regime_b_set` branch above only loads it when non-empty.
+            with open(map_full, "r", encoding="utf-8") as fh:
+              map_data = json.load(fh)
+            groups_raw = map_data.get("groups", {})
+            heldout_groups_in_map = {
+              g for g, rec in groups_raw.items() if rec.get("split") == "heldout"
+            }
+            if heldout_groups_in_map:
+              gaps.append("regime_b_document_heldout_groups is empty but split map has heldout groups")
+
+          # (c) Document-heldout excluded-article artifact exists iff regime B groups non-empty
+          if regime_b_set:
+            excluded_artifact = os.path.join(root, "corpus", "regime_b_excluded_articles.json")
+            if not os.path.isfile(excluded_artifact):
+              gaps.append("regime B groups non-empty but regime_b_excluded_articles.json artifact missing")
+
+      except Exception as exc:
+        gaps.append(f"regime metadata validation failed: {str(exc)[:200]}")
+
+  # (d) public_reference_pins_sha256 matches references/public_eval_pins.json bytes
+  # Only validate if not a placeholder (real freezes must pin this)
+  if manifest.public_reference_pins_sha256 not in PLACEHOLDER_HASHES:
+    pins_path = os.path.join(root, "references", "public_eval_pins.json")
+    if os.path.isfile(pins_path):
+      try:
+        if sha256_file(pins_path) != manifest.public_reference_pins_sha256:
+          gaps.append("public_reference_pins_sha256 mismatch: manifest does not match pins file bytes")
+      except OSError as exc:
+        gaps.append(f"public eval pins file unreadable: {str(exc)[:120]}")
+    else:
+      gaps.append("public_reference_pins_sha256 recorded but references/public_eval_pins.json missing")
+
+  # (e) Custody audit log entries have seal_sha256 matching sealed labels hash
+  audit_path = os.path.join(root, "heldout_access_log.jsonl")
+  if os.path.isfile(audit_path) and manifest.sealed_labels_sha256 not in PLACEHOLDER_HASHES:
+    try:
+      with open(audit_path, "r", encoding="utf-8") as fh:
+        for line_num, line in enumerate(fh, 1):
+          line = line.strip()
+          if not line:
+            continue
+          try:
+            entry = json.loads(line)
+            entry_seal = entry.get("seal_sha256")
+            if entry_seal and entry_seal != manifest.sealed_labels_sha256:
+              gaps.append(
+                f"custody audit line {line_num}: seal_sha256 {entry_seal[:16]}... "
+                f"!= manifest sealed_labels_sha256 {manifest.sealed_labels_sha256[:16]}..."
+              )
+          except json.JSONDecodeError:
+            gaps.append(f"custody audit line {line_num}: malformed JSON")
+    except OSError as exc:
+      gaps.append(f"custody audit log unreadable: {str(exc)[:120]}")
 
   return FreezeCheck(passed=not gaps, gaps=gaps)

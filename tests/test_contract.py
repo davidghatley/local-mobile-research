@@ -64,20 +64,33 @@ def good_trace():
     "architecture": "synthetic-infra",
     "seed": 0,
     "query": "synthetic?",
-    "score_kind": "calibrated_probability",
-    "stage_candidates": {"stage0": ["p1"]},
-    "stage_scores": {"stage0": [0.9]},
-    "pruning_decisions": {"stage0": [True]},
-    "thresholds": {"stage0": {"threshold": 0.5, "interpretation": "calibrated_probability",
-                               "calibration_method": "model_probability",
-                               "score_kind": "calibrated_probability"}},
+    "stages": [{
+      "stage": "stage0",
+      "candidate_ids": ["p1"],
+      "scores": [0.9],
+      "score_kind": "calibrated_probability",
+      "threshold_policy": {
+        "threshold": 0.5,
+        "interpretation": "calibrated_probability",
+        "top_k": 50,
+        "min_breadth": 10,
+        "calibration_method": "model_probability",
+        "score_kind": "calibrated_probability",
+        "calibration_partition": ""
+      },
+      "pruning_decisions": [True],
+      "latency_ms": 1.0,
+      "model_loading_latency_ms": None,
+      "inference_latency_ms": 0.5,
+      "peak_rss_mb": 12.0,
+      "model_identity": "synth-model-v1"
+    }],
     "adaptive_compute_decision": "keep-top-50",
     "evidence_packet": {"spans": []},
     "evidence_token_count": 10,
     "evidence_token_method": "tokenizer:synth-tok",
     "retrieval_latency_ms": 1.0,
-    "per_stage_latency_ms": {"stage0": 1.0},
-    "model_loading_latency_ms": None,  # explicitly not measured
+    "model_loading_latency_ms": None,
     "inference_latency_ms": 0.5,
     "peak_rss_mb": 12.0,
     "storage_bytes": 100,
@@ -86,7 +99,7 @@ def good_trace():
     "generator_response": "x",
     "citations": ["p1"],
     "available_citations": ["p1", "p2"],
-    "grader_result": None,  # explicitly not graded yet
+    "grader_result": None,
   }
 
 
@@ -102,9 +115,29 @@ class TestTelemetry(unittest.TestCase):
     self.assertEqual(holder["phase"], "model_load")
     self.assertGreaterEqual(holder["elapsed_ms"], 0.0)
 
-  def test_measure_storage_missing_path_is_zero(self):
+  def test_measure_storage_missing_path_is_not_a_valid_total(self):
+    # BLOCKER 10: a missing required artifact must NOT contribute 0 and make
+    # the total look complete. total_bytes is None; known_bytes carries only
+    # what was actually measured.
     report = measure_storage(["/nonexistent-path-xyz"])
-    self.assertEqual(report.total_bytes, 0)
+    self.assertIsNone(report.total_bytes)
+    self.assertFalse(report.complete)
+    self.assertEqual(report.known_bytes, 0)
+    self.assertEqual(report.missing, ["/nonexistent-path-xyz"])
+
+  def test_measure_storage_total_only_when_all_measured(self):
+    with tempfile.TemporaryDirectory() as tmp:
+      present = os.path.join(tmp, "present.bin")
+      with open(present, "wb") as fh:
+        fh.write(b"x" * 128)
+      report = measure_storage([present, "/nonexistent-path-xyz"])
+      self.assertIsNone(report.total_bytes)
+      self.assertFalse(report.complete)
+      self.assertEqual(report.known_bytes, 128)
+      full = measure_storage([present])
+      self.assertEqual(full.total_bytes, 128)
+      self.assertTrue(full.complete)
+      self.assertEqual(full.missing, [])
 
 
 class TestManifestFreeze(unittest.TestCase):
@@ -177,7 +210,12 @@ class TestContractFormat(unittest.TestCase):
         write_traces_jsonl(path, [{"question_id": "q1"}])
       write_traces_jsonl(path, [good_trace()])
       with open(path, encoding="utf-8") as fh:
-        self.assertEqual(len(json.loads(fh.read().strip())), 26)
+        trace = json.loads(fh.read().strip())
+        # New per-stage schema has 21 top-level fields (stages array replaces 6 flat fields)
+        self.assertEqual(len(trace), 21)
+        self.assertIn("stages", trace)
+        self.assertIsInstance(trace["stages"], list)
+        self.assertEqual(len(trace["stages"]), 1)
 
 
 if __name__ == "__main__":

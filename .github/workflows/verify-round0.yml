@@ -1,0 +1,160 @@
+# Round 0 verification — CI.
+#
+# WHAT THIS WORKFLOW DOES
+#   Runs scripts/verify_round0 in --code-only mode on every push and pull
+#   request. This exercises the code-level portion of the freeze gate: the
+#   three test suites, corpus hash/structure verification, QA structural
+#   validation, generator pin validation, and leakage-control artifacts.
+#
+# WHAT THIS WORKFLOW DOES NOT DO
+#   It does NOT certify the Round 0 freeze. It is explicitly NOT a freeze
+#   pass. The freeze verdict comes from an unflagged run of
+#   scripts/verify_round0 on a host that holds the pinned artifacts, followed
+#   by the independent review required by docs/round0-review-criteria.md.
+#
+#   It performs NO network access, downloads NO model weights, and does NOT
+#   claim anything about semantic QA correctness (answerability, atom-level
+#   minimality, multi-hop genuineness, label correctness). Those are human and
+#   agent adjudication decisions that CANNOT be unit tested into correctness.
+#   See docs/qa-semantic-audit-protocol.md.
+#
+# LARGE ARTIFACTS
+#   corpus/corpus.jsonl (42 MB), corpus/raw/ (41 MB) and the 986 MB generator
+#   GGUF are git-ignored and are NOT present in a CI checkout. The verifier
+#   detects each absent artifact and reports the affected check as SKIP with
+#   an explicit "NOT VERIFIED" line. A skip is never reported as a pass, and
+#   the run's exit code does not depend on any skipped check.
+#
+# If a future change makes CI silently pass a check it could not run, this
+# workflow will not notice. That is a known and accepted limitation: the
+# artifact-complete verification happens on the freeze host.
+
+name: verify-round0
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-round0:
+    name: Round 0 code-level verification (NOT a freeze pass)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Report environment
+        run: |
+          echo "python: $(python3 --version 2>&1)"
+          echo "This job runs the CODE-LEVEL portion only."
+          echo "It is NOT a freeze pass and certifies nothing about semantic QA."
+
+      - name: Entry point is present and executable
+        run: |
+          set -euo pipefail
+          test -f scripts/verify_round0
+          test -x scripts/verify_round0 || { chmod +x scripts/verify_round0; }
+          test -x scripts/verify_round0
+          echo "scripts/verify_round0 exists and is executable"
+
+      - name: --help is side-effect free
+        run: |
+          set -euo pipefail
+          out="$(scripts/verify_round0 --help)"
+          echo "$out"
+          # A --help that ran the suite has broken this project twice. Assert
+          # it prints no stage banner and no stage verdict line.
+          if printf '%s' "$out" | grep -qE '^\[[0-9]/9\]'; then
+            echo "::error::--help printed a stage banner; it is not side-effect free"
+            exit 1
+          fi
+          if printf '%s' "$out" | grep -qE '^STAGE .*: (PASS|FAIL|SKIP)$'; then
+            echo "::error::--help printed a stage verdict; it is not side-effect free"
+            exit 1
+          fi
+          echo "--help printed no stage output"
+
+      - name: Report which pinned artifacts are absent from CI
+        run: |
+          set -euo pipefail
+          for f in \
+            corpus/corpus.jsonl \
+            corpus/raw \
+            generator_runtime/artifacts/Qwen2.5-1.5B-Instruct-Q4_K_M.gguf \
+            corpus/questions.json \
+            corpus/heldout_labels.sealed.json
+          do
+            if [ -e "$f" ]; then
+              echo "present: $f"
+            else
+              echo "absent (checks that need it will be reported SKIPPED): $f"
+            fi
+          done
+
+      - name: Run the Round 0 code-level verification
+        run: |
+          set -uo pipefail
+          scripts/verify_round0 --code-only 2>&1 | tee verify-round0.log
+          rc="${PIPESTATUS[0]}"
+          echo "verify_round0 --code-only exit code: $rc"
+          exit "$rc"
+
+      - name: Assert the generator-artifact check was explicitly skipped, not silently passed
+        run: |
+          set -euo pipefail
+          # The 986 MB GGUF is not in git. The generator-pin stage must say so.
+          # If the artifact is ever vendored, the verifier verifies it instead;
+          # either way the log must contain one of these two statements.
+          if grep -q 'generator artifact bytes+sha256: SKIPPED' verify-round0.log; then
+            echo "generator artifact byte verification was SKIPPED and is stated as such (986 MB GGUF absent)"
+          elif grep -q 'generator artifact bytes+sha256: VERIFIED' verify-round0.log; then
+            echo "generator artifact byte verification was performed and verified"
+          else
+            echo "::error::the log does not state whether the generator artifact was verified or skipped"
+            exit 1
+          fi
+
+      - name: Assert unverified checks are enumerated
+        run: |
+          set -euo pipefail
+          # Anything skipped must be named in the NOT VERIFIED list. A silent
+          # skip is the failure mode this assertion exists to catch.
+          if ! grep -q 'NOT VERIFIED' verify-round0.log; then
+            if ! grep -qE '^ [0-9]+[[:space:]]+PASS' verify-round0.log; then
+              echo "::error::no NOT VERIFIED section and no PASS rows; the log is not parseable"
+              exit 1
+            fi
+          fi
+          echo "--- NOT VERIFIED section ---"
+          sed -n '/NOT VERIFIED/,/^$/p' verify-round0.log || true
+
+      - name: Assert the run is not presented as a freeze pass
+        run: |
+          set -euo pipefail
+          grep -q 'THIS IS NOT A FREEZE PASS' verify-round0.log || {
+            echo "::error::the code-only run did not print its not-a-freeze-pass banner"
+            exit 1
+          }
+          if grep -q 'RESULT: all load-bearing stages PASS.' verify-round0.log; then
+            echo "::error::a code-only run claimed a full freeze pass"
+            exit 1
+          fi
+          echo "code-only run correctly disclaims a freeze pass"
+
+      - name: Upload the verification log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verify-round0-log
+          path: verify-round0.log
+          retention-days: 30

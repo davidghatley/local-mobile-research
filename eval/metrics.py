@@ -136,6 +136,83 @@ def lost_and_recovered(
   return {"lost": lost, "recovered": recovered}
 
 
+def abstention_outcome(
+  *, answerable: bool | None, abstained: bool
+) -> str | None:
+  """Classify one sufficiency decision against answerability ground truth.
+
+  Returns "correct_abstention" (unanswerable + abstained: success),
+  "false_abstention" (answerable + abstained: failure),
+  "unsupported_generation" (unanswerable + generated: failure), or
+  "answered_answerable" (answerable + generated: success). Returns None
+  when ``answerable`` is None (unlabeled): no outcome is ever invented.
+  """
+  if answerable is None:
+    return None
+  if not isinstance(answerable, bool):
+    raise ValueError(f"answerable must be True, False, or None; got {answerable!r}")
+  abstained = bool(abstained)
+  if abstained:
+    return "correct_abstention" if not answerable else "false_abstention"
+  return "answered_answerable" if answerable else "unsupported_generation"
+
+
+def abstention_summary(records: list[dict]) -> dict:
+  """Aggregate abstention outcomes with explicit denominators.
+
+  ``records``: iterable of {"answerable": bool|None, "abstained": bool}.
+  Unlabeled records (answerable None) contribute to ``n_unlabeled`` only
+  and to NO rate. Each rate entry is {"n", "den", "rate"} where rate is
+  None (UNDEFINED, not 0.0) when the denominator is 0 — following the
+  ``conditional_retention`` precedent. Denominators: correct_abstention
+  and unsupported_generation range over labeled-unanswerable records;
+  false_abstention over labeled-answerable records; sufficiency_accuracy
+  (correct decisions = correct_abstention + answered_answerable) over all
+  labeled records.
+  """
+  n_correct_abstain = 0
+  n_false_abstain = 0
+  n_unsupported = 0
+  n_answered = 0
+  den_unanswerable = 0
+  den_answerable = 0
+  n_unlabeled = 0
+  for rec in records:
+    answerable = rec.get("answerable")
+    if answerable is None:
+      n_unlabeled += 1
+      continue
+    if not isinstance(answerable, bool):
+      raise ValueError(f"answerable must be True, False, or None; got {answerable!r}")
+    outcome = abstention_outcome(answerable=answerable, abstained=bool(rec.get("abstained")))
+    if answerable:
+      den_answerable += 1
+      if outcome == "false_abstention":
+        n_false_abstain += 1
+      else:
+        n_answered += 1
+    else:
+      den_unanswerable += 1
+      if outcome == "correct_abstention":
+        n_correct_abstain += 1
+      else:
+        n_unsupported += 1
+  den_labeled = den_answerable + den_unanswerable
+  n_correct = n_correct_abstain + n_answered
+
+  def _rate(n: int, den: int) -> dict:
+    return {"n": n, "den": den, "rate": (n / den if den else None)}
+
+  return {
+    "correct_abstention": _rate(n_correct_abstain, den_unanswerable),
+    "false_abstention": _rate(n_false_abstain, den_answerable),
+    "unsupported_generation": _rate(n_unsupported, den_unanswerable),
+    "sufficiency_accuracy": _rate(n_correct, den_labeled),
+    "n_labeled": den_labeled,
+    "n_unlabeled": n_unlabeled,
+  }
+
+
 def token_stats(counts: list[int]) -> dict[str, float]:
   if not counts:
     return {"n": 0, "mean": 0.0, "p50": 0.0, "p95": 0.0, "max": 0.0}

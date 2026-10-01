@@ -13,6 +13,13 @@ Worker model: `opencode/muse-spark-1.3-contributor-free` (explicit, verified
 zero-cost catalog entry). No nested spawning. No online LLM APIs, no paid
 endpoints, no calls to the orchestrator model at any step.
 
+Round 0 repair amendment (Lane D, same model): `substrate/splits.py`
+provenance gate, `meta.evidence_groups`, `evidence.hop_glosses`, and
+`provenance.semantic_audit` are additionally owned here per
+`docs/round0-repair-plan.md`. `substrate/types.py`, `substrate/manifest.py`,
+`substrate/evidence.py`, `substrate/telemetry.py`, `substrate/corpus.py`,
+`eval/`, `tests/`, `corpus/`, and `generator_runtime/` remain untouched.
+
 ## 0. Preconditions (orchestrator gate — all must hold before §4)
 
 1. Corpus validated: `corpus/corpus.jsonl` hierarchy-clean, byte-pinned,
@@ -35,19 +42,29 @@ independent quality review plus the §0 gate.
 
 ## 1. Split discipline (binding)
 
-- **Group before derivation.** A draft's evidence may come from exactly one
-  predeclared split-map group. The scaffold (`data_tools/scaffold.py`)
-  draws candidate units from that group only and records group + split.
+- **Group before derivation.** A draft's evidence must sit entirely in
+  ONE data split, and may span multiple predeclared split-map groups of
+  that split. The scaffold (`data_tools/scaffold.py`) draws candidate
+  units from one group and records group + split; cross-group evidence
+  is author-assembled and declared via `meta.evidence_groups` (sorted
+  distinct list of every evidence article's group, including the primary
+  `meta.group`). See `docs/qa-semantic-audit-protocol.md`.
 - **One shared corpus.** All splits search the same global corpus files.
   Split equality constrains QA declarations, never corpus access.
 - **No mixed-split chains.** Every source article of a draft must sit in the
   draft's declared split. Substrate `validate_question_provenance` enforces
   this; `data_tools/verify.py` additionally requires every evidence span's
-  article to belong to the declared group.
-- **One-group multi-hop.** Every sufficient-set span of a multi-hop draft
-  must resolve to the SAME group. Cross-group multi-hop is rejected by
-  default. Widening groups requires an orchestrator-approved
-  grouping-protocol amendment BEFORE freeze — never a silent relaxation.
+  article to resolve to a group whose SPLIT equals the declared split.
+  Group equality is never required: same-split cross-group chains are
+  allowed (train->train ALLOW; train->heldout, dev->heldout, train->dev
+  REJECT). Leakage prevention is not weakened.
+- **Same-split multi-hop.** Every sufficient-set span of a multi-hop draft
+  must resolve to the draft's declared split, and the multi-hop label must
+  survive the single-atom answerability test in
+  `docs/qa-semantic-audit-protocol.md` (no single atom determines the
+  answer alone). Cross-split multi-hop is rejected. Audited multi-hop
+  drafts additionally carry one `hop_gloss` per reference chain stating
+  the distinct inferential relation each hop contributes.
 - **Public bounty questions are dev/reference only.** Imported via
   `data_tools/import_public.py` from byte-pinned input (full 40-hex commit
   SHA as `source_revision`, 64-hex SHA-256 of the exact import-file bytes
@@ -75,6 +92,10 @@ Each draft (`data_tools/qa_schema.py`) carries:
    (nonempty, in-map). Group-only or source-only drafts are rejected, and
    same-group membership alone is insufficient: EVERY evidence span's
    article must appear in the declared `source_articles` (machine-checked).
+   Drafts under semantic audit additionally declare `meta.evidence_groups`
+   (sorted distinct list covering every evidence article's group); the
+   split gate compares SPLITS, never groups — see §1 and
+   `docs/qa-semantic-audit-protocol.md`.
 4. **Reference hop chain.** Multi-hop drafts record ≥ 1 ordered
    `reference_hop_chains[]`. Systems retrieving a sufficient set by a
    shorter path get evidence credit without the iterative-hop flag (per
@@ -189,8 +210,8 @@ python3 -c "from data_tools.import_public import convert_public_file, check_impo
 Tests (synthetic fixtures only — never real QA):
 
 ```bash
-python3 -m unittest discover -s data_tools/tests   # 41 tests, passing
-python3 -m unittest discover -s tests              # 175 tests, passing
+python3 -m unittest discover -s data_tools/tests   # 77 tests, passing
+python3 -m unittest discover -s tests              # 249 tests, passing
 ```
 
 ## 6. Artifacts produced (only after the §0 gate)
@@ -224,9 +245,13 @@ python3 -m unittest discover -s tests              # 175 tests, passing
     custody with dual gate** (no kernel boundary on a shared OS user;
     seal requires custodian flag + env var AND full re-verification).
     See gate-decisions §4.
-5. **Grouping amendment or not**: **DECIDED — keep one-group multi-hop**;
-    cross-group exclusion is a documented limitation (shared-DAG
-    cross-split links are common by design). See gate-decisions §3.
+5. **Grouping amendment or not**: **AMENDED by Round 0 repair (Lane D,
+    per `docs/round0-repair-plan.md`) — same-split multi-hop replaces
+    one-group multi-hop**; the authoritative gate stays in
+    `substrate/splits.py` and leakage prevention is not weakened. Original
+    decision (superseded): keep one-group multi-hop; cross-group exclusion
+    is a documented limitation (shared-DAG cross-split links are common by
+    design). See gate-decisions §3 and `docs/qa-semantic-audit-protocol.md`.
 
 ## 8. Real blockers (no freeze, no architecture work)
 

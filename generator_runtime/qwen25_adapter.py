@@ -27,6 +27,16 @@ An EMPTY packet (zero spans) is a valid abstention outcome and passes
 through generation: the fixed prompt instructs the model to state
 insufficiency explicitly.
 
+Sufficiency-gating contract (no adapter logic implied): whether the
+generator is invoked at all is decided EXCLUSIVELY by the shared
+substrate gate ``substrate.evidence.run_question`` (safe floor:
+``decide_default``; ``EvidenceDecision`` with fail-closed
+insufficient-iff-abstain invariant). This adapter MUST NOT implement its
+own empty-packet suppression, must not invent sufficiency, and must not
+be called on abstained questions — the gate returns (outcome, decision,
+None) without touching ``generate``. See
+``docs/abstention-and-telemetry-notes.md`` for the trace fields.
+
 Citations use the shared substrate parser (``evidence.parse_citations``)
 plus ``find_unknown_citations``: ``GeneratedAnswer.citations`` carries only
 valid cited ids actually present in the output (EMITTED semantics per the

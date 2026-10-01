@@ -15,7 +15,11 @@ malformed context fails closed with explicit metadata errors. Checks:
      to the named author and independent verifier.
   3. Source coverage: every evidence span's article must appear in the
      declared meta.source_articles (same group alone is insufficient).
-  4. Single-group rule: all evidence spans resolve to the declared group.
+  4. Same-split rule: every evidence span's article resolves to a group
+      whose SPLIT equals the declared split. Multi-group chains are
+      allowed iff every involved group sits in the same split
+      (train->train ALLOW; train->heldout, dev->heldout, train->dev
+      REJECT). Group equality is never required and never checked.
   5. No mixed-split chain via substrate validate_question_provenance.
   6. Hard negatives: node exists; no identity OR ancestor/descendant
      overlap with any evidence span; reviewed=True (a human confirmed
@@ -182,11 +186,30 @@ def verify_draft(rec: dict, nodes: list[dict], *, article_index: dict,
           errors.append(f"{qid}: set {i} span {j} article unresolvable")
           continue
         ev_articles.add(art)
+        # Same-split rule: resolve the span's article -> group -> SPLIT and
+        # compare SPLITS (not groups) against the declared split. A span
+        # from another group of the SAME split is allowed; a span from any
+        # other split is leakage and fails. Group equality is never checked.
         art_title_key = _title_key(by_id[art].get("text", ""))
         ag = article_to_group.get(art_title_key,
                                   by_id[art].get("meta", {}).get("split_group"))
-        if ag != group:
-          errors.append(f"{qid}: set {i} span {j} outside declared group")
+        if not isinstance(ag, str) or not ag.strip():
+          errors.append(f"{qid}: set {i} span {j} group unresolvable")
+          continue
+        if use_map_splits:
+          asplit = map_groups.get(ag)
+          if asplit not in ("train", "dev", "heldout"):
+            errors.append(f"{qid}: set {i} span {j} group split unresolvable")
+            continue
+        else:
+          from substrate.splits import assign_split
+          asplit = assign_split(ag, split_seed)
+        if asplit != rec["split"]:
+          errors.append(f"{qid}: set {i} span {j} evidence split != declared split")
+          continue
+        eff_groups = rec["meta"].get("evidence_groups") or [group]
+        if ag not in eff_groups:
+          errors.append(f"{qid}: set {i} span {j} group not in meta.evidence_groups")
     missing_sources = ev_articles - declared
     if missing_sources:
       errors.append(

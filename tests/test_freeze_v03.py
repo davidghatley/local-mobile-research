@@ -14,7 +14,7 @@ import os
 import tempfile
 import unittest
 
-from eval.run_format import validate_trace
+from eval.run_format import validate_trace, migrate_legacy_trace
 from substrate.generator import PROMPT_HASH, GeneratorConfig
 from substrate.manifest import RunManifest, validate_freeze
 from substrate.types import ThresholdPolicy
@@ -232,28 +232,78 @@ class TestGroupMap(unittest.TestCase):
 
 class TestUnifiedPolicyAndCitations(unittest.TestCase):
   def test_bare_float_threshold_rejected_in_trace(self):
-    trace = dict(good_trace(), thresholds={"stage0": 0.7})
+    trace = dict(good_trace(), stages=[{
+      "stage": "stage0",
+      "candidate_ids": ["p1"],
+      "scores": [0.9],
+      "score_kind": "calibrated_probability",
+      "threshold_policy": {
+        "threshold": 0.7,
+        "interpretation": "unspecified",
+        "calibration_method": "unspecified",
+        "score_kind": "calibrated_probability",
+        "top_k": None,
+        "min_breadth": 0,
+        "calibration_partition": ""
+      },
+      "pruning_decisions": [True],
+      "latency_ms": 1.0,
+      "model_loading_latency_ms": None,
+      "inference_latency_ms": 0.5,
+      "peak_rss_mb": 12.0,
+      "model_identity": "synth-model-v1"
+    }])
     self.assertTrue(any("unspecified" in e for e in validate_trace(trace)))
 
   def test_model_probability_accepted_in_trace(self):
     self.assertEqual(validate_trace(good_trace()), [])
 
   def test_platt_without_provenance_rejected_in_trace(self):
-    trace = dict(
-      good_trace(),
-      thresholds={"stage0": {"threshold": 0.5, "interpretation": "calibrated_probability",
-                             "calibration_method": "platt",
-                             "score_kind": "calibrated_probability"}},
-    )
+    trace = dict(good_trace(), stages=[{
+      "stage": "stage0",
+      "candidate_ids": ["p1"],
+      "scores": [0.9],
+      "score_kind": "calibrated_probability",
+      "threshold_policy": {
+        "threshold": 0.5,
+        "interpretation": "calibrated_probability",
+        "calibration_method": "platt",
+        "score_kind": "calibrated_probability",
+        "top_k": 50,
+        "min_breadth": 10,
+        "calibration_partition": ""
+      },
+      "pruning_decisions": [True],
+      "latency_ms": 1.0,
+      "model_loading_latency_ms": None,
+      "inference_latency_ms": 0.5,
+      "peak_rss_mb": 12.0,
+      "model_identity": "synth-model-v1"
+    }])
     self.assertTrue(any("provenance" in e for e in validate_trace(trace)))
 
   def test_raw_absolute_threshold_legal_in_trace(self):
-    trace = dict(
-      good_trace(), score_kind="logit", stage_scores={"stage0": [3.1]},
-      thresholds={"stage0": {"threshold": 2.5, "interpretation": "raw_score_absolute",
-                             "calibration_method": "none_ranking_only",
-                             "score_kind": "logit"}},
-    )
+    trace = dict(good_trace(), stages=[{
+      "stage": "stage0",
+      "candidate_ids": ["p1"],
+      "scores": [3.1],
+      "score_kind": "logit",
+      "threshold_policy": {
+        "threshold": 2.5,
+        "interpretation": "raw_score_absolute",
+        "calibration_method": "none_ranking_only",
+        "score_kind": "logit",
+        "top_k": None,
+        "min_breadth": 0,
+        "calibration_partition": ""
+      },
+      "pruning_decisions": [True],
+      "latency_ms": 1.0,
+      "model_loading_latency_ms": None,
+      "inference_latency_ms": 0.5,
+      "peak_rss_mb": 12.0,
+      "model_identity": "synth-model-v1"
+    }])
     self.assertEqual(validate_trace(trace), [])
 
   def test_unknown_citations_permitted_failed_answer_preserved(self):
@@ -261,6 +311,148 @@ class TestUnifiedPolicyAndCitations(unittest.TestCase):
                  generator_response="I hallucinate [ghost-1].")
     self.assertEqual(validate_trace(trace), [])
     self.assertIn("hallucinate", trace["generator_response"])
+
+  def test_mixed_kind_pipeline_valid(self):
+    """similarity -> logit -> model_probability -> calibrated_probability all correctly declared."""
+    trace = dict(good_trace(), stages=[
+      {
+        "stage": "bm25",
+        "candidate_ids": ["p1", "p2", "p3"],
+        "scores": [0.95, 0.87, 0.72],
+        "score_kind": "similarity",
+        "threshold_policy": {
+          "threshold": 0.5,
+          "interpretation": "raw_score_absolute",
+          "calibration_method": "none_ranking_only",
+          "score_kind": "similarity",
+          "top_k": 50,
+          "min_breadth": 10,
+          "calibration_partition": ""
+        },
+        "pruning_decisions": [True, True, True],
+        "latency_ms": 5.0,
+        "model_loading_latency_ms": None,
+        "inference_latency_ms": 5.0,
+        "peak_rss_mb": 50.0,
+        "model_identity": "bm25-index-v1"
+      },
+      {
+        "stage": "ettin",
+        "candidate_ids": ["p1", "p2"],
+        "scores": [4.2, -1.5],
+        "score_kind": "logit",
+        "threshold_policy": {
+          "threshold": 2.0,
+          "interpretation": "raw_score_absolute",
+          "calibration_method": "none_ranking_only",
+          "score_kind": "logit",
+          "top_k": 20,
+          "min_breadth": 5,
+          "calibration_partition": ""
+        },
+        "pruning_decisions": [True, False],
+        "latency_ms": 50.0,
+        "model_loading_latency_ms": 100.0,
+        "inference_latency_ms": 45.0,
+        "peak_rss_mb": 2000.0,
+        "model_identity": "ettin-encoder-v3"
+      },
+      {
+        "stage": "kalm",
+        "candidate_ids": ["p1"],
+        "scores": [0.85],
+        "score_kind": "model_probability",
+        "threshold_policy": {
+          "threshold": 0.5,
+          "interpretation": "model_probability_dev_selected",
+          "calibration_method": "model_probability",
+          "score_kind": "model_probability",
+          "top_k": 10,
+          "min_breadth": 3,
+          "calibration_partition": ""
+        },
+        "pruning_decisions": [True],
+        "latency_ms": 200.0,
+        "model_loading_latency_ms": 500.0,
+        "inference_latency_ms": 180.0,
+        "peak_rss_mb": 4000.0,
+        "model_identity": "kalm-reranker-v2"
+      },
+      {
+        "stage": "calibrator",
+        "candidate_ids": ["p1"],
+        "scores": [0.92],
+        "score_kind": "calibrated_probability",
+        "threshold_policy": {
+          "threshold": 0.5,
+          "interpretation": "calibrated_probability",
+          "calibration_method": "temperature_scaling",
+          "score_kind": "calibrated_probability",
+          "top_k": 5,
+          "min_breadth": 1,
+          "calibration_partition": "sha256:cal-partition-v1"
+        },
+        "pruning_decisions": [True],
+        "latency_ms": 10.0,
+        "model_loading_latency_ms": 50.0,
+        "inference_latency_ms": 8.0,
+        "peak_rss_mb": 100.0,
+        "model_identity": "platt-calibrator-v1"
+      },
+    ])
+    self.assertEqual(validate_trace(trace), [])
+
+  def test_model_probability_dev_selected_accepted_on_model_probability_stage(self):
+    """model_probability_dev_selected on a model_probability stage is ACCEPTED."""
+    trace = dict(good_trace(), stages=[{
+      "stage": "kalm",
+      "candidate_ids": ["p1"],
+      "scores": [0.85],
+      "score_kind": "model_probability",
+      "threshold_policy": {
+        "threshold": 0.5,
+        "interpretation": "model_probability_dev_selected",
+        "calibration_method": "model_probability",
+        "score_kind": "model_probability",
+        "top_k": 10,
+        "min_breadth": 3,
+        "calibration_partition": ""
+      },
+      "pruning_decisions": [True],
+      "latency_ms": 200.0,
+      "model_loading_latency_ms": 500.0,
+      "inference_latency_ms": 180.0,
+      "peak_rss_mb": 4000.0,
+      "model_identity": "kalm-reranker-v2"
+    }])
+    self.assertEqual(validate_trace(trace), [])
+
+  def test_model_probability_dev_selected_rejected_on_logit_stage(self):
+    """model_probability_dev_selected on a logit stage is REJECTED."""
+    trace = dict(good_trace(), stages=[{
+      "stage": "ettin",
+      "candidate_ids": ["p1"],
+      "scores": [4.2],
+      "score_kind": "logit",
+      "threshold_policy": {
+        "threshold": 0.5,
+        "interpretation": "model_probability_dev_selected",
+        "calibration_method": "model_probability",
+        "score_kind": "logit",
+        "top_k": 10,
+        "min_breadth": 3,
+        "calibration_partition": ""
+      },
+      "pruning_decisions": [True],
+      "latency_ms": 50.0,
+      "model_loading_latency_ms": 100.0,
+      "inference_latency_ms": 45.0,
+      "peak_rss_mb": 2000.0,
+      "model_identity": "ettin-encoder-v3"
+    }])
+    errors = validate_trace(trace)
+    self.assertTrue(any("model_probability_dev_selected interpretation requires" in e
+                        for e in errors))
 
 
 class TestRound0DeclarationsAndSecrecy(unittest.TestCase):
@@ -291,6 +483,84 @@ class TestRound0DeclarationsAndSecrecy(unittest.TestCase):
       check = validate_freeze(tmp, root.manifest(phase="experiment"))
       self.assertFalse(check.passed)
       self.assertTrue(any("phase" in g for g in check.gaps))
+
+
+class TestLegacyMigration(unittest.TestCase):
+  """Tests for explicit legacy trace migration (also in test_semantics_adversarial)."""
+
+  def test_legacy_flat_trace_rejected_by_validate_trace(self):
+    """Legacy flat traces must be rejected by validate_trace with explicit error."""
+    legacy = {
+      "question_id": "q1",
+      "run_id": "r1",
+      "architecture": "synthetic-infra",
+      "seed": 0,
+      "query": "synthetic?",
+      "score_kind": "calibrated_probability",
+      "stage_candidates": {"stage0": ["p1"]},
+      "stage_scores": {"stage0": [0.9]},
+      "pruning_decisions": {"stage0": [True]},
+      "thresholds": {"stage0": {"threshold": 0.5, "interpretation": "calibrated_probability",
+                                 "calibration_method": "model_probability",
+                                 "score_kind": "calibrated_probability"}},
+      "adaptive_compute_decision": "keep-top-50",
+      "evidence_packet": {"spans": []},
+      "evidence_token_count": 10,
+      "evidence_token_method": "tokenizer:synth-tok",
+      "retrieval_latency_ms": 1.0,
+      "per_stage_latency_ms": {"stage0": 1.0},
+      "model_loading_latency_ms": None,
+      "inference_latency_ms": 0.5,
+      "peak_rss_mb": 12.0,
+      "storage_bytes": 100,
+      "generator_prompt_hash": PROMPT_HASH,
+      "generator_id": "synth-generator-v1",
+      "generator_response": "x",
+      "citations": ["p1"],
+      "available_citations": ["p1", "p2"],
+      "grader_result": None,
+    }
+    errors = validate_trace(legacy)
+    self.assertTrue(any("legacy flat trace fields detected" in e for e in errors))
+
+  def test_migrate_legacy_trace_produces_valid_new_format(self):
+    """migrate_legacy_trace produces a valid new-format trace."""
+    legacy = {
+      "question_id": "q1",
+      "run_id": "r1",
+      "architecture": "synthetic-infra",
+      "seed": 0,
+      "query": "synthetic?",
+      "score_kind": "calibrated_probability",
+      "stage_candidates": {"stage0": ["p1"]},
+      "stage_scores": {"stage0": [0.9]},
+      "pruning_decisions": {"stage0": [True]},
+      "thresholds": {"stage0": {"threshold": 0.5, "interpretation": "calibrated_probability",
+                                 "calibration_method": "model_probability",
+                                 "score_kind": "calibrated_probability"}},
+      "adaptive_compute_decision": "keep-top-50",
+      "evidence_packet": {"spans": []},
+      "evidence_token_count": 10,
+      "evidence_token_method": "tokenizer:synth-tok",
+      "retrieval_latency_ms": 1.0,
+      "per_stage_latency_ms": {"stage0": 1.0},
+      "model_loading_latency_ms": None,
+      "inference_latency_ms": 0.5,
+      "peak_rss_mb": 12.0,
+      "storage_bytes": 100,
+      "generator_prompt_hash": PROMPT_HASH,
+      "generator_id": "synth-generator-v1",
+      "generator_response": "x",
+      "citations": ["p1"],
+      "available_citations": ["p1", "p2"],
+      "grader_result": None,
+    }
+    migrated = migrate_legacy_trace(legacy, model_identity_map={"stage0": "synth-model-v1"})
+    self.assertIn("stages", migrated)
+    self.assertEqual(len(migrated["stages"]), 1)
+    self.assertEqual(migrated["stages"][0]["stage"], "stage0")
+    self.assertEqual(migrated["stages"][0]["model_identity"], "synth-model-v1")
+    self.assertEqual(validate_trace(migrated), [])
 
 
 if __name__ == "__main__":

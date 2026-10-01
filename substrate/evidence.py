@@ -35,7 +35,9 @@ from collections.abc import Callable
 
 import re
 
-from .types import EvidencePacket, EvidenceSpan
+from .types import (
+  EvidenceDecision, EvidencePacket, EvidenceSpan, GeneratedAnswer, Question,
+  RetrievalOutcome)
 
 # Budget targets from the master prompt. The unit that governs empirical runs
 # is EXACT model tokens; the numbers below are therefore bounds on
@@ -155,6 +157,71 @@ def packet_in_target_band(packet: EvidencePacket) -> bool:
   if total is None:
     total = packet.token_estimate
   return TARGET_EVIDENCE_TOKENS_MIN <= total <= TARGET_EVIDENCE_TOKENS_MAX
+
+
+def decide_default(packet: EvidencePacket) -> EvidenceDecision:
+  """Safe-floor sufficiency gate: interface minimum, NOT a tuned model.
+
+  - Zero spans with ``truncated=False`` (upstream supplied nothing) ->
+    insufficient/abstain, reason "zero-spans".
+  - Zero spans with ``truncated=True`` (first span alone overflowed the
+    cap: a PACKING failure) -> insufficient/abstain, reason
+    "over-budget-empty". This DISTINCT code keeps a packing failure from
+    ever being misread as a retrieval decision.
+  - Any nonempty packet -> sufficient/generate, reason "nonempty-packet".
+
+  No score is computed (score None, kind "unspecified", policy None).
+  Architectures MUST supply their own sufficiency_policy for real
+  sufficiency judgments; this floor only guarantees fail-closed plumbing.
+  """
+
+  if len(packet.spans) == 0:
+    if packet.truncated:
+      return EvidenceDecision(
+        decision="insufficient",
+        generation_action="abstain",
+        sufficiency_score=None,
+        sufficiency_score_kind="unspecified",
+        sufficiency_policy=None,
+        reason="over-budget-empty",
+      )
+    return EvidenceDecision(
+      decision="insufficient",
+      generation_action="abstain",
+      sufficiency_score=None,
+      sufficiency_score_kind="unspecified",
+      sufficiency_policy=None,
+      reason="zero-spans",
+    )
+  return EvidenceDecision(
+    decision="sufficient",
+    generation_action="generate",
+    sufficiency_score=None,
+    sufficiency_score_kind="unspecified",
+    sufficiency_policy=None,
+    reason="nonempty-packet",
+  )
+
+
+def run_question(
+  retriever, generator, question: Question, decide=decide_default
+) -> tuple[RetrievalOutcome, EvidenceDecision, GeneratedAnswer | None]:
+  """Shared retrieval-to-generation gate: the ONLY path to the generator.
+
+  Calls ``retriever.retrieve(question)``, decides sufficiency via ``decide``
+  (default: the safe floor), and returns
+  ``(outcome, decision, response)`` where ``response`` is the
+  ``GeneratedAnswer`` — or None on abstain. When
+  ``decision.generation_action == "abstain"`` the generator is NEVER
+  touched (not even instantiated lazily: ``generator.generate`` is not
+  called). Callers MUST record ``decision`` and whether the generator was
+  invoked in the trace (see docs/abstention-and-telemetry-notes.md).
+  """
+  outcome = retriever.retrieve(question)
+  decision = decide(outcome.packet)
+  if decision.generation_action == "abstain":
+    return (outcome, decision, None)
+  return (outcome, decision, generator.generate(question, outcome.packet))
 
 
 def find_unknown_citations(

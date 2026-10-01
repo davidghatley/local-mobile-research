@@ -1,0 +1,1318 @@
+#!/usr/bin/env bash
+# scripts/verify_round0 -- single-command Round 0 verification entry point.
+#
+# PURPOSE
+#   One deterministic command that runs every load-bearing code-level check
+#   needed to decide whether a Round 0 freeze candidate is structurally valid,
+#   reports PASS/FAIL per stage, and exits non-zero if any load-bearing stage
+#   failed (or was not actually verified).
+#
+# WHAT THIS TOOL DOES NOT DO
+#   It does NOT verify semantic QA correctness. It cannot. Answerability,
+#   atom-level minimality, multi-hop genuineness, and label correctness are
+#   human/agent adjudication decisions; no unit test can establish them. This
+#   tool verifies STRUCTURE, HASHES, SPLITS, PROVENANCE, and PINS only. No
+#   "PASS" printed here may be read as a semantic QA verdict.
+#
+# PROPERTIES
+#   * Deterministic: no clock, no randomness, no network at verification time.
+#   * Read-only: never writes to the repository, never mutates an artifact.
+#     Python bytecode writing is disabled so repeated runs leave no trace.
+#   * Never prints sealed held-out label content. The sealed file is only ever
+#     read as opaque bytes for hashing.
+#   * Refuses to run under HELDOUT_CUSTODIAN_MODE=benchmark (fail closed).
+#
+# MODES
+#   default      Full freeze verification. Every load-bearing stage must PASS.
+#                A stage whose required artifact is absent reports SKIP, and a
+#                SKIP is a FAILURE in this mode: unverified is not frozen.
+#   --code-only  Runs only the code-level portion (stages 1-5, 7, 9). Stages 6
+#                and 8 are skipped because they cannot pass until the freeze
+#                artifacts (questions.json, sealed labels) exist. Prints a
+#                loud banner: THIS IS NOT A FREEZE PASS. In this mode a SKIP
+#                caused by a missing git-ignored artifact is reported in a
+#                NOT VERIFIED list instead of failing the run; every skipped
+#                item is still named explicitly.
+#
+# EXIT CODES
+#   0  all load-bearing stages that this mode requires PASSed
+#      (in --code-only: passed OR were explicitly skipped and listed)
+#   1  a load-bearing stage FAILED, or (full mode) a load-bearing stage was
+#      SKIPped because its artifact is absent
+#   2  usage error or unusable environment
+#
+# USAGE
+#   scripts/verify_round0 [--code-only] [--only IDS] [--root DIR] [--help]
+#
+# This is a POSIX-ish bash script; the structured stages use embedded python3
+# heredocs (stdlib only). See docs/verify-round0.md.
+
+set -u
+
+SELF_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" 2>/dev/null && pwd) || {
+  echo "verify_round0: cannot resolve own directory" >&2
+  exit 2
+}
+DEFAULT_ROOT=$(CDPATH= cd -- "$SELF_DIR/.." 2>/dev/null && pwd) || {
+  echo "verify_round0: cannot resolve repository root" >&2
+  exit 2
+}
+
+PY=${VERIFY_ROUND0_PYTHON:-python3}
+
+# Stage identifiers are the numbers used by --only and by the report banners.
+STAGE_IDS="1 2 3 4 5 6 7 8 9"
+CODE_ONLY_IDS="1 2 3 4 5 7 9"
+
+usage() {
+  cat <<'USAGE'
+usage: scripts/verify_round0 [options]
+
+Single-command Round 0 verification. Runs the load-bearing code-level checks
+in order, reports PASS/FAIL per stage, and exits non-zero if any load-bearing
+stage failed or was not verified.
+
+This tool verifies STRUCTURE, HASHES, SPLITS, PROVENANCE and PINS only.
+It does NOT and cannot verify semantic QA correctness (answerability,
+minimality, multi-hop genuineness, label correctness).
+
+Options:
+  --code-only        Run only the code-level portion (stages 1-5, 7, 9).
+                     Stages 6 and 8 require freeze artifacts that do not exist
+                     yet and are skipped. Prints "THIS IS NOT A FREEZE PASS".
+  --only IDS         Comma-separated stage ids to run, e.g. "4,7". Prints a
+                     PARTIAL VERIFICATION banner; never a freeze pass.
+  --root DIR         Repository root to verify (default: parent of scripts/).
+  --help, -h         Print this help and exit 0. Side-effect free: runs no
+                     stage, touches no file, prints no PASS/FAIL verdict.
+
+Exit codes:
+  0  all required load-bearing stages passed
+  1  a load-bearing stage failed, or (full mode) was skipped
+  2  usage error or unusable environment
+USAGE
+}
+
+usage_and_exit() {
+  usage
+  exit 0
+}
+
+usage_error() {
+  echo "verify_round0: $*" >&2
+  echo "verify_round0: try --help" >&2
+  exit 2
+}
+
+MODE="full"
+ROOT="$DEFAULT_ROOT"
+ONLY=""
+
+# ---- argument parsing ------------------------------------------------------
+# --help is handled here and returns immediately. It never runs a stage, never
+# spawns python, and never resolves the repository. This is deliberate: a
+# --help that runs the whole suite has broken this project twice already.
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -h|--help) usage_and_exit ;;
+    --code-only)
+      MODE="code-only"
+      shift
+      ;;
+    --root)
+      [ $# -ge 2 ] || usage_error "--root requires a directory argument"
+      ROOT="$2"
+      shift 2
+      ;;
+    --root=*)
+      ROOT="${1#--root=}"
+      shift
+      ;;
+    --only)
+      [ $# -ge 2 ] || usage_error "--only requires a stage id list"
+      ONLY="$2"
+      shift 2
+      ;;
+    --only=*)
+      ONLY="${1#--only=}"
+      shift
+      ;;
+    --) shift; break ;;
+    *) usage_error "unknown argument: $1" ;;
+  esac
+done
+[ $# -eq 0 ] || usage_error "unexpected positional argument: $1"
+
+# ---- environment guards ----------------------------------------------------
+
+if [ "$MODE" = "full" ] && [ -n "${HELDOUT_CUSTODIAN_MODE:-}" ]; then
+  echo "verify_round0: refusing to run with HELDOUT_CUSTODIAN_MODE set." >&2
+  echo "verify_round0: a verification run must never hold held-out label" >&2
+  echo "verify_round0: read authority. Unset it, or use --code-only." >&2
+  exit 2
+fi
+
+command -v "$PY" >/dev/null 2>&1 || {
+  echo "verify_round0: '$PY' not found on PATH" >&2
+  exit 2
+}
+
+[ -d "$ROOT" ] || {
+  echo "verify_round0: root directory not found: $ROOT" >&2
+  exit 2
+}
+ROOT=$(CDPATH= cd -- "$ROOT" && pwd) || {
+  echo "verify_round0: cannot resolve root: $ROOT" >&2
+  exit 2
+}
+[ -d "$ROOT/substrate" ] || {
+  echo "verify_round0: not a repository root (no substrate/): $ROOT" >&2
+  exit 2
+}
+
+# ---- scratch (outside the repository; removed on exit) ---------------------
+
+WORK=$(mktemp -d "${TMPDIR:-/tmp}/verify_round0.XXXXXX") || {
+  echo "verify_round0: cannot create scratch directory" >&2
+  exit 2
+}
+RESULTS="$WORK/results.tsv"
+: >"$RESULTS"
+cleanup() { rm -rf -- "$WORK"; }
+trap cleanup EXIT HUP INT TERM
+
+# Read-only: no .pyc written anywhere in the repo, on any run.
+export PYTHONDONTWRITEBYTECODE=1
+export PYTHONHASHSEED=0
+# Marks child processes so tests/test_verify_round0_entrypoint.py can detect
+# that it is being run BY the verifier and skip itself. Without this the
+# verifier would invoke the suite, which would invoke the verifier, forever.
+export VERIFY_ROUND0_IN_VERIFIER=1
+
+# ---- selected stage ids ----------------------------------------------------
+
+if [ -n "$ONLY" ]; then
+  SELECTED=$(printf '%s' "$ONLY" | tr ',' ' ')
+  for id in $SELECTED; do
+    case "$id" in
+      [1-9]) ;;
+      *) usage_error "--only accepts stage ids 1-9, got: $id" ;;
+    esac
+  done
+elif [ "$MODE" = "code-only" ]; then
+  SELECTED="$CODE_ONLY_IDS"
+else
+  SELECTED="$STAGE_IDS"
+fi
+
+# ---- reporting -------------------------------------------------------------
+
+banner() {
+  echo "==================================================================="
+  echo " Round 0 verification -- $1"
+  echo " root: $ROOT"
+  echo " python: $("$PY" -c 'import sys; print(sys.version.split()[0])')"
+  echo "==================================================================="
+}
+
+stage_head() {
+  echo
+  echo "-------------------------------------------------------------------"
+  echo "[$1/9] $2"
+  echo "-------------------------------------------------------------------"
+}
+
+note() { echo "    $1"; }
+detail() { echo "      $1"; }
+
+# record <stage-id> <PASS|FAIL|SKIP> <reason>
+record() {
+  printf '%s\t%s\t%s\n' "$1" "$2" "$3" >>"$RESULTS"
+}
+
+NOT_VERIFIED="$WORK/not_verified.txt"
+: >"$NOT_VERIFIED"
+note_not_verified() {
+  printf '%s\t%s\n' "$1" "$2" >>"$NOT_VERIFIED"
+  note "NOT VERIFIED: $2"
+}
+
+N_FAIL=0
+N_SKIP=0
+N_PASS=0
+
+# ---- stage helpers ---------------------------------------------------------
+
+# suite_stage <id> <name> <unittest-start-dir> <required-subpath> [fixture-subpath]
+# Runs `python3 -m unittest discover -s <dir>` from the repository root.
+# When <fixture-subpath> is given and absent, the suite needs a git-ignored
+# fixture that a clean checkout does not have. That is reported as an honest
+# SKIP ("not run"), never as a pass and never as a suite failure.
+suite_stage() {
+  id="$1"; name="$2"; startdir="$3"; required="$4"; fixture="${5:-}"
+  stage_head "$id" "$name"
+  if [ ! -e "$ROOT/$required" ]; then
+    note "required input absent: $required"
+    if [ "$MODE" = "code-only" ]; then
+      record "$id" "SKIP" "input absent: $required"
+      note_not_verified "$id" "stage $id ($name): input absent: $required"
+      return
+    fi
+    record "$id" "FAIL" "required input absent: $required"
+    N_FAIL=$((N_FAIL + 1))
+    return
+  fi
+  if [ -n "$fixture" ] && [ ! -d "$ROOT/$fixture" ]; then
+    note "git-ignored test fixtures absent: $fixture"
+    note "the suite was NOT run; this is neither a pass nor a failure"
+    if [ "$MODE" = "code-only" ]; then
+      record "$id" "SKIP" "fixtures absent: $fixture"
+      note_not_verified "$id" "stage $id ($name): fixtures absent: $fixture"
+      return
+    fi
+    record "$id" "FAIL" "fixtures absent: $fixture"
+    N_FAIL=$((N_FAIL + 1))
+    return
+  fi
+  errf="$WORK/$id.stderr"
+  outf="$WORK/$id.stdout"
+  ( cd "$ROOT" && "$PY" -m unittest discover -s "$startdir" ) >"$outf" 2>"$errf"
+  rc=$?
+  ran=$(sed -n 's/^Ran \([0-9][0-9]*\) test.*/\1/p' "$errf" | tail -n 1)
+  [ -n "$ran" ] || ran="?"
+  if [ "$rc" -eq 0 ]; then
+    detail "unittest: $ran tests, exit 0, OK"
+    record "$id" "PASS" "$ran tests"
+    N_PASS=$((N_PASS + 1))
+  else
+    detail "unittest: $ran tests, exit $rc"
+    sed -n 's/^\(FAIL\|ERROR\): /\1: /p' "$errf" | head -20 | while IFS= read -r line; do
+      detail "$line"
+    done
+    record "$id" "FAIL" "$ran tests, exit $rc"
+    N_FAIL=$((N_FAIL + 1))
+  fi
+}
+
+# py_stage <id> <name> ; body reads $PY_STAGE_ID and $PY_STAGE_NAME from env.
+# The python body exits 0 (PASS), 1 (FAIL), 3 (SKIP).
+py_stage() {
+  PY_STAGE_ID="$1" PY_STAGE_NAME="$2" PY_STAGE_ROOT="$ROOT" PY_STAGE_MODE="$MODE" \
+    "$PY" - "$ROOT" <<'PYSTAGE'
+import hashlib
+import json
+import os
+import sys
+
+STAGE_ID = os.environ["PY_STAGE_ID"]
+STAGE_NAME = os.environ["PY_STAGE_NAME"]
+MODE = os.environ["PY_STAGE_MODE"]
+ROOT = sys.argv[1]
+
+if ROOT not in sys.path:
+  sys.path.insert(0, ROOT)
+
+# Never write bytecode from a verification run.
+sys.dont_write_bytecode = True
+
+PASSED = False
+FAILED = False
+SKIPPED = False
+
+
+def detail(msg):
+  sys.stdout.write("      %s\n" % msg)
+  sys.stdout.flush()
+
+
+def note(msg):
+  sys.stdout.write("    %s\n" % msg)
+  sys.stdout.flush()
+
+
+def mark_pass():
+  global PASSED
+  PASSED = True
+
+
+def mark_fail():
+  global FAILED
+  FAILED = True
+
+
+def mark_skip():
+  global SKIPPED
+  SKIPPED = True
+
+
+def sha256_file(path):
+  h = hashlib.sha256()
+  with open(path, "rb") as fh:
+    for chunk in iter(lambda: fh.read(1 << 20), b""):
+      h.update(chunk)
+  return h.hexdigest()
+
+
+def rel(path):
+  try:
+    return os.path.relpath(path, ROOT)
+  except ValueError:
+    return path
+
+
+def missing(relpath, why):
+  """Report an absent artifact. Returns True when the caller should stop."""
+  note("artifact absent: %s (%s)" % (relpath, why))
+  if MODE == "code-only":
+    mark_skip()
+    note("SKIPPED, not passed: this check was NOT executed for %s" % relpath)
+  else:
+    mark_fail()
+  return True
+
+
+def finish():
+  if FAILED:
+    verdict = "FAIL"
+  elif SKIPPED:
+    verdict = "SKIP"
+  else:
+    verdict = "PASS"
+  sys.stdout.write("STAGE %s %s: %s\n" % (STAGE_ID, STAGE_NAME, verdict))
+  sys.stdout.flush()
+  sys.exit(1 if FAILED else (3 if SKIPPED else 0))
+
+
+# ===========================================================================
+# Stage 4 -- corpus structure and hash verification
+# ===========================================================================
+
+def stage_corpus_hash():
+  from substrate.corpus import hash_corpus_file, validate_hierarchy
+  from substrate.splits import norm_title, validate_group_map
+
+  corpus_rel = "corpus/corpus.jsonl"
+  corpus_path = os.path.join(ROOT, corpus_rel)
+  if not os.path.isfile(corpus_path):
+    missing(corpus_rel, "git-ignored 42 MB canonical corpus JSONL")
+    return finish()
+
+  try:
+    nodes, canonical = hash_corpus_file(corpus_path)
+  except (ValueError, OSError) as exc:
+    detail("corpus artifact invalid: %s" % str(exc)[:200])
+    mark_fail()
+    return finish()
+
+  hier = validate_hierarchy(nodes)
+  if hier:
+    for err in hier[:5]:
+      detail("hierarchy: %s" % err)
+    mark_fail()
+  else:
+    detail("hierarchy: valid (%d nodes)" % len(nodes))
+
+  kinds = {}
+  for n in nodes:
+    kinds[n.kind] = kinds.get(n.kind, 0) + 1
+  detail("node kinds: " + json.dumps(kinds, sort_keys=True))
+  detail("canonical corpus hash (recomputed): %s" % canonical)
+
+  # --- provenance.json comparison -----------------------------------------
+  prov_rel = "corpus/provenance.json"
+  prov_path = os.path.join(ROOT, prov_rel)
+  if not os.path.isfile(prov_path):
+    detail("%s absent: cannot cross-check canonical hash" % prov_rel)
+    mark_fail()
+  else:
+    with open(prov_path, "r", encoding="utf-8") as fh:
+      prov = json.load(fh)
+    for field in ("corpus_hash_sha256", "canonical_text_sha256"):
+      got = prov.get(field)
+      if got == canonical:
+        detail("provenance.%s: MATCHES recomputed canonical hash" % field)
+      else:
+        detail("provenance.%s: MISMATCH (recorded %s)"
+               % (field, str(got)[:16]))
+        mark_fail()
+    if prov.get("validation_errors"):
+      detail("provenance.validation_errors: %d recorded error(s)"
+             % len(prov["validation_errors"]))
+      mark_fail()
+    else:
+      detail("provenance.validation_errors: empty")
+
+  # --- build_manifest.json comparison --------------------------------------
+  bm_rel = "corpus/build_manifest.json"
+  bm_path = os.path.join(ROOT, bm_rel)
+  if not os.path.isfile(bm_path):
+    detail("%s absent: cannot cross-check artifact bytes" % bm_rel)
+    mark_fail()
+    return finish()
+
+  with open(bm_path, "r", encoding="utf-8") as fh:
+    bm = json.load(fh)
+  artifacts = bm.get("artifacts")
+  if not isinstance(artifacts, list) or not artifacts:
+    detail("%s: malformed or empty 'artifacts'" % bm_rel)
+    mark_fail()
+    return finish()
+
+  # build_manifest records FILE bytes for corpus.jsonl. Verify that entry and,
+  # if a canonical-hash field is ever added, verify it too.
+  corpus_entries = [a for a in artifacts
+                    if isinstance(a, dict) and a.get("path") == corpus_rel]
+  if not corpus_entries:
+    detail("%s: no artifact entry for %s" % (bm_rel, corpus_rel))
+    mark_fail()
+  for key in ("corpus_hash", "canonical_corpus_hash", "corpus_hash_sha256"):
+    if key in bm:
+      if bm[key] == canonical:
+        detail("build_manifest.%s: MATCHES recomputed canonical hash" % key)
+      else:
+        detail("build_manifest.%s: MISMATCH (recorded %s)"
+               % (key, str(bm[key])[:16]))
+        mark_fail()
+
+  # Every artifact the build manifest pins must match the bytes on disk.
+  for a in sorted(artifacts, key=lambda d: str(d.get("path"))):
+    if not isinstance(a, dict):
+      detail("build_manifest: non-object artifact entry")
+      mark_fail()
+      continue
+    p_rel = a.get("path")
+    want = a.get("sha256")
+    want_bytes = a.get("bytes")
+    p_full = os.path.join(ROOT, str(p_rel))
+    if not os.path.isfile(p_full):
+      detail("artifact missing on disk: %s" % p_rel)
+      mark_fail()
+      continue
+    got = sha256_file(p_full)
+    size = os.path.getsize(p_full)
+    if got != want:
+      detail("artifact sha256 MISMATCH: %s" % p_rel)
+      mark_fail()
+    elif want_bytes is not None and size != want_bytes:
+      detail("artifact byte size MISMATCH: %s" % p_rel)
+      mark_fail()
+    else:
+      detail("artifact bytes+sha256 verified: %s (%d bytes)" % (p_rel, size))
+
+  im = bm.get("input_manifest_sha256")
+  im_rel = "corpus/input_manifest.json"
+  im_full = os.path.join(ROOT, im_rel)
+  if im and os.path.isfile(im_full):
+    if sha256_file(im_full) == im:
+      detail("build_manifest.input_manifest_sha256: verified")
+    else:
+      detail("build_manifest.input_manifest_sha256: MISMATCH")
+      mark_fail()
+
+  # --- split map / group map ----------------------------------------------
+  sm_rel = "corpus/split_map.json"
+  sm_path = os.path.join(ROOT, sm_rel)
+  if not os.path.isfile(sm_path):
+    detail("%s absent: group-map validation not run" % sm_rel)
+    mark_fail()
+    return finish()
+  with open(sm_path, "r", encoding="utf-8") as fh:
+    split_map = json.load(fh)
+  titles = {norm_title(n.text) for n in nodes if n.kind == "article"}
+  gm = validate_group_map(split_map, titles)
+  if gm["errors"]:
+    for err in gm["errors"][:5]:
+      detail("group map: %s" % err)
+    mark_fail()
+  else:
+    counts = {}
+    for rec in split_map.get("groups", {}).values():
+      s = rec.get("split")
+      counts[s] = counts.get(s, 0) + len(rec.get("articles", []))
+    detail("group map: valid (%d groups, %d articles, splits %s)"
+           % (len(split_map.get("groups", {})), len(titles),
+              json.dumps(counts, sort_keys=True)))
+
+  if not FAILED and not SKIPPED:
+    mark_pass()
+  finish()
+
+
+# ===========================================================================
+# Stage 5 -- QA validation (data_tools.validate_qa)
+# ===========================================================================
+
+def stage_qa_validation():
+  import subprocess
+
+  corpus_rel = "corpus/corpus.jsonl"
+  corpus_path = os.path.join(ROOT, corpus_rel)
+  if not os.path.isfile(corpus_path):
+    missing(corpus_rel, "git-ignored 42 MB canonical corpus JSONL")
+    return finish()
+
+  staging_rel = "staging"
+  if not os.path.isdir(os.path.join(ROOT, staging_rel)):
+    detail("staging directory absent: %s" % staging_rel)
+    mark_fail()
+    return finish()
+
+  proc = subprocess.run(
+    [sys.executable, "-m", "data_tools.validate_qa",
+     "--staging", staging_rel,
+     "--corpus", corpus_rel,
+     "--split-map", "corpus/split_map.json"],
+    cwd=ROOT, capture_output=True, text=True,
+  )
+  if proc.returncode != 0:
+    detail("data_tools.validate_qa exited %d" % proc.returncode)
+    for line in (proc.stderr or "").strip().splitlines()[:10]:
+      detail("stderr: %s" % line[:160])
+    mark_fail()
+    return finish()
+
+  try:
+    manifest = json.loads(proc.stdout)
+  except ValueError:
+    detail("data_tools.validate_qa produced non-JSON output")
+    mark_fail()
+    return finish()
+
+  errors = manifest.get("errors")
+  drafts = manifest.get("drafts")
+  approved = manifest.get("approved")
+  detail("drafts: %s, approved: %s, errors: %s"
+         % (drafts, approved, errors))
+  detail("splits: " + json.dumps(manifest.get("splits", {}), sort_keys=True))
+  detail("types: " + json.dumps(manifest.get("types", {}), sort_keys=True))
+  detail("public projection ids sha256: %s"
+         % str(manifest.get("public_projection_ids_sha256"))[:16])
+  detail("runtime projection sha256:  %s"
+         % str(manifest.get("runtime_projection_sha256"))[:16])
+  if errors:
+    for err in manifest.get("error_list", [])[:5]:
+      detail("error: %s" % str(err)[:160])
+    mark_fail()
+    return finish()
+  if not drafts:
+    detail("no staged drafts found")
+    mark_fail()
+    return finish()
+
+  detail("NOTE: structural QA validation only. Approved counts are content-hash")
+  detail("      bookkeeping, NOT a semantic QA verdict.")
+  mark_pass()
+  finish()
+
+
+# ===========================================================================
+# Stage 6 -- question/label partition, leakage and split validation
+# ===========================================================================
+
+SEAL_REL = "corpus/heldout_labels.sealed.json"
+SEAL_RECORD_REL = "corpus/heldout_seal.json"
+SEAL_ID_PROJECTION_REL = "corpus/heldout_question_ids.json"
+QUESTIONS_REL = "corpus/questions.json"
+
+
+def stage_partition():
+  from substrate.splits import (
+    HeldoutAccessDenied,
+    HeldoutCustodian,
+    validate_questions_file,
+    verify_seal_opaque,
+  )
+
+  questions_path = os.path.join(ROOT, QUESTIONS_REL)
+  labels_path = os.path.join(ROOT, SEAL_REL)
+
+  questions_present = os.path.isfile(questions_path)
+  labels_present = os.path.isfile(labels_path)
+
+  if not questions_present or not labels_present:
+    absent = []
+    if not questions_present:
+      absent.append(QUESTIONS_REL)
+    if not labels_present:
+      absent.append(SEAL_REL)
+    detail("freeze artifacts absent: %s" % ", ".join(absent))
+    detail("these are REAL freeze blockers; the benchmark question set and the")
+    detail("sealed held-out label artifact do not exist yet. Use --code-only")
+    detail("to exercise the code-level portion before they are produced.")
+    mark_fail()
+    return finish()
+
+  # --- questions side ------------------------------------------------------
+  checked = validate_questions_file(questions_path)
+  qids = set(checked["ids"])
+  if checked["errors"]:
+    for err in checked["errors"][:5]:
+      detail("questions: %s" % err)
+    mark_fail()
+  detail("questions: %d ids, %d structural error(s)"
+         % (len(qids), len(checked["errors"])))
+
+  # No held-out entry may appear in the public/dev questions file.
+  with open(questions_path, "r", encoding="utf-8") as fh:
+    entries = json.load(fh)
+  leaked = [e.get("question_id") for e in entries
+            if isinstance(e, dict) and e.get("split") == "heldout"]
+  if leaked:
+    detail("questions: %d entry/entries declare split=heldout (partition "
+           "violation)" % len(leaked))
+    mark_fail()
+  else:
+    detail("questions: no entry declares split=heldout")
+
+  # --- sealed side: opaque bytes only -------------------------------------
+  seal_record_path = os.path.join(ROOT, SEAL_RECORD_REL)
+  if not os.path.isfile(seal_record_path):
+    detail("%s absent: no recorded seal hash, so the sealed artifact cannot be"
+           % SEAL_RECORD_REL)
+    detail("verified. This verifier will NOT open the sealed file to invent one.")
+    mark_fail()
+    return finish()
+  with open(seal_record_path, "r", encoding="utf-8") as fh:
+    seal_record = json.load(fh)
+  seal_hash = seal_record.get("seal_sha256") or seal_record.get("seal_hash")
+  if not isinstance(seal_hash, str) or len(seal_hash) != 64:
+    detail("%s: no 64-hex seal_sha256 recorded" % SEAL_RECORD_REL)
+    mark_fail()
+    return finish()
+  if verify_seal_opaque(labels_path, seal_hash):
+    detail("sealed labels: opaque byte hash VERIFIED (%s...)" % seal_hash[:16])
+    detail("sealed labels: content NOT read, NOT parsed, NOT printed")
+  else:
+    detail("sealed labels: opaque byte hash MISMATCH (artifact changed since seal)")
+    mark_fail()
+
+  # --- id disjointness via the published id projection ---------------------
+  # Overlap is proven from a content-free published id list. The sealed file
+  # itself is never opened for content, so this check cannot leak answers.
+  proj_path = os.path.join(ROOT, SEAL_ID_PROJECTION_REL)
+  if not os.path.isfile(proj_path):
+    detail("%s absent: question-id disjointness cannot be proven without"
+           % SEAL_ID_PROJECTION_REL)
+    detail("opening the sealed file. Publish an id-only projection at seal time.")
+    mark_fail()
+    return finish()
+  with open(proj_path, "r", encoding="utf-8") as fh:
+    projection = json.load(fh)
+  sealed_ids = set(projection.get("question_ids", [])) \
+    if isinstance(projection, dict) else set(projection)
+  overlap = sorted(qids & sealed_ids)
+  if overlap:
+    detail("partition violation: %d question id(s) present in both the public"
+           % len(overlap))
+    detail("question file and the sealed held-out set (e.g. %s)"
+           % ", ".join(overlap[:3]))
+    mark_fail()
+  else:
+    detail("partition: %d public ids vs %d sealed ids, 0 overlap"
+           % (len(qids), len(sealed_ids)))
+
+  # --- dev-side read refusal ----------------------------------------------
+  denied = 0
+  cust = HeldoutCustodian(labels_path=labels_path,
+                          audit_path=os.path.join(
+                              os.environ.get("TMPDIR", "/tmp"),
+                              "verify_round0_audit_should_not_exist.jsonl"))
+  for kwargs in ({}, {"allow_heldout": True, "accessor": "verify_round0"}):
+    try:
+      cust.load_labels(**kwargs)
+    except HeldoutAccessDenied:
+      denied += 1
+    except Exception as exc:  # fail closed on any other outcome
+      detail("custodian gate raised unexpected %s: %s"
+             % (type(exc).__name__, str(exc)[:120]))
+      mark_fail()
+  if denied == 2:
+    detail("dev-side read path: HeldoutAccessDenied on both default and "
+           "allow_heldout=True calls")
+  else:
+    detail("dev-side read path: sealed labels were NOT refused (%d/2 denied)"
+           % denied)
+    mark_fail()
+
+  if not FAILED:
+    mark_pass()
+  finish()
+
+
+# ===========================================================================
+# Stage 7 -- generator pin validation
+# ===========================================================================
+
+def read_runtime_declarations(disk):
+  """Declared runtime executables/libraries from the raw generator config.
+
+  Mirrors substrate.manifest._runtime_declarations without importing a
+  private symbol owned by another worker's file.
+  """
+  decls = []
+  errors = []
+  rb = disk.get("runtime_binaries")
+  if not isinstance(rb, dict):
+    return decls, ["generator config: runtime_binaries inventory missing or malformed"]
+  lib_dir = rb.get("lib_dir", "") or ""
+  libs = rb.get("libs", {})
+  if not isinstance(libs, dict):
+    errors.append("generator config: runtime_binaries.libs malformed")
+    libs = {}
+  for name in sorted(libs):
+    rec = libs[name]
+    if not isinstance(rec, dict) or "sha256" not in rec:
+      errors.append("generator config: runtime lib %s malformed" % str(name)[:80])
+      continue
+    filename = rec.get("soname_target") or name
+    path = os.path.join(lib_dir, filename) if lib_dir else filename
+    decls.append({"name": str(name), "path": path, "sha256": rec["sha256"]})
+  server = rb.get("llama-server", {})
+  if isinstance(server, dict) and server.get("path") and server.get("sha256"):
+    decls.append({"name": "llama-server", "path": server["path"],
+                  "sha256": server["sha256"]})
+  elif server:
+    errors.append("generator config: llama-server declaration malformed")
+  return decls, errors
+
+
+def stage_generator_pin():
+  from substrate.generator import PROMPT_HASH, GeneratorConfig
+  from substrate.types import is_stub_generator
+
+  cfg_rel = "corpus/generator_config.json"
+  cfg_path = os.path.join(ROOT, cfg_rel)
+  if not os.path.isfile(cfg_path):
+    detail("%s absent: generator cannot be pinned" % cfg_rel)
+    mark_fail()
+    return finish()
+
+  with open(cfg_path, "r", encoding="utf-8") as fh:
+    disk = json.load(fh)
+  gen = GeneratorConfig.from_dict(disk)
+
+  unpinned = gen.unpinned_fields()
+  if unpinned:
+    detail("generator contract UNPINNED fields: %s" % sorted(unpinned))
+    mark_fail()
+  else:
+    detail("generator contract: all fields pinned (no TBD/unspecified)")
+
+  if not gen.is_pinned():
+    detail("generator is_pinned(): False")
+    mark_fail()
+  else:
+    detail("generator is_pinned(): True")
+
+  if is_stub_generator(gen.generator_id) or is_stub_generator(gen.model_id):
+    detail("generator is an infrastructure stub: %s" % gen.generator_id)
+    mark_fail()
+  else:
+    detail("generator: %s (model %s @ %s)"
+           % (gen.generator_id, gen.model_id, gen.revision))
+
+  if gen.prompt_hash == PROMPT_HASH:
+    detail("prompt hash: MATCHES substrate PROMPT_HASH (%s...)"
+           % PROMPT_HASH[:16])
+  else:
+    detail("prompt hash: MISMATCH against substrate PROMPT_HASH")
+    mark_fail()
+
+  # tokenizer / chat template identity
+  if isinstance(gen.chat_template_sha256, str) and len(gen.chat_template_sha256) == 64:
+    detail("chat_template_sha256 present: %s..." % gen.chat_template_sha256[:16])
+  else:
+    detail("chat_template_sha256 missing or malformed")
+    mark_fail()
+  tg = disk.get("tokenizer_gguf")
+  if isinstance(tg, dict) and isinstance(tg.get("chat_template_sha256"), str) \
+      and len(tg["chat_template_sha256"]) == 64:
+    detail("tokenizer_gguf.chat_template_sha256 present: %s..."
+           % tg["chat_template_sha256"][:16])
+  else:
+    detail("tokenizer_gguf.chat_template_sha256 missing or malformed")
+    mark_fail()
+  detail("tokenizer: %s, quantization: %s, context_window: %s"
+         % (gen.tokenizer_id, gen.quantization, gen.context_window))
+
+  # --- model artifact bytes ------------------------------------------------
+  art_rel = disk.get("artifact_path", gen.file)
+  art_path = os.path.join(ROOT, str(art_rel))
+  if not os.path.isfile(art_path):
+    note("generator artifact absent: %s" % art_rel)
+    detail("generator artifact bytes+sha256: SKIPPED (%s is not present; the"
+           % art_rel)
+    detail("      986 MB GGUF is not vendored in git). This check was NOT run.")
+    detail("      It is neither a pass nor a failure; it is unverified.")
+    mark_skip()
+  else:
+    size = os.path.getsize(art_path)
+    if gen.artifact_bytes is not None and size != gen.artifact_bytes:
+      detail("generator artifact byte size MISMATCH: %d != %s"
+             % (size, gen.artifact_bytes))
+      mark_fail()
+    got = sha256_file(art_path)
+    if got == gen.artifact_sha256:
+      detail("generator artifact bytes+sha256: VERIFIED against %s (%d bytes)"
+             % (art_rel, size))
+    else:
+      detail("generator artifact sha256 MISMATCH: %s" % art_rel)
+      mark_fail()
+
+  # --- runtime binaries ----------------------------------------------------
+  decls, decl_errors = read_runtime_declarations(disk)
+  for err in decl_errors:
+    detail(err)
+    mark_fail()
+  runtime_absent = 0
+  for decl in decls:
+    p = decl["path"]
+    p_full = p if os.path.isabs(p) else os.path.join(ROOT, p)
+    if not os.path.isfile(p_full):
+      detail("runtime binary NOT PRESENT (unverified): %s" % decl["name"])
+      runtime_absent += 1
+      continue
+    if sha256_file(p_full) == decl["sha256"]:
+      detail("runtime binary sha256 verified: %s" % decl["name"])
+    else:
+      detail("runtime binary sha256 MISMATCH: %s" % decl["name"])
+      mark_fail()
+  if runtime_absent:
+    # Out-of-tree llama.cpp build artifacts are host-specific. When they are
+    # absent this stage is UNVERIFIED, not verified. Never report a PASS that
+    # implies the runtime was checked when it was not.
+    note("%d of %d declared runtime binaries are absent on this host and were"
+         % (runtime_absent, len(decls)))
+    note("NOT verified (they live in an out-of-tree llama.cpp build directory")
+    note("that a clean checkout does not contain)")
+    mark_skip()
+
+  if not FAILED and not SKIPPED:
+    mark_pass()
+  finish()
+
+
+# ===========================================================================
+# Stage 8 -- freeze manifest validation against the real artifact set
+# ===========================================================================
+
+def stage_freeze_manifest():
+  import dataclasses
+  from substrate.manifest import (
+    REQUIRED_CORPUS_FILE,
+    RunManifest,
+    derive_seeds,
+    validate_freeze,
+  )
+  from substrate.generator import GeneratorConfig
+
+  corpus_path = os.path.join(ROOT, REQUIRED_CORPUS_FILE)
+  if not os.path.isfile(corpus_path):
+    missing(REQUIRED_CORPUS_FILE, "freeze cannot be validated without it")
+    return finish()
+
+  from substrate.corpus import hash_corpus_file
+  try:
+    nodes, corpus_hash = hash_corpus_file(corpus_path)
+  except (ValueError, OSError) as exc:
+    detail("corpus artifact invalid: %s" % str(exc)[:200])
+    mark_fail()
+    return finish()
+
+  cfg_rel = "corpus/generator_config.json"
+  cfg_path = os.path.join(ROOT, cfg_rel)
+  generator = GeneratorConfig.from_dict(
+    json.load(open(cfg_path, "r", encoding="utf-8")) if os.path.isfile(cfg_path)
+    else {})
+
+  # Code provenance: hash the code files that actually exist on disk.
+  code_dirs = ("substrate", "eval", "data_tools", "corpus")
+  code_hashes = {}
+  for d in code_dirs:
+    d_full = os.path.join(ROOT, d)
+    if not os.path.isdir(d_full):
+      continue
+    for name in sorted(os.listdir(d_full)):
+      if not name.endswith(".py"):
+        continue
+      code_hashes["%s/%s" % (d, name)] = sha256_file(os.path.join(d_full, name))
+  this_script = os.path.join(ROOT, "scripts", "verify_round0")
+  if os.path.isfile(this_script):
+    code_hashes["scripts/verify_round0"] = sha256_file(this_script)
+  detail("code provenance: %d file(s) hashed" % len(code_hashes))
+
+  # Inventory: real bytes wherever the file exists on this host.
+  from substrate.manifest import ArtifactPin
+  inventory = []
+  bm_path = os.path.join(ROOT, "corpus", "build_manifest.json")
+  if os.path.isfile(bm_path):
+    with open(bm_path, "r", encoding="utf-8") as fh:
+      for a in json.load(fh).get("artifacts", []):
+        if isinstance(a, dict) and a.get("path") and a.get("sha256"):
+          inventory.append(ArtifactPin(path=a["path"], role="corpus-artifact",
+                                      sha256=a["sha256"],
+                                      bytes=a.get("bytes")))
+  pins_rel = "references/public_eval_pins.json"
+  pins_path = os.path.join(ROOT, pins_rel)
+  if os.path.isfile(pins_path):
+    inventory.append(ArtifactPin(path=pins_rel, role="public-reference-pins",
+                                sha256=sha256_file(pins_path)))
+  decls, _ = read_runtime_declarations(
+    json.load(open(cfg_path, "r", encoding="utf-8")) if os.path.isfile(cfg_path)
+    else {})
+  for decl in decls:
+    p_full = decl["path"] if os.path.isabs(decl["path"]) \
+      else os.path.join(ROOT, decl["path"])
+    if os.path.isfile(p_full):
+      role = "external-runtime-binary" if os.path.isabs(decl["path"]) \
+        else "runtime-binary"
+      inventory.append(ArtifactPin(path=decl["path"], role=role,
+                                  sha256=decl["sha256"]))
+  detail("inventory: %d artifact pin(s)" % len(inventory))
+
+  def sha_or_tbd(relpath):
+    p = os.path.join(ROOT, relpath)
+    return sha256_file(p) if os.path.isfile(p) else "TBD"
+
+  master_seed = 1234
+  components = ["corpus", "split", "qa", "generator", "run"]
+
+  kwargs = {
+    "run_id": "round0-freeze-candidate",
+    "seed": master_seed,
+    "corpus_hash": corpus_hash,
+    "code_hashes": code_hashes,
+    "generator": generator,
+    "thresholds": {},  # no threshold-policy artifact exists yet; recorded honestly
+    "sealed_labels_sha256": sha_or_tbd(SEAL_REL),
+    "questions_sha256": sha_or_tbd(QUESTIONS_REL),
+    "split_seed": "TBD",
+    "split_method": "group-map",
+    "split_map_path": "corpus/split_map.json",
+    "split_map_sha256": sha_or_tbd("corpus/split_map.json"),
+    "generator_config_sha256": sha_or_tbd(cfg_rel),
+    "inventory": inventory,
+    "phase": "round0-substrate",
+    "seed_derivation_log": derive_seeds(master_seed, components),
+    "public_reference_pins_sha256": sha_or_tbd(pins_rel),
+    "regime_a_heldout_groups": [],
+    "regime_b_document_heldout_groups": [],
+  }
+  # Tolerate fields added by the owning worker without guessing their names.
+  known = {f.name for f in dataclasses.fields(RunManifest)}
+  kwargs = {k: v for k, v in kwargs.items() if k in known}
+
+  try:
+    manifest = RunManifest(**kwargs)
+  except TypeError as exc:
+    detail("cannot construct candidate manifest: %s" % str(exc)[:200])
+    mark_fail()
+    return finish()
+
+  check = validate_freeze(ROOT, manifest)
+  detail("validate_freeze: passed=%s, %d gap(s)"
+         % (check.passed, len(check.gaps)))
+  if check.gaps:
+    # Gaps carry ids / counts / hashes only, by construction of validate_freeze.
+    for gap in check.gaps[:40]:
+      detail("gap: %s" % gap[:200])
+    if len(check.gaps) > 40:
+      detail("... %d further gap(s) not shown" % (len(check.gaps) - 40))
+    mark_fail()
+  else:
+    mark_pass()
+  finish()
+
+
+# ===========================================================================
+# Stage 9 -- leakage-control artifacts
+# ===========================================================================
+
+def stage_leakage_artifacts():
+  pins_rel = "references/public_eval_pins.json"
+  pins_path = os.path.join(ROOT, pins_rel)
+  if not os.path.isfile(pins_path):
+    detail("%s absent: public reference provenance unpinned" % pins_rel)
+    mark_fail()
+    return finish()
+
+  with open(pins_path, "r", encoding="utf-8") as fh:
+    pins = json.load(fh)
+
+  entries = pins.get("pins")
+  if not isinstance(entries, list) or not entries:
+    detail("%s: 'pins' missing or empty" % pins_rel)
+    mark_fail()
+  else:
+    bad = 0
+    for e in entries:
+      if not isinstance(e, dict):
+        bad += 1
+        continue
+      sha = e.get("sha256")
+      rev = e.get("revision")
+      size = e.get("bytes")
+      if not (isinstance(sha, str) and len(sha) == 64):
+        detail("pin %s: sha256 not 64-hex" % e.get("path"))
+        bad += 1
+      if not (isinstance(rev, str) and len(rev) == 40):
+        detail("pin %s: revision not a 40-hex commit SHA" % e.get("path"))
+        bad += 1
+      if not (isinstance(size, int) and size > 0):
+        detail("pin %s: byte count missing or non-positive" % e.get("path"))
+        bad += 1
+    total = sum(e.get("bytes", 0) for e in entries if isinstance(e, dict))
+    if total != pins.get("total_bytes"):
+      detail("pins total_bytes (%s) != sum of pin bytes (%s)"
+             % (pins.get("total_bytes"), total))
+      bad += 1
+    if pins.get("pin_mismatches"):
+      detail("pins pin_mismatches is non-empty: %d" % len(pins["pin_mismatches"]))
+      bad += 1
+    if bad:
+      mark_fail()
+    else:
+      detail("public reference pins: %d pin(s), %d bytes, all well formed"
+             % (len(entries), total))
+
+  # Cross-check against references/pins.json (a real local artifact).
+  base_rel = "references/pins.json"
+  base_path = os.path.join(ROOT, base_rel)
+  cross = 0
+  if os.path.isfile(base_path):
+    with open(base_path, "r", encoding="utf-8") as fh:
+      base = json.load(fh)
+    at_head = base.get("sha256_at_pinned_head", {})
+    for e in entries or []:
+      if not isinstance(e, dict) or not e.get("sha256_in_prior_pins_json"):
+        continue
+      key = "%s/%s" % (e.get("repo"), e.get("path"))
+      if key in at_head:
+        cross += 1
+        if at_head[key] != e.get("sha256"):
+          detail("pin cross-check MISMATCH against %s: %s" % (base_rel, key))
+          mark_fail()
+    detail("public reference pins: %d pin(s) cross-checked byte-for-byte "
+           "against %s" % (cross, base_rel))
+  else:
+    detail("%s absent: no local cross-check available" % base_rel)
+
+  # The upstream pinned bytes are remote and are NOT vendored. Say so out loud
+  # instead of implying they were re-verified.
+  detail("upstream pinned bytes: NOT vendored locally and NOT re-fetched")
+  detail("      (no network at verification time). Their recorded sha256")
+  detail("      values are carried forward as claims, not as measurements.")
+
+  # --- regime metadata artifacts ------------------------------------------
+  sm_rel = "corpus/split_map.json"
+  sm_path = os.path.join(ROOT, sm_rel)
+  if not os.path.isfile(sm_path):
+    detail("%s absent: regime metadata cannot be derived" % sm_rel)
+    mark_fail()
+    return finish()
+
+  try:
+    from substrate.regime_metadata import derive_regime_metadata
+    meta = derive_regime_metadata(sm_path)
+  except Exception as exc:
+    detail("regime metadata derivation FAILED: %s: %s"
+           % (type(exc).__name__, str(exc)[:200]))
+    mark_fail()
+    return finish()
+
+  detail("regime metadata derived from split map: regime A groups=%d, "
+         "regime B groups=%d"
+         % (len(meta.regime_a_groups), len(meta.regime_b_groups)))
+
+  with open(sm_path, "r", encoding="utf-8") as fh:
+    split_map = json.load(fh)
+  bad_group = [g.group_key for g in meta.regime_b_groups
+               if split_map.get("groups", {}).get(g.group_key, {}).get("split")
+               != "heldout"]
+  if bad_group:
+    detail("regime B contains non-heldout group(s): %s" % bad_group[:3])
+    mark_fail()
+  else:
+    detail("regime B groups are a strict subset of heldout groups: OK")
+
+  excluded_rel = "corpus/regime_b_excluded_articles.json"
+  excluded_path = os.path.join(ROOT, excluded_rel)
+  if meta.regime_b_groups:
+    if not os.path.isfile(excluded_path):
+      note("artifact absent: %s (required: regime B groups are non-empty)"
+           % excluded_rel)
+      if MODE == "code-only":
+        mark_skip()
+        note("SKIPPED, not passed: regime B excluded-article artifact unverified")
+      else:
+        mark_fail()
+    else:
+      with open(excluded_path, "r", encoding="utf-8") as fh:
+        excluded = json.load(fh)
+      excluded_titles = excluded.get("articles", []) \
+        if isinstance(excluded, dict) else excluded
+      expected = set()
+      for g in meta.regime_b_groups:
+        expected.update(g.article_titles)
+      if set(excluded_titles) != expected:
+        detail("regime B excluded-article artifact INCONSISTENT with split map "
+               "(%d recorded vs %d derived)"
+               % (len(excluded_titles), len(expected)))
+        mark_fail()
+      else:
+        detail("regime B excluded-article artifact consistent: %d article(s)"
+               % len(excluded_titles))
+  else:
+    detail("regime B is empty; excluded-article artifact not required")
+
+  if not FAILED and not SKIPPED:
+    mark_pass()
+  finish()
+
+
+# ===========================================================================
+# Dispatch
+# ===========================================================================
+
+STAGE_BODIES = {
+  "4": stage_corpus_hash,
+  "5": stage_qa_validation,
+  "6": stage_partition,
+  "7": stage_generator_pin,
+  "8": stage_freeze_manifest,
+  "9": stage_leakage_artifacts,
+}
+
+try:
+  STAGE_BODIES[STAGE_ID]()
+except SystemExit:
+  raise
+except BaseException as exc:  # a verifier crash is a FAIL, never a silent pass
+  detail("verifier error in stage %s: %s: %s"
+         % (STAGE_ID, type(exc).__name__, str(exc)[:300]))
+  sys.stdout.write("STAGE %s %s: FAIL\n" % (STAGE_ID, STAGE_NAME))
+  sys.stdout.flush()
+  sys.exit(1)
+PYSTAGE
+  rc=$?
+  case "$rc" in
+    0)
+      record "$1" "PASS" "stage $2"
+      N_PASS=$((N_PASS + 1))
+      ;;
+    3)
+      N_SKIP=$((N_SKIP + 1))
+      if [ "$MODE" = "full" ]; then
+        # Unverified is not frozen.
+        record "$1" "FAIL" "stage $2 skipped (required artifact absent)"
+        N_FAIL=$((N_FAIL + 1))
+      else
+        record "$1" "SKIP" "stage $2 skipped (required artifact absent)"
+        note_not_verified "$1" "stage $1 ($2): required artifact absent"
+      fi
+      ;;
+    *)
+      record "$1" "FAIL" "stage $2 (exit $rc)"
+      N_FAIL=$((N_FAIL + 1))
+      ;;
+  esac
+}
+
+# ---- run the selected stages ----------------------------------------------
+
+banner "mode=$MODE  stages=[$(printf '%s' "$SELECTED" | tr '\n' ' ' | sed 's/ $//')]"
+
+if [ "$MODE" = "code-only" ]; then
+  echo
+  echo "###################################################################"
+  echo "#  CODE-ONLY MODE -- THIS IS NOT A FREEZE PASS.                    #"
+  echo "#  Stages 6 (question/label partition) and 8 (freeze manifest)     #"
+  echo "#  were NOT run: they require freeze artifacts that do not exist.  #"
+  echo "#  A 0 exit here means the code-level checks ran; it says NOTHING   #"
+  echo "#  about whether Round 0 may be frozen.                            #"
+  echo "###################################################################"
+fi
+
+if [ -n "$ONLY" ]; then
+  echo
+  echo "PARTIAL VERIFICATION: only stage(s) [$ONLY] ran. This is not a full"
+  echo "verification and is never a freeze pass."
+fi
+
+for id in $SELECTED; do
+  case "$id" in
+    1) suite_stage 1 "shared substrate tests" "tests" "substrate" ;;
+    2) suite_stage 2 "data-tools tests" "data_tools/tests" "data_tools" ;;
+    3) suite_stage 3 "corpus converter tests" "corpus/tests" "corpus/build_pilot.py" "corpus/raw" ;;
+    4) stage_head 4 "corpus structure and hash verification"
+       py_stage 4 "corpus-hash" ;;
+    5) stage_head 5 "QA validation (data_tools.validate_qa)"
+       py_stage 5 "qa-validation" ;;
+    6) stage_head 6 "question/label partition and leakage validation"
+       py_stage 6 "question-label-partition" ;;
+    7) stage_head 7 "generator pin validation"
+       py_stage 7 "generator-pin" ;;
+    8) stage_head 8 "freeze manifest validation"
+       py_stage 8 "freeze-manifest" ;;
+    9) stage_head 9 "leakage-control artifacts"
+       py_stage 9 "leakage-control-artifacts" ;;
+    *) usage_error "internal: unknown stage id $id" ;;
+  esac
+done
+
+# ---- summary ---------------------------------------------------------------
+
+echo
+echo "==================================================================="
+echo " SUMMARY"
+echo "==================================================================="
+sed 's/^/ /' "$RESULTS"
+
+echo
+echo " stages passed: $N_PASS   failed: $N_FAIL   skipped: $N_SKIP"
+
+if [ -s "$NOT_VERIFIED" ]; then
+  echo
+  echo " NOT VERIFIED (explicitly skipped; NOT passes):"
+  sed 's/^/   - /' "$NOT_VERIFIED"
+fi
+
+echo
+echo "-------------------------------------------------------------------"
+echo " WHAT A PASS HERE DOES NOT MEAN"
+echo "-------------------------------------------------------------------"
+echo " This tool checks STRUCTURE, HASHES, SPLITS, PROVENANCE and PINS."
+echo " It does NOT verify semantic QA correctness, and it cannot:"
+echo "   * whether a question is actually answerable from the corpus;"
+echo "   * whether the recorded atoms are minimal;"
+echo "   * whether a multi-hop item is genuinely multi-hop;"
+echo "   * whether any label is factually right."
+echo " Those are human/agent adjudication decisions under"
+echo " docs/qa-semantic-audit-protocol.md. Semantic QA review CANNOT be"
+echo " unit tested into correctness, and no PASS printed above may be read"
+echo " as a semantic QA verdict. Only an independent reviewer performing"
+echo " that audit may certify QA semantics."
+echo "-------------------------------------------------------------------"
+
+if [ "$MODE" = "code-only" ]; then
+  echo
+  echo " REMINDER: this was --code-only. IT IS NOT A FREEZE PASS."
+  echo " Stages 6 and 8 did not run. Re-run without --code-only before"
+  echo " claiming the Round 0 substrate is frozen."
+fi
+
+if [ "$N_FAIL" -gt 0 ]; then
+  echo
+  echo " RESULT: FAIL ($N_FAIL load-bearing stage(s) failed or unverified)."
+  exit 1
+fi
+
+if [ "$MODE" = "code-only" ] || [ -n "$ONLY" ]; then
+  echo
+  echo " RESULT: code-level checks completed (NOT a freeze pass)."
+  exit 0
+fi
+
+echo
+echo " RESULT: all load-bearing stages PASS."
+exit 0

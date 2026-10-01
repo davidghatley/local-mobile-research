@@ -38,6 +38,12 @@ SCORE_KINDS = (
   "similarity",
   "distance",
   "rank",
+  # Native model probabilities (e.g. KaLM P(yes), Laya choice probability).
+  # EVALUABLE via ECE/Brier before any fitting, and usable with a
+  # dev-selected threshold — but NOT certified calibrated. A calibrated claim
+  # requires score_kind="calibrated_probability" with a fitted method plus
+  # calibration_partition provenance.
+  "model_probability",
 )
 
 # How a threshold value is to be interpreted. "unspecified" is fail-closed:
@@ -46,6 +52,10 @@ THRESHOLD_INTERPRETATIONS = (
   "calibrated_probability",
   "raw_score_absolute",
   "raw_score_percentile",
+  # A threshold on native model probabilities selected on DEVELOPMENT data
+  # against operating precision/recall/FNR. Valid, but it does NOT by itself
+  # prove the kept set has that empirical precision. Report ECE/Brier.
+  "model_probability_dev_selected",
   "unspecified",
 )
 
@@ -94,7 +104,9 @@ def validate_score_value(score: float, score_kind: str) -> None:
     raise ValueError(f"unknown score_kind {score_kind!r}; expected one of {SCORE_KINDS}")
   if not isinstance(score, (int, float)) or not math.isfinite(score):
     raise ValueError(f"score must be finite, got {score!r} (kind={score_kind})")
-  if score_kind == "calibrated_probability" and not (0.0 <= score <= 1.0):
+  # Native model probabilities ARE probabilities: they must be bounded, but
+  # unlike calibrated_probability they carry no calibration guarantee.
+  if score_kind in ("calibrated_probability", "model_probability") and not (0.0 <= score <= 1.0):
     raise ValueError(
       f"calibrated_probability must be in [0, 1], got {score!r}; "
       "raw logits need score_kind='logit' and must not feed ECE/Brier"
@@ -137,6 +149,62 @@ class CorpusNode:
       links=tuple(d.get("links", ())),
       aliases=tuple(d.get("aliases", ())),
       meta=dict(d.get("meta", {})),
+    )
+
+
+@dataclass(frozen=True)
+class SupportAtom:
+  """Minimal semantic support unit: one leaf sentence or a subspan of one.
+
+  A full-leaf atom has ``atom_kind == "leaf"`` with ``char_start`` and
+  ``char_end`` both None (never store 0..len for a full leaf). A subspan
+  atom has ``atom_kind == "subspan"`` with both offsets set; the offsets
+  index into the host leaf node text (code points), and ``text`` is the
+  exact subspan (code-point exact). Sealed sufficient sets use leaf atoms;
+  subspan atoms are for analysis only.
+  """
+
+  node_id: str  # host leaf-sentence node id
+  text: str  # code-point exact atom text
+  char_start: int | None = None
+  char_end: int | None = None
+  atom_kind: str = "leaf"  # "leaf" | "subspan"
+
+  def __post_init__(self) -> None:
+    if self.atom_kind not in ("leaf", "subspan"):
+      raise ValueError(f"SupportAtom atom_kind must be 'leaf' or 'subspan', got {self.atom_kind!r}")
+    if self.atom_kind == "leaf":
+      if self.char_start is not None or self.char_end is not None:
+        raise ValueError("full-leaf SupportAtom must have char_start and char_end both None (never 0..len)")
+    else:
+      if self.char_start is None or self.char_end is None:
+        raise ValueError("subspan SupportAtom requires both char_start and char_end")
+      if (
+        not isinstance(self.char_start, int)
+        or not isinstance(self.char_end, int)
+        or isinstance(self.char_start, bool)
+        or isinstance(self.char_end, bool)
+      ):
+        raise ValueError("subspan SupportAtom offsets must be integers (code points)")
+      if self.char_start < 0 or self.char_end < self.char_start:
+        raise ValueError(
+          f"subspan SupportAtom requires 0 <= char_start <= char_end, got ({self.char_start}, {self.char_end})"
+        )
+
+  def to_dict(self) -> dict:
+    return asdict(self)
+
+  @staticmethod
+  def from_dict(d: dict) -> "SupportAtom":
+    for f in ("node_id", "text"):
+      if f not in d:
+        raise ValueError(f"SupportAtom missing required field: {f}")
+    return SupportAtom(
+      node_id=d["node_id"],
+      text=d["text"],
+      char_start=d.get("char_start"),
+      char_end=d.get("char_end"),
+      atom_kind=d.get("atom_kind", "leaf"),
     )
 
 
@@ -211,6 +279,17 @@ class ThresholdPolicy:
           errors.append("fitted calibration claim requires provenance (calibration_partition)")
         # "model_probability" passes: natively probabilistic, ECE/Brier-
         # evaluable, dev-thresholdable without forced fitted calibration.
+      if self.interpretation == "model_probability_dev_selected":
+        if self.score_kind != "model_probability":
+          errors.append(
+            "model_probability_dev_selected interpretation requires "
+            "score_kind='model_probability'"
+          )
+        elif self.calibration_method not in ("model_probability", "unspecified"):
+          errors.append(
+            "model_probability_dev_selected with a fitted calibration method "
+            "must declare score_kind='calibrated_probability' instead"
+          )
       # raw_score_absolute / raw_score_percentile are legal with any
       # score_kind and need no calibration claim.
     if self.top_k is not None and self.top_k < 1:
@@ -236,6 +315,99 @@ class ThresholdPolicy:
       calibration_method=d.get("calibration_method", "unspecified"),
       score_kind=d.get("score_kind", "calibrated_probability"),
       calibration_partition=d.get("calibration_partition", ""),
+    )
+
+
+# Evidence-sufficiency decision vocabulary. "sufficient" means the packet may
+# be handed to the generator; "insufficient" means the pipeline must abstain
+# WITHOUT invoking the generator (see evidence.run_question). The invariant
+# decision == "insufficient" iff generation_action == "abstain" is enforced
+# fail-closed in EvidenceDecision.__post_init__ (mismatch raises ValueError).
+EVIDENCE_DECISIONS = ("sufficient", "insufficient")
+GENERATION_ACTIONS = ("generate", "abstain")
+
+# Machine-readable reason codes for the safe-floor default (decide_default).
+# "zero-spans" = upstream retrieval supplied nothing; "over-budget-empty" =
+# a PACKING failure (first span alone overflowed the cap) — never misread as
+# a retrieval decision; "nonempty-packet" = floor passes the packet through.
+# Architectures supply their own sufficiency_policy and richer reasons later;
+# the floor below is an interface minimum, not a tuned sufficiency model.
+DECISION_REASONS = ("zero-spans", "over-budget-empty", "nonempty-packet")
+
+
+@dataclass(frozen=True)
+class EvidenceDecision:
+  """First-class sufficiency decision gating generation (fail-closed).
+
+  ``sufficiency_score`` is None when no sufficiency score was computed (as
+  with the safe floor); when a score IS present, ``sufficiency_score_kind``
+  must name its domain in SCORE_KINDS and the value is validated for it.
+  ``sufficiency_policy`` carries the deciding ThresholdPolicy, or None when
+  no policy decided (safe floor). ``reason`` is a short machine-readable
+  code (see DECISION_REASONS for the floor vocabulary).
+  """
+
+  decision: str  # "sufficient" | "insufficient"
+  generation_action: str  # "generate" | "abstain"
+  sufficiency_score: float | None = None
+  sufficiency_score_kind: str = "unspecified"
+  sufficiency_policy: ThresholdPolicy | None = None
+  reason: str = "nonempty-packet"
+
+  def __post_init__(self) -> None:
+    if self.decision not in EVIDENCE_DECISIONS:
+      raise ValueError(f"decision must be one of {EVIDENCE_DECISIONS}, got {self.decision!r}")
+    if self.generation_action not in GENERATION_ACTIONS:
+      raise ValueError(
+        f"generation_action must be one of {GENERATION_ACTIONS}, got {self.generation_action!r}"
+      )
+    if (self.decision == "insufficient") != (self.generation_action == "abstain"):
+      raise ValueError(
+        f"fail-closed: decision {self.decision!r} contradicts "
+        f"generation_action {self.generation_action!r} "
+        '(insufficient iff abstain)'
+      )
+    if not isinstance(self.sufficiency_score_kind, str) or not self.sufficiency_score_kind:
+      raise ValueError("sufficiency_score_kind must be a non-empty string")
+    if self.sufficiency_score is not None:
+      # A claimed score must name a real domain; "unspecified" with a score
+      # is rejected (fail closed, never silently trusted).
+      validate_score_value(self.sufficiency_score, self.sufficiency_score_kind)
+    if self.sufficiency_policy is not None and not isinstance(
+      self.sufficiency_policy, ThresholdPolicy
+    ):
+      raise ValueError(
+        "sufficiency_policy must be a ThresholdPolicy or None, "
+        f"got {type(self.sufficiency_policy).__name__}"
+      )
+    if not isinstance(self.reason, str) or not self.reason:
+      raise ValueError("reason must be a non-empty machine-readable code string")
+
+  def to_dict(self) -> dict:
+    return {
+      "decision": self.decision,
+      "generation_action": self.generation_action,
+      "sufficiency_score": self.sufficiency_score,
+      "sufficiency_score_kind": self.sufficiency_score_kind,
+      "sufficiency_policy": None
+      if self.sufficiency_policy is None
+      else self.sufficiency_policy.to_dict(),
+      "reason": self.reason,
+    }
+
+  @staticmethod
+  def from_dict(d: dict) -> "EvidenceDecision":
+    for f in ("decision", "generation_action", "reason"):
+      if f not in d:
+        raise ValueError(f"EvidenceDecision missing required field: {f}")
+    policy = d.get("sufficiency_policy")
+    return EvidenceDecision(
+      decision=d["decision"],
+      generation_action=d["generation_action"],
+      sufficiency_score=d.get("sufficiency_score"),
+      sufficiency_score_kind=d.get("sufficiency_score_kind", "unspecified"),
+      sufficiency_policy=None if policy is None else ThresholdPolicy.from_dict(policy),
+      reason=d["reason"],
     )
 
 

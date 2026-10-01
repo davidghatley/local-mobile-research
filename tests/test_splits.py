@@ -59,8 +59,8 @@ class TestSplits(unittest.TestCase):
       os.environ["HELDOUT_CUSTODIAN_MODE"] = "benchmark"
       try:
         with self.assertRaises(HeldoutAccessDenied):
-          cust.load_labels(allow_heldout=False, accessor="t")
-        got = cust.load_labels(allow_heldout=True, accessor="test-runner")
+          cust.load_labels(allow_heldout=False, accessor="t", role="evaluator", purpose="test", granted_by="orchestrator")
+        got = cust.load_labels(allow_heldout=True, accessor="test-runner", role="evaluator", purpose="test", granted_by="orchestrator")
         self.assertEqual(got, {"q1": ["p1"]})
         with open(audit, encoding="utf-8") as fh:
           lines = fh.read().strip().splitlines()

@@ -111,6 +111,11 @@ class HeldoutCustodian:
   ``HeldoutAccessDenied`` unless ``allow_heldout=True`` AND the custodian
   environment variable is set, optionally verifies the opaque seal hash, and
   appends every granted access to an audit log.
+
+  Custody audit (append-only): every successful access logs accessor identity,
+  role, purpose, timestamp_utc, labels_path, seal_sha256 at access time,
+  question_ids actually read, and granted_by. Fails closed on empty/unknown
+  accessor, role, or purpose. No delete/overwrite path.
   """
 
   labels_path: str
@@ -125,9 +130,45 @@ class HeldoutCustodian:
     self,
     *,
     allow_heldout: bool = False,
-    accessor: str = "unknown",
+    accessor: str = "",
+    role: str = "",
+    purpose: str = "",
+    granted_by: str = "",
     expected_sha256: str | None = None,
   ) -> dict:
+    """Load held-out labels with full custody audit.
+
+    Args:
+      allow_heldout: Must be True (benchmark phase only).
+      accessor: Identity of the accessor (e.g., "benchmark-runner-v1").
+                Required, non-empty. Fail closed if empty/unknown.
+      role: Role of the accessor (e.g., "evaluator", "auditor").
+            Required, non-empty. Fail closed if empty/unknown.
+      purpose: Purpose of access (e.g., "final-evaluation", "audit-review").
+               Required, non-empty. Fail closed if empty/unknown.
+      granted_by: Who granted this access (e.g., "orchestrator").
+                  Required, non-empty. Fail closed if empty/unknown.
+      expected_sha256: Optional seal hash to verify against current file.
+
+    Returns:
+      Dict of held-out labels (question_id -> label).
+
+    Raises:
+      HeldoutAccessDenied: If any gate fails or required fields are missing.
+    """
+    # Fail closed on missing identity/role/purpose/granted_by
+    for field_name, field_value in (
+      ("accessor", accessor),
+      ("role", role),
+      ("purpose", purpose),
+      ("granted_by", granted_by),
+    ):
+      if not field_value or not isinstance(field_value, str) or not field_value.strip():
+        raise HeldoutAccessDenied(
+          f"held-out access denied: missing required field '{field_name}' "
+          "(must be non-empty string)"
+        )
+
     if not allow_heldout:
       raise HeldoutAccessDenied(
         "held-out labels are sealed: pass allow_heldout=True only in the "
@@ -145,16 +186,42 @@ class HeldoutCustodian:
     if self._cache is None:
       with open(self.labels_path, "r", encoding="utf-8") as fh:
         self._cache = json.load(fh)
-    self._audit(accessor)
+
+    # Capture question_ids actually read
+    question_ids = list(self._cache.keys()) if isinstance(self._cache, dict) else []
+
+    # Audit with full custody fields
+    self._audit(
+      accessor=accessor.strip(),
+      role=role.strip(),
+      purpose=purpose.strip(),
+      granted_by=granted_by.strip(),
+      question_ids=question_ids,
+      seal_sha256=self.seal_hash(),
+    )
     return dict(self._cache)
 
-  def _audit(self, accessor: str) -> None:
+  def _audit(
+    self,
+    *,
+    accessor: str,
+    role: str,
+    purpose: str,
+    granted_by: str,
+    question_ids: list[str],
+    seal_sha256: str,
+  ) -> None:
     import datetime
 
     entry = {
       "accessor": accessor,
+      "role": role,
+      "purpose": purpose,
       "timestamp_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
       "labels_path": self.labels_path,
+      "seal_sha256": seal_sha256,
+      "question_ids": sorted(question_ids),
+      "granted_by": granted_by,
     }
     with open(self.audit_path, "a", encoding="utf-8") as fh:
       fh.write(json.dumps(entry, sort_keys=True) + "\n")
@@ -302,6 +369,7 @@ def validate_question_provenance(
   split; split equality is enforced on the QA declaration, not the corpus.
 
   Returns {"results": {qid: {"category", "group", "split", "sources",
+  "source_groups", "source_splits", "evidence_groups",
   "ground_truth"}}, "errors": [...]}. Errors carry question ids and counts
   only — never question/answer/label text.
   """
@@ -392,6 +460,39 @@ def validate_question_provenance(
     if gsplit is None:
       errors.append(f"{qid}: group assignment unresolvable (no map, seed unpinned)")
       continue
+    # Explicit declared-group check: the DECLARED meta.group's own split
+    # must equal the declared rec.split, independent of what the sources
+    # say. (Split names in messages are not secret; group keys/titles
+    # stay out.)
+    if declared != gsplit:
+      errors.append(
+        f"{qid}: declared group split {gsplit} != declared split {declared}")
+      continue
+    # meta.evidence_groups (optional): when present it must be a well-formed
+    # list that includes the declared group, with every listed group known
+    # and sitting in the declared split.
+    ev_groups = meta.get("evidence_groups")
+    if ev_groups is not None:
+      if (not isinstance(ev_groups, list) or not ev_groups or any(
+          not isinstance(g, str) or not g.strip() for g in ev_groups)):
+        errors.append(f"{qid}: meta.evidence_groups malformed")
+        continue
+      if group not in ev_groups:
+        errors.append(f"{qid}: meta.evidence_groups missing declared group")
+        continue
+      ev_bad = False
+      for gkey in ev_groups:
+        s = map_groups.get(gkey) if use_map_splits else group_split(gkey)
+        if s is None:
+          errors.append(f"{qid}: meta.evidence_groups has unknown group")
+          ev_bad = True
+          break
+        if s != declared:
+          errors.append(f"{qid}: meta.evidence_groups outside declared split")
+          ev_bad = True
+          break
+      if ev_bad:
+        continue
     node_ids: list[str] = []
     bad = False
     for source in raw_sources:
@@ -424,27 +525,40 @@ def validate_question_provenance(
       # question's explicit claim + deterministic split derivation below.
       # Sources still resolve to real corpus nodes (no dangling refs).
       source_groups = {group: None}
-    if len(source_groups) > 1:
-      split_of = {}
-      for gkey in source_groups:
-        s = map_groups.get(gkey) if use_map_splits else group_split(gkey)
-        split_of[gkey] = s
+    # Same-split rule: multiple GROUPS are allowed iff they all sit in ONE
+    # split. Only genuinely cross-SPLIT source sets are rejected.
+    split_of: dict[str, str | None] = {}
+    for gkey in source_groups:
+      split_of[gkey] = (map_groups.get(gkey) if use_map_splits
+                        else group_split(gkey))
+    if any(s is None for s in split_of.values()):
+      n_bad = sum(1 for s in split_of.values() if s is None)
+      errors.append(f"{qid}: {n_bad} source group(s) split unresolvable")
+      continue
+    distinct_splits = sorted({str(s) for s in split_of.values()})
+    if len(distinct_splits) > 1:
       errors.append(
         f"{qid}: source articles span multiple splits "
-        f"{sorted({str(s) for s in split_of.values()})} (cross-split chain)"
+        f"{distinct_splits} (cross-split chain)"
       )
       continue
     if group not in source_groups:
       errors.append(f"{qid}: inconsistent group metadata for source article(s)")
       continue
-    if declared != gsplit:
-      errors.append(f"{qid}: declared split {declared} != source group split {gsplit}")
+    if declared != distinct_splits[0]:
+      errors.append(
+        f"{qid}: declared split {declared} != source group split "
+        f"{distinct_splits[0]}")
       continue
     results[qid] = {
       "category": CATEGORY_CONTROLLED,
       "group": group,
       "split": declared,
       "sources": node_ids,
+      "source_groups": sorted(source_groups),
+      "source_splits": distinct_splits,
+      "evidence_groups": list(ev_groups) if ev_groups is not None else sorted(
+        source_groups),
       "ground_truth": "known",
     }
   return {"results": results, "errors": errors}
