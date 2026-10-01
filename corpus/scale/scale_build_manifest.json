@@ -1,0 +1,38 @@
+{
+  "artifacts": [
+    {
+      "bytes": 117645284,
+      "path": "corpus/scale/distractor.jsonl",
+      "sha256": "516463e340de8c53764e88d44bfef2f383062811297c04a4185d0f5f289e3c30"
+    },
+    {
+      "bytes": 1059336,
+      "path": "corpus/scale/scale_provenance.json",
+      "sha256": "edfcf961f4a5663e482614df20f34b02a5fdc2ba29c3c6738f9ec1abc92319b6"
+    },
+    {
+      "bytes": 246455,
+      "path": "corpus/scale/scale_input_manifest.json",
+      "sha256": "69d5c16d23bb1ee73108d2489ff8ce80ec62a73ee4cd351a7d9ea3b16cc20ce4"
+    },
+    {
+      "bytes": 758883,
+      "path": "corpus/scale/tier_1k.json",
+      "sha256": "3252ed1bb42e8fc54173c07ae3230fc6eae5191182984c9fdd9d37034f4e07d5"
+    }
+  ],
+  "core_reference": {
+    "core_article_count": 297,
+    "core_build_manifest_sha256": "5647f794b813ae11c05f2b56e1ec3fcd60ffe69aa8d939bb31c78ee0b5e0e997",
+    "core_corpus_hash": "08aa2c53ddee6f35b8139de0010e6aa20a4504ea881941b3ec20a5d747f089d1",
+    "core_corpus_path": "corpus/corpus.jsonl",
+    "core_corpus_sha256": "98e1237e74a40574ed9a41104bc7ae9612cfbed656e2240cea6ee9d5e98d5f64",
+    "direction": "one-directional: this tier cites the core; the core cites nothing about scale"
+  },
+  "corpus_hash_sha256": "4beb32c9a2e37df2774057ac949f1690f54f48c0cfec181b65381664ef5b014a",
+  "measurement_scope": "ALL scale measurements are DESKTOP measurements. No Android or on-device performance claim may be derived from anything in this tier.",
+  "revision": "scale-tier1-940-r1",
+  "role": "IRRELEVANT DISTRACTOR MATERIAL. This tier carries no evidence, is not part of any question set, and exists only to provide background mass for scale/regime experiments. The 297-article core corpus is the only evidence-bearing semantic base.",
+  "scale_input_manifest_sha256": "69d5c16d23bb1ee73108d2489ff8ce80ec62a73ee4cd351a7d9ea3b16cc20ce4",
+  "tier": "tier_1k"
+}
