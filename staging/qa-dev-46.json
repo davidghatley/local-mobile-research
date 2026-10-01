@@ -14,7 +14,8 @@
     {
       "negative_type": "neighbor_sentence",
       "node_id": "t:platypus:00:000:07",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -30,11 +31,24 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "23c552ceedf7c500580cbf66fe1f209501c032de4a0bd7d3e3ebbcf2ccb34086",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "d9614bbcd6b5fd176e7f71b47fe7ef8ff9acd1a58c2519c12f08661b8d47b02a",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 4): factoid grounded and minimal under leave-one-out; hard negative(s) t:platypus:00:000:07 reviewed and non-answering; approval is bound to the current content hash d9614bbcd6b5fd176e7f71b47fe7ef8ff9acd1a58c2519c12f08661b8d47b02a.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:platypus:00:000:06",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the exact judgment (\"In 1799, the first scientists to examine a preserved platypus body judged it a fake made of several animals sewn together\"). The question's \"first scientists\", \"preserved platypus body\", \"1799\" are grounded by the atom.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-46",
   "question_type": "factoid",

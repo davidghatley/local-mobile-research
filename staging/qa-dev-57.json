@@ -27,7 +27,8 @@
     {
       "negative_type": "token_overlap_nearmiss",
       "node_id": "p:x_ray:09:000",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -43,11 +44,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "a5011b19d4e6c9b40ff1ecbf45b28ff7244d272e0155ab8d769c3b9435edfead",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "ff3f1bc3b5ba3f045e7d19057394eaeb28138ca257687be7b25ae5d8823938ba",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 2): multihop grounded, every sufficient set sufficient and minimal under leave-one-out, multi-hop label genuine; hard negative(s) p:x_ray:09:000 reviewed and non-answering; approval is bound to the current content hash ff3f1bc3b5ba3f045e7d19057394eaeb28138ca257687be7b25ae5d8823938ba.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:x_ray:00:000:00",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Identifies the radiation via its wavelength band (between UV and gamma). Without it, \"the high-energy radiation with a wavelength between ultraviolet and gamma rays\" is ungrounded.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "p:x_ray:13:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the production condition (charged particles of sufficient energy hitting a material). Without it, the answer is missing.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-57",
   "question_type": "multihop",

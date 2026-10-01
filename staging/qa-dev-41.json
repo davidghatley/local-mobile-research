@@ -27,7 +27,8 @@
     {
       "negative_type": "neighbor_sentence",
       "node_id": "t:nanotechnology:00:000:04",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -43,11 +44,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "5d082c287ca58b16f7feb8d78e6f7dc61708d55f055203644f8a9555a43c859e",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "827765df63fc24ba18804fbd14a7f7697e13fa6e0e62b60850054cb0b16fcbc3",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 1): multihop grounded, every sufficient set sufficient and minimal under leave-one-out, multi-hop label genuine; the reviewer-named Q3 candidate (p:nanotechnology:00:000) is a same-passage granularity variant of an atom already in the set, so per docs/qa-dev-repair-ledger.md no alternative route was recorded; hard negative(s) t:nanotechnology:00:000:04 reviewed and non-answering; approval is bound to the current content hash 827765df63fc24ba18804fbd14a7f7697e13fa6e0e62b60850054cb0b16fcbc3.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "p:nanotechnology:01:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Identifies the field via Feynman's 1959 talk \"There's Plenty of Room at the Bottom\". Without it, the subject is ungrounded.; Q3 checked: the only alternative set named for this draft (p:nanotechnology:00:000) is parent paragraph of t:nanotechnology:00:000:00 (ancestor), i.e. a same-passage granularity variant of an atom already in this set, so it is not a distinct route and was NOT recorded as an alternative sufficient set (docs/qa-dev-repair-ledger.md)",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:nanotechnology:00:000:00",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the operating scale (1-100 nm). Without it, answer missing.; Q3 checked: the only alternative set named for this draft (p:nanotechnology:00:000) is parent paragraph of t:nanotechnology:00:000:00 (ancestor), i.e. a same-passage granularity variant of an atom already in this set, so it is not a distinct route and was NOT recorded as an alternative sufficient set (docs/qa-dev-repair-ledger.md)",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-41",
   "question_type": "multihop",

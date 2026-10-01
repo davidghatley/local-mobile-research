@@ -14,7 +14,8 @@
     {
       "negative_type": "sibling_paragraph",
       "node_id": "p:heart:19:000",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -30,11 +31,24 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "27e86d03d5945fd3bd0495963c4f24ac9ef07d4076f7dd8a49dbbad82147bc45",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "13b8ca0912f5e18e41269d70a79bbd5765a85f81708897908d137f2725b7158f",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 3): factoid grounded and minimal under leave-one-out; hard negative(s) p:heart:19:000 reviewed and non-answering; approval is bound to the current content hash 13b8ca0912f5e18e41269d70a79bbd5765a85f81708897908d137f2725b7158f.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:heart:00:000:01",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the answer directly (\"This organ pumps blood through the blood vessels.\"). The question's \"muscular organ\", \"humans and other animals\", \"pump blood\" are all grounded by this sentence (the preceding sentence t:heart:00:000:00 identifies the organ as the heart).",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-31",
   "question_type": "factoid",

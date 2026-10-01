@@ -27,7 +27,8 @@
     {
       "negative_type": "sibling_paragraph",
       "node_id": "p:semiconductor:04:000",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -43,11 +44,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "bf950d94abf676e430b6593075c405174f7a6608daf59de53ba74230c38c2598",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "5120e85e2fe2c2e3e43f759aaa302de18426656aa2beebdd1a3809455692ad8f",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 2): multihop grounded, every sufficient set sufficient and minimal under leave-one-out, multi-hop label genuine; hard negative(s) p:semiconductor:04:000 reviewed and non-answering; approval is bound to the current content hash 5120e85e2fe2c2e3e43f759aaa302de18426656aa2beebdd1a3809455692ad8f.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:semiconductor:00:000:01",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Identifies the material via doping-modified conductivity. Without it, \"the material whose conductivity can be modified...\" is ungrounded.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:semiconductor:00:000:02",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies what two differently doped regions form (semiconductor junction). Without it, the answer is missing.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-49",
   "question_type": "multihop",

@@ -20,7 +20,8 @@
     {
       "negative_type": "sibling_paragraph",
       "node_id": "p:orange_group:06:000",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -48,11 +49,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "5ffe920c21623678fd58bd954ef63785d9ff4fb8871e6218d9477a6f37abeb84",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "340d8881a7803233236ae372407b60a15ea6c831293b62dc69cfd1a53f79bed7",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 2): genuine ambiguity with each reading grounded in its own distinct sufficient set (readings -> sets 0, 1); hard negative(s) p:orange_group:06:000 reviewed and non-answering; approval is bound to the current content hash 340d8881a7803233236ae372407b60a15ea6c831293b62dc69cfd1a53f79bed7.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "p:orange_group:27:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the February 2019 UK acquisition (SecureData).",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "p:orange_group:28:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the 2019 Netherlands acquisition for €515M (SecureLink).",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 1
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-12",
   "question_type": "ambiguous",

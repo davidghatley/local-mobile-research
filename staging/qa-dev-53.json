@@ -27,7 +27,8 @@
     {
       "negative_type": "neighbor_sentence",
       "node_id": "t:south_africa:00:000:03",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -43,11 +44,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "e8ea1730bf726cb3fc4d43ece408f86d909e4e22176caf182ff53b257e66c918",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "718d9feceb793c3739ee70a5c4e3f6bd13f2f35f8e38adf2ca68e0e29ef1489a",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 2): multihop grounded, every sufficient set sufficient and minimal under leave-one-out, multi-hop label genuine; hard negative(s) t:south_africa:00:000:03 reviewed and non-answering; approval is bound to the current content hash 718d9feceb793c3739ee70a5c4e3f6bd13f2f35f8e38adf2ca68e0e29ef1489a.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:south_africa:00:000:04",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Identifies the country via its three-capital structure (Pretoria admin, Cape Town legislative, Bloemfontein judicial). Without it, the subject country is ungrounded.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:south_africa:00:000:05",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the largest/most populous city (Johannesburg). Without it, the answer is missing.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-53",
   "question_type": "multihop",

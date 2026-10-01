@@ -27,7 +27,8 @@
     {
       "negative_type": "neighbor_sentence",
       "node_id": "t:printing_press:00:000:01",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -43,11 +44,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "e1c4baaa4c4ca23aeaacbe5c0a2217c46ce447af501c34b3f6ee2a674fb53444",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "ba01398c6ddcf7cdd02ad7177b37aebf28d2cff575d58cfb7540ed89419d546d",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 2): multihop grounded, every sufficient set sufficient and minimal under leave-one-out, multi-hop label genuine; hard negative(s) t:printing_press:00:000:01 reviewed and non-answering; approval is bound to the current content hash ba01398c6ddcf7cdd02ad7177b37aebf28d2cff575d58cfb7540ed89419d546d.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:printing_press:01:000:00",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Identifies the machine via Gutenberg's 1440 invention. Without it, \"the machine invented by Gutenberg around 1440\" is ungrounded.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:printing_press:00:000:00",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the surface materials (paper, cloth, or similar). Without it, the answer is missing.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-47",
   "question_type": "multihop",

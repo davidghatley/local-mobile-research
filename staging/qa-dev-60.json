@@ -20,7 +20,8 @@
     {
       "negative_type": "entity_confusion",
       "node_id": "t:napoleon:00:000:08",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -49,11 +50,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "bbbe78d72ca140f96fbb78e01c3c1645ba4676248c4aa10b7c3b93bbb589f481",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "07ea5db8dbb514344682e3d772d528c236b3baca0f0568b2ecd9def8ef75d583",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 5): genuine ambiguity with each reading grounded in its own distinct sufficient set (readings -> sets 0, 1); hard negative(s) t:napoleon:00:000:08 reviewed and non-answering; approval is bound to the current content hash 07ea5db8dbb514344682e3d772d528c236b3baca0f0568b2ecd9def8ef75d583.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:napoleon:00:000:04",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies \"He supported the French Revolution in 1789\".",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:russian_revolution:00:000:04",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies \"The Russian Revolution was inaugurated with the February Revolution in 1917\".",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 1
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-60",
   "question_type": "ambiguous",

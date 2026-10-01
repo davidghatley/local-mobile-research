@@ -14,7 +14,8 @@
     {
       "negative_type": "sibling_paragraph",
       "node_id": "p:human_genome:02:000",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -30,11 +31,24 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "94046cc1928cd83994aa0014c30490f1de6e04b7839b7b741dc10b1b5f69567f",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "82ce880c105ce3642b6abc1ac8d33b489fbf0a6ec98ff5c622eccc44d15ab8a8",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 4): factoid grounded and minimal under leave-one-out; hard negative(s) p:human_genome:02:000 reviewed and non-answering; approval is bound to the current content hash 82ce880c105ce3642b6abc1ac8d33b489fbf0a6ec98ff5c622eccc44d15ab8a8.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "p:human_genome:16:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the exact answer (\"tens of thousands of DNA damage events per day\"). The question's \"on average\", \"per cell per day\" are grounded by the atom.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-34",
   "question_type": "factoid",

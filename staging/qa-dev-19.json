@@ -27,7 +27,8 @@
     {
       "negative_type": "neighbor_sentence",
       "node_id": "t:buford_wyoming:01:000:00",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -43,11 +44,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "6371e95a4d83deeb245ee446ac5f7861ff4aeeddf4a72600fef409eea96f7b1e",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "1490bde5469ab008fd4892913f2a86f9fef6011c5b7a8cf8afc47a3ad302251a",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 1): multihop grounded, every sufficient set sufficient and minimal under leave-one-out, multi-hop label genuine; hard negative(s) t:buford_wyoming:01:000:00 reviewed and non-answering; approval is bound to the current content hash 1490bde5469ab008fd4892913f2a86f9fef6011c5b7a8cf8afc47a3ad302251a.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:buford_wyoming:01:000:01",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Identifies the town via its location on eastern approach to Sherman Hill Summit. Without it, the subject is ungrounded.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:buford_wyoming:01:000:02",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the monument name (Ames Monument). Without it, answer missing.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-19",
   "question_type": "multihop",

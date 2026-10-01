@@ -27,7 +27,8 @@
     {
       "negative_type": "sibling_paragraph",
       "node_id": "p:colombo:08:000",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -43,11 +44,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "4004f8036a2a1d3b84d1024dd49a1f224f89e1258b1b7f33458f9caee344ea09",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "1d24ec0f16976cdce784a24c118f3f00dbae3fa8bb7dada31493bfaeedc2b5c7",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 1): multihop grounded, every sufficient set sufficient and minimal under leave-one-out, multi-hop label genuine; the reviewer-named Q3 candidate (t:colombo:07:000:01 / t:colombo:22:000:00) is a same-passage granularity variant of an atom already in the set, so per docs/qa-dev-repair-ledger.md no alternative route was recorded; hard negative(s) p:colombo:08:000 reviewed and non-answering; approval is bound to the current content hash 1d24ec0f16976cdce784a24c118f3f00dbae3fa8bb7dada31493bfaeedc2b5c7.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "p:colombo:07:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Identifies the city via Beira Lake (65 ha, in heart of city). Without it, the subject is ungrounded.; Q3 checked: the only alternative set named for this draft (t:colombo:07:000:01 / t:colombo:22:000:00) is sentence children of p:colombo:07:000 and p:colombo:22:000, i.e. a same-passage granularity variant of an atom already in this set, so it is not a distinct route and was NOT recorded as an alternative sufficient set (docs/qa-dev-repair-ledger.md)",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "p:colombo:22:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the airport distance (15 km south of city centre). Without it, answer missing.; Q3 checked: the only alternative set named for this draft (t:colombo:07:000:01 / t:colombo:22:000:00) is sentence children of p:colombo:07:000 and p:colombo:22:000, i.e. a same-passage granularity variant of an atom already in this set, so it is not a distinct route and was NOT recorded as an alternative sufficient set (docs/qa-dev-repair-ledger.md)",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-21",
   "question_type": "multihop",

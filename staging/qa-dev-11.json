@@ -20,6 +20,16 @@
           "node_id": "t:orange_fruit:23:000:00",
           "text": "In 2024, world production of oranges was 67 million tonnes, led by Brazil with 23% of the total, followed by China, Mexico, and Egypt (table)."
         }
+      ],
+      [
+        {
+          "node_id": "t:orange_colour:01:000:00",
+          "text": "The colour orange derives its name from the orange fruit."
+        },
+        {
+          "node_id": "t:orange_fruit:00:000:08",
+          "text": "In 2024, 67 million tonnes of oranges were grown worldwide, with Brazil producing 23% of the total, followed by China and Mexico."
+        }
       ]
     ]
   },
@@ -27,7 +37,8 @@
     {
       "negative_type": "linked_article",
       "node_id": "t:orange_county_california:17:000:00",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -44,11 +55,57 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "9817c1e0ea333c1c9c6d692526e3454bd31ec05881917547395f4841f0cf2121",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "cd4084912a8dfc72b73da1de339928922e0f7e7adac4701b76bae2234dcd2988",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 1): multihop grounded, every sufficient set sufficient and minimal under leave-one-out, multi-hop label genuine; repair-alternatives applied per docs/qa-dev-repair-ledger.md (alternative route {t:orange_colour:01:000:00, t:orange_fruit:00:000:08} recorded); hard negative(s) t:orange_county_california:17:000:00 reviewed and non-answering; approval is bound to the current content hash cd4084912a8dfc72b73da1de339928922e0f7e7adac4701b76bae2234dcd2988.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "p:orange_colour:01:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the name-derivation link (colour ← fruit). Without it, the question's first clause cannot be grounded.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:orange_fruit:23:000:00",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the 2024 production leader (Brazil). Without it, the answer is missing.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:orange_colour:01:000:00",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "repair-alternatives",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "repair-alternatives route (docs/qa-dev-verification.md qa-dev-11): the reviewer-named sentence-level grounding of hop 1 (the colour name derives from the fruit); it is the sentence child of set 0's p:orange_colour:01:000, so it is not an independent hop-1 route and the distinct part of this route is its hop-2 atom",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 1
+      },
+      {
+        "atom_node_id": "t:orange_fruit:00:000:08",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "repair-alternatives",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "repair-alternatives route: genuinely different evidence location -- the orange_fruit lead-paragraph sentence giving the same 2024 67-million-tonne total and the same production leader (Brazil) as set 0's t:orange_fruit:23:000:00 production-section atom, from a different paragraph of the article",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 1
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-11",
   "question_type": "multihop",

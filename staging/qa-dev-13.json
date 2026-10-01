@@ -18,7 +18,8 @@
     {
       "negative_type": "neighbor_sentence",
       "node_id": "t:napoleon:00:000:11",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -35,11 +36,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "06879d27b98213c94fc19810fc00d641fa0f1ca3010a4863a5e092e2e4f5706d",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "55f2a3bc55a9595f334e67aacf9978d60a5c6f6c57e18cc51e80ebf0441a215e",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 2): comparison grounded and minimal under leave-one-out; hard negative(s) t:napoleon:00:000:11 reviewed and non-answering; approval is bound to the current content hash 55f2a3bc55a9595f334e67aacf9978d60a5c6f6c57e18cc51e80ebf0441a215e.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:napoleon:00:000:10",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies Napoleon's self-coronation date (December 1804). Without it, the first event's date is missing.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:russian_revolution:00:000:04",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the February Revolution date (1917). Without it, the second event's date is missing.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-13",
   "question_type": "comparison",

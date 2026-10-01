@@ -27,7 +27,8 @@
     {
       "negative_type": "neighbor_sentence",
       "node_id": "t:congo_basin:00:000:03",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -43,11 +44,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "b8a2c4065c50fea192e06b61f88844e0d28b4eb8d4c007d93cfff94001625abf",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "d0ea4a957e3f1e3822378c7a02f0a29cd8c9d5ad4ee89658bf91b86037e39485",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 1): multihop grounded, every sufficient set sufficient and minimal under leave-one-out, multi-hop label genuine; hard negative(s) t:congo_basin:00:000:03 reviewed and non-answering; approval is bound to the current content hash d0ea4a957e3f1e3822378c7a02f0a29cd8c9d5ad4ee89658bf91b86037e39485.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:congo_basin:00:000:01",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Identifies the basin via location (west equatorial Africa). Without it, the subject is ungrounded.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:congo_basin:00:000:04",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the size comparison (second only to Amazon rainforest). Without it, answer missing.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-23",
   "question_type": "multihop",

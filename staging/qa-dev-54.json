@@ -26,7 +26,8 @@
     {
       "negative_type": "same_group_distractor",
       "node_id": "t:south_africa:00:000:02",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -59,11 +60,46 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "eab54c2b9dfb1a77a2ae868bcd58f92585365e418d4782fbf4fe67e8929ab04a",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "177d168d8c3430af3f2fc848336e6b94b3378cd69364329366d03f3baaaf298b",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 5): genuine ambiguity with each reading grounded in its own distinct sufficient set (readings -> sets 0, 1, 2); hard negative(s) t:south_africa:00:000:02 reviewed and non-answering; approval is bound to the current content hash 177d168d8c3430af3f2fc848336e6b94b3378cd69364329366d03f3baaaf298b.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:south_africa:00:000:04",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies \"Pretoria is the administrative capital\".",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:south_africa:13:000:11",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies \"The seat of Parliament is Cape Town\" and \"three branches of government are split over different cities\".",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 1
+      },
+      {
+        "atom_node_id": "t:south_africa:13:000:12",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies \"Bloemfontein is the seat of the Supreme Court of Appeal, and is regarded as the judicial capital\".",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 2
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-54",
   "question_type": "ambiguous",

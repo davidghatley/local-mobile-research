@@ -4,10 +4,6 @@
     "sufficient_sets": [
       [
         {
-          "node_id": "p:manatee:14:000",
-          "text": "Manatees inhabit the shallow, marshy coastal areas and rivers of the Caribbean Sea and the Gulf of Mexico (T. manatus, West Indian manatee), the Amazon basin (T. inunguis, Amazonian manatee), and West Africa (T. senegalensis, West African manatee).\nWest Indian manatees prefer warmer temperatures and are known to congregate in shallow waters. They frequently migrate through brackish water estuaries to freshwater springs. They cannot survive below 15 °C (60 °F). Their natural source for warmth during winter is warm, spring-fed rivers."
-        },
-        {
           "node_id": "p:manatee:16:000",
           "text": "The freshwater Amazonian manatee (T. inunguis) inhabits the Central Amazon Basin in Brazil, eastern Perú, southeastern Colombia, but not Ecuador. It is the only exclusively freshwater manatee, and is also the smallest. Since they are unable to reduce peripheral heat loss, it is found primarily in tropical waters."
         }
@@ -18,7 +14,8 @@
     {
       "negative_type": "entity_confusion",
       "node_id": "p:manatee:17:000",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -34,11 +31,24 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "bccd0d8a034b1b4e352f9057d264d3ba85bb985a1fa9653dc8bb128344940023",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "37b0db0ae20abff7ae1cb74695fc92bb1fb7a8a2c49bbccd8d32a9b830948a92",
+    "decision": "approve",
+    "rationale": "Approved per docs/qa-dev-verification.md batch 4 (repair-minimality: p:manatee:14:000 removed as redundant under leave-one-out). The ledger also asked to record {p:manatee:16:000} as an alternative route, but that atom IS the minimal set, so it would have duplicated the same route rather than adding a distinct one. Orchestrator ruling 2026-10-01: collapsed to the single minimal sufficient set. Approval is bound to the current content hash.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "p:manatee:16:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "repair-minimality",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the distinguishing property (\"It is the only exclusively freshwater manatee\") identifying the Amazonian manatee.; repair-minimality dropped the redundant setup atom p:manatee:14:000 (Q1=yes, removable), leaving this single-atom set minimal",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-40",
   "question_type": "comparison",

@@ -8,7 +8,8 @@
     {
       "negative_type": "token_overlap_nearmiss",
       "node_id": "t:darvaza_gas_crater:00:000:03",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -24,11 +25,24 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "76c63ace95e152b9517e3949ed08deb26dc8eb948f1a3a6f3965fba9626d36d1",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "9f703ed632ee9ee2adbaf7812bf2eb6823823020481c806851bc373cafaa4b3a",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 3): unanswerable with the absence claim verified corpus-wide at t:darvaza_gas_crater:00:000:02; hard negative(s) t:darvaza_gas_crater:00:000:03 reviewed and non-answering; approval is bound to the current content hash 9f703ed632ee9ee2adbaf7812bf2eb6823823020481c806851bc373cafaa4b3a.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:darvaza_gas_crater:00:000:02",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "unanswerable draft: absence anchor: supplies only the year 1971 for the burning while the ignition history is conflicting and undetermined (p:darvaza_gas_crater:01:000); no exact ignition date exists; absence verified corpus-wide by the reviewer",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-26",
   "question_type": "unanswerable",

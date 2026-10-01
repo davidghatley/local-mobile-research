@@ -27,7 +27,8 @@
     {
       "negative_type": "sibling_paragraph",
       "node_id": "p:nuclear_fusion:06:000",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -43,11 +44,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "e86f743c82f95c066dbc73bca39a222574f5c0b4c3ae41faf5b09906f0ca75be",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "445a5c987f83cf443f28b1eb7962d7c99429b1ca3b3481d8a77fe7856e048174",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 1): multihop grounded, every sufficient set sufficient and minimal under leave-one-out, multi-hop label genuine; hard negative(s) p:nuclear_fusion:06:000 reviewed and non-answering; approval is bound to the current content hash 445a5c987f83cf443f28b1eb7962d7c99429b1ca3b3481d8a77fe7856e048174.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:nuclear_fusion:00:000:00",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Identifies the reaction as nuclei combining into a larger nucleus (fusion definition). Without it, the subject is ungrounded.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "t:nuclear_fusion:00:000:01",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Supplies the mass-energy manifestation (release or absorption of energy). Without it, answer missing.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-43",
   "question_type": "multihop",

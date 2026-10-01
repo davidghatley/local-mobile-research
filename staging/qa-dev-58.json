@@ -8,7 +8,8 @@
     {
       "negative_type": "neighbor_sentence",
       "node_id": "t:x_ray:25:000:02",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -24,11 +25,24 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "918a06d612bab97a0cb73cab6b5a54623c1fae694aa7ab078131036bece88d25",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "005f47002e911d882b1c4372a42f4095af9977a290daa7cce2c4ce14751377d6",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 5): unanswerable with the absence claim verified corpus-wide at t:x_ray:25:000:06; hard negative(s) t:x_ray:25:000:02 reviewed and non-answering; approval is bound to the current content hash 005f47002e911d882b1c4372a42f4095af9977a290daa7cce2c4ce14751377d6.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:x_ray:25:000:06",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "unanswerable draft: absence anchor: states the mechanism in the eye is not known, with Cherenkov radiation given only as a likely explanation; no sentence supplies a definitive mechanism; absence verified corpus-wide by the reviewer",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-58",
   "question_type": "unanswerable",

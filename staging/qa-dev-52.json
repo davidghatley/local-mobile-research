@@ -18,7 +18,8 @@
     {
       "negative_type": "sibling_paragraph",
       "node_id": "p:solar_power:05:000",
-      "reviewed": true
+      "reviewed": true,
+      "reviewer": "independent-ultra-verifier"
     }
   ],
   "labels": {
@@ -34,11 +35,35 @@
   "provenance": {
     "author": "round0-qa-dev-author",
     "author_model": "opencode/muse-spark-1.3-contributor-free",
-    "content_hash": "535e2262b38ecfda0743ff42c1fbed43c6304faa05a8c9d8f51e4b3cbbf37c89",
-    "decision": "pending",
-    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
-    "verifier": "pending-independent-reviewer",
-    "verifier_model": "pending-independent-model"
+    "content_hash": "72992adc41a30e66caf18d9449eeeaaf83a68d94b241f73d4aa56aafdd2c9600",
+    "decision": "approve",
+    "rationale": "APPROVE per docs/qa-dev-verification.md (batch 5): comparison grounded and minimal under leave-one-out; hard negative(s) p:solar_power:05:000 reviewed and non-answering; approval is bound to the current content hash 72992adc41a30e66caf18d9449eeeaaf83a68d94b241f73d4aa56aafdd2c9600.",
+    "semantic_audit": [
+      {
+        "atom_node_id": "t:solar_power:02:000:00",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Identifies PV systems as converting sunlight directly into electric power. Without it, the PV property is missing.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      },
+      {
+        "atom_node_id": "p:solar_power:04:000",
+        "corpus_revision": "pilot-297-r1",
+        "decision_token": "approve",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "Identifies CSP/concentrated solar thermal as using heat to drive steam turbines (indirect conversion). Without it, the contrast is missing.",
+        "reviewed_utc": "2026-10-01T12:22:06+00:00",
+        "reviewer_id": "independent-ultra-verifier",
+        "reviewer_model": "opencode/nemotron-3-ultra-free",
+        "set_index": 0
+      }
+    ],
+    "verifier": "independent-ultra-verifier",
+    "verifier_model": "opencode/nemotron-3-ultra-free"
   },
   "question_id": "qa-dev-52",
   "question_type": "comparison",
