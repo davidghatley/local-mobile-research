@@ -21,6 +21,12 @@
           "node_id": "p:lincolnshire:01:000",
           "text": "During pre-Roman times, most of Lincolnshire was inhabited by the Corieltauvi people. The language of the area at that time would have been Common Brittonic, the precursor to modern Welsh, Cornish and Breton. The name Lincoln was derived from Lindum Colonia.\nLarge numbers of Germanic speakers from continental Europe settled in the region following the withdrawal of the Romans. Though these were later identified as Angles, it is unlikely that they migrated as part of an organised tribal group. Thus, the main language of the region quickly became Old English. However, it is possible that Brittonic continued to be spoken in some communities as late as the eighth century.\nModern-day Lincolnshire is derived from the merging of the territory of the Kingdom of Lindsey with that controlled by the Danelaw borough of Stamford. For some time the entire county was called \"Lindsey\", and it is recorded as such in the 11th-century Domesday Book. Later, the name Lindsey was applied to the northern core, around Lincoln. This emerged as one of the three Parts of Lincolnshire, along with the Parts of Holland in the south-east, and the Parts of Kesteven in the south-west, which each had separate quarter sessions as their county administrations. Lindsey was traditionally split between the North, South and West Ridings of Lindsey.\nThe area was shaken by 27 February 2008 Lincolnshire earthquake, reaching between 4.7 and 5.3 on the Richter magnitude scale; it was one of the largest earthquakes to affect Britain in recent years.\nLincolnshire is home to Woolsthorpe Manor, birthplace and home of Sir Isaac Newton. He attended The King's School, Grantham. Its library has preserved his signature, carved into a window sill when he was a youth.\nBelton House\nBoston Stump\nGainsborough Old Hall\nGunby Hall\nHarlaxton Manor\nNormanby Hall\nTattershall Castle\nThornton Abbey\nSt James' Church, Louth"
         }
+      ],
+      [
+        {
+          "node_id": "p:lincolnshire:00:000",
+          "text": "Lincolnshire () is a ceremonial county in the East Midlands and Yorkshire and the Humber regions of England. It is bordered by the East Riding of Yorkshire across the Humber estuary to the north, the North Sea to the east, Norfolk, Cambridgeshire, Northamptonshire, and Rutland to the south, and Leicestershire, Nottinghamshire, and South Yorkshire to the west.\nThe county is predominantly rural, with an area of and an estimated population of in . The cathedral and county city of Lincoln is located in the mid-west of the county close to the county border with Nottinghamshire. The port town of Grimsby is in the north-east coast of the county, Boston in the south-east, Grantham in the south-west and Scunthorpe in the north-west. For local government purposes Lincolnshire comprises a non-metropolitan county, with seven districts, and the unitary authority areas of North Lincolnshire and North East Lincolnshire. The last two areas are part of the Yorkshire and the Humber region, and the rest of the county is in the East Midlands. The non-metropolitan county council and two unitary councils collaborate through the Greater Lincolnshire Combined County Authority.\nThe county is the second largest in England and has a varied geography. The south-east contains part of the Fens, a naturally marshy region which has been drained for agriculture, and the south-west is an upland region. A wide vale runs north–south from the centre to the north of the county. To its east, the chalk hills of the Lincolnshire Wolds, which have been designated a national landscape, occupy the north-east, with a coastal plain and the Lincolnshire Marsh beyond. The west of the vale is demarcated by the Lincolnshire Edge, a long escarpment; at its northern end are the Coversands, an area of heath. Beyond the edge, the western border of the county contains the eastern part of the Trent Valley and, in the north, part of the Humberhead Levels, with the River Trent itself forming part of the border.\nLincolnshire has had a comparatively quiet history, being a predominantly rural county that was not heavily industrialised and faced relatively limited external threats compared to other regions of England. In the Roman era Lincoln was a major settlement, called Lindum Colonia. In the fifth century what would become the county was settled by the invading Angles, who established the Kingdom of Lindsey in the north of the region. Lincoln became the centre of a diocese in 1072, and Lincoln Cathedral was built over the following centuries. The late Middle Ages were a particularly prosperous period, when wealth from wool trade facilitated the building of the grand wool churches such as St Botolph's Church, Boston. During the Second World War the relatively flat topography of the county made it an important base for the Royal Air Force, which gave rise to the nickname 'Bomber County'."
+        }
       ]
     ],
     "is_multi_hop": false
@@ -46,11 +52,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "",
     "decision": "pending",
     "rationale": "",
-    "content_hash": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",
@@ -59,6 +65,34 @@
       "from_id": "qa-heldout-76",
       "to_id": "qa-shadow-dev-76",
       "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
-    }
+    },
+    "auditor": "round0-semantic-auditor-batchC",
+    "auditor_model": "openrouter/qwen/qwen3.8-27b:free",
+    "audit_decision": "repair-alternatives",
+    "audit_rationale": "Primary single atom sufficient and minimal ('The name Lincoln was derived from Lindum Colonia'). Recorded a genuinely different alternative set [p:lincolnshire:00:000] (lead paragraph: in the Roman era Lincoln was a major settlement called Lindum Colonia).",
+    "semantic_audit": [
+      {
+        "set_index": 0,
+        "atom_node_id": "p:lincolnshire:01:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "sole atom of the primary set; states the answer (Lindum Colonia). Minimal under leave-one-out.",
+        "decision_token": "approve",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      },
+      {
+        "set_index": 1,
+        "atom_node_id": "p:lincolnshire:00:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "alternative route: the lead paragraph records the Roman-era settlement name Lindum Colonia - a different passage from p:lincolnshire:01:000.",
+        "decision_token": "repair-alternatives",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      }
+    ]
   }
 }

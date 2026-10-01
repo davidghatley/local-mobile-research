@@ -46,11 +46,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "",
     "decision": "pending",
     "rationale": "",
-    "content_hash": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",
@@ -59,6 +59,23 @@
       "from_id": "qa-heldout-68",
       "to_id": "qa-shadow-dev-68",
       "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
-    }
+    },
+    "auditor": "round0-semantic-auditor-batchC",
+    "auditor_model": "openrouter/qwen/qwen3.8-27b:free",
+    "audit_decision": "approve",
+    "audit_rationale": "Single atom sufficient and minimal ('The first thermodynamic textbook was written in 1859 by William Rankine'); answer grounded; hard negatives verified non-answering; no independent alternative passage for the 1859 Rankine textbook fact (verified corpus-wide).",
+    "semantic_audit": [
+      {
+        "set_index": 0,
+        "atom_node_id": "p:thermodynamics:02:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "sole atom; directly states the answer (first thermodynamic textbook, 1859, William Rankine). Minimal under leave-one-out (removal leaves the empty set).",
+        "decision_token": "approve",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      }
+    ]
   }
 }

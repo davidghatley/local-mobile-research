@@ -40,11 +40,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "",
     "decision": "pending",
     "rationale": "",
-    "content_hash": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",
@@ -53,6 +53,10 @@
       "from_id": "qa-heldout-89",
       "to_id": "qa-shadow-dev-89",
       "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
-    }
+    },
+    "auditor": "round0-semantic-auditor-batchC",
+    "auditor_model": "openrouter/qwen/qwen3.8-27b:free",
+    "audit_decision": "approve",
+    "audit_rationale": "Unanswerable confirmed corpus-wide: 'Sensorama' occurs only in p:virtual_reality:04:000 and its two sentence children; no corpus node states a price for it. Every monetary figure in the VR article attaches to a different device (Virtuality $73,000; Oculus purchase $2B/$3B; Gloveone Kickstarter $150,000), exactly as absent_reason states. Hard negatives reviewed and non-answering. No change."
   }
 }

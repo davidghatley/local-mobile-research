@@ -5,10 +5,12 @@
   "question_type": "factoid",
   "meta": {
     "source_articles": [
+      "a:abraham_lincoln",
       "a:american_civil_war"
     ],
     "group": "solo:american civil war",
     "evidence_groups": [
+      "lincoln",
       "solo:american civil war"
     ],
     "original_id": "qa-heldout-78",
@@ -20,6 +22,18 @@
         {
           "node_id": "p:american_civil_war:04:000",
           "text": "The American Civil War began on April 12, 1861, when Confederate forces opened fire on the Union-held Fort Sumter. Fort Sumter is located in the harbor of Charleston, South Carolina. Its status had been contentious for months. Outgoing president Buchanan had dithered in reinforcing its garrison, commanded by Major Robert Anderson. Anderson took matters into his own hands and on December 26, 1860, under the cover of darkness, sailed the garrison from the poorly placed Fort Moultrie to the stalwart island Fort Sumter. Anderson's actions made him a hero in the North. An attempt to resupply the fort on January 9, 1861, failed and nearly incited a war, but an informal truce held. On March 5, Lincoln was informed that the fort was low on supplies.\nFort Sumter proved a key challenge to Lincoln's administration. Back-channel dealing by Seward with the Confederates undermined Lincoln's decision-making; Seward wanted to pull out. But a firm hand by Lincoln tamed Seward, who was a staunch Lincoln ally thereafter. Lincoln decided holding the fort, which would require reinforcing it, was the only workable option. On April 6, Lincoln informed the Governor of South Carolina that a ship with food but no ammunition would attempt to supply the fort. Richard N. Current wrote:\nJames McPherson describes this win-win approach as \"the first sign of the mastery that would mark Lincoln's presidency\"; the Union would win if it could resupply and hold the fort, and the South would be the aggressor if it opened fire on an unarmed ship supplying starving men. An April 9 Confederate cabinet meeting resulted in Davis ordering General P. G. T. Beauregard to take the fort before supplies reached it.\nAt 4:30 a.m. on April 12, Confederate forces fired the first of 4,000 shells at the fort; it fell the next day. The loss of Fort Sumter lit a patriotic fire under the North. On April 15, Lincoln called on the states to field 75,000 militiamen for 90 days; impassioned Union states met the quotas quickly. On May 3, 1861, Lincoln called for an additional 42,000 volunteers for three years. Shortly after this, Virginia, Tennessee, Arkansas, and North Carolina seceded and joined the Confederacy. To reward Virginia, the Confederate capital was moved to Richmond."
+        }
+      ],
+      [
+        {
+          "node_id": "p:american_civil_war:00:000",
+          "text": "The American Civil War (April 12, 1861May 26, 1865; also known by other names) was a civil war in the United States between the Union (\"the North\") and the Confederacy (\"the South\"), which was formed in 1861 by states that had seceded from the Union to preserve slavery in the United States. The South saw slavery as threatened because of the election of Abraham Lincoln and the growing abolitionist movement in the North. The war ended with Union victory, the dissolution of the Confederacy and the abolition of slavery, freeing four million African Americans.\nDecades of controversy over slavery came to a head when Abraham Lincoln, a Republican who opposed slavery's expansion, won the 1860 presidential election. Seven slave states in the South responded to Lincoln's victory by seceding from the United States and forming the Confederate States of America. The Confederacy seized US forts and other federal assets in the South. The war began on April 12, 1861, when the Confederacy bombarded Fort Sumter in South Carolina. A wave of enthusiasm for war swept over the North and South, as military recruitment soared. Four more Southern states seceded after the war began and, led by its president, Jefferson Davis, the Confederacy comprised eleven states, containing a third of the US population. Four years of intense combat, mostly in the South, ensued.\nDuring 1861–1862 in the western theater, the Union made permanent gains, though in the eastern theater the conflict was inconclusive. The abolition of slavery became a Union war goal on January 1, 1863, when Lincoln issued the Emancipation Proclamation, which declared all slaves in rebel states to be free, applying to more than 3.5 million of the 4 million enslaved people in the country. To the west, the Union first destroyed the Confederacy's river navy by the summer of 1862, then much of its western armies, and seized New Orleans. The successful 1863 Union siege of Vicksburg split the Confederacy in two at the Mississippi River, while Confederate general Robert E. Lee's incursion north failed at the Battle of Gettysburg. General Ulysses S. Grant's western successes led Lincoln to promote him to command of all Union armies in 1864.\nInflicting an ever-tightening naval blockade of Confederate ports, the Union marshaled resources and manpower to attack the Confederacy from all directions. This led to the fall of Atlanta in 1864 to Union general William Tecumseh Sherman, followed by his March to the Sea, which culminated in his taking Savannah. The last significant battles raged around the ten-month siege of Petersburg, gateway to the Confederate capital of Richmond. The Confederates abandoned Richmond, and on April 9, 1865, Lee surrendered to Grant following the Battle of Appomattox Court House, setting in motion the end of the war. Lincoln lived to see this victory but was shot by an assassin on April 14, dying the next day.\nBy the end of the war, much of the South's infrastructure had been destroyed. The Confederacy collapsed, the Thirteenth Amendment abolished slavery, and four million enslaved black people were freed. The war-torn nation then entered the Reconstruction era in an attempt to rebuild the country, bring the former Confederate states back into the United States, and grant civil rights to freed slaves. The war is one of the most extensively studied and written about episodes in the history of the United States. It remains the subject of cultural and historiographical debate. Of continuing interest is the myth of the Lost Cause of the Confederacy. The war was among the first to use industrial warfare. Railroads, the electrical telegraph, steamships, the ironclad warship, and mass-produced weapons were widely used. The war left an estimated 700,000 soldiers dead, along with an undetermined number of civilian deaths, making it the deadliest in American history. The technology and brutality of the Civil War foreshadowed the coming world wars."
+        }
+      ],
+      [
+        {
+          "node_id": "p:abraham_lincoln:15:000",
+          "text": "In early April 1861, Major Robert Anderson, commander of Fort Sumter in Charleston, South Carolina, advised that he was nearly out of food. After considerable deliberation, Lincoln decided to send provisions; according to Michael Burlingame, he \"could not be sure that his decision would precipitate a war, though he had good reason to believe that it might\". On April 12, 1861, Confederate forces fired on Union troops at Fort Sumter, starting the American Civil War. Donald concludes: His repeated efforts to avoid collision ... showed that he adhered to his vow not to be the first to shed fraternal blood. But he had also vowed not to surrender the forts.... The only resolution of these contradictory positions was for the Confederates to fire the first shot.\nThe April 12 and 13 attack on Fort Sumter rallied the Northern public to see military action against the South as necessary to defend the nation. On April 15, Lincoln called for 75,000 militiamen to recapture forts, protect Washington, and preserve the Union. This call forced states to choose whether to secede or to support the Union. North Carolina, Virginia, Tennessee, and Arkansas seceded. As the Northern states sent regiments south, on April 19 Baltimore mobs in control of the rail links attacked Union troops who were changing trains. Local leaders' groups later burned critical rail bridges to the capital and the Army responded by arresting local Maryland officials. Lincoln suspended the writ of habeas corpus, allowing arrests without formal charges.\nJohn Merryman, a Maryland officer arrested for hindering U.S. troop movements, successfully petitioned Supreme Court Chief Justice Taney to issue a writ of habeas corpus. In an opinion titled Ex parte Merryman, Taney, not ruling on behalf of the Supreme Court, wrote that the Constitution authorized only Congress and not the president to suspend habeas corpus. But Lincoln engaged in nonacquiescence and persisted with the policy of suspension in select areas. Under various suspensions, 15,000 civilians were detained without trial; several, including the anti-war Democrat Clement L. Vallandigham, were tried in military courts for \"treasonable\" actions, which was condemned as an attack on free speech."
         }
       ]
     ],
@@ -46,11 +60,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "",
     "decision": "pending",
     "rationale": "",
-    "content_hash": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",
@@ -59,6 +73,45 @@
       "from_id": "qa-heldout-78",
       "to_id": "qa-shadow-dev-78",
       "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
-    }
+    },
+    "auditor": "round0-semantic-auditor-batchC",
+    "auditor_model": "openrouter/qwen/qwen3.8-27b:free",
+    "audit_decision": "repair-alternatives",
+    "audit_rationale": "Primary single atom sufficient and minimal ('The American Civil War began on April 12, 1861, when Confederate forces opened fire on the Union-held Fort Sumter'). Recorded two genuinely different alternative sets: [p:american_civil_war:00:000] (article lead) and [p:abraham_lincoln:15:000] (cross-article passage).",
+    "semantic_audit": [
+      {
+        "set_index": 0,
+        "atom_node_id": "p:american_civil_war:04:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "sole atom of the primary set; states the answer (April 12, 1861, Confederate fire on the Union-held Fort Sumter). Minimal under leave-one-out.",
+        "decision_token": "approve",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      },
+      {
+        "set_index": 1,
+        "atom_node_id": "p:american_civil_war:00:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "alternative route: 'The war began on April 12, 1861, when the Confederacy bombarded Fort Sumter in South Carolina' (article lead paragraph).",
+        "decision_token": "repair-alternatives",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      },
+      {
+        "set_index": 2,
+        "atom_node_id": "p:abraham_lincoln:15:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "alternative route: 'On April 12, 1861, Confederate forces fired on Union troops at Fort Sumter' (Abraham Lincoln article - a cross-article passage).",
+        "decision_token": "repair-alternatives",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      }
+    ]
   }
 }

@@ -6,6 +6,7 @@
   "meta": {
     "source_articles": [
       "a:cambridge_massachusetts",
+      "a:harvard_university",
       "a:virtual_reality"
     ],
     "group": "cambridge",
@@ -22,12 +23,20 @@
         {
           "node_id": "p:virtual_reality:04:000",
           "text": "Morton Heilig wrote in the 1950s of an \"Experience Theatre\" that could encompass all the senses in an effective manner, thus drawing the viewer into the onscreen activity. He built a prototype of his vision dubbed the Sensorama in 1962, along with five short films to be displayed in it while engaging multiple senses (sight, sound, smell, and touch). Predating digital computing, the Sensorama was a mechanical device. Heilig also developed what he referred to as the \"Telesphere Mask\" (patented in 1960). The patent application described the device as \"a telescopic television apparatus for individual use... The spectator is given a complete sensation of reality, i.e., moving three-dimensional images that may be in color, with 100% peripheral vision, binaural sound, scents, and air breezes.\"\nIn 1968, Harvard Professor Ivan Sutherland, with the help of his students, including Bob Sproull, created what was widely considered to be the first head-mounted display system for use in immersive simulation applications, called The Sword of Damocles. It was primitive both in terms of user interface and visual realism, and the HMD to be worn by the user was so heavy that it had to be suspended from the ceiling, which gave the device a formidable appearance and inspired its name. Technically, the device was an augmented reality device due to optical passthrough. The graphics comprising the virtual environment were simple wire-frame model rooms."
+        },
+        {
+          "node_id": "p:cambridge_massachusetts:00:000",
+          "text": "Cambridge ( ) is a city in Middlesex County, Massachusetts, United States. It is located in the Greater Boston metropolitan area directly across the Charles River from Boston. The city's population as of the 2020 U.S. census was 118,403, making it the most populous city in the county, the fourth-largest in Massachusetts behind Boston, Worcester, and Springfield, and ninth-most populous in New England. The city was named in honor of the University of Cambridge in Cambridge, England, which was an important center of the Puritan theology that was embraced by the town's founders.\nFounded in December 1630 during the colonial era, Cambridge was one among the first cities established in the Thirteen Colonies, and it went on to play a historic role during the American Revolution. In May 1775, approximately 16,000 American patriots assembled in Cambridge Common to begin organizing a military retaliation against British troops following the Battles of Lexington and Concord. On July 2, 1775, two weeks after the Second Continental Congress in Philadelphia formally established the Continental Army and appointed George Washington commander of it, Washington arrived at Cambridge Common to take command of the Patriot soldiers camped there. Many of these soldiers played a role in supporting Washington's successful siege of Boston, which trapped garrisoned British troops from moving by land, forcing the British to ultimately abandon Boston. Cambridge Common is thus celebrated as the birthplace of the Continental Army.\nHarvard University, an Ivy League university founded in Cambridge in 1636, is the oldest institution of higher learning in the United States. The Massachusetts Institute of Technology (MIT), a private research university, has its 168-acre campus in Cambridge.\nKendall Square, near MIT in the eastern part of Cambridge, has been called \"the most innovative square mile on the planet\" due to the high concentration of startup companies that have emerged there since 2010. In 2022, Cambridge was home to over 250 biotech companies, with more than 120 located within the Kendall Square ZIP Code."
         }
       ],
       [
         {
-          "node_id": "p:cambridge_massachusetts:00:000",
-          "text": "Cambridge ( ) is a city in Middlesex County, Massachusetts, United States. It is located in the Greater Boston metropolitan area directly across the Charles River from Boston. The city's population as of the 2020 U.S. census was 118,403, making it the most populous city in the county, the fourth-largest in Massachusetts behind Boston, Worcester, and Springfield, and ninth-most populous in New England. The city was named in honor of the University of Cambridge in Cambridge, England, which was an important center of the Puritan theology that was embraced by the town's founders.\nFounded in December 1630 during the colonial era, Cambridge was one among the first cities established in the Thirteen Colonies, and it went on to play a historic role during the American Revolution. In May 1775, approximately 16,000 American patriots assembled in Cambridge Common to begin organizing a military retaliation against British troops following the Battles of Lexington and Concord. On July 2, 1775, two weeks after the Second Continental Congress in Philadelphia formally established the Continental Army and appointed George Washington commander of it, Washington arrived at Cambridge Common to take command of the Patriot soldiers camped there. Many of these soldiers played a role in supporting Washington's successful siege of Boston, which trapped garrisoned British troops from moving by land, forcing the British to ultimately abandon Boston. Cambridge Common is thus celebrated as the birthplace of the Continental Army.\nHarvard University, an Ivy League university founded in Cambridge in 1636, is the oldest institution of higher learning in the United States. The Massachusetts Institute of Technology (MIT), a private research university, has its 168-acre campus in Cambridge.\nKendall Square, near MIT in the eastern part of Cambridge, has been called \"the most innovative square mile on the planet\" due to the high concentration of startup companies that have emerged there since 2010. In 2022, Cambridge was home to over 250 biotech companies, with more than 120 located within the Kendall Square ZIP Code."
+          "node_id": "p:virtual_reality:04:000",
+          "text": "Morton Heilig wrote in the 1950s of an \"Experience Theatre\" that could encompass all the senses in an effective manner, thus drawing the viewer into the onscreen activity. He built a prototype of his vision dubbed the Sensorama in 1962, along with five short films to be displayed in it while engaging multiple senses (sight, sound, smell, and touch). Predating digital computing, the Sensorama was a mechanical device. Heilig also developed what he referred to as the \"Telesphere Mask\" (patented in 1960). The patent application described the device as \"a telescopic television apparatus for individual use... The spectator is given a complete sensation of reality, i.e., moving three-dimensional images that may be in color, with 100% peripheral vision, binaural sound, scents, and air breezes.\"\nIn 1968, Harvard Professor Ivan Sutherland, with the help of his students, including Bob Sproull, created what was widely considered to be the first head-mounted display system for use in immersive simulation applications, called The Sword of Damocles. It was primitive both in terms of user interface and visual realism, and the HMD to be worn by the user was so heavy that it had to be suspended from the ceiling, which gave the device a formidable appearance and inspired its name. Technically, the device was an augmented reality device due to optical passthrough. The graphics comprising the virtual environment were simple wire-frame model rooms."
+        },
+        {
+          "node_id": "p:harvard_university:00:000",
+          "text": "Harvard University is a private Ivy League research university in Cambridge, Massachusetts, United States. Founded in 1636, and named Harvard College in 1639 in honor of its first benefactor, Puritan clergyman John Harvard, it is the oldest institution of higher learning in the United States. Its influence, wealth, and rankings have made it one of the most prestigious universities in the world.\nHarvard was founded and authorized by the Massachusetts General Court, the governing legislature of colonial-era Massachusetts Bay Colony. While never formally affiliated with any Protestant denomination, Harvard trained Christian clergy of Congregational denomination until its curriculum and student body were gradually secularized in the 18th century. In 1780, the Constitution of Massachusetts referred to it as a university, and a new medical school established in 1782 was named the Medical Institution of Harvard University; but this was a new name, not a new foundation. Harvard College soon became the name of the university's undergraduate division.\nBy the 19th century, Harvard had emerged as the most prominent academic and cultural institution among the Boston elite. Following the American Civil War, under Harvard president Charles William Eliot's long tenure from 1869 to 1909, Harvard developed multiple professional schools, which transformed it into a modern research university. In 1900, Harvard co-founded the Association of American Universities. James B. Conant led the university through the Great Depression and World War II, and liberalized admissions after the war.\nThe university has ten academic faculties and a faculty attached to Harvard Radcliffe Institute. The Faculty of Arts and Sciences offers study in a wide range of undergraduate and graduate academic disciplines, and other faculties offer graduate degrees, including professional degrees. Harvard has three campuses:\nthe main campus, a 209 acre in Cambridge centered on Harvard Yard; an adjoining campus immediately across Charles River in the Allston neighborhood of Boston; and the medical campus in Boston's Longwood Medical Area. Harvard's endowment, valued at , makes it the wealthiest academic institution in the world. Harvard Library, with more than 20 million volumes, is the world's largest academic library."
         }
       ]
     ],
@@ -63,11 +72,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "",
     "decision": "pending",
     "rationale": "",
-    "content_hash": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",
@@ -76,6 +85,56 @@
       "from_id": "qa-heldout-62",
       "to_id": "qa-shadow-dev-62",
       "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
-    }
+    },
+    "auditor": "round0-semantic-auditor-batchC",
+    "auditor_model": "openrouter/qwen/qwen3.8-27b:free",
+    "audit_decision": "repair-minimality + repair-alternatives",
+    "audit_rationale": "Issue 2: merged [p:virtual_reality:04:000, p:cambridge_massachusetts:00:000] (neither single-node 'set' was sufficient alone). Multi-hop label genuine (creator -> founding year 1636). Recorded a genuinely different alternative set through the Harvard lead paragraph [p:virtual_reality:04:000, p:harvard_university:00:000].",
+    "semantic_audit": [
+      {
+        "set_index": 0,
+        "atom_node_id": "p:virtual_reality:04:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "fixes the person and his university (Harvard Professor Ivan Sutherland created the 1968 head-mounted display); alone it gives no founding year. Merged per Issue 2.",
+        "decision_token": "repair-minimality",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      },
+      {
+        "set_index": 0,
+        "atom_node_id": "p:cambridge_massachusetts:00:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "supplies Harvard's founding year (an Ivy League university founded in Cambridge in 1636); alone it does not identify the 1968 HMD creator. Merged per Issue 2.",
+        "decision_token": "repair-minimality",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      },
+      {
+        "set_index": 1,
+        "atom_node_id": "p:virtual_reality:04:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "alternative route: same bridge atom; the founding year is sourced from the Harvard article lead instead of the Cambridge (Massachusetts) article.",
+        "decision_token": "repair-alternatives",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      },
+      {
+        "set_index": 1,
+        "atom_node_id": "p:harvard_university:00:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "alternative route: 'Harvard University is a private Ivy League research university in Cambridge, Massachusetts... Founded in 1636' a genuinely different passage from p:cambridge_massachusetts:00:000.",
+        "decision_token": "repair-alternatives",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      }
+    ]
   }
 }

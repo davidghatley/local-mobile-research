@@ -22,9 +22,17 @@
         {
           "node_id": "p:harvard_university:08:000",
           "text": "The 209 acre main campus of Harvard University is centered on Harvard Yard, colloquially known as \"the Yard\", in Cambridge, Massachusetts, about three miles (five km) west-northwest of downtown Boston, and extending to the surrounding Harvard Square neighborhood. The Yard houses several Harvard buildings, including four of the university's libraries, Houghton, Lamont, Pusey, and Widener. Also on Harvard Yard are Massachusetts Hall, built between 1718 and 1720 and the university's oldest still standing building, Memorial Church, and University Hall.\nHarvard Yard and adjacent areas include the main academic buildings of the Faculty of Arts and Sciences, including Sever Hall, Harvard Hall, and freshman dormitories. Upperclassmen live in the twelve residential houses: nine south of Harvard Yard near the Charles River, and three on the Radcliffe Quadrangle, which formerly housed Radcliffe College students. Each house is a community of undergraduates, faculty deans, and resident tutors, with its own dining hall, library, and recreational facilities.\nAlso on the main campus in Cambridge are the Law, Divinity (theology), Engineering and Applied Science, Design (architecture), Education, Kennedy (public policy), and Extension schools, and Harvard Radcliffe Institute in Radcliffe Yard. Harvard also has commercial real estate holdings in Cambridge."
+        },
+        {
+          "node_id": "p:university_of_washington:00:000",
+          "text": "The University of Washington (UW, and informally U-Dub or U Dub) is a public research university in Seattle, Washington, United States. Founded in 1861, it is one of the oldest universities on the West Coast of the United States.\nThe university has a 700 acre main campus in the city's University District, with satellite campuses in nearby cities of Tacoma and Bothell. Overall, UW encompasses more than 500 buildings and over 20 million gross square footage of space, including one of the largest library systems in the world with more than 26 university libraries, art centers, museums, laboratories, lecture halls, and stadiums.\nWashington is the flagship institution of the state's six public universities. Known for its medical, engineering, and scientific research, Washington is a member of the Association of American Universities. According to the National Science Foundation, UW spent $1.73 billion on research and development in 2024, ranking it fifth in the nation. Its 22 varsity sports teams compete as the Huskies in the Big Ten Conference of NCAA Division I."
         }
       ],
       [
+        {
+          "node_id": "p:harvard_university:00:000",
+          "text": "Harvard University is a private Ivy League research university in Cambridge, Massachusetts, United States. Founded in 1636, and named Harvard College in 1639 in honor of its first benefactor, Puritan clergyman John Harvard, it is the oldest institution of higher learning in the United States. Its influence, wealth, and rankings have made it one of the most prestigious universities in the world.\nHarvard was founded and authorized by the Massachusetts General Court, the governing legislature of colonial-era Massachusetts Bay Colony. While never formally affiliated with any Protestant denomination, Harvard trained Christian clergy of Congregational denomination until its curriculum and student body were gradually secularized in the 18th century. In 1780, the Constitution of Massachusetts referred to it as a university, and a new medical school established in 1782 was named the Medical Institution of Harvard University; but this was a new name, not a new foundation. Harvard College soon became the name of the university's undergraduate division.\nBy the 19th century, Harvard had emerged as the most prominent academic and cultural institution among the Boston elite. Following the American Civil War, under Harvard president Charles William Eliot's long tenure from 1869 to 1909, Harvard developed multiple professional schools, which transformed it into a modern research university. In 1900, Harvard co-founded the Association of American Universities. James B. Conant led the university through the Great Depression and World War II, and liberalized admissions after the war.\nThe university has ten academic faculties and a faculty attached to Harvard Radcliffe Institute. The Faculty of Arts and Sciences offers study in a wide range of undergraduate and graduate academic disciplines, and other faculties offer graduate degrees, including professional degrees. Harvard has three campuses:\nthe main campus, a 209 acre in Cambridge centered on Harvard Yard; an adjoining campus immediately across Charles River in the Allston neighborhood of Boston; and the medical campus in Boston's Longwood Medical Area. Harvard's endowment, valued at , makes it the wealthiest academic institution in the world. Harvard Library, with more than 20 million volumes, is the world's largest academic library."
+        },
         {
           "node_id": "p:university_of_washington:00:000",
           "text": "The University of Washington (UW, and informally U-Dub or U Dub) is a public research university in Seattle, Washington, United States. Founded in 1861, it is one of the oldest universities on the West Coast of the United States.\nThe university has a 700 acre main campus in the city's University District, with satellite campuses in nearby cities of Tacoma and Bothell. Overall, UW encompasses more than 500 buildings and over 20 million gross square footage of space, including one of the largest library systems in the world with more than 26 university libraries, art centers, museums, laboratories, lecture halls, and stadiums.\nWashington is the flagship institution of the state's six public universities. Known for its medical, engineering, and scientific research, Washington is a member of the Association of American Universities. According to the National Science Foundation, UW spent $1.73 billion on research and development in 2024, ranking it fifth in the nation. Its 22 varsity sports teams compete as the Huskies in the Big Ten Conference of NCAA Division I."
@@ -63,11 +71,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "",
     "decision": "pending",
     "rationale": "",
-    "content_hash": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",
@@ -76,6 +84,56 @@
       "from_id": "qa-heldout-85",
       "to_id": "qa-shadow-dev-85",
       "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
-    }
+    },
+    "auditor": "round0-semantic-auditor-batchC",
+    "auditor_model": "openrouter/qwen/qwen3.8-27b:free",
+    "audit_decision": "repair-minimality + repair-alternatives",
+    "audit_rationale": "Issue 2: merged [p:harvard_university:08:000, p:university_of_washington:00:000] (each side 'set' insufficient alone: 209 acres vs 700 acres, both sides needed to select the larger main campus). Recorded a genuinely different alternative set [p:harvard_university:00:000, p:university_of_washington:00:000] - the Harvard lead fully fixes the 'Ivy League... 1636' description. p:university_of_washington:06:000 considered and NOT recorded: it gives 700 acres but not the 'U-Dub / public research' description.",
+    "semantic_audit": [
+      {
+        "set_index": 0,
+        "atom_node_id": "p:harvard_university:08:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "supplies one side of the comparison (Harvard's 209-acre main campus in Cambridge, Massachusetts); alone it cannot identify the U-Dub university. Merged per Issue 2.",
+        "decision_token": "repair-minimality",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      },
+      {
+        "set_index": 0,
+        "atom_node_id": "p:university_of_washington:00:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "supplies the other side (UW's 700-acre main campus; Seattle public research university informally U-Dub); alone it cannot identify the Ivy League 1636-Cambridge university. Merged per Issue 2.",
+        "decision_token": "repair-minimality",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      },
+      {
+        "set_index": 1,
+        "atom_node_id": "p:harvard_university:00:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "alternative route: the lead paragraph fully fixes the description ('a private Ivy League research university in Cambridge, Massachusetts... Founded in 1636') and also states the 209-acre main campus - a different passage from p:harvard_university:08:000.",
+        "decision_token": "repair-alternatives",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      },
+      {
+        "set_index": 1,
+        "atom_node_id": "p:university_of_washington:00:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "alternative route: same UW atom as the primary set; the set differs in the Harvard-side passage only.",
+        "decision_token": "repair-alternatives",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      }
+    ]
   }
 }

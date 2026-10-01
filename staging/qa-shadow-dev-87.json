@@ -65,11 +65,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "",
     "decision": "pending",
     "rationale": "",
-    "content_hash": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",
@@ -78,6 +78,34 @@
       "from_id": "qa-heldout-87",
       "to_id": "qa-shadow-dev-87",
       "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
-    }
+    },
+    "auditor": "round0-semantic-auditor-batchC",
+    "auditor_model": "openrouter/qwen/qwen3.8-27b:free",
+    "audit_decision": "approve",
+    "audit_rationale": "Genuinely ambiguous between two readings; each reading is determined by its own single-atom set (state capital Olympia / federal capital Washington, D.C.); each set is sufficient for its reading and only for that reading; readings map one-to-one to distinct sets; hard negatives do not resolve the ambiguity. Sets kept as authored.",
+    "semantic_audit": [
+      {
+        "set_index": 0,
+        "atom_node_id": "p:washington_state:00:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "determines reading 0 (the state of Washington): 'Olympia is the state capital'; single-atom set, minimal for the state reading.",
+        "decision_token": "approve",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      },
+      {
+        "set_index": 1,
+        "atom_node_id": "p:washington_d_c:00:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "determines reading 1 (the national capital named Washington): 'Washington, D.C.... is the federal capital city of the United States'; single-atom set, minimal for the national-capital reading.",
+        "decision_token": "approve",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      }
+    ]
   }
 }

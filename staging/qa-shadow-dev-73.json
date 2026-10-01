@@ -21,6 +21,12 @@
           "node_id": "p:jaguar:00:000",
           "text": "The jaguar (Panthera onca) is a large cat species and the only living member of the genus Panthera that is native to the Americas. Its coat features pale yellow to tan colored fur covered with spots that transition to rosettes on the sides; some individuals have a melanistic spotted coat. With a body length of up to 1.85 m and a weight of up to 158 kg, it is the biggest cat species in the Americas and the third largest in the world. The jaguar's powerful bite allows it to pierce the carapaces of turtles and tortoises, and to employ an unusual killing method: it bites directly through the skull of mammalian prey between the ears to deliver a fatal blow to the brain.\nThe modern jaguar's ancestors probably entered the Americas from Eurasia during the Early Pleistocene via the land bridge that once spanned the Bering Strait. The oldest jaguar fossils found in North America date to between . Today, the jaguar's range extends from the Southwestern United States across Mexico and much of Central America, the Amazon rainforest and south to Paraguay and northern Argentina. It inhabits a variety of forested and open terrains, but its preferred habitat is tropical and subtropical moist broadleaf forest, wetlands and wooded regions. It is adept at swimming and is largely a solitary, opportunistic, stalk-and-ambush apex predator. As a keystone species, it plays an important role in stabilizing ecosystems and in regulating prey populations.\nThe jaguar is threatened by habitat loss, habitat fragmentation, poaching for trade with its body parts and killings in human–wildlife conflict situations, particularly with ranchers in Central and South America. It has been listed as Near Threatened on the IUCN Red List since 2002. The wild population is thought to have declined since the late 1990s. Priority areas for jaguar conservation comprise 51 large areas inhabited by at least 50 breeding individuals, called Jaguar Conservation Units. They are located in 36 geographic regions from Mexico to Argentina.\nThe jaguar has featured prominently in the mythology of indigenous peoples of the Americas, including those of the Aztec and Maya civilizations."
         }
+      ],
+      [
+        {
+          "node_id": "p:jaguar:10:000",
+          "text": "The jaguar is an obligate carnivore and depends solely on flesh for its nutrient requirements. The daily food requirement of a captive jaguar weighing 34 kg was estimated at 1.4 kg of meat.\nAn analysis of 53 studies documenting the diet of the jaguar revealed that its prey ranges in weight from 1 to; it prefers prey weighing 45-85 kg, with the capybara and the giant anteater being the most selected. When available, it also preys on marsh deer, southern tamandua, collared peccary and black agouti. In floodplains, it opportunistically takes reptiles such as green anaconda, caiman and turtle species. In the Brazilian Pantanal, it primarily feeds on aquatic reptiles and fish including thorny catfish, small-scaled pacu, red-bellied piranha and barred catfish.\nIt also preys on livestock in cattle ranching areas where wild prey is scarce.\nThe jaguar's bite force allows it to pierce the carapaces of the yellow-spotted Amazon river turtle and the yellow-footed tortoise. It employs an unusual killing method: it bites mammalian prey directly through the skull between the ears to deliver a fatal bite to the brain. It kills capybara by piercing its canine teeth through the temporal bones of its skull, breaking its zygomatic arch and mandible and penetrating its brain, often through the ears.\nIt has been hypothesized to be an adaptation to cracking open turtle shells; armored reptiles may have formed an abundant prey base for the jaguar following the late Pleistocene extinctions. However, this is disputed, as even in areas where the jaguar preys on reptiles, it more frequently takes mammals in spite of the greater reptile abundance.\nBetween October 2001 and April 2004, 10 jaguars were monitored in the southern Pantanal. In the dry season from April to September, they killed prey at intervals ranging from one to seven days; and ranging from one to 16 days in the wet season from October to March.\nThe jaguar uses a stalk-and-ambush strategy when hunting rather than chasing prey. The cat will slowly walk down forest paths, listening for and stalking prey before rushing or ambushing. The jaguar attacks from cover and usually from a target's blind spot with a quick pounce; the species' ambushing abilities are considered nearly peerless in the animal kingdom by both indigenous people and field researchers and are probably a product of its role as an apex predator in several different environments. The ambush may include leaping into water after prey, as a jaguar is capable of carrying a large kill while swimming; it is strong enough to haul carcasses as large as a heifer up a tree to avoid flood levels. After killing the prey, it drags the carcass to a thicket or other secluded spot. It begins eating at the neck and chest, consumes heart and lungs, followed by the shoulders."
+        }
       ]
     ],
     "is_multi_hop": false
@@ -46,11 +52,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "",
     "decision": "pending",
     "rationale": "",
-    "content_hash": "",
+    "verifier": "tbd-independent-reviewer",
+    "verifier_model": "tbd",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",
@@ -59,6 +65,34 @@
       "from_id": "qa-heldout-73",
       "to_id": "qa-shadow-dev-73",
       "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
-    }
+    },
+    "auditor": "round0-semantic-auditor-batchC",
+    "auditor_model": "openrouter/qwen/qwen3.8-27b:free",
+    "audit_decision": "repair-alternatives",
+    "audit_rationale": "Primary single atom sufficient and minimal (killing method: bites directly through the skull of mammalian prey between the ears). Recorded a genuinely different alternative set [p:jaguar:10:000] (feeding paragraph restates the method in a different passage).",
+    "semantic_audit": [
+      {
+        "set_index": 0,
+        "atom_node_id": "p:jaguar:00:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "sole atom of the primary set; states the answer (bites directly through the skull of mammalian prey between the ears to deliver a fatal blow to the brain). Minimal under leave-one-out.",
+        "decision_token": "approve",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      },
+      {
+        "set_index": 1,
+        "atom_node_id": "p:jaguar:10:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "alternative route: the feeding paragraph restates the same method ('it bites mammalian prey directly through the skull between the ears to deliver a fatal bite to the brain') in a different passage.",
+        "decision_token": "repair-alternatives",
+        "reviewer_id": "round0-semantic-auditor-batchC",
+        "reviewer_model": "openrouter/qwen/qwen3.8-27b:free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T22:54:14+00:00"
+      }
+    ]
   }
 }

@@ -69,7 +69,35 @@
       "from_id": "qa-heldout-22",
       "to_id": "qa-shadow-dev-22",
       "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
-    }
+    },
+    "auditor": "round0-semantic-auditor-batchA",
+    "auditor_model": "opencode/muse-spark-1.3-contributor-free",
+    "audit_decision": "approve",
+    "audit_rationale": "genuine disambiguation-then-lookup chain; neither singleton determines the place",
+    "semantic_audit": [
+      {
+        "set_index": 0,
+        "atom_node_id": "p:emancipation_proclamation:00:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "fixes the person (issuing president is Lincoln); without it the subject is unfixed",
+        "decision_token": "approve",
+        "reviewer_id": "round0-semantic-auditor-batchA",
+        "reviewer_model": "opencode/muse-spark-1.3-contributor-free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T00:00:00+00:00"
+      },
+      {
+        "set_index": 0,
+        "atom_node_id": "p:abraham_lincoln:01:000",
+        "leave_one_out_answerable": "no",
+        "necessity_note": "supplies the ancestor emigration place (Massachusetts); without it no answer",
+        "decision_token": "approve",
+        "reviewer_id": "round0-semantic-auditor-batchA",
+        "reviewer_model": "opencode/muse-spark-1.3-contributor-free",
+        "corpus_revision": "pilot-297-r1",
+        "reviewed_utc": "2026-10-01T00:00:00+00:00"
+      }
+    ]
   },
   "question_id": "qa-shadow-dev-22",
   "question_type": "multihop",

@@ -49,7 +49,11 @@
       "from_id": "qa-heldout-29",
       "to_id": "qa-shadow-dev-29",
       "why": "Issue 1: held-out exposed in git history; can never be sealed; reclassified as dev-visible shadow-dev"
-    }
+    },
+    "auditor": "round0-semantic-auditor-batchA",
+    "auditor_model": "opencode/muse-spark-1.3-contributor-free",
+    "audit_decision": "approve",
+    "audit_rationale": "absence verified: launch-price slot blank corpus-wide (p:atari_jaguar:02:000 etc.); only price statements are redacted/unquantified/resale"
   },
   "question_id": "qa-shadow-dev-29",
   "question_type": "unanswerable",
