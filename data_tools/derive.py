@@ -17,10 +17,14 @@ Hard rules enforced here:
     predeclared split-map group; the scaffold records group + split.
   - No mixed-split chains: scaffold refuses groups whose articles span
     splits (corrupt map) and validate refuses multi-source drafts whose
-    articles sit in different splits/groups.
-  - One-group multi-hop: every sufficient-set span must resolve to the
-    SAME group. Cross-group multi-hop is rejected; widening groups needs
-    an orchestrator-approved grouping-protocol amendment before freeze.
+    articles sit in different splits.
+  - Same-split cross-group chains ARE allowed (supersedes the former
+    one-group rule, amended 2026-10-01): a multi-source draft may span
+    several groups as long as EVERY involved group maps to the SAME data
+    split. train group A -> train group B is valid; train -> heldout and
+    dev -> heldout are rejected. This preserves leakage prevention while
+    admitting realistic multi-article chains. Declared groups go in
+    meta.evidence_groups (sorted, distinct, superset of meta.group).
 """
 
 from __future__ import annotations

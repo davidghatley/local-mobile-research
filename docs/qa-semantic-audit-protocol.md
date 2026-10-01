@@ -1,11 +1,19 @@
 # QA Semantic Audit Protocol (Round 0)
 
-Status: **PROTOCOL + TOOLING ONLY. NOT EXECUTED.** No draft has been
-audited under this protocol yet. The 70 staging drafts predate it and
-validate under migration grace (no `meta.semantic_status`, no
-`evidence.hop_glosses`, no `provenance.semantic_audit` required); they
-will be audited — and where necessary repaired and re-approved — in
-Phase 4, before any atomization migration.
+Status: **EXECUTED 2026-10-01** against all 70 then-approved drafts. Results and
+repairs: `docs/qa-semantic-audit-ledger.md`, `qa-semantic-audit-pass1.md`,
+`qa-semantic-audit-pass2.md`, `qa-semantic-audit-reverify.md`.
+(Historical: at authoring time this was tooling only.) The 70 original
+staging drafts predated this protocol and validated under migration grace
+(no `meta.semantic_status`, no
+`evidence.hop_glosses`, no `provenance.semantic_audit` required).
+
+**Outcome (Phase 4, completed):** all 70 audited → 59 approve unchanged,
+11 repaired (6 relabel-multihop, 3 repair-minimality, 3 repair-alternatives,
+with two items needing both minimality and relabel), 0 rejected. The headline
+finding was that only 2 of 10 `multihop` labels were genuine. The 11 repairs
+were re-verified by an independent reviewer who did not make the edits, and
+their approvals reissued against new content hashes.
 
 Owner: Lane D (same worker as `data_tools/qa_schema.py`,
 `data_tools/verify.py`, `substrate/splits.py` gating, and

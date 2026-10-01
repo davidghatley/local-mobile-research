@@ -223,3 +223,124 @@ Reassigned the same scoped audit to the previously verified zero-cost endpoint `
 **ROUND 0 IN PROGRESS — NOT FROZEN.** No architecture implementations, held-out benchmark runs, or tournament conclusions are authorized by this state.
 
 Freeze requires actual pinned corpus and generator artifacts, split provenance and isolation, executable measurement/evaluation interfaces, meaningful verification, and independent review. A design document alone is insufficient.
+
+---
+
+## 2026-09-30 / 2026-10-01 — Round 0 repair run (Phases 1–7) and documentation steward pass
+
+Authoritative current status: **`docs/STATUS.md`**. This section is the chronological record of the
+repair run; where the two disagree, `docs/STATUS.md` wins.
+
+Repository: `local_mobile-research`, branch `master`, HEAD at the start of the documentation pass
+`814dcc1`. Commits produced by the repair run, in order: `230e7d5` (Phases 1–2), `3e82aa2` (Phase 3),
+`9756649` (Phase 4), `814dcc1` (Phase 5a + Phase 7 start).
+
+### Free models used in this run — all explicitly selected, none inherited
+
+| Role | Endpoint | Note |
+|---|---|---|
+| Phase 1 design lanes A, C, D, F | `opencode/muse-spark-1.3-contributor-free` | design only |
+| Phase 1 design lanes B, E | `opencode/nemotron-3-ultra-free` | design only |
+| Phase 2 implementation lanes A–E + verifier | explicitly free endpoints, per-lane selection | no lane inherited a model |
+| Phase 3 independent adversarial reviews ×3 | `opencode/nemotron-3-ultra-free` | reviewer did not write the code reviewed |
+| Phase 4 audit pass 1 (multihop + comparison, 17 drafts) | `opencode/nemotron-3-ultra-free` | |
+| Phase 4 audit pass 2 (factoid + unanswerable + ambiguous, 53 drafts) | `opencode/muse-spark-1.3-contributor-free` | |
+| Phase 4 re-verification of the 11 repairs | `opencode/nemotron-3-ultra-free` | did not author the repairs |
+| Phase 5a dev authoring (50 drafts) | explicitly free Muse endpoint | zero approvals fabricated |
+| Phase 7 scale candidates/fetcher/build script | explicitly free Muse endpoint | |
+| Phase 2 one-command verifier | `opencode/space-bunny-free` | |
+| Documentation steward (this pass) | `opencode/space-bunny-free` | owns `docs/STATUS.md`, `docs/progress-ledger.md`, appended section here |
+
+Nested spawning was disabled for the whole run. No paid endpoint was used at any point in this
+project, in this run or any previous one. Endpoint zero-cost status was verified at selection time
+in the sessions named above; it was **not** re-verified during the documentation pass, and catalog
+absence of pricing is not itself proof.
+
+### Phase gates
+
+| Phase | Gate | Outcome |
+|---|---|---|
+| 1 | Design adjudication, six independent lanes | **Accepted with rulings.** `docs/round0-repair-plan.md`. Design only — no implementation. Five shortcuts explicitly rejected: char offsets on `CorpusNode`; a fabricated `"legacy-unknown"` `model_identity`; automated `p:`→minimal `t:` atom selection; collapsing alternative sufficient sets; externally-pinned embedding-similarity thresholds. In-place `corpus/split_map.json` edits also rejected. |
+| 2 | Five implementation lanes + one-command verifier | **Delivered at `230e7d5`.** Blockers 1–8, 10, 11, 13 addressed. The bug-catching storage test was *changed with the fix*, not deleted, by explicit ruling. |
+| 3 | Three independent adversarial reviews | **All PASS** (`3e82aa2`). Executed probes, not code reading. Component verdicts only — none is a freeze, none certifies a semantic QA label. Two non-blocking advisories recorded (leakage-check calibration minimum-dev-sample guard; custody audit-log id hygiene). |
+| 4 | Semantic audit of all 70 drafts | **Executed for the first time** (`9756649`). 70 audited, 59 approve unchanged, 11 repaired, 0 rejected. Largest finding: only **2 of 10** multi-hop labels genuine. Independent re-verification of all 11 repairs by a reviewer who did not author them; 9 of 11 stored hashes reproduced byte-for-byte. |
+| 5a | Dev expansion 10 → 60 | **50 new drafts, 0 approvals.** All `pending`; the author machine-checked the single-atom answerability test rather than forcing single-atom items into multi-hop. **Not independently verified** — this is the largest open risk. |
+| 5b | Atomization migration | **NOT STARTED.** Deliberately sequenced after the audit, per the Phase 1 cross-lane ruling, so the audit runs on paragraph spans first. |
+| 6 | Held-out authoring + sealing | **NOT STARTED.** `heldout` = 0 of a 120-item target. |
+| 7 | Distractor-scale corpus | **Started, not built.** 960 predeclared candidates, 940 fetched, 20 `not_found`, 940 raw snapshots on disk, fetcher and build script written — but **no tier manifests, no `scale_build_manifest.json`, no `distractor.jsonl`, and `corpus/scale/tests/` is empty (0 tests).** The de-duplication against the core 297 has never run. Per the Lane F ruling, scale must not block the repairs or the freeze. |
+| Freeze | `validate_freeze` on a real manifest | **Never passed.** Returns 7 gaps. |
+
+### Failures and incidents in this run — none erased
+
+- **Three upstream worker failures.** One **504** upstream idle timeout, one **503**, one **502**; each killed a worker with no deliverable. Policy applied per `AGENTS.md`: retry, then substitute to another explicitly free endpoint, record, continue. No paid fallback. *Recorded from the orchestrator's report; no repository artifact records session ids or endpoints, so these are not independently verifiable from the tree.*
+- **Abandoned check.** A check intended to demonstrate the one-group → same-split relaxation was started and **abandoned with no verdict**. Recorded as abandoned — not as a pass, and not as a failure of the relaxation. The relaxation was instead verified by executed probes in the Phase 3 abstention/split/custody review §4: train→train multi-group ALLOWED; train→heldout, train→dev, dev→heldout, declared-split mismatch and empty `source_articles` all REJECT; the retriever projection returns exactly `{question_id, text}` and raises on any extra key. *Also orchestrator-reported; the abandoned check left no artifact.*
+- **Real defect found by the verifier worker outside its own ownership:** `substrate/manifest.py` raised `cannot access local variable 'groups_raw' where it is not associated with a value` on the regime-B non-empty branch and again on the regime-B empty branch. The verifier recorded it rather than patching another worker's file; the orchestrator independently confirmed and fixed it; Phase 3 then probed **both** branches explicitly.
+- **Carried forward from earlier rounds, still live:** the Nemotron 3.5 Lightning Free silent non-response (no output, no files — an execution failure, not a completed audit); the Q9 reviewer hallucination overturned by direct corpus check; the T17 nonexistent-node and NBSP-mismatch claims, both unfounded; the recurring mis-serialized `draft_content_hash` incident whose root cause is that the semantic hash excludes only top-level `provenance`, so `hard_negatives[].reviewed`/`.reviewer` markers are hashed and any marker write after hash capture invalidates it; the 55 rewritten approval rationales and the unreconstructible pre-binding byte state for 5 files; the corpus review §6 arithmetic blemish; the fixed generator's 7/7 empty-evidence `"0.5"` fabrication and missing citations. Full inventory in `docs/STATUS.md` §5.
+
+### Current gate state, re-measured by the steward (read-only, 2026-10-01)
+
+`./scripts/verify_round0` → **exit 1**; 5 stages PASS, **4 FAIL**, 0 SKIP. Failing stages: 5
+`qa-validation` (`validate_qa` exits 1), 6 `question-label-partition` (`corpus/questions.json` and
+`corpus/heldout_labels.sealed.json` absent), 8 `freeze-manifest` (7 `validate_freeze` gaps), 9
+`leakage-control-artifacts` (`corpus/regime_b_excluded_articles.json` absent while regime B has 5
+non-empty groups).
+
+`./scripts/verify_round0 --code-only` → **exit 1**; 5 PASS / 1 FAIL / 1 SKIP. This contradicts the
+expectation recorded in `docs/verify-round0.md` §7 ("code-level only, expected: exit 0") and is
+caused entirely by stage 5 now failing with 50 pending-review dev drafts. Flagged for the verifier
+owner; not edited by the steward.
+
+Independently reproduced this pass: `tests` 321 OK, `data_tools/tests` 77 OK, `corpus/tests` 17 OK;
+`validate_qa` 120 drafts / 70 approved / 50 errors / exit 1, splits dev 60 / train 60 / **heldout 0**,
+runtime projection `6adafe9c…c861`; corpus 297 articles / 113,951 nodes / canonical hash
+`08aa2c53…089d1` MATCHING provenance / 218 groups / 205-44-48. The verifier's stage 1 reports 282
+tests rather than 321 because it exports `VERIFY_ROUND0_IN_VERIFIER=1` and
+`tests/test_verify_round0_entrypoint.py` then skips its own 39-test module to break the recursion
+cycle; 321 − 39 = 282. Not missing tests.
+
+**Stale pin warning.** The hint-free runtime projection `f7679798…bee0` is the **70-draft** projection
+and must never be reused. At 120 drafts the projection is `6adafe9c…c861`. Still-valid candidate
+pins, all pending freeze: corpus canonical `08aa2c53…089d1`, corpus file `98e1237e…d5f64`, prompt
+`d8580509…`, model sha `1adf0b11…6c3370`, chat template `55b2f4a26…8674a`.
+
+**REPAIR-ROUND COMPONENT GATES: CLOSED ON EXECUTED PROBES** (evidence semantics; trace / storage /
+freeze / threshold / verifier; abstention / split / custody / memory). **EVERYTHING ELSE REMAINS
+OPEN.** Corpus gate closed (`pilot-297-r1`); QA tooling gate closed for code validation only; QA
+content gate open; freeze artifacts absent.
+
+**ROUND 0 NOT FROZEN.** `corpus/questions.json` absent; sealed held-out labels absent and the
+held-out batch unstarted; `regime_b_excluded_articles.json` absent; `thresholds` empty; 7
+`validate_freeze` gaps open; 50 dev drafts unverified; scale layer unbuilt; no independent final
+freeze review; custody procedural only. No architecture implementations, held-out benchmark runs, or
+tournament conclusions are authorized by this state.
+
+### Open item the orchestrator must close
+
+The repair agenda's **blocker numbers 9 and 12 are not recorded in any repository artifact.** Only
+1–8, 10, 11 and 13 are named, in commit `230e7d5` and the three Phase 3 review reports. The steward
+placed the only un-numbered Phase 3 category (freeze fail-closed corruption detection) in slot 9 and
+left slot 12 explicitly unresolved rather than inventing text. The orchestrator must supply the
+wording of agenda items 9 and 12. See `docs/STATUS.md` §2 and §9.
+
+### Documentation steward pass — scope and findings
+
+Owned and written: `docs/STATUS.md` (new, the single authoritative status file),
+`docs/progress-ledger.md` (updated), and this appended section. Nothing else was modified — no
+source file, test, `staging/`, `corpus/`, `data_tools/`, `substrate/`, `eval/`, or
+`generator_runtime/`. Reruns were strictly read-only.
+
+Twelve stale or internally inconsistent documentation claims were found and **recorded rather than
+edited**, because each belongs to another role. They are tabulated in `docs/STATUS.md` §9. The three
+that matter most:
+
+1. `docs/verify-round0.md` §7/§8 — `--code-only` "expected: exit 0" and stage 5 `PASS` are both now
+   wrong.
+2. `data_tools/derive.py` lines 21–23 — the module docstring still states the **superseded one-group
+   multi-hop rule**, while `verify.py` and `substrate/splits.py` enforce the same-split rule. A
+   source file, so not steward-editable.
+3. Commit `814dcc1`'s own message says the scale fetcher and build script "are NOT yet written", yet
+   it commits both, and the fetch has already run. The commit message contradicts its own contents.
+
+`docs/STATUS.md` is now the single authoritative current-status file. Where any other doc disagrees
+with it, that doc is stale — and where this log's earlier 2026-09-28/29 sections disagree, the later
+dated sections win.
