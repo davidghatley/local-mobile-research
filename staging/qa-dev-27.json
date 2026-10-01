@@ -1,0 +1,56 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 identifies the territory via its 1956/1995 status changes; hop 2 supplies its area."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:delhi:00:000:02",
+        "t:delhi:00:000:03"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:delhi:00:000:02",
+          "text": "Delhi became a union territory on 1 November 1956 and the NCT in 1995."
+        },
+        {
+          "node_id": "t:delhi:00:000:03",
+          "text": "The NCT covers an area of 1484 km2."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "neighbor_sentence",
+      "node_id": "t:delhi:00:000:04",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "1484 km2",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:delhi",
+    "source_articles": [
+      "a:delhi"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "fac517e5a74b87e643990c8ac39be89417de4cec8ca6fdc5b52c24e0f766b4a2",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-27",
+  "question_type": "multihop",
+  "split": "dev",
+  "text": "The territory that became a union territory in 1956 and the NCT in 1995 covers what area?"
+}

@@ -1,0 +1,56 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 identifies Napoleon via his rise during the French Revolution; hop 2 supplies the coup by which he became First Consul."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:napoleon:00:000:01",
+        "t:napoleon:00:000:08"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:napoleon:00:000:01",
+          "text": "He rose to prominence as a general during the French Revolution and led a series of military campaigns across Europe and the Middle East during the French Revolutionary and Napoleonic Wars."
+        },
+        {
+          "node_id": "t:napoleon:00:000:08",
+          "text": "In November 1799 Napoleon engineered the Coup of 18 Brumaire against the French Directory and became First Consul of the Republic."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "neighbor_sentence",
+      "node_id": "t:napoleon:00:000:09",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "the Coup of 18 Brumaire",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "revolutions",
+    "source_articles": [
+      "a:napoleon"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "5723632140ff52f00d3f684426835f12b3702904cbe201cd99a27ee7d8649b5d",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-14",
+  "question_type": "multihop",
+  "split": "dev",
+  "text": "The general who rose to prominence during the French Revolution became First Consul by engineering which coup?"
+}

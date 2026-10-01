@@ -11,6 +11,11 @@ corpus/heldout_labels.sealed.json
 corpus/labels.json
 corpus/labels.sealed.json
 
+# Phase 7 scale layer: raw snapshots and the built distractor DAG are large
+# and are hash-pinned in corpus/scale/tier_*.json + scale_build_manifest.json.
+corpus/scale/raw/
+corpus/scale/distractor.jsonl
+
 # Python
 __pycache__/
 *.py[cod]

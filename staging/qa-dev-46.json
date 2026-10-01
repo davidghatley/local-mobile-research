@@ -1,0 +1,43 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:platypus:00:000:06",
+          "text": "In 1799, the first scientists to examine a preserved platypus body judged it a fake made of several animals sewn together."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "neighbor_sentence",
+      "node_id": "t:platypus:00:000:07",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "a fake made of several animals sewn together",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:platypus",
+    "source_articles": [
+      "a:platypus"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "23c552ceedf7c500580cbf66fe1f209501c032de4a0bd7d3e3ebbcf2ccb34086",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-46",
+  "question_type": "factoid",
+  "split": "dev",
+  "text": "What did the first scientists to examine a preserved platypus body judge it to be in 1799?"
+}

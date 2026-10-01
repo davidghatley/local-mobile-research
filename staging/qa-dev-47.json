@@ -1,0 +1,56 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 identifies the machine via Gutenberg's 1440 invention; hop 2 supplies the surfaces it prints on."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:printing_press:01:000:00",
+        "t:printing_press:00:000:00"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:printing_press:01:000:00",
+          "text": "Johannes Gutenberg invented the movable-type printing press around 1440, utilizing four existing technologies: the screw press, movable type, the codex book format, and mechanized paper production."
+        },
+        {
+          "node_id": "t:printing_press:00:000:00",
+          "text": "A printing press is a machine that applies pressure to transfer ink onto a surface made of paper, cloth, or a similar material."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "neighbor_sentence",
+      "node_id": "t:printing_press:00:000:01",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "paper, cloth, or a similar material",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:printing press",
+    "source_articles": [
+      "a:printing_press"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "e1c4baaa4c4ca23aeaacbe5c0a2217c46ce447af501c34b3f6ee2a674fb53444",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-47",
+  "question_type": "multihop",
+  "split": "dev",
+  "text": "The machine invented by Gutenberg around 1440 transfers ink onto surfaces made of what materials?"
+}

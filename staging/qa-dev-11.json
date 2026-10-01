@@ -1,0 +1,57 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 links the colour to the orange fruit via name derivation; hop 2 supplies the 2024 production leader for that fruit."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:orange_colour:01:000",
+        "t:orange_fruit:23:000:00"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:orange_colour:01:000",
+          "text": "The colour orange derives its name from the orange fruit.\nLifeboats in Arklow Harbour, Ireland. Orange is chosen for lifeboats and lifesaving jackets because of its high visibility.\nA young Buddhist monk in Laos.\nA Hindu Sadhu (pious man), in Rajasthan, wearing orange as a sacred colour.\nEmperor Naruhito, then Crown Prince, wears an orange sokutai.\nSaffron is both a spice and a widely used dye in Asia, especially in India."
+        },
+        {
+          "node_id": "t:orange_fruit:23:000:00",
+          "text": "In 2024, world production of oranges was 67 million tonnes, led by Brazil with 23% of the total, followed by China, Mexico, and Egypt (table)."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "linked_article",
+      "node_id": "t:orange_county_california:17:000:00",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "Brazil",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "orange",
+    "source_articles": [
+      "a:orange_colour",
+      "a:orange_fruit"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "9817c1e0ea333c1c9c6d692526e3454bd31ec05881917547395f4841f0cf2121",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-11",
+  "question_type": "multihop",
+  "split": "dev",
+  "text": "The colour that derives its name from a fruit shares its name with a crop whose 2024 world production of 67 million tonnes was led by which country?"
+}

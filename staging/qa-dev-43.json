@@ -1,0 +1,56 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 identifies the reaction as nuclei combining into a larger nucleus; hop 2 supplies how its mass difference manifests."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:nuclear_fusion:00:000:00",
+        "t:nuclear_fusion:00:000:01"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:nuclear_fusion:00:000:00",
+          "text": "Nuclear fusion is a reaction in which two or more atomic nuclei combine to form a larger nucleus."
+        },
+        {
+          "node_id": "t:nuclear_fusion:00:000:01",
+          "text": "The difference in mass between the reactants and products is manifested as either the release or the absorption of energy."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "sibling_paragraph",
+      "node_id": "p:nuclear_fusion:06:000",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "either the release or the absorption of energy",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:nuclear fusion",
+    "source_articles": [
+      "a:nuclear_fusion"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "e86f743c82f95c066dbc73bca39a222574f5c0b4c3ae41faf5b09906f0ca75be",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-43",
+  "question_type": "multihop",
+  "split": "dev",
+  "text": "In the reaction where atomic nuclei combine to form a larger nucleus, the mass difference between reactants and products is manifested as what?"
+}

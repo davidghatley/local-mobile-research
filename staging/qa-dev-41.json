@@ -1,0 +1,56 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 identifies the field via Feynman's 1959 talk; hop 2 supplies its operating scale."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "p:nanotechnology:01:000",
+        "t:nanotechnology:00:000:00"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "p:nanotechnology:01:000",
+          "text": "The concepts that seeded nanotechnology were first discussed in 1959 by physicist Richard Feynman in his talk There's Plenty of Room at the Bottom, in which he described the possibility of synthesis via direct manipulation of atoms."
+        },
+        {
+          "node_id": "t:nanotechnology:00:000:00",
+          "text": "Nanotechnology is the manipulation of matter with at least one dimension size measuring between 1 to 100 nanometers (nm)."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "neighbor_sentence",
+      "node_id": "t:nanotechnology:00:000:04",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "between 1 to 100 nanometers (nm)",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:nanotechnology",
+    "source_articles": [
+      "a:nanotechnology"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "5d082c287ca58b16f7feb8d78e6f7dc61708d55f055203644f8a9555a43c859e",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-41",
+  "question_type": "multihop",
+  "split": "dev",
+  "text": "The field seeded by concepts first discussed in Feynman's 1959 talk manipulates matter at what scale?"
+}

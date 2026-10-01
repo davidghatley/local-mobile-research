@@ -1,0 +1,56 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 identifies the crater via its burning since 1971; hop 2 supplies the sampling project of its first descender."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:darvaza_gas_crater:00:000:02",
+        "p:darvaza_gas_crater:04:000"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:darvaza_gas_crater:00:000:02",
+          "text": "The crater has been burning since 1971."
+        },
+        {
+          "node_id": "p:darvaza_gas_crater:04:000",
+          "text": "In 2013, George Kourounis became the first person to set foot at the bottom of the crater; he was gathering soil samples for the Extreme Microbiome Project. The descent was sponsored by National Geographic and featured in an episode of the National Geographic Channel series Die Trying."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "neighbor_sentence",
+      "node_id": "t:darvaza_gas_crater:00:000:05",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "the Extreme Microbiome Project",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:darvaza gas crater",
+    "source_articles": [
+      "a:darvaza_gas_crater"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "966072231ad8a90fedce745609b16fff1f148eecf527f0118b6bc5bf93c4b356",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-25",
+  "question_type": "multihop",
+  "split": "dev",
+  "text": "The crater that has been burning since 1971 was first descended to the bottom by a person gathering soil samples for which project?"
+}

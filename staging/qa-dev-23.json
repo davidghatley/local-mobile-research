@@ -1,0 +1,56 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 fixes the basin via its west-equatorial-African location; hop 2 supplies the larger rainforest."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:congo_basin:00:000:01",
+        "t:congo_basin:00:000:04"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:congo_basin:00:000:01",
+          "text": "The Congo Basin is located in Central Africa, in a region known as west equatorial Africa."
+        },
+        {
+          "node_id": "t:congo_basin:00:000:04",
+          "text": "The rainforest in the Congo Basin is the largest rainforest in Africa and second only to the Amazon rainforest in size, with 300 million hectares compared to the 800 million hectares in the Amazon."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "neighbor_sentence",
+      "node_id": "t:congo_basin:00:000:03",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "the Amazon rainforest",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:congo basin",
+    "source_articles": [
+      "a:congo_basin"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "b8a2c4065c50fea192e06b61f88844e0d28b4eb8d4c007d93cfff94001625abf",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-23",
+  "question_type": "multihop",
+  "split": "dev",
+  "text": "The basin located in west equatorial Africa has a rainforest second in size only to which forest?"
+}

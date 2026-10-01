@@ -1,0 +1,56 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 identifies the country via its two capitals; hop 2 supplies its largest and most populous city."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:south_africa:00:000:04",
+        "t:south_africa:00:000:05"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:south_africa:00:000:04",
+          "text": "Pretoria is the administrative capital, while Cape Town, as the seat of Parliament, is the legislative capital, and Bloemfontein is regarded as the judicial capital."
+        },
+        {
+          "node_id": "t:south_africa:00:000:05",
+          "text": "The largest and most populous city is Johannesburg, followed by Cape Town and Durban."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "neighbor_sentence",
+      "node_id": "t:south_africa:00:000:03",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "Johannesburg",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:south africa",
+    "source_articles": [
+      "a:south_africa"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "e8ea1730bf726cb3fc4d43ece408f86d909e4e22176caf182ff53b257e66c918",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-53",
+  "question_type": "multihop",
+  "split": "dev",
+  "text": "The country whose administrative capital is Pretoria and whose legislative capital is Cape Town has which largest and most populous city?"
+}

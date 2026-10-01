@@ -1,0 +1,56 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 identifies the radiation via its wavelength band; hop 2 supplies what produces it."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:x_ray:00:000:00",
+        "p:x_ray:13:000"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:x_ray:00:000:00",
+          "text": "An X-ray is a form of high-energy electromagnetic radiation with a wavelength shorter than those of ultraviolet rays and longer than those of gamma rays."
+        },
+        {
+          "node_id": "p:x_ray:13:000",
+          "text": "Whenever charged particles (electrons or ions) of sufficient energy hit a material, X-rays are produced."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "token_overlap_nearmiss",
+      "node_id": "p:x_ray:09:000",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "charged particles (electrons or ions) of sufficient energy",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:x-ray",
+    "source_articles": [
+      "a:x_ray"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "a5011b19d4e6c9b40ff1ecbf45b28ff7244d272e0155ab8d769c3b9435edfead",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-57",
+  "question_type": "multihop",
+  "split": "dev",
+  "text": "The high-energy radiation with a wavelength between ultraviolet and gamma rays is produced whenever what hits a material?"
+}

@@ -1,0 +1,56 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 identifies the town via the Sherman Hill Summit approach; hop 2 supplies the monument the town gives access to."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:buford_wyoming:01:000:01",
+        "t:buford_wyoming:01:000:02"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:buford_wyoming:01:000:01",
+          "text": "The town is along the eastern approach to Sherman Hill Summit, the highest point along all of the transcontinental Interstate 80, Lincoln Highway and the Overland Route."
+        },
+        {
+          "node_id": "t:buford_wyoming:01:000:02",
+          "text": "Buford is also an access to reach the Ames Monument, which marks the highest point along the original routing of the First transcontinental railroad."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "neighbor_sentence",
+      "node_id": "t:buford_wyoming:01:000:00",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "the Ames Monument",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:buford, wyoming",
+    "source_articles": [
+      "a:buford_wyoming"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "6371e95a4d83deeb245ee446ac5f7861ff4aeeddf4a72600fef409eea96f7b1e",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-19",
+  "question_type": "multihop",
+  "split": "dev",
+  "text": "The town along the eastern approach to Sherman Hill Summit, the highest point of the transcontinental Interstate 80, provides access to reach which monument?"
+}

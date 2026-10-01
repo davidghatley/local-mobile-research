@@ -1,0 +1,56 @@
+{
+  "evidence": {
+    "hop_glosses": [
+      "Hop 1 identifies the material via doping-modified conductivity; hop 2 supplies what two differently doped regions form."
+    ],
+    "is_multi_hop": true,
+    "reference_hop_chains": [
+      [
+        "t:semiconductor:00:000:01",
+        "t:semiconductor:00:000:02"
+      ]
+    ],
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:semiconductor:00:000:01",
+          "text": "Its conductivity can be modified by adding impurities (\"doping\") to its crystal structure."
+        },
+        {
+          "node_id": "t:semiconductor:00:000:02",
+          "text": "When two regions with different doping levels are present in the same crystal, they form a semiconductor junction."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "sibling_paragraph",
+      "node_id": "p:semiconductor:04:000",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "a semiconductor junction",
+    "answerability": "answerable"
+  },
+  "meta": {
+    "group": "solo:semiconductor",
+    "source_articles": [
+      "a:semiconductor"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "bf950d94abf676e430b6593075c405174f7a6608daf59de53ba74230c38c2598",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-49",
+  "question_type": "multihop",
+  "split": "dev",
+  "text": "The material whose conductivity can be modified by adding impurities to its crystal structure forms what when two differently doped regions share a crystal?"
+}

@@ -1,0 +1,72 @@
+{
+  "evidence": {
+    "is_multi_hop": false,
+    "sufficient_sets": [
+      [
+        {
+          "node_id": "t:south_africa:00:000:04",
+          "text": "Pretoria is the administrative capital, while Cape Town, as the seat of Parliament, is the legislative capital, and Bloemfontein is regarded as the judicial capital."
+        }
+      ],
+      [
+        {
+          "node_id": "t:south_africa:13:000:11",
+          "text": "The fourth chapter of the constitution states \"The seat of Parliament is Cape Town, but an Act of Parliament enacted in accordance with section 76(1) and (5) may determine that the seat of Parliament is elsewhere.\" The country's three branches of government are split over different cities."
+        }
+      ],
+      [
+        {
+          "node_id": "t:south_africa:13:000:12",
+          "text": "Cape Town, as the seat of Parliament, is the legislative capital; Pretoria, as the seat of the president and cabinet, is the administrative capital; and Bloemfontein is the seat of the Supreme Court of Appeal, and is regarded as the judicial capital; although the highest court, the Constitutional Court of South Africa has been based in Johannesburg since 1994."
+        }
+      ]
+    ]
+  },
+  "hard_negatives": [
+    {
+      "negative_type": "same_group_distractor",
+      "node_id": "t:south_africa:00:000:02",
+      "reviewed": true
+    }
+  ],
+  "labels": {
+    "answer_text": "Ambiguous between Pretoria, Cape Town and Bloemfontein readings - see labels.readings",
+    "answerability": "ambiguous",
+    "readings": [
+      {
+        "answer": "Pretoria",
+        "reading_text": "The administrative capital",
+        "sufficient_set": 0
+      },
+      {
+        "answer": "Cape Town",
+        "reading_text": "The legislative capital, seat of Parliament",
+        "sufficient_set": 1
+      },
+      {
+        "answer": "Bloemfontein",
+        "reading_text": "The judicial capital",
+        "sufficient_set": 2
+      }
+    ]
+  },
+  "meta": {
+    "group": "solo:south africa",
+    "source_articles": [
+      "a:south_africa"
+    ]
+  },
+  "provenance": {
+    "author": "round0-qa-dev-author",
+    "author_model": "opencode/muse-spark-1.3-contributor-free",
+    "content_hash": "eab54c2b9dfb1a77a2ae868bcd58f92585365e418d4782fbf4fe67e8929ab04a",
+    "decision": "pending",
+    "rationale": "Draft authored; awaiting independent review and approval. Not yet verified.",
+    "verifier": "pending-independent-reviewer",
+    "verifier_model": "pending-independent-model"
+  },
+  "question_id": "qa-dev-54",
+  "question_type": "ambiguous",
+  "split": "dev",
+  "text": "What is the capital of South Africa?"
+}
