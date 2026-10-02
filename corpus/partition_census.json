@@ -1,22 +1,29 @@
 {
-  "revision": "public-partition-census-r1",
-  "purpose": "Exact expected census of the worker-visible question partition. This file exists so a CONSISTENT truncation cannot pass: deleting staging drafts and the matching partition entries leaves every internal cross-check self-consistent, so only an external pin can detect it.",
-  "expected": {
-    "total": 206,
-    "by_split": {
-      "dev": 59,
-      "shadow_dev": 87,
-      "train": 60
-    }
-  },
   "approved_drafts": {
-    "total": 206,
     "by_split": {
       "dev": 59,
       "shadow_dev": 87,
       "train": 60
-    }
+    },
+    "total": 206
   },
+  "authored_total": 209,
+  "expected": {
+    "by_split": {
+      "dev": 59,
+      "shadow_dev": 87,
+      "train": 60
+    },
+    "total": 206
+  },
+  "invariants": [
+    "corpus/questions.json must contain exactly expected.total entries",
+    "per-split counts must match expected.by_split exactly",
+    "the staging drafts must contain exactly approved_drafts.total approved items with matching per-split counts",
+    "no rejected id may appear in the partition or among approved drafts",
+    "authored_total == expected.total + rejected_quarantined.count"
+  ],
+  "purpose": "Exact expected census of the worker-visible question partition. This file exists so a CONSISTENT truncation cannot pass: deleting staging drafts and the matching partition entries leaves every internal cross-check self-consistent, so only a pin held outside those artifacts can detect it. NOTE: this file lives INSIDE the repository, which makes it external to the artifacts it checks but NOT external to the repository. A commit that edits the data and this pin together defeats it. The trust root that actually holds is the digest of this file recorded OUTSIDE git, in <LMR_PRIVATE_EVAL_DIR>/freeze_census_pin.json, which stage 8 checks and fails closed on absence or disagreement.",
   "rejected_quarantined": {
     "count": 3,
     "ids": [
@@ -26,12 +33,5 @@
     ],
     "note": "Authored, independently reviewed, and rejected on semantic grounds. Retained under staging/rejected/ and deliberately NOT published. Authored_total = expected.total + rejected_quarantined.count = 209."
   },
-  "authored_total": 209,
-  "invariants": [
-    "corpus/questions.json must contain exactly expected.total entries",
-    "per-split counts must match expected.by_split exactly",
-    "the staging drafts must contain exactly approved_drafts.total approved items with matching per-split counts",
-    "no rejected id may appear in the partition or among approved drafts",
-    "authored_total == expected.total + rejected_quarantined.count"
-  ]
+  "revision": "public-partition-census-r1"
 }

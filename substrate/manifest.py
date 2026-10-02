@@ -163,6 +163,11 @@ class RunManifest:
   # and do not carry a census, so the requirement is opt-in and must be
   # declared by the caller. The real verifier declares it.
   require_partition_census: bool = False
+  # Digest of corpus/partition_census.json. Recorded here so the freeze manifest
+  # (a durable artifact) binds the census to the run, and so the custodian can
+  # record the same digest OUTSIDE the repository. A co-edit of data + census
+  # is only detectable by comparing against a digest held outside git.
+  partition_census_sha256: str = ""
   public_reference_pins_sha256: str = "TBD"
 
   def to_dict(self) -> dict:
@@ -189,6 +194,10 @@ class RunManifest:
       "regime_a_heldout_groups": list(self.regime_a_heldout_groups),
       "regime_b_document_heldout_groups": list(self.regime_b_document_heldout_groups),
       "public_reference_pins_sha256": self.public_reference_pins_sha256,
+      "require_partition_census": bool(self.require_partition_census),
+      "partition_census_sha256": self.partition_census_sha256,
+      "questions_sha256": self.questions_sha256,
+      "sealed_labels_sha256": self.sealed_labels_sha256,
     }
 
   def write(self, path: str) -> None:
@@ -228,6 +237,7 @@ class RunManifest:
       regime_a_heldout_groups=list(d.get("regime_a_heldout_groups", [])),
       regime_b_document_heldout_groups=list(d.get("regime_b_document_heldout_groups", [])),
       require_partition_census=bool(d.get("require_partition_census", False)),
+      partition_census_sha256=d.get("partition_census_sha256", ""),
       public_reference_pins_sha256=d.get("public_reference_pins_sha256", "TBD"),
     )
 
@@ -549,10 +559,24 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
     # entries deleted together) leaves the drift check self-satisfied, so the
     # only thing that detects it is a pin held outside the artifacts it checks.
     census_path = os.path.join(root, PARTITION_CENSUS_FILE)
-    if manifest.require_partition_census and not os.path.isfile(census_path):
+    census_present = os.path.isfile(census_path)
+    if manifest.require_partition_census and not census_present:
       gaps.append(f"missing census artifact: {PARTITION_CENSUS_FILE}")
-    elif not os.path.isfile(census_path):
-      gaps = gaps  # census not required by this manifest (synthetic fixture)
+    elif census_present and manifest.partition_census_sha256:
+      # Digest binding. This is INDEPENDENT of the content checks below: an
+      # earlier version made them alternatives, so recording a digest silently
+      # disabled the count checks. Two separate questions, two separate checks.
+      try:
+        actual = sha256_file(census_path)
+        if actual != manifest.partition_census_sha256:
+          gaps.append(
+            "partition_census_sha256 mismatch: the census changed since this "
+            "freeze manifest was built (a co-edit of data + census)"
+          )
+      except OSError as exc:
+        gaps.append(f"census artifact unreadable: {str(exc)[:120]}")
+    if not census_present:
+      pass  # census not required by this manifest (synthetic fixture)
     else:
       try:
         with open(census_path, "r", encoding="utf-8") as fh:

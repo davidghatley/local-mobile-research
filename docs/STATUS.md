@@ -8,7 +8,10 @@ Supersedes the pre-repair status claims. See `docs/progress-ledger.md` and
 `docs/orchestration-log.md` for the full history including the mistakes that
 produced the previous `NOT FROZEN` verdict.
 
-## Verdict: code-level verification PASSES (10/10); freeze gate NOT yet satisfied
+## Verdict: code-level verification PASSES (10/10); freeze gate NOT satisfied
+
+**Five independent reviews have run. All five returned `REPAIR REQUIRED`. No
+reviewer has returned PASS, so no freeze tag exists and Round 1 must not begin.**
 
 The four load-bearing issues from the external review of `f819d9b` are
 repaired, and the private test boundary exists outside git and is sealed.
@@ -40,7 +43,7 @@ LMR_PRIVATE_EVAL_DIR=/home/davidhatley/Projects/testing/local_mobile_research-pr
 
 | Stage | What it proves | Result |
 |---|---|---|
-| 1 | shared substrate tests (411) | PASS |
+| 1 | shared substrate tests (418) | PASS |
 | 2 | data-tools tests (77) | PASS |
 | 3 | corpus converter tests (17) | PASS |
 | 4 | corpus structure + hash | PASS |
@@ -60,11 +63,15 @@ found something the others missed:
 | v2 | a **third** such item in the dev split, found only by sweeping the whole set instead of sampling |
 | v3 | the opaque private manifest was **git-ignored and never committed**; stage 6 **passed on an empty partition**; stage 9 passed while cross-checking **zero** pins |
 | v4 | a **consistent truncation** — deleting staging drafts and the matching partition entries *together* — passed stages 5, 6 **and** 8, because every internal cross-check stayed self-consistent |
+| v5 | the fix for v4 was itself defeatable: the census lives in git, so editing the data **and** the census together passed everything again. Also found `RunManifest.write()` never called — the freeze left a verdict, not an artifact |
 
-All are repaired. The truncation hole is closed by `corpus/partition_census.json`,
-a pin held outside the artifacts it checks; stages 5, 6 and `validate_freeze` now
-require it, and `tests/test_partition_census.py` rebuilds the truncation on a
-throwaway copy and asserts each stage catches it. See
+All are repaired. The truncation hole is closed by `corpus/partition_census.json`
+— a pin held outside the artifacts it checks — plus its digest recorded **outside
+git** in `<LMR_PRIVATE_EVAL_DIR>/freeze_census_pin.json`, which is the actual trust
+root: an in-repo pin alone is defeated by editing the data and the pin in the same
+commit, and review v5 demonstrated exactly that. Stages 5, 6 and 8 require the
+pin; stage 8 additionally fails closed when the out-of-repo digest is absent or
+disagrees, and `tests/test_census_trust_root.py` reproduces the co-edit. See
 `docs/round0-independent-freeze-review-v{,2,3,4}.md` and `docs/progress-ledger.md`
 §8.5–§8.10.
 
@@ -213,11 +220,13 @@ closed: with no seal it is REJECT, never PASS.
 3. **The leakage gate's hash-only comparison is not yet bound to the seal.** It
    correctly refuses to issue PASS, but a real sealed comparison must be
    implemented before Round 1 teams can receive a meaningful verdict.
-4. **15 ambiguous items put a prose disjunction in `answer_text`, and 5 of them
-   have an EMPTY `answer_text`.** Any scorer comparing `answer_text` to model
-   output will score all of them wrong. No such scorer exists yet; the
-   orchestrator must decide how ambiguity is scored before that split is used
-   for anything quantitative.
+4. **Ambiguity and unanswerability are not scorable as recorded.** Of the 15
+   ambiguous items, 10 put a prose disjunction in `answer_text` and 5 have an
+   EMPTY `answer_text`; the 13 unanswerable items also carry an empty
+   `answer_text` plus an `absent_reason`. No scorer exists, so nothing is
+   silently wrong yet, but any exact-match scorer would score all of them wrong.
+   The orchestrator must define how ambiguity and abstention are graded before
+   that split is used for anything quantitative.
 5. **Calibration thresholds are declared, not fitted.** The freeze manifest
    records the policy; Round 1 must select thresholds on dev/shadow-dev and
    freeze them before its own private run.

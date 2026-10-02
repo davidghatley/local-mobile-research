@@ -63,8 +63,15 @@ ledger is still a false claim, so it is corrected rather than quietly rewritten.
 
 - **Comparison items (17)**: Only qa-dev-24 pre-states both compared quantities. All others describe the entities to compare but withhold the decisive magnitudes/dates.
 - **Multihop items (33)**: All require the evidence for the final hop; the question supplies only the bridge-entity context.
-- **Factoid items (121)**: No answer text appears in the question.
-- **Ambiguous/Unanswerable (26)**: By design; not this defect class.
+- **Factoid items (128)**: No answer text appears in the question.
+- **Ambiguous (15)**: By design; not this defect class.
+- **Unanswerable items (13)**: By design; not this defect class.
+
+(Independent freeze review v5 caught that this breakdown originally read
+"121 factoid" and "26 ambiguous/unanswerable" when the measured figures are
+**128 factoid** and **15 ambiguous + 13 unanswerable = 28**. The headline count
+was corrected earlier; the per-bucket figures were missed until then. Both are
+now measured from the approved set: 128 + 33 + 17 + 15 + 13 = 206.)
 
 ---
 

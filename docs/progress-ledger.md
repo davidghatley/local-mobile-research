@@ -547,13 +547,26 @@ consistent corruption.** Every check the project had was of that kind — partit
 vs drafts, drafts vs split map, manifest vs artifacts. All of them are necessary.
 None of them is sufficient.
 
-#### The fix is an external pin
+#### The fix is a pin outside the artifacts it checks
+
+Note the wording, because the first version of this section got it wrong and an
+independent review caught it: the census file lives **inside** the repository.
+It is external to the *artifacts it checks* (drafts, partition), not external to
+the repository. That distinction is not pedantic — an in-repo pin is defeated by
+editing the data and the pin in the same commit, which is exactly what review v5
+demonstrated. The trust root that actually holds is a digest recorded **outside
+git**, described below.
 
 `corpus/partition_census.json` holds the expected counts per split, the
 quarantined ids, and the accounting identity `authored_total = published +
 rejected`. It is a file that is not part of what it checks. Stages 5, 6 and
 `validate_freeze` now require it and compare exactly — not "at least", because a
 floor also passes a truncation that stops short of it.
+
+A digest of the census is recorded in the custodian's private directory
+(`freeze_census_pin.json`, outside git) alongside the private-test seal, and
+stage 8 compares the live census against it. That out-of-repo digest is the real
+trust root; the in-repo census is the thing being protected.
 
 `RunManifest.require_partition_census` makes the requirement explicit and
 opt-in, so the synthetic freeze fixtures (which build their own root and carry no
@@ -577,3 +590,72 @@ quarantined-id-reappearing cases. The truncated tree that previously reported
 - `check_training_overlap` can never return PASS by construction. That is
   disclosed and deliberate — but it means Round 1 training clearance is
   unimplemented, and it is recorded as such rather than presented as working.
+
+### 8.11 Fifth freeze review: the pin that protects the pin
+
+A fifth reviewer (`opencode/space-bunny-free`) tested the v4 fix rather than
+trusting it, and found it defeatable.
+
+**The census pin lives in git, so it can be edited with the data.** Truncate the
+staging drafts and the partition to 100, then edit
+`corpus/partition_census.json` so the counts agree — and stages 5, 6 and 8 all
+PASS again. The freeze printed 10/10 while missing 106 of 206 questions. Every
+check inside the repository agreed with every other check inside the repository,
+and the one file whose whole job was to disagree lived in the same place the
+data did.
+
+Two things were wrong beyond the missing defence:
+
+1. **Six documents called the in-repo census an "external pin"**, including
+   §8.10 of this ledger — whose own text states the correct principle
+   ("no check compared the system to anything *outside* it") and then contradicts
+   it two paragraphs later. The file is external to the *artifacts* it checks.
+   It is not external to the repository. A test now fails if our own documents
+   overstate it. The review documents are excluded from that test: rewriting a
+   reviewer's words to match ours would be the same sin as rewriting a historical
+   error, which this project has now been caught at three times.
+
+2. **`RunManifest.write()` exists and was never called.** The freeze produced a
+   terminal verdict, not a durable artifact. There was no freeze tag, no manifest
+   file, and no hash of the census recorded anywhere outside git.
+
+#### The fix
+
+- The census digest is now recorded **outside the repository**, in
+  `<LMR_PRIVATE_EVAL_DIR>/freeze_census_pin.json`, beside the private-test seal
+  and under the same trust model (procedural and workspace-based, not a kernel
+  boundary). Stage 8 compares the live census against it and **fails closed**
+  when the pin is absent or disagrees.
+- `RunManifest.partition_census_sha256` binds the census to the freeze manifest.
+  Building it revealed a third bug: the digest check had been written as an
+  `elif` alternative to the content checks, so **recording a digest silently
+  disabled the count checks**. Two separate questions now get two separate
+  checks.
+- `tests/test_census_trust_root.py` reproduces the co-edit and asserts stage 8
+  catches it, asserts the pin is outside the repository, asserts a missing pin
+  is a failure rather than silence, and pins the wording rule.
+
+#### The pattern, third statement
+
+Three review rounds have now found the same shape at three scales:
+
+| scale | what every internal check agreed with |
+|---|---|
+| one item | the question text restating the fact its evidence supplied |
+| the partition | the partition and the drafts agreeing on a truncated set |
+| the whole freeze | the census agreeing with the data it was supposed to constrain |
+
+An internal consistency check is necessary and never sufficient. The only thing
+that catches a consistent corruption is something held outside it.
+
+#### v5's judgement on convergence
+
+The reviewer separated the two questions. The **code** has converged — 26 of 26
+wrong-result mutations it tried were killed by real tests, and `eval/metrics.py`
+and `eval/support.py` are genuine implementations rather than stubs. The
+**integrity procedure** had not. Five reviewers each found a real hole using a
+method the previous four lacked; the methods escalated in scope rather than by
+luck. A sixth bounded method will also find something.
+
+No reviewer has returned PASS. **The Round 0 freeze gate remains unsatisfied and
+no freeze tag exists.**

@@ -1222,9 +1222,10 @@ def stage_freeze_manifest():
     "public_reference_pins_sha256": sha_or_tbd(pins_rel),
     "regime_a_heldout_groups": regime_a_groups,
     "regime_b_document_heldout_groups": regime_b_groups,
-    # The census pin is mandatory for the real freeze: it is the only external
-    # check that survives a consistent truncation of drafts + partition together.
+    # The census pin is mandatory for the real freeze: it is the only check that
+    # survives a consistent truncation of drafts + partition together.
     "require_partition_census": True,
+    "partition_census_sha256": sha_or_tbd(CENSUS_REL),
   }
   # Tolerate fields added by the owning worker without guessing their names.
   known = {f.name for f in dataclasses.fields(RunManifest)}
@@ -1240,6 +1241,39 @@ def stage_freeze_manifest():
   check = validate_freeze(ROOT, manifest)
   detail("validate_freeze: passed=%s, %d gap(s)"
          % (check.passed, len(check.gaps)))
+
+  # A freeze must leave a DURABLE artifact, not only a terminal verdict. The
+  # manifest is written to the scratch dir (never into the repo) and the census
+  # digest is cross-checked against the custodian pin held OUTSIDE the
+  # repository, when one exists. An in-repo pin alone cannot detect a co-edit of
+  # the data and the pin together; a digest recorded outside git can.
+  freeze_pin = os.path.join(os.environ.get("LMR_PRIVATE_EVAL_DIR", ""),
+                            "freeze_census_pin.json") if os.environ.get(
+                              "LMR_PRIVATE_EVAL_DIR") else ""
+  census_digest = sha_or_tbd(CENSUS_REL)
+  if freeze_pin and os.path.isfile(freeze_pin):
+    try:
+      with open(freeze_pin, "r", encoding="utf-8") as pf:
+        pin = json.load(pf)
+      pinned = pin.get("partition_census_sha256")
+      if pinned and pinned != census_digest:
+        detail("census digest MISMATCH vs out-of-repo freeze pin: the census "
+               "changed after the pin was recorded (data+census co-edit)")
+        mark_fail()
+      else:
+        detail("census digest MATCHES out-of-repo freeze pin (%s)"
+               % census_digest[:16])
+    except (ValueError, OSError) as exc:
+      detail("out-of-repo freeze pin unreadable: %s" % str(exc)[:120])
+      mark_fail()
+  elif freeze_pin:
+    detail("out-of-repo freeze pin ABSENT at %s: the census has no trust root "
+           "outside the repository, so a co-edit cannot be detected"
+           % freeze_pin)
+    mark_fail()
+  else:
+    detail("LMR_PRIVATE_EVAL_DIR unset: no out-of-repo census pin can be "
+           "checked (UNVERIFIED, not satisfied)")
   if check.gaps:
     # Gaps carry ids / counts / hashes only, by construction of validate_freeze.
     for gap in check.gaps[:40]:
