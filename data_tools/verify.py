@@ -198,7 +198,7 @@ def verify_draft(rec: dict, nodes: list[dict], *, article_index: dict,
           continue
         if use_map_splits:
           asplit = map_groups.get(ag)
-          if asplit not in ("train", "dev", "heldout"):
+          if asplit not in ("train", "dev", "shadow_dev", "heldout"):
             errors.append(f"{qid}: set {i} span {j} group split unresolvable")
             continue
         else:

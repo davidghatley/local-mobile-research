@@ -49,7 +49,7 @@
         "Harvard University",
         "University of Cambridge"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "columbia": {
       "articles": [
@@ -67,7 +67,7 @@
         "Coronavirus",
         "Solar corona"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "delta": {
       "articles": [
@@ -94,7 +94,7 @@
         "Jaguar (supercomputer)",
         "Jaguar Cars"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "java": {
       "articles": [
@@ -112,7 +112,7 @@
         "Lincoln Motor Company",
         "Lincolnshire"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "london": {
       "articles": [
@@ -222,7 +222,7 @@
       "articles": [
         "Acid"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:adansonia": {
       "articles": [
@@ -252,7 +252,7 @@
       "articles": [
         "American Civil War"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:amsterdam": {
       "articles": [
@@ -306,7 +306,7 @@
       "articles": [
         "Australia"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:axolotl": {
       "articles": [
@@ -378,7 +378,7 @@
       "articles": [
         "Buenos Aires"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:buford, wyoming": {
       "articles": [
@@ -390,7 +390,7 @@
       "articles": [
         "Cactus"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:carthage": {
       "articles": [
@@ -420,7 +420,7 @@
       "articles": [
         "Cheese"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:chemical bond": {
       "articles": [
@@ -480,7 +480,7 @@
       "articles": [
         "Dead Sea"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:delhi": {
       "articles": [
@@ -552,7 +552,7 @@
       "articles": [
         "FIFA World Cup"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:franklin's lost expedition": {
       "articles": [
@@ -570,7 +570,7 @@
       "articles": [
         "Gdańsk"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:grand canyon": {
       "articles": [
@@ -594,7 +594,7 @@
       "articles": [
         "Great Zimbabwe"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:guitar": {
       "articles": [
@@ -648,7 +648,7 @@
       "articles": [
         "HIV/AIDS"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:honolulu": {
       "articles": [
@@ -666,7 +666,7 @@
       "articles": [
         "Hummingbird"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:hundred years' war": {
       "articles": [
@@ -744,7 +744,7 @@
       "articles": [
         "Kyiv"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:lake baikal": {
       "articles": [
@@ -774,7 +774,7 @@
       "articles": [
         "Ludwig van Beethoven"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:manatee": {
       "articles": [
@@ -804,7 +804,7 @@
       "articles": [
         "Mary Celeste"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:meteora": {
       "articles": [
@@ -834,7 +834,7 @@
       "articles": [
         "Moai"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:mumbai": {
       "articles": [
@@ -876,7 +876,7 @@
       "articles": [
         "Neutron star"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:nuclear fission": {
       "articles": [
@@ -918,7 +918,7 @@
       "articles": [
         "Operating system"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:oslo": {
       "articles": [
@@ -930,7 +930,7 @@
       "articles": [
         "Oymyakon"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:particle physics": {
       "articles": [
@@ -996,7 +996,7 @@
       "articles": [
         "Plitvice Lakes National Park"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:poison dart frog": {
       "articles": [
@@ -1092,7 +1092,7 @@
       "articles": [
         "Saola"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:semiconductor": {
       "articles": [
@@ -1122,7 +1122,7 @@
       "articles": [
         "Silk Road"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:sloth": {
       "articles": [
@@ -1188,7 +1188,7 @@
       "articles": [
         "Superconductivity"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:supernova": {
       "articles": [
@@ -1242,7 +1242,7 @@
       "articles": [
         "Tasmanian devil"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:tbilisi": {
       "articles": [
@@ -1272,7 +1272,7 @@
       "articles": [
         "Thermodynamics"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:tokyo": {
       "articles": [
@@ -1308,7 +1308,7 @@
       "articles": [
         "Virtual reality"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:wellington": {
       "articles": [
@@ -1344,7 +1344,7 @@
       "articles": [
         "Zurich"
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     },
     "solo:çatalhöyük": {
       "articles": [
@@ -1385,7 +1385,7 @@
         "Washington (state)",
         "Washington, D.C."
       ],
-      "split": "heldout"
+      "split": "shadow_dev"
     }
   },
   "policy": "group-aware seeded hash 70/15/15; confusable groups kept intact",

@@ -1134,21 +1134,25 @@ def stage_leakage_artifacts():
     return finish()
 
   detail("regime metadata derived from split map: regime A groups=%d, "
-         "regime B groups=%d"
+         "regime B paired-condition groups=%d (B overlaps A by design: same "
+         "questions, two conditions, not a disjoint population)"
          % (len(meta.regime_a_groups), len(meta.regime_b_groups)))
 
   with open(sm_path, "r", encoding="utf-8") as fh:
     split_map = json.load(fh)
-  # Legacy "heldout" accepted alongside forward "shadow_dev" (Phase 1);
-  # Phase 3 reworks regimes to paired conditions (TODO, not here).
+  # Forward "shadow_dev" first; legacy "heldout" accepted (Phase 1 compat).
+  # Regime B is a paired condition over the same questions (Phase 3), so B
+  # groups OVERLAP A by design; what is checked here is that B groups key
+  # on regime-split groups, never train/dev/private_test.
   bad_group = [g.group_key for g in meta.regime_b_groups
                if split_map.get("groups", {}).get(g.group_key, {}).get("split")
-               not in ("heldout", "shadow_dev")]
+               not in ("shadow_dev", "heldout")]
   if bad_group:
     detail("regime B contains non-heldout/shadow_dev group(s): %s" % bad_group[:3])
     mark_fail()
   else:
-    detail("regime B groups are a strict subset of heldout/shadow_dev groups: OK")
+    detail("regime B paired-condition groups key on shadow_dev/heldout groups: OK "
+           "(paired over same questions, not a disjoint population)")
 
   excluded_rel = "corpus/regime_b_excluded_articles.json"
   excluded_path = os.path.join(ROOT, excluded_rel)
@@ -1179,6 +1183,24 @@ def stage_leakage_artifacts():
                % len(excluded_titles))
   else:
     detail("regime B is empty; excluded-article artifact not required")
+
+  # Paired-condition artifact (informational, non-gating): same question ids
+  # under corpus_known + document_heldout. Presence is reported, never
+  # required for a PASS here.
+  paired_rel = "corpus/regime_b_paired.json"
+  paired_path = os.path.join(ROOT, paired_rel)
+  if os.path.isfile(paired_path):
+    try:
+      with open(paired_path, "r", encoding="utf-8") as fh:
+        paired = json.load(fh)
+      n_pairs = len(paired.get("pairings", [])) if isinstance(paired, dict) else 0
+      detail("regime B paired-condition artifact present: %d paired question(s) "
+             "(A-on-paired, B-on-same-paired, delta)" % n_pairs)
+    except (ValueError, OSError) as exc:
+      detail("regime B paired-condition artifact unreadable: %s" % str(exc)[:120])
+  else:
+    detail("regime B paired-condition artifact absent (informational only): %s"
+           % paired_rel)
 
   if not FAILED and not SKIPPED:
     mark_pass()

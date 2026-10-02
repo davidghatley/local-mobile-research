@@ -1,0 +1,1016 @@
+{
+  "conditions": [
+    "corpus_known",
+    "document_heldout"
+  ],
+  "notes": [
+    "SELECTION RULE: shadow_dev staging drafts in Regime B paired-condition groups with nonempty meta.source_articles, sorted by question_id.",
+    "paired questions: 56",
+    "skipped (split != shadow_dev): 120",
+    "skipped (group not in Regime B paired set): 33",
+    "skipped (source_articles missing/malformed): 0",
+    "skipped (duplicate question_id): 0",
+    "split_map_sha256=d0879ac4801cd09c..."
+  ],
+  "pairings": [
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "group": "cambridge",
+      "question_id": "qa-shadow-dev-01",
+      "source_articles": [
+        "a:cambridge"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "group": "cambridge",
+      "question_id": "qa-shadow-dev-02",
+      "source_articles": [
+        "a:cambridge_massachusetts"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "group": "cambridge",
+      "question_id": "qa-shadow-dev-03",
+      "source_articles": [
+        "a:harvard_university"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Corona (beer)",
+        "Corona Australis",
+        "Coronavirus",
+        "Solar corona"
+      ],
+      "group": "corona",
+      "question_id": "qa-shadow-dev-04",
+      "source_articles": [
+        "a:solar_corona"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Corona (beer)",
+        "Corona Australis",
+        "Coronavirus",
+        "Solar corona"
+      ],
+      "group": "corona",
+      "question_id": "qa-shadow-dev-05",
+      "source_articles": [
+        "a:corona_beer"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Corona (beer)",
+        "Corona Australis",
+        "Coronavirus",
+        "Solar corona"
+      ],
+      "group": "corona",
+      "question_id": "qa-shadow-dev-06",
+      "source_articles": [
+        "a:corona_australis"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Atari Jaguar",
+        "Jaguar",
+        "Jaguar (supercomputer)",
+        "Jaguar Cars"
+      ],
+      "group": "jaguar",
+      "question_id": "qa-shadow-dev-07",
+      "source_articles": [
+        "a:jaguar"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Atari Jaguar",
+        "Jaguar",
+        "Jaguar (supercomputer)",
+        "Jaguar Cars"
+      ],
+      "group": "jaguar",
+      "question_id": "qa-shadow-dev-08",
+      "source_articles": [
+        "a:jaguar_cars"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Atari Jaguar",
+        "Jaguar",
+        "Jaguar (supercomputer)",
+        "Jaguar Cars"
+      ],
+      "group": "jaguar",
+      "question_id": "qa-shadow-dev-09",
+      "source_articles": [
+        "a:jaguar_supercomputer"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Abraham Lincoln",
+        "Emancipation Proclamation",
+        "Lincoln Motor Company",
+        "Lincolnshire"
+      ],
+      "group": "lincoln",
+      "question_id": "qa-shadow-dev-10",
+      "source_articles": [
+        "a:lincolnshire"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-11",
+      "source_articles": [
+        "a:mount_vernon"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-12",
+      "source_articles": [
+        "a:washington_d_c"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-13",
+      "source_articles": [
+        "a:university_of_washington"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "group": "cambridge",
+      "question_id": "qa-shadow-dev-18",
+      "source_articles": [
+        "a:harvard_university"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "group": "cambridge",
+      "question_id": "qa-shadow-dev-19",
+      "source_articles": [
+        "a:university_of_cambridge",
+        "a:harvard_university"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "group": "cambridge",
+      "question_id": "qa-shadow-dev-20",
+      "source_articles": [
+        "a:cambridge_massachusetts",
+        "a:university_of_cambridge"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-21",
+      "source_articles": [
+        "a:washington_state",
+        "a:george_washington"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Abraham Lincoln",
+        "Emancipation Proclamation",
+        "Lincoln Motor Company",
+        "Lincolnshire"
+      ],
+      "group": "lincoln",
+      "question_id": "qa-shadow-dev-22",
+      "source_articles": [
+        "a:emancipation_proclamation",
+        "a:abraham_lincoln"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Abraham Lincoln",
+        "Emancipation Proclamation",
+        "Lincoln Motor Company",
+        "Lincolnshire"
+      ],
+      "group": "lincoln",
+      "question_id": "qa-shadow-dev-23",
+      "source_articles": [
+        "a:american_civil_war",
+        "a:lincoln_motor_company"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Corona (beer)",
+        "Corona Australis",
+        "Coronavirus",
+        "Solar corona"
+      ],
+      "group": "corona",
+      "question_id": "qa-shadow-dev-24",
+      "source_articles": [
+        "a:coronavirus"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Atari Jaguar",
+        "Jaguar",
+        "Jaguar (supercomputer)",
+        "Jaguar Cars"
+      ],
+      "group": "jaguar",
+      "question_id": "qa-shadow-dev-25",
+      "source_articles": [
+        "a:atari_jaguar"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "group": "cambridge",
+      "question_id": "qa-shadow-dev-26",
+      "source_articles": [
+        "a:cambridge_massachusetts",
+        "a:george_washington"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Corona (beer)",
+        "Corona Australis",
+        "Coronavirus",
+        "Solar corona"
+      ],
+      "group": "corona",
+      "question_id": "qa-shadow-dev-27",
+      "source_articles": [
+        "a:corona_beer",
+        "a:corona_australis"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "group": "cambridge",
+      "question_id": "qa-shadow-dev-28",
+      "source_articles": [
+        "a:cambridge",
+        "a:cambridge_massachusetts"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Atari Jaguar",
+        "Jaguar",
+        "Jaguar (supercomputer)",
+        "Jaguar Cars"
+      ],
+      "group": "jaguar",
+      "question_id": "qa-shadow-dev-29",
+      "source_articles": [
+        "a:atari_jaguar"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Atari Jaguar",
+        "Jaguar",
+        "Jaguar (supercomputer)",
+        "Jaguar Cars"
+      ],
+      "group": "jaguar",
+      "question_id": "qa-shadow-dev-49",
+      "source_articles": [
+        "a:jaguar_cars"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Corona (beer)",
+        "Corona Australis",
+        "Coronavirus",
+        "Solar corona"
+      ],
+      "group": "corona",
+      "question_id": "qa-shadow-dev-50",
+      "source_articles": [
+        "a:coronavirus",
+        "a:corona_australis"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Abraham Lincoln",
+        "Emancipation Proclamation",
+        "Lincoln Motor Company",
+        "Lincolnshire"
+      ],
+      "group": "lincoln",
+      "question_id": "qa-shadow-dev-51",
+      "source_articles": [
+        "a:emancipation_proclamation",
+        "a:lincoln_motor_company"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-52",
+      "source_articles": [
+        "a:mount_vernon",
+        "a:george_washington"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "group": "cambridge",
+      "question_id": "qa-shadow-dev-53",
+      "source_articles": [
+        "a:cambridge_massachusetts",
+        "a:harvard_university"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "group": "cambridge",
+      "question_id": "qa-shadow-dev-54",
+      "source_articles": [
+        "a:university_of_cambridge",
+        "a:cambridge_massachusetts"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-56",
+      "source_articles": [
+        "a:university_of_washington"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Atari Jaguar",
+        "Jaguar",
+        "Jaguar (supercomputer)",
+        "Jaguar Cars"
+      ],
+      "group": "jaguar",
+      "question_id": "qa-shadow-dev-57",
+      "source_articles": [
+        "a:jaguar",
+        "a:jaguar_cars"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-58",
+      "source_articles": [
+        "a:washington_d_c",
+        "a:washington_state"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "group": "cambridge",
+      "question_id": "qa-shadow-dev-61",
+      "source_articles": [
+        "a:cambridge_massachusetts",
+        "a:virtual_reality"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Cambridge",
+        "Cambridge, Massachusetts",
+        "Harvard University",
+        "University of Cambridge"
+      ],
+      "group": "cambridge",
+      "question_id": "qa-shadow-dev-62",
+      "source_articles": [
+        "a:cambridge_massachusetts",
+        "a:harvard_university",
+        "a:virtual_reality"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-63",
+      "source_articles": [
+        "a:university_of_washington",
+        "a:washington_state"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-64",
+      "source_articles": [
+        "a:george_washington",
+        "a:washington_state"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Abraham Lincoln",
+        "Emancipation Proclamation",
+        "Lincoln Motor Company",
+        "Lincolnshire"
+      ],
+      "group": "lincoln",
+      "question_id": "qa-shadow-dev-65",
+      "source_articles": [
+        "a:abraham_lincoln",
+        "a:american_civil_war",
+        "a:lincoln_motor_company"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Abraham Lincoln",
+        "Emancipation Proclamation",
+        "Lincoln Motor Company",
+        "Lincolnshire"
+      ],
+      "group": "lincoln",
+      "question_id": "qa-shadow-dev-66",
+      "source_articles": [
+        "a:abraham_lincoln",
+        "a:emancipation_proclamation"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-67",
+      "source_articles": [
+        "a:george_washington",
+        "a:washington_d_c"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Corona (beer)",
+        "Corona Australis",
+        "Coronavirus",
+        "Solar corona"
+      ],
+      "group": "corona",
+      "question_id": "qa-shadow-dev-70",
+      "source_articles": [
+        "a:corona_beer"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Corona (beer)",
+        "Corona Australis",
+        "Coronavirus",
+        "Solar corona"
+      ],
+      "group": "corona",
+      "question_id": "qa-shadow-dev-71",
+      "source_articles": [
+        "a:solar_corona"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Corona (beer)",
+        "Corona Australis",
+        "Coronavirus",
+        "Solar corona"
+      ],
+      "group": "corona",
+      "question_id": "qa-shadow-dev-72",
+      "source_articles": [
+        "a:corona_australis"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Atari Jaguar",
+        "Jaguar",
+        "Jaguar (supercomputer)",
+        "Jaguar Cars"
+      ],
+      "group": "jaguar",
+      "question_id": "qa-shadow-dev-73",
+      "source_articles": [
+        "a:jaguar"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Atari Jaguar",
+        "Jaguar",
+        "Jaguar (supercomputer)",
+        "Jaguar Cars"
+      ],
+      "group": "jaguar",
+      "question_id": "qa-shadow-dev-74",
+      "source_articles": [
+        "a:jaguar_supercomputer"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Atari Jaguar",
+        "Jaguar",
+        "Jaguar (supercomputer)",
+        "Jaguar Cars"
+      ],
+      "group": "jaguar",
+      "question_id": "qa-shadow-dev-75",
+      "source_articles": [
+        "a:atari_jaguar"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Abraham Lincoln",
+        "Emancipation Proclamation",
+        "Lincoln Motor Company",
+        "Lincolnshire"
+      ],
+      "group": "lincoln",
+      "question_id": "qa-shadow-dev-76",
+      "source_articles": [
+        "a:lincolnshire"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "Abraham Lincoln",
+        "Emancipation Proclamation",
+        "Lincoln Motor Company",
+        "Lincolnshire"
+      ],
+      "group": "lincoln",
+      "question_id": "qa-shadow-dev-77",
+      "source_articles": [
+        "a:lincoln_motor_company"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-79",
+      "source_articles": [
+        "a:washington_d_c"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-80",
+      "source_articles": [
+        "a:george_washington"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-81",
+      "source_articles": [
+        "a:university_of_washington"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-82",
+      "source_articles": [
+        "a:washington_state"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-85",
+      "source_articles": [
+        "a:harvard_university",
+        "a:university_of_washington"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-86",
+      "source_articles": [
+        "a:washington_d_c",
+        "a:washington_state"
+      ]
+    },
+    {
+      "conditions": [
+        "corpus_known",
+        "document_heldout"
+      ],
+      "excluded_adaptation_docs": [
+        "George Washington",
+        "Mount Vernon",
+        "University of Washington",
+        "Washington (state)",
+        "Washington, D.C."
+      ],
+      "group": "washington",
+      "question_id": "qa-shadow-dev-87",
+      "source_articles": [
+        "a:washington_d_c",
+        "a:washington_state"
+      ]
+    }
+  ],
+  "query_corpus_invariant": "Regime B excludes documents from ADAPTATION data only; the query-time retrieval corpus is UNCHANGED.",
+  "selection_rule": "SELECTION RULE: shadow_dev staging drafts in Regime B paired-condition groups with nonempty meta.source_articles, sorted by question_id.",
+  "split_map_sha256": "d0879ac4801cd09c162761d1502376804ea6ad7efb4fce435f4feb44a2e1f7ff"
+}

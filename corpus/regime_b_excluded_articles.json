@@ -1,0 +1,28 @@
+{
+  "articles": [
+    "Abraham Lincoln",
+    "Atari Jaguar",
+    "Cambridge",
+    "Cambridge, Massachusetts",
+    "Corona (beer)",
+    "Corona Australis",
+    "Coronavirus",
+    "Emancipation Proclamation",
+    "George Washington",
+    "Harvard University",
+    "Jaguar",
+    "Jaguar (supercomputer)",
+    "Jaguar Cars",
+    "Lincoln Motor Company",
+    "Lincolnshire",
+    "Mount Vernon",
+    "Solar corona",
+    "University of Cambridge",
+    "University of Washington",
+    "Washington (state)",
+    "Washington, D.C."
+  ],
+  "derived_from": "corpus/regime_b_paired.json (paired subset, deterministic)",
+  "scope": "adaptation-data exclusion ONLY under Regime B (document_heldout). These articles REMAIN in the query-time retrieval corpus.",
+  "split_map_sha256": "d0879ac4801cd09c162761d1502376804ea6ad7efb4fce435f4feb44a2e1f7ff"
+}
