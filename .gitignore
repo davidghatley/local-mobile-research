@@ -6,10 +6,20 @@ corpus/corpus.jsonl
 # Raw Wikipedia snapshots (41 MB) and the superseded pilot archive (39 MB)
 corpus/raw/
 corpus/archive/
-# Sealed held-out labels: never published; custody is orchestrator/procedural
+# Private evaluation content: never published. The real private directory
+# lives OUTSIDE the repo (LMR_PRIVATE_EVAL_DIR, see docs/private-eval-custody.md);
+# these patterns exist so an accidental `git add` cannot stage private data
+# that was mistakenly written into the repo. Guarded by
+# tests/test_private_eval_tripwire.py.
 corpus/heldout_labels.sealed.json
 corpus/labels.json
 corpus/labels.sealed.json
+*private*label*
+*private_test*.json
+*private_eval_dir*
+qa-private-*.json
+*.seal
+seal.sha256
 
 # Phase 7 scale layer: raw snapshots and the built distractor DAG are large
 # and are hash-pinned in corpus/scale/tier_*.json + scale_build_manifest.json.
