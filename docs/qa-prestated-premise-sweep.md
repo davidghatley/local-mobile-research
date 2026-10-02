@@ -47,7 +47,19 @@
 
 ## Additional Unsound Items Found by Full-Corpus Sweep
 
-**None.** A manual review of all 197 approved items (17 comparison, 33 multihop, 121 factoid, 14 ambiguous, 12 unanswerable) found no further instances of this defect class beyond the three already known (qa-dev-24, qa-shadow-dev-84, qa-shadow-dev-86).
+**None.** A manual review of the full approved set found no further instances of
+this defect class beyond the three already known (`qa-dev-24`,
+`qa-shadow-dev-84`, `qa-shadow-dev-86`).
+
+CORRECTION (added after independent freeze review v3): an earlier version of this
+line claimed "all 197 approved items (17 comparison, 33 multihop, 121 factoid,
+14 ambiguous, 12 unanswerable)". That census was wrong on three of five buckets
+and nine items were unaccounted for. The measured, correct census of the approved
+set at the time of the sweep is **206** items: factoid 128, multihop 33,
+comparison 17, ambiguous 15, unanswerable 13 (train 60 / dev 59 / shadow_dev 87).
+The sweep's CONCLUSION — that only these three items are affected — is
+unchanged; only the coverage arithmetic was wrong. An over-claimed census in a
+ledger is still a false claim, so it is corrected rather than quietly rewritten.
 
 - **Comparison items (17)**: Only qa-dev-24 pre-states both compared quantities. All others describe the entities to compare but withhold the decisive magnitudes/dates.
 - **Multihop items (33)**: All require the evidence for the final hop; the question supplies only the bridge-entity context.

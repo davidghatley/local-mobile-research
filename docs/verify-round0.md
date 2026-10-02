@@ -64,7 +64,7 @@ fair comparison. **Checklist completion is not freeze.**
 | 3 | `corpus-tests` | `python3 -m unittest discover -s corpus/tests` |
 | 4 | `corpus-hash` | Recomputes the canonical corpus hash from `corpus/corpus.jsonl` and compares it against `corpus/provenance.json` (`corpus_hash_sha256`, `canonical_text_sha256`); runs `substrate.corpus.validate_hierarchy`; runs `substrate.splits.validate_group_map` against the real corpus article titles; verifies **every** artifact hash and byte count in `corpus/build_manifest.json` against the bytes on disk, plus the `input_manifest_sha256` field. |
 | 5 | `qa-validation` | Runs `python3 -m data_tools.validate_qa --staging staging --corpus corpus/corpus.jsonl --split-map corpus/split_map.json`, requires exit 0 and `errors == 0`, and reports draft/approved/split/type counts. Approved counts are content-hash bookkeeping, **not** a semantic verdict. |
-| 6 | `question-label-partition` | Requires `corpus/questions.json` (public-only partition: 60 train, 50 dev, 89 shadow_dev) and `corpus/private_test_manifest.json` (in-repo opaque manifest carrying private seal digest). Verifies: public questions carry NO evidence atoms, NO hard negatives, NO answer text, NO `split=heldout` (retired), NO `split=private_test` (out-of-repo); private seal digest recorded in manifest is verified against out-of-repo private eval dir via `substrate.private_eval.verify_seal` (opaque bytes only, never parsed); ID namespace separation — no `qa-private-` prefix appears in public partition; dev-side custody refusal still denies reads (`HeldoutCustodian.load_labels()` raises `HeldoutAccessDenied`). `shadow_dev` is dev-visible and never sealed. |
+| 6 | `question-label-partition` | Requires `corpus/questions.json` (public-only partition: 60 train, 59 dev, 87 shadow_dev) and `corpus/private_test_manifest.json` (in-repo opaque manifest carrying private seal digest). Verifies: the partition is **non-vacuous** (an empty or truncated file is a failure, not a pass); public questions carry NO evidence atoms, NO hard negatives, NO answer text, NO `split=heldout` (retired), NO `split=private_test` (out-of-repo); **no answer LOCATION** (`meta.group` / `meta.evidence_groups` / `meta.source_articles` / `meta.paired_regime`) and **no answer text in prose** (`provenance.rationale`); private seal digest recorded in manifest is verified against the out-of-repo private eval dir via `substrate.private_eval.verify_seal` (opaque bytes only, never parsed); ID namespace separation — no `qa-private-` prefix appears in the public partition. `shadow_dev` is dev-visible and never sealed. |
 | 7 | `generator-pin` | Requires `corpus/generator_config.json` to be fully pinned: no `TBD`/`unspecified` fields, `is_pinned()` true, not an infrastructure stub, prompt hash equal to `substrate.generator.PROMPT_HASH`, tokenizer and chat-template hashes present as 64-hex, model artifact byte count and SHA-256 verified against the file on disk, and every declared runtime binary/library SHA-256 verified. |
 | 8 | `freeze-manifest` | Runs `substrate.manifest.validate_freeze` against a `RunManifest` built from the **real** on-disk artifact set (recomputed corpus hash, real generator config, real code hashes, real inventory pins, real split map, derived seed log, **calibration policy declarations**, **regime A/B group metadata derived from split map**). Records: `sealed_labels_sha256` from private manifest, `questions_sha256` from public questions.json, regime groups (A = full shadow_dev population, B = paired document-heldout subset). Prints explicit gap list verbatim. |
 | 9 | `leakage-control-artifacts` | Requires `references/public_eval_pins.json` to be present and well formed (64-hex SHA-256, 40-hex revision, positive byte counts, matching `total_bytes`, empty `pin_mismatches`), cross-checks pin hashes byte-for-byte against `references/pins.json`, derives regime metadata from `corpus/split_map.json` via `substrate.regime_metadata`, verifies regime B paired-condition groups key on shadow_dev groups (legacy "heldout" accepted; B overlaps A by design — same questions, two conditions, never a disjoint population; see `docs/regime-pairing.md`), verifies the regime B excluded-article artifact is consistent with the split map when regime B is non-empty, and reports the paired-condition artifact (`corpus/regime_b_paired.json`) informationally. |
@@ -74,7 +74,30 @@ fair comparison. **Checklist completion is not freeze.**
 
 Stage 6 requires these artifacts:
 
-- `corpus/questions.json` — public-only question partition (209 items: 60 train, 50 dev, 89 shadow_dev). Generated from staging/ after QA approval. Carries only question_id, text, split, question_type, meta (source_articles, group) and provenance. NO evidence atoms, NO hard negatives, NO answers.
+- `corpus/questions.json` — public-only question partition (**206 items: 60 train,
+  59 dev, 87 shadow_dev**). Generated from staging/ after QA approval by
+  `python3 -m data_tools.build_public_partition`. It carries ONLY
+  `question_id`, `text`, `split`, `question_type`, `meta.original_id`,
+  `meta.exposure_note`, and who/which-model/decision provenance.
+
+  It deliberately does **NOT** carry:
+
+  - evidence atoms or sufficient sets (retrieval ground truth),
+  - hard negatives (they hand over the distractors),
+  - answer text,
+  - `meta.group` / `meta.evidence_groups` / `meta.source_articles` /
+    `meta.paired_regime` — these name **the answer's location**; publishing
+    them would hand a retriever a 1–3 article candidate set inside a
+    297-article corpus,
+  - `provenance.rationale` — auditor prose that names the answer in free text.
+
+  The builder refuses to write if a multi-word answer appears verbatim anywhere
+  in the output. `tests/test_public_partition.py` pins all of this and asserts
+  regeneration is byte-identical to the committed file.
+
+  Note: `staging/` in the same repository still carries answers for all 206
+  items. The partition is the *intended* worker-visible surface, not an enforced
+  one; a sanitized worktree that omits staging/ is the real control.
 - `corpus/private_test_manifest.json` — in-repo opaque manifest (revision `private-test-r1`, total=116). Carries counts, hashes (questions_json_sha256, labels_json_sha256, aggregate_content_sha256), seal_sha256, paired Regime B metadata. NO private content.
 
 The private sealed labels live OUTSIDE the repo at `LMR_PRIVATE_EVAL_DIR` (never committed). The verifier uses `substrate.private_eval.verify_seal()` to confirm the seal digest matches the out-of-repo artifact.
@@ -173,7 +196,7 @@ directory. This is a **structural** result only.
 | 2 | PASS | Data-tools tests. |
 | 3 | PASS | Corpus converter tests. |
 | 4 | PASS | Canonical hash, hierarchy, group map, `build_manifest` artifact hashes. |
-| 5 | PASS | 207 approved drafts, 0 errors (structural only). |
+| 5 | PASS | 206 approved drafts, 0 errors (structural only). 3 further items are rejected and quarantined in `staging/rejected/`. |
 | 6 | PASS | Public-only partition + out-of-repo opaque seal verified. |
 | 7 | PASS | Generator contract pinned; GGUF bytes/SHA-256 and all runtime binaries verified. |
 | 8 | PASS | `validate_freeze` with real hashes, calibration-policy declarations, paired regime groups. |

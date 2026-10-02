@@ -456,3 +456,65 @@ regeneration is byte-identical to the committed file.
 drafts rather than the public partition (which by design cannot carry it), and
 adds a drift check so the two files cannot disagree about which questions are
 published or under which split.
+
+### 8.8 Third freeze review: three holes nobody had looked for
+
+A third fresh reviewer (`opencode/space-bunny-free`, after `qwen3.8-27b:free`
+returned a provider error and `nemotron-3.5-lightning-free` produced garbled
+output and wrote nothing) confirmed the prior repairs, then found four things.
+
+**R1 — the private manifest was git-ignored and never committed.** `.gitignore`
+pattern `*private_test*.json` swallowed `corpus/private_test_manifest.json`, the
+one file that carries the seal digest binding the out-of-repo private test to
+this repository. `git ls-files` returned nothing; `git log --all` found no
+commit; a fresh clone would have had no way to verify the private boundary —
+while three documents asserted it was in-repo. Fixed with an explicit negation
+rule and `git add -f`; a test now asserts the manifest is both un-ignored and
+tracked, so it cannot silently regress.
+
+**R2 — stage 6 passed on an empty partition.** `questions.json = []` produced
+"0 ids, 0 structural error(s)" and PASS. Added a non-vacuity floor plus
+answer-location and prose-leak diagnostics in stage 6 itself (the earlier fix
+lived only in the builder and the unit tests, so a hand-edited partition slipped
+through). 11 new tests in `tests/test_verifier_nonvacuity.py`, including one that
+builds a deliberately leaky file and proves the unit tests fail on it.
+
+**R3 — `docs/verify-round0.md` documented the leak as present.** It still said
+the partition carries `meta (source_articles, group)` — exactly the answer-location
+leak just removed — plus stale counts (209 items; "60/50/89", which sums to 199).
+Corrected, and the stage-6 row now states what the stage actually enforces.
+
+**R4 — the sweep ledger overstated its own coverage.** It claimed a review of
+"all 197 approved items (…121 factoid, 14 ambiguous, 12 unanswerable)". Measured:
+206 items, 128 factoid / 15 ambiguous / 13 unanswerable. The conclusion (only 3
+affected) is unchanged; the arithmetic was wrong on three of five buckets and nine
+items were unaccounted for. Corrected in place with the error stated, not
+silently rewritten.
+
+Non-blocking items also fixed: stage 9 passed while cross-checking **zero** pins
+(it printed "no local cross-check available" and returned PASS — now a
+fail-closed UNVERIFIED); `STATUS.md` mis-scoped the ambiguity hazard (6 → 15
+items, 5 with empty `answer_text`) and described a scorer that does not exist;
+and `STATUS.md` claimed scale retrievals "are adjudicated" when
+`eval/scale_adjudication.py` has **zero consumers** — `eval/metrics.py` and
+`eval/support.py` never mention scale or adjudication. That gap is now recorded
+explicitly rather than left as a claim.
+
+### 8.9 What the three reviews together establish
+
+Three independent reviewers, none of whom implemented the work, each returned
+REPAIR REQUIRED, and each found something the previous one did not:
+
+- review 1: two items whose questions pre-stated their own comparison, plus a
+  functional regression and a vacuous pass;
+- review 2: a third such item in the **dev** split, found only by sweeping the
+  whole set rather than sampling;
+- review 3: the manifest was never committed, a stage passed on an empty file,
+  and a stage passed while verifying nothing.
+
+The pattern is the finding. Sampling is not verification, and a check that
+compares nothing reports the same as a check that compares everything. The
+project's own numbers demonstrate it: the pre-stated-premise class was 3 of 209
+items, and three different reviewers needed three different methods to find it.
+No reviewer returned PASS, so **the Round 0 freeze gate remains unsatisfied** and
+no freeze tag exists.

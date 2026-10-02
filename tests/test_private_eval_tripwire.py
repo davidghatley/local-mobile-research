@@ -122,6 +122,46 @@ class TestPrivateContentNotInRepo(unittest.TestCase):
       offenders, [], f"private_test content inside repo staging: {offenders}"
     )
 
+  def test_private_manifest_is_tracked_not_ignored(self):
+    """The opaque manifest MUST be in version control.
+
+    It carries the seal digest that binds the out-of-repo private test to this
+    repository. If it is git-ignored, a fresh clone cannot verify the private
+    boundary at all, and the freeze gate silently loses its private half. An
+    independent review found exactly this: .gitignore's `*private_test*.json`
+    pattern swallowed the manifest, so it was untracked and never committed.
+    """
+    import subprocess
+
+    manifest = "corpus/private_test_manifest.json"
+    if not os.path.isfile(os.path.join(REPO_ROOT, manifest)):
+      self.skipTest("in-repo private manifest not created")
+
+    # The verifier runs the suite against a git-less copy of the tree, where
+    # "is it tracked?" has no answer. Skip rather than fail there; the real
+    # checkout runs this.
+    inside = subprocess.run(
+      ["git", "rev-parse", "--is-inside-work-tree"],
+      cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    if inside.returncode != 0 or inside.stdout.strip() != "true":
+      self.skipTest("not inside a git work tree (sandboxed copy)")
+
+    ignored = subprocess.run(
+      ["git", "check-ignore", "-q", manifest],
+      cwd=REPO_ROOT, capture_output=True,
+    )
+    self.assertNotEqual(ignored.returncode, 0,
+                        f"{manifest} is git-ignored; a clone cannot verify the "
+                        "private seal")
+
+    tracked = subprocess.run(
+      ["git", "ls-files", "--error-unmatch", manifest],
+      cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    self.assertEqual(tracked.returncode, 0,
+                     f"{manifest} is not tracked by git; it must be committed")
+
   def test_in_repo_manifest_is_content_free(self):
     """corpus/private_test_manifest.json carries hashes, never content.
 

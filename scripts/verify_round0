@@ -632,6 +632,10 @@ def stage_qa_validation():
 # ===========================================================================
 
 QUESTIONS_REL = "corpus/questions.json"
+# Floor for the worker-visible partition. Not an exact census: it exists so an
+# empty or truncated questions.json cannot pass. The real census lives in
+# stage 5 (approved drafts) and stage 8 (partition/draft drift).
+MIN_PUBLIC_PARTITION = 100
 PRIVATE_MANIFEST_REL = "corpus/private_test_manifest.json"
 
 
@@ -674,9 +678,50 @@ def stage_partition():
   detail("questions: %d ids, %d structural error(s)"
          % (len(qids), len(checked["errors"])))
 
+  # Non-vacuity: an EMPTY or near-empty partition is a failure, not a pass.
+  # Without this, `questions.json = []` produced "0 ids, 0 errors" -> PASS.
+  # The census below is a floor, not an exact target: it proves the partition
+  # actually carries the controlled question set.
+  if not qids:
+    detail("questions: partition is EMPTY: 0 ids cannot pass a freeze check")
+    mark_fail()
+  elif len(qids) < MIN_PUBLIC_PARTITION:
+    detail("questions: partition has only %d id(s); the controlled set is at "
+           "least %d. A truncated partition is not a freeze." %
+           (len(qids), MIN_PUBLIC_PARTITION))
+    mark_fail()
+  else:
+    detail("questions: partition is non-vacuous (%d ids >= %d floor)"
+           % (len(qids), MIN_PUBLIC_PARTITION))
+
   # Public questions.json must carry NO evidence atoms, NO hard negatives, NO answers
   with open(questions_path, "r", encoding="utf-8") as fh:
     entries = json.load(fh)
+
+  # Answer LOCATION must not be published: group / evidence_groups /
+  # source_articles name the articles the answer lives in, which would hand a
+  # retriever a 1-3 article candidate set inside a 297-article corpus. Auditor
+  # prose (rationale) is excluded for the same class of reason: it names the
+  # answer in free text. See data_tools/build_public_partition.py.
+  LOCATION_LEAKS = ("group", "evidence_groups", "source_articles", "paired_regime")
+  PROSE_LEAKS = ("rationale",)
+  for e in entries:
+    if not isinstance(e, dict):
+      continue
+    meta = e.get("meta") if isinstance(e.get("meta"), dict) else {}
+    prov = e.get("provenance") if isinstance(e.get("provenance"), dict) else {}
+    bad_meta = [k for k in LOCATION_LEAKS if k in meta]
+    if bad_meta:
+      detail("questions: entry %s publishes meta.%s (answer location; the "
+             "worker-visible partition must not name the source articles)"
+             % (e.get("question_id", "?"), ",".join(bad_meta)))
+      mark_fail()
+    bad_prov = [k for k in PROSE_LEAKS if k in prov]
+    if bad_prov:
+      detail("questions: entry %s publishes provenance.%s (answer text in "
+             "prose)" % (e.get("question_id", "?"), ",".join(bad_prov)))
+      mark_fail()
+
   for e in entries:
     if isinstance(e, dict):
       forbidden = [k for k in ("evidence", "hard_negatives", "labels", "answer_text", "sufficient_sets") if k in e]
@@ -1184,10 +1229,20 @@ def stage_leakage_artifacts():
         if at_head[key] != e.get("sha256"):
           detail("pin cross-check MISMATCH against %s: %s" % (base_rel, key))
           mark_fail()
-    detail("public reference pins: %d pin(s) cross-checked byte-for-byte "
-           "against %s" % (cross, base_rel))
+    if cross == 0:
+      # A cross-check that compares nothing is not a cross-check. Independent
+      # review v3 caught this printing "no local cross-check available" and
+      # still passing. Zero comparisons is an UNVERIFIED state, not a PASS.
+      detail("%s present but NO pin matched: the byte-for-byte cross-check "
+             "compared nothing and is therefore UNVERIFIED, not satisfied" % base_rel)
+      mark_fail()
+    else:
+      detail("public reference pins: %d pin(s) cross-checked byte-for-byte "
+             "against %s" % (cross, base_rel))
   else:
-    detail("%s absent: no local cross-check available" % base_rel)
+    detail("%s absent: the byte-for-byte pin cross-check cannot run, so it is "
+           "UNVERIFIED. Unverified is not a pass." % base_rel)
+    mark_fail()
 
   # The upstream pinned bytes are remote and are NOT vendored. Say so out loud
   # instead of implying they were re-verified.

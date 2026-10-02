@@ -51,6 +51,12 @@ LMR_PRIVATE_EVAL_DIR=/home/davidhatley/Projects/testing/local_mobile_research-pr
 | 9 | leakage-control artifacts (paired Regime A/B, exclusions) | PASS |
 | 10 | private test exists outside repo, seal matches, labels stay outside | PASS |
 
+Three further independent-review repairs are recorded in
+`docs/round0-independent-freeze-review-v3.md` and `docs/progress-ledger.md` §8.8:
+the opaque private manifest was **git-ignored and never committed** (so a fresh
+clone could not verify the private boundary at all); stage 6 **passed on an
+empty partition**; and stage 9 passed while cross-checking **zero** pins.
+
 A PASS here proves **structure, hashes, splits, provenance, custody and pins**.
 It does not prove semantic QA correctness, and the verifier says so on every run.
 
@@ -136,8 +142,14 @@ WWII, Lion, Tiger, …), so "carries no evidence" was not defensible.
 
 - `corpus/scale/scale_classification.json`: 815 background, 15
   confusable_adversarial, 110 redirect_stub, 0 unknown
-- retrieved scale passages do **not** auto-count as false positives; top
-  confusable retrievals are adjudicated (`docs/scale-evaluation-rule.md`)
+- retrieved scale passages do **not** auto-count as false positives; the rule is
+  implemented in `eval/scale_adjudication.py` and documented in
+  `docs/scale-evaluation-rule.md`
+- **HONEST GAP**: nothing in the current scoring path *consumes* that rule yet.
+  `eval/metrics.py` and `eval/support.py` do not mention scale, adjudication, or
+  false positives. The rule exists and is tested, but no evaluation currently
+  applies it, so the claim "scale retrievals are adjudicated" is not yet true of
+  any measurement. Wiring it into the metric layer is Round 1 work.
 - **provenance timeline corrected**: the 960-title candidate list was added in
   `814dcc1` (2026-10-01), *after* question work began in `4d924c5` (2026-09-29).
   Selection independence is procedural curation, **not** pre-question
@@ -190,10 +202,11 @@ closed: with no seal it is REJECT, never PASS.
 3. **The leakage gate's hash-only comparison is not yet bound to the seal.** It
    correctly refuses to issue PASS, but a real sealed comparison must be
    implemented before Round 1 teams can receive a meaningful verdict.
-4. **Six ambiguous shadow-dev items put a prose disjunction in `answer_text`.**
-   Any scorer comparing `answer_text` to model output will score all six wrong.
-   The orchestrator must decide how ambiguity is scored before that split is
-   used for anything quantitative.
+4. **15 ambiguous items put a prose disjunction in `answer_text`, and 5 of them
+   have an EMPTY `answer_text`.** Any scorer comparing `answer_text` to model
+   output will score all of them wrong. No such scorer exists yet; the
+   orchestrator must decide how ambiguity is scored before that split is used
+   for anything quantitative.
 5. **Calibration thresholds are declared, not fitted.** The freeze manifest
    records the policy; Round 1 must select thresholds on dev/shadow-dev and
    freeze them before its own private run.

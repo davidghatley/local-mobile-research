@@ -1,0 +1,74 @@
+{
+  "revision": "private-test-r1",
+  "note": "OPAQUE PRIVATE-TEST MANIFEST. Counts, hashes, split metadata and the seal digest only. No private question text, answers, support atoms, source ids or labels appear in this file or anywhere else in the repository. The private content lives outside the repository at the path given by LMR_PRIVATE_EVAL_DIR.",
+  "custody": {
+    "boundary": "procedural / workspace-based, NOT a kernel security boundary (all processes share one OS user)",
+    "private_dir_env_var": "LMR_PRIVATE_EVAL_DIR",
+    "access": [
+      "top-level orchestrator / custodian",
+      "private-item authors explicitly assigned to Phase 6",
+      "private-item reviewers explicitly assigned to Phase 6"
+    ],
+    "denied": [
+      "all Round 1 architecture leads and workers",
+      "general QA / corpus / benchmark workers",
+      "the independent freeze reviewer unless explicitly assigned as custodian reviewer"
+    ],
+    "in_repo_tripwire": "tests/test_private_eval_tripwire.py"
+  },
+  "counts": {
+    "total": 116,
+    "by_type": {
+      "ambiguous": 11,
+      "comparison": 15,
+      "factoid": 59,
+      "multihop": 19,
+      "unanswerable": 12
+    },
+    "by_answerability": {
+      "answerable": 104,
+      "unanswerable": 12
+    },
+    "ambiguous_or_unanswerable_fraction": 0.198,
+    "distinct_groups": 62,
+    "paired_regime_b_items": 15,
+    "paired_regime_b_excluded_articles": 13
+  },
+  "paired_regime_b": {
+    "groups": [
+      "cambridge",
+      "corona",
+      "jaguar",
+      "lincoln",
+      "washington"
+    ],
+    "excluded_article_count": 13,
+    "note": "Paired condition on the SAME questions: Regime A (source documents were available for corpus-specific adaptation) vs Regime B (those documents were EXCLUDED from architecture adaptation while the query-time corpus is unchanged). Report A-on-paired, B-on-same-paired, and the delta. Never pool the two as separate random populations."
+  },
+  "hashes": {
+    "questions_json_sha256": "efa02e5c19ebce4ccd48bad189935894dc7fa2b02aaf635b235bee72a855a9a5",
+    "labels_json_sha256": "2cb931b6c988f15d95c00d00be75807ce3a2ec2cb8c40d956050fd9ebe94d32d",
+    "aggregate_content_sha256": "853fd4da45222b6dd057019102b13e507de6c0d254cc0da120a03f96a0b0f544"
+  },
+  "seal_sha256": "c6e1e98d843eaf1eb962a9ec2f89026af2d532f9b963c5d0a78d45056293c54c",
+  "review_provenance": {
+    "authors": [
+      "private-author-batch-a (opencode/muse-spark-1.3-contributor-free)",
+      "private-author-batch-b (opencode/nemotron-3.5-lightning-free — garbled failure, produced 12 items)",
+      "private-author-batch-b2 (opencode/longcat-2.5-preview-free, opencode/fledge-alpha-free)",
+      "private-author-batch-c (openrouter/qwen/qwen3.8-27b:free)",
+      "private-author-batch-d (opencode/space-bunny-free)",
+      "private-author-batch-e (opencode/muse-spark-1.3-contributor-free, replacements)",
+      "private-author-batch-f (opencode/muse-spark-1.3-contributor-free, paired Regime B subset)"
+    ],
+    "independent_reviewers": [
+      "private-reviewer-1-34 (opencode/nemotron-3-ultra-free)",
+      "private-reviewer-35-67 (openrouter/google/gemma-4-31b-it:free — provider error; substituted by opencode/space-bunny-free)",
+      "private-reviewer-68-100 (openrouter/qwen/qwen3.8-27b:free)",
+      "private-reviewer-101-104 (opencode/nemotron-3-ultra-free)",
+      "private-reviewer-105-120 (openrouter/google/gemma-4-31b-it:free — provider error; substituted by opencode/space-bunny-free)"
+    ],
+    "rule": "Authors and reviewers are different workers. No item was approved by its author.",
+    "semantic_boundary": "Sufficiency, minimality, multi-hop genuineness, ambiguity validity and absence claims are REVIEW-PROVENANCE, not unit-test-provable. The code-level verifier proves structure, hashes and custody only."
+  }
+}

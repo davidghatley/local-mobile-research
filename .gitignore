@@ -20,6 +20,13 @@ corpus/labels.sealed.json
 qa-private-*.json
 *.seal
 seal.sha256
+# The ONE private-test file that MUST be tracked: the opaque manifest carries
+# the seal digest that binds the out-of-repo private test to THIS repository.
+# A clone that lacks it has no way to verify the private boundary, so ignoring it
+# would silently break the freeze gate on every fresh checkout. It is content-free
+# by contract (counts, hashes, split metadata, custody rules) and
+# tests/test_private_eval_tripwire.py asserts it stays content-free.
+!corpus/private_test_manifest.json
 
 # Phase 7 scale layer: raw snapshots and the built distractor DAG are large
 # and are hash-pinned in corpus/scale/tier_*.json + scale_build_manifest.json.
