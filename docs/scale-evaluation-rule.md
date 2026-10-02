@@ -67,3 +67,28 @@ rule stated above, not the code hook.
 
 The background-vs-confusable distinction and adjudication rule documented in
 Section 1.1 of `docs/scale-method.md` are derived from this evaluation rule.
+
+## Incomplete-Judgment Analysis Rule (Blocker 7 addendum — preserves all above)
+
+The classification (`background` 815 / `confusable_adversarial` 15 /
+`redirect_stub` 110) is a heuristic label, NOT an exhaustive relevance
+judgment. The explicit consumer is `eval/scale_analysis.py`:
+
+1. **`background` is never asserted irrelevant.** A background passage that
+   is retrieved scores as `unjudged_mechanical`, not as a true/false
+   positive. The classifier is key-match + keyword heuristic only; absence
+   of a keyword is not a semantic verdict.
+2. **Highly-ranked non-core confusable passages route to adjudication**
+   (`eval.scale_adjudication.adjudicate`) and triage as `supporting` /
+   `non_supporting` / `unknown`. Without an explicit human verdict the
+   triage is `unknown` — never silently resolved to either pole, and never
+   counted as a false positive by layer membership alone.
+3. **All recall-style metrics range over KNOWN core support only**
+   (`recall@K` over known support, rank of known required evidence,
+   candidate counts, reduction ratio, known-support displacement as scale
+   increases). Unjudged items cannot move them by construction.
+4. **Incompleteness is first-class output:** every result dict carries
+   `counts["unjudged_top_k"]` and a `limitations` list stating that part of
+   the retrieved denominator is unjudged. No precision figure is reported
+   from this module — precision requires judged negatives, which do not
+   exist here — so nobody reads a precision number as verified.

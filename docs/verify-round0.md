@@ -66,9 +66,9 @@ fair comparison. **Checklist completion is not freeze.**
 | 5 | `qa-validation` | Runs `python3 -m data_tools.validate_qa --staging staging --corpus corpus/corpus.jsonl --split-map corpus/split_map.json`, requires exit 0 and `errors == 0`, and reports draft/approved/split/type counts. Approved counts are content-hash bookkeeping, **not** a semantic verdict. |
 | 6 | `question-label-partition` | Requires `corpus/questions.json` (public-only partition: 60 train, 59 dev, 87 shadow_dev) and `corpus/private_test_manifest.json` (in-repo opaque manifest carrying private seal digest). Verifies: the partition matches the **external census pin** in `corpus/partition_census.json` — exact total, exact per-split counts, no undeclared splits, no quarantined id reappearing, and `authored_total == published + rejected` (an empty, truncated, or consistently-truncated partition is a failure, not a pass); public questions carry NO evidence atoms, NO hard negatives, NO answer text, NO `split=heldout` (retired), NO `split=private_test` (out-of-repo); **no answer LOCATION** (`meta.group` / `meta.evidence_groups` / `meta.source_articles` / `meta.paired_regime`) and **no answer text in prose** (`provenance.rationale`); private seal digest recorded in manifest is verified against the out-of-repo private eval dir via `substrate.private_eval.verify_seal` (opaque bytes only, never parsed); ID namespace separation — no `qa-private-` prefix appears in the public partition. `shadow_dev` is dev-visible and never sealed. |
 | 7 | `generator-pin` | Requires `corpus/generator_config.json` to be fully pinned: no `TBD`/`unspecified` fields, `is_pinned()` true, not an infrastructure stub, prompt hash equal to `substrate.generator.PROMPT_HASH`, tokenizer and chat-template hashes present as 64-hex, model artifact byte count and SHA-256 verified against the file on disk, and every declared runtime binary/library SHA-256 verified. |
-| 8 | `freeze-manifest` | Runs `substrate.manifest.validate_freeze` against a `RunManifest` built from the **real** on-disk artifact set (recomputed corpus hash, real generator config, real code hashes, real inventory pins, real split map, derived seed log, **calibration policy declarations**, **regime A/B group metadata derived from split map**, **partition census digest**). Cross-checks the census digest against the **out-of-repo trust root** at `<LMR_PRIVATE_EVAL_DIR>/freeze_census_pin.json` and **fails closed** when that pin is absent or disagrees. On success it **writes the freeze manifest durably** to `<LMR_PRIVATE_EVAL_DIR>/freeze_manifest.json` — never into the repository — so a freeze leaves a re-readable record rather than only a terminal verdict. A failing stage writes nothing. |
+| 8 | `freeze-manifest` | Builds a freeze **candidate** from the **real** on-disk artifact set (recomputed corpus hash, real generator config, real code hashes, real inventory pins, real split map, derived seed log, **calibration policy declarations**, **regime A/B group metadata derived from split map**, **partition census digest**, plus the **commit SHA + dirty flag** from git and the **verifier script hash**). Runs `substrate.manifest.validate_freeze` against it and cross-checks the census digest against the **out-of-repo trust root** at `<LMR_PRIVATE_EVAL_DIR>/freeze_census_pin.json` (**fails closed** when that pin is absent or disagrees). On success the candidate is staged as `freeze_manifest_candidate.json` in the verifier's **scratch dir only** — never into the repo, never to the durable path. A failing stage stages nothing. The **durable** record is promoted by the shell only after the stage loop (see §4). |
 | 9 | `leakage-control-artifacts` | Requires `references/public_eval_pins.json` to be present and well formed (64-hex SHA-256, 40-hex revision, positive byte counts, matching `total_bytes`, empty `pin_mismatches`), cross-checks pin hashes byte-for-byte against `references/pins.json`, derives regime metadata from `corpus/split_map.json` via `substrate.regime_metadata`, verifies regime B paired-condition groups key on shadow_dev groups (legacy "heldout" accepted; B overlaps A by design — same questions, two conditions, never a disjoint population; see `docs/regime-pairing.md`), verifies the regime B excluded-article artifact is consistent with the split map when regime B is non-empty, and reports the paired-condition artifact (`corpus/regime_b_paired.json`) informationally. |
-| 10 | `private-eval-custody` | Requires `corpus/private_test_manifest.json` to be present, content-free (no `qa-private-` id, no `answer_text`, no `sufficient_sets`), and to carry non-zero counts plus a `seal_sha256`. Then requires the private artifacts to exist **outside** the repository at `LMR_PRIVATE_EVAL_DIR` (`questions.json`, `labels.json`, `counts.json`), and **fails closed**: an *absent recorded digest* is a gap, not a match. Only opaque bytes are hashed; content is never parsed or printed. |
+| 10 | `private-eval-custody` | **Full mode only.** Requires `corpus/private_test_manifest.json` to be present, content-free (no `qa-private-` id, no `answer_text`, no `sufficient_sets`), and to carry non-zero counts plus a `seal_sha256`. Then requires the private artifacts to exist **outside** the repository at `LMR_PRIVATE_EVAL_DIR` (`questions.json`, `labels.json`, `counts.json`), and **fails closed**: an *absent recorded digest* is a gap, not a match. Only opaque bytes are hashed; content is never parsed or printed. |
 
 ### Artifacts the verifier expects but does not own
 
@@ -111,10 +111,28 @@ Every load-bearing stage must PASS. A stage whose required artifact is absent
 reports `SKIP`, and **in full mode a SKIP is a failure** — unverified is not
 frozen.
 
+Only a full run promotes the durable freeze record, and only when **all** of
+these hold: full mode, no `--only` filter, zero failures, zero skips, and
+every one of the 10 stages executed. The shell then finalises the stage-8
+candidate (attaching all per-stage results and the promotion timestamp) and
+installs it atomically — first the versioned record
+`<LMR_PRIVATE_EVAL_DIR>/freeze_manifest_<commit>.json` via `mv` on the same
+filesystem, then the stable pointer `<LMR_PRIVATE_EVAL_DIR>/freeze_manifest.json`
+carrying the identical bytes, also via temp file + `mv`. A half-written
+durable file is never left behind. If promotion is impossible (no
+`LMR_PRIVATE_EVAL_DIR`, no scratch candidate, a mid-run revision change),
+the run **fails loudly** at the end instead of silently skipping: a full pass
+with no durable record is not a freeze. Partial runs, `--code-only` runs, and
+failed runs never touch any pre-existing durable record.
+
 ### `--code-only`
 
-Runs stages 1–5, 7, 9, and 10. Stages 6 and 8 are the freeze-gated pair and
-are skipped. The run prints, in a boxed banner:
+Runs stages 1–5, 7, and 9. Stages 6 and 8 are the freeze-gated pair and
+are skipped. Stage 10 is skipped as well: it needs the out-of-repo private
+directory, which a clean clone and a CI runner do not have. (The
+repo-contained half of stage 10 — that the in-repo manifest is content-free —
+is covered hermetically by `tests/test_private_eval_tripwire.py`, so nothing
+is lost.) The run prints, in a boxed banner:
 
 ```
 CODE-ONLY MODE -- THIS IS NOT A FREEZE PASS.
@@ -200,9 +218,9 @@ directory. This is a **structural** result only.
 | 5 | PASS | 206 approved drafts, 0 errors (structural only), counts matching the census pin. 3 further items are rejected and quarantined in `staging/rejected/`. |
 | 6 | PASS | Public-only partition + out-of-repo opaque seal verified. |
 | 7 | PASS | Generator contract pinned; GGUF bytes/SHA-256 and all runtime binaries verified. |
-| 8 | PASS | `validate_freeze` with real hashes, calibration-policy declarations, paired regime groups. |
+| 8 | PASS | `validate_freeze` with real hashes, calibration-policy declarations, paired regime groups. Stages a candidate in scratch; the durable record is promoted only by a full clean pass (see §4). |
 | 9 | PASS | Public pins, regime metadata, excluded-article artifact, paired-condition artifact. |
-| 10 | PASS | Private artifacts exist outside the repo; digests match; manifest is content-free. |
+| 10 | PASS | Private artifacts exist outside the repo; digests match; manifest is content-free. Full mode only; `--code-only` drops this stage (see §4). |
 
 **This is not the freeze.** A structural PASS never certifies semantic QA
 correctness (see §2), and freeze additionally requires an independent reviewer

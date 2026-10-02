@@ -31,16 +31,26 @@
 #   5  QA validation (data_tools.validate_qa)
 #   6  question/label partition and leakage validation
 #   7  generator pin validation
-#   8  freeze manifest validation
+#   8  freeze manifest validation (builds a CANDIDATE in scratch only;
+#      the durable record is promoted by the shell after a full pass)
 #   9  leakage-control artifacts (paired Regime A/B)
 #  10  private test boundary, seal and custody (out-of-repo, LMR_PRIVATE_EVAL_DIR)
+#      (full mode only; --code-only verifies repo-contained code and synthetic
+#      fixtures, and the out-of-repo private directory is absent from a clean
+#      clone and from CI runners)
 #
 # MODES
 #   default      Full freeze verification. Every load-bearing stage must PASS.
 #                A stage whose required artifact is absent reports SKIP, and a
 #                SKIP is a FAILURE in this mode: unverified is not frozen.
-#   --code-only  Runs the code-level portion (stages 1-5, 7, 9, 10). Stages 6
-#                and 8 are the freeze-gated pair and are skipped here. Prints a
+#                Only a full run with zero failures and zero skips promotes
+#                the stage-8 candidate to the durable freeze record at
+#                <LMR_PRIVATE_EVAL_DIR>/freeze_manifest_<commit>.json (with a
+#                stable pointer at <LMR_PRIVATE_EVAL_DIR>/freeze_manifest.json).
+#   --code-only  Runs the code-level portion (stages 1-5, 7, 9). Stages 6, 8
+#                and 10 are skipped here: 6 and 8 are the freeze-gated pair,
+#                and 10 needs the out-of-repo private directory, which a clean
+#                clone and a CI runner do not have. Prints a
 #                loud banner: THIS IS NOT A FREEZE PASS. In this mode a SKIP
 #                caused by a missing git-ignored artifact is reported in a
 #                NOT VERIFIED list instead of failing the run; every skipped
@@ -74,7 +84,7 @@ PY=${VERIFY_ROUND0_PYTHON:-python3}
 
 # Stage identifiers are the numbers used by --only and by the report banners.
 STAGE_IDS="1 2 3 4 5 6 7 8 9 10"
-CODE_ONLY_IDS="1 2 3 4 5 7 9 10"
+CODE_ONLY_IDS="1 2 3 4 5 7 9"
 
 usage() {
   cat <<'USAGE'
@@ -89,8 +99,13 @@ It does NOT and cannot verify semantic QA correctness (answerability,
 minimality, multi-hop genuineness, label correctness).
 
 Options:
-  --code-only        Run the code-level portion (stages 1-5, 7, 9, 10).
-                     Stages 6 and 8 are the freeze-gated pair and are skipped.
+  --code-only        Run the code-level portion (stages 1-5, 7, 9).
+                     Stages 6 and 8 are the freeze-gated pair and are skipped;
+                     stage 10 needs the out-of-repo private directory, which
+                     a clean clone and a CI runner do not have. (The
+                     repo-contained half of stage 10 — the in-repo manifest is
+                     content-free — is covered hermetically by
+                     tests/test_private_eval_tripwire.py.)
                      Prints "THIS IS NOT A FREEZE PASS".
   --only IDS         Comma-separated stage ids to run, e.g. "4,7". Prints a
                      PARTIAL VERIFICATION banner; never a freeze pass.
@@ -1204,6 +1219,38 @@ def stage_freeze_manifest():
   master_seed = 1234
   components = ["corpus", "split", "qa", "generator", "run"]
 
+  # --- freeze-record bindings (provenance the durable record must carry) ----
+  # Commit SHA and dirty flag come from git, never from the environment: an
+  # env-provided SHA would let any caller claim any revision. When the root is
+  # not a git checkout (or git is absent) the SHA is UNKNOWN and the freeze
+  # check fails closed via validate_freeze (require_partition_census=True).
+  import subprocess as _sp
+  def _git(args):
+    try:
+      p = _sp.run(["git", "-C", ROOT] + args, capture_output=True, text=True,
+                  timeout=30)
+    except Exception:
+      return None
+    if p.returncode != 0:
+      return None
+    return p.stdout.strip()
+  _head = _git(["rev-parse", "HEAD"])
+  commit_sha = _head if _head else "UNKNOWN"
+  _status = _git(["status", "--porcelain"])
+  working_tree_dirty = True if _status is None else bool(_status.strip())
+  if _head:
+    detail("revision: commit %s%s" % (commit_sha[:16], " (DIRTY)" if working_tree_dirty else " (clean)"))
+  else:
+    detail("revision: git HEAD unresolvable (fail closed: not a freezable revision)")
+  verifier_script = os.path.join(ROOT, "scripts", "verify_round0")
+  verifier_sha256 = sha256_file(verifier_script) if os.path.isfile(verifier_script) else "TBD"
+  detail("verifier: scripts/verify_round0 sha256=%s..." % verifier_sha256[:16])
+  import datetime as _dt
+  verified_at_utc = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+  # stage_results is completed by the shell promotion step AFTER every stage
+  # has run: stage 8 cannot report on stages 9 and 10 before they execute.
+  # The candidate carries an empty list; validate_freeze does not require it.
+
   kwargs = {
     "run_id": "round0-freeze-candidate",
     "seed": master_seed,
@@ -1228,6 +1275,12 @@ def stage_freeze_manifest():
     # survives a consistent truncation of drafts + partition together.
     "require_partition_census": True,
     "partition_census_sha256": sha_or_tbd(CENSUS_REL),
+    "commit_sha": commit_sha,
+    "working_tree_dirty": working_tree_dirty,
+    "verified_at_utc": verified_at_utc,
+    "verifier_sha256": verifier_sha256,
+    "verifier_mode": "full",
+    "stage_results": [],
   }
   # Tolerate fields added by the owning worker without guessing their names.
   known = {f.name for f in dataclasses.fields(RunManifest)}
@@ -1244,11 +1297,14 @@ def stage_freeze_manifest():
   detail("validate_freeze: passed=%s, %d gap(s)"
          % (check.passed, len(check.gaps)))
 
-  # A freeze must leave a DURABLE artifact, not only a terminal verdict. The
-  # manifest is written to the scratch dir (never into the repo) and the census
-  # digest is cross-checked against the custodian pin held OUTSIDE the
-  # repository, when one exists. An in-repo pin alone cannot detect a co-edit of
-  # the data and the pin together; a digest recorded outside git can.
+  # Stage 8 builds and validates a freeze CANDIDATE only. The candidate is
+  # written to the verifier's SCRATCH dir (outside the repo, removed on exit)
+  # as freeze_manifest_candidate.json -- never to the durable path, never
+  # into the repo. A freeze record that exists while Round 0 did not pass
+  # (--only 8, --code-only, or a full run that later fails stage 9 or 10) is
+  # exactly the defect this separation closes. Promotion to the durable
+  # record happens in the shell, after the stage loop, if and only if the
+  # run was full, unfiltered, and every stage passed with no skips.
   freeze_pin = os.path.join(os.environ.get("LMR_PRIVATE_EVAL_DIR", ""),
                             "freeze_census_pin.json") if os.environ.get(
                               "LMR_PRIVATE_EVAL_DIR") else ""
@@ -1256,8 +1312,7 @@ def stage_freeze_manifest():
   # fallback scratch path is recomputed here rather than threaded through.
   _work = os.environ.get("VERIFY_ROUND0_SCRATCH") or os.path.join(
     os.environ.get("TMPDIR", "/tmp"), "verify_round0.freeze")
-  freeze_manifest_path = os.path.join(
-    os.environ.get("LMR_PRIVATE_EVAL_DIR", _work), "freeze_manifest.json")
+  candidate_path = os.path.join(_work, "freeze_manifest_candidate.json")
   census_digest = sha_or_tbd(CENSUS_REL)
   if freeze_pin and os.path.isfile(freeze_pin):
     try:
@@ -1290,23 +1345,22 @@ def stage_freeze_manifest():
       detail("... %d further gap(s) not shown" % (len(check.gaps) - 40))
     mark_fail()
   else:
-    # A freeze must leave a DURABLE artifact, not only a terminal verdict.
-    # RunManifest.write() exists and was never called, which an independent
-    # review (v5) flagged: the freeze produced an answer nobody could re-read.
-    # The manifest is written OUTSIDE the repository, beside the census pin and
-    # the private seal, so it carries no risk of joining a future co-edit.
-    if check.passed and freeze_pin:
+    # validate_freeze passed and the out-of-repo census pin agreed: stage a
+    # CANDIDATE in scratch. This is not a freeze record. The shell promotes
+    # it to the durable record after the stage loop, and only when the whole
+    # run was full, unfiltered, and clean. A verdict with no durable artifact
+    # is not a freeze record -- and a candidate written before stages 9 and
+    # 10 run is not a verdict.
+    if check.passed and not FAILED:
       try:
-        manifest.write(freeze_manifest_path)
-        detail("freeze manifest written: %s (%d bytes)"
-               % (freeze_manifest_path, os.path.getsize(freeze_manifest_path)))
+        manifest.write(candidate_path)
+        detail("freeze candidate staged (scratch only, NOT a freeze record): "
+               "%s (%d bytes)"
+               % (candidate_path, os.path.getsize(candidate_path)))
+        detail("durable promotion requires a full unfiltered pass of every stage")
       except OSError as exc:
-        detail("freeze manifest NOT written: %s" % str(exc)[:160])
+        detail("freeze candidate NOT staged: %s" % str(exc)[:160])
         mark_fail()
-    elif check.passed:
-      detail("no out-of-repo directory configured: freeze manifest not written "
-             "(a verdict with no durable artifact is not a freeze record)")
-      mark_fail()
     mark_pass()
   finish()
 
@@ -1509,7 +1563,8 @@ def stage_private_eval():
   man_path = os.path.join(ROOT, man_rel)
   if not os.path.isfile(man_path):
     detail("%s absent: no in-repo private manifest" % man_rel)
-    return mark_skip("required artifact absent: %s" % man_rel) or finish()
+    mark_skip()
+    return finish()
 
   try:
     with open(man_path, "r", encoding="utf-8") as fh:
@@ -1672,8 +1727,11 @@ if [ "$MODE" = "code-only" ]; then
   echo "###################################################################"
   echo "#  CODE-ONLY MODE -- THIS IS NOT A FREEZE PASS.                    #"
   echo "#  Stages 6 (question/label partition) and 8 (freeze manifest)     #"
-  echo "#  were NOT run. A 0 exit here means the code-level checks ran;    #"
-  echo "#  it says NOTHING about whether Round 0 may be frozen.            #"
+  echo "#  are the freeze-gated pair and were NOT run. Stage 10 (private   #"
+  echo "#  custody) was NOT run either: it needs the out-of-repo private   #"
+  echo "#  directory, which a clean clone and a CI runner do not have.    #"
+  echo "#  A 0 exit here means the code-level checks ran; it says NOTHING  #"
+  echo "#  about whether Round 0 may be frozen.                            #"
   echo "###################################################################"
 fi
 
@@ -1743,7 +1801,7 @@ echo "-------------------------------------------------------------------"
 if [ "$MODE" = "code-only" ]; then
   echo
   echo " REMINDER: this was --code-only. IT IS NOT A FREEZE PASS."
-  echo " Stages 6 and 8 did not run. Re-run without --code-only before"
+  echo " Stages 6, 8 and 10 did not run. Re-run without --code-only before"
   echo " claiming the Round 0 substrate is frozen."
   echo " (A structural PASS is still not a freeze: it cannot certify semantic"
   echo "  QA correctness. See docs/round0-review-criteria.md Appendix B.)"
@@ -1759,6 +1817,142 @@ if [ "$MODE" = "code-only" ] || [ -n "$ONLY" ]; then
   echo
   echo " RESULT: code-level checks completed (NOT a freeze pass)."
   exit 0
+fi
+
+# ---- durable freeze-record promotion ---------------------------------------
+# Stage 8 staged a CANDIDATE in scratch only. The DURABLE record is promoted
+# here, and only here, when ALL of the following hold:
+#   * full mode with no --only filter,
+#   * zero failures and zero skips,
+#   * every stage in STAGE_IDS executed (executed count == stage total).
+# The versioned record freeze_manifest_<commit>.json is installed with an
+# atomic mv (same filesystem), and only then is the stable pointer
+# freeze_manifest.json swung to it via temp file + mv. A half-written
+# durable file is never left behind: any promotion failure exits non-zero.
+# A full run that cannot produce its record is not a successful freeze, so a
+# missing private dir or a missing scratch candidate FAILS LOUDLY here
+# instead of silently skipping. Partial runs, code-only runs, and failed
+# runs leave any pre-existing durable record byte-identical and untouched.
+CANDIDATE="$WORK/freeze_manifest_candidate.json"
+N_TOTAL=$(printf '%s' "$STAGE_IDS" | wc -w | tr -d ' ')
+N_EXECUTED=$(awk 'END{print NR}' "$RESULTS")
+if [ "$N_FAIL" -eq 0 ] && [ "$N_SKIP" -eq 0 ] \
+    && [ "$N_EXECUTED" -eq "$N_TOTAL" ]; then
+  if [ -z "${LMR_PRIVATE_EVAL_DIR:-}" ]; then
+    echo
+    echo " FREEZE RECORD: FAIL -- LMR_PRIVATE_EVAL_DIR is unset, so the"
+    echo " durable freeze record has nowhere to live. A full pass with no"
+    echo " durable artifact is not a freeze."
+    echo
+    echo " RESULT: FAIL (durable freeze record could not be promoted)."
+    exit 1
+  fi
+  if [ ! -f "$CANDIDATE" ]; then
+    echo
+    echo " FREEZE RECORD: FAIL -- no stage-8 candidate in scratch"
+    echo " ($CANDIDATE absent). A full pass with no candidate to promote"
+    echo " is not a freeze."
+    echo
+    echo " RESULT: FAIL (durable freeze record could not be promoted)."
+    exit 1
+  fi
+  "$PY" - "$CANDIDATE" "$RESULTS" <<'PYPROMOTE'
+import json
+import os
+import sys
+from datetime import datetime, timezone
+
+candidate_path, results_path = sys.argv[1], sys.argv[2]
+with open(candidate_path, "r", encoding="utf-8") as fh:
+    data = json.load(fh)
+stages = []
+with open(results_path, "r", encoding="utf-8") as fh:
+    for line in fh:
+        parts = line.rstrip("\n").split("\t")
+        if len(parts) == 3:
+            stages.append({"stage": parts[0], "verdict": parts[1],
+                           "detail": parts[2]})
+data["stage_results"] = stages
+data["verifier_mode"] = "full"
+data["verified_at_utc"] = datetime.now(timezone.utc).strftime(
+    "%Y-%m-%dT%H:%M:%SZ")
+with open(candidate_path, "w", encoding="utf-8") as fh:
+    json.dump(data, fh, indent=2, sort_keys=True)
+    fh.write("\n")
+PYPROMOTE
+  if [ $? -ne 0 ]; then
+    echo
+    echo " FREEZE RECORD: FAIL -- candidate finalization failed."
+    echo
+    echo " RESULT: FAIL (durable freeze record could not be promoted)."
+    exit 1
+  fi
+  COMMIT_SHA=$(git -C "$ROOT" rev-parse HEAD 2>/dev/null) || COMMIT_SHA=""
+  case "$COMMIT_SHA" in
+    [0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ;;
+    *)
+      echo
+      echo " FREEZE RECORD: FAIL -- cannot resolve a commit SHA for $ROOT."
+      echo " A freeze record that binds no revision is not a freeze."
+      echo
+      echo " RESULT: FAIL (durable freeze record could not be promoted)."
+      exit 1
+      ;;
+  esac
+  # The candidate already carries a commit_sha (bound at stage-8 time). It
+  # must agree with HEAD now: a revision change mid-run invalidates the run.
+  CANDIDATE_SHA=$("$PY" -c 'import json,sys; print(json.load(open(sys.argv[1]))["commit_sha"])' "$CANDIDATE")
+  if [ "$CANDIDATE_SHA" != "$COMMIT_SHA" ]; then
+    echo
+    echo " FREEZE RECORD: FAIL -- revision changed mid-run (candidate binds"
+    echo " $CANDIDATE_SHA, HEAD is now $COMMIT_SHA)."
+    echo
+    echo " RESULT: FAIL (durable freeze record could not be promoted)."
+    exit 1
+  fi
+  DEST_DIR="$LMR_PRIVATE_EVAL_DIR"
+  VERSIONED="$DEST_DIR/freeze_manifest_${COMMIT_SHA}.json"
+  POINTER="$DEST_DIR/freeze_manifest.json"
+  TMP_REC="$DEST_DIR/.freeze_manifest_${COMMIT_SHA}.tmp.$$"
+  TMP_PTR="$DEST_DIR/.freeze_manifest_pointer.tmp.$$"
+  if ! cp "$CANDIDATE" "$TMP_REC"; then
+    echo
+    echo " FREEZE RECORD: FAIL -- cannot stage the versioned record in $DEST_DIR."
+    echo
+    echo " RESULT: FAIL (durable freeze record could not be promoted)."
+    exit 1
+  fi
+  if ! mv "$TMP_REC" "$VERSIONED"; then
+    rm -f "$TMP_REC"
+    echo
+    echo " FREEZE RECORD: FAIL -- cannot install $VERSIONED."
+    echo
+    echo " RESULT: FAIL (durable freeze record could not be promoted)."
+    exit 1
+  fi
+  # The stable pointer carries the same bytes as the versioned record, so a
+  # reader of either path sees the identical freeze.
+  if ! cp "$VERSIONED" "$TMP_PTR" || ! mv "$TMP_PTR" "$POINTER"; then
+    rm -f "$TMP_PTR"
+    echo
+    echo " FREEZE RECORD: FAIL -- versioned record installed but the stable"
+    echo " pointer could not be swung. $VERSIONED is intact."
+    echo
+    echo " RESULT: FAIL (durable freeze record could not be promoted)."
+    exit 1
+  fi
+  echo
+  echo " FREEZE RECORD: promoted durable record $VERSIONED"
+  echo " (stable pointer: $POINTER)"
+else
+  if [ -f "$CANDIDATE" ]; then
+    note="full pass required for promotion"
+    [ "$N_FAIL" -ne 0 ] && note="$N_FAIL stage(s) failed"
+    [ "$N_SKIP" -ne 0 ] && note="$N_SKIP stage(s) skipped"
+    [ "$N_EXECUTED" -ne "$N_TOTAL" ] && note="only $N_EXECUTED of $N_TOTAL stages executed"
+    echo
+    echo " FREEZE RECORD: none promoted (candidate discarded: $note)."
+  fi
 fi
 
 echo

@@ -18,13 +18,54 @@ a real boundary under one UID. The real enforcement is:
 FAIL CLOSED everywhere: absent artifacts report absence. ``counts()`` never
 fabricates numbers, and ``check_training_overlap()`` never returns PASS when
 the seal is missing.
+
+LEAKAGE-GATE ALGORITHM (PREREGISTERED BEFORE any Round 1 training data exists)
+-----------------------------------------------------------------------------
+Frozen at Round 0 closure. The layered rule below and its thresholds are
+preregistered NOW, before any architecture team generates training questions,
+so that nobody can tune thresholds after seeing a REJECT. Changing any
+threshold after Round 1 training data exists requires a recorded protocol
+amendment, not a silent edit.
+
+Normalization: ``casefold`` + collapse every run of non-alphanumeric
+characters to a single space + strip. Deliberately simple and documented so
+both sides can reproduce it by hand.
+
+A synthetic record is FLAGGED when ANY layer fires against ANY private
+question:
+
+  Layer 1 -- normalized exact match. The normalized synthetic text equals a
+      normalized private question. Catches verbatim copies modulo
+      case/punctuation/whitespace.
+  Layer 2 -- high token-set (Jaccard) similarity on normalized tokens.
+      ``OVERLAP_JACCARD_THRESHOLD = 0.80``. Jaccard is order-insensitive, so
+      this layer catches reworded duplicates that reuse most of the private
+      question's vocabulary. 0.80 means at least four-fifths of the combined
+      vocabulary is shared: deliberately conservative, because a false
+      positive costs the team only a rewrite while a false negative leaks a
+      held-out question into training.
+  Layer 3 -- character-level similarity as an independent, order-sensitive
+      signal: ``difflib.SequenceMatcher`` ratio on normalized strings,
+      ``OVERLAP_CHAR_RATIO_THRESHOLD = 0.85``. Catches lightly edited copies
+      (small insertions/deletions/duplications) that token sets underweight.
+      Set higher than the Jaccard threshold because raw character ratio is the
+      noisier signal; 0.85 still requires a near-identical character sequence.
+
+Deterministic and reproducible: stdlib only, no network, fixed iteration
+order (input order x stored private order), no randomness, no wall-clock.
+
+INFORMATION BOUNDARY: the verdict carries exactly three fields -- a verdict,
+a generic non-revealing reason, and the SYNTHETIC ids to remove. It never
+carries a private id, text, answer, evidence, or source. See LeakageVerdict.
 """
 
 from __future__ import annotations
 
+import difflib
 import hashlib
 import json
 import os
+import re
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -191,21 +232,150 @@ class LeakageVerdict:
     }
 
 
-def check_training_overlap(training_question_ids: list[str]) -> LeakageVerdict:
+# --- Leakage-gate preregistered constants (see module docstring) ---
+# Token-set Jaccard flag threshold. Deliberately conservative: a false
+# positive costs the team only a rewrite, while a false negative leaks a
+# held-out question into training. Order-insensitive, so reworded duplicates
+# that reuse the private question's vocabulary are caught.
+OVERLAP_JACCARD_THRESHOLD = 0.80
+# Character-level SequenceMatcher flag threshold on normalized strings.
+# Order-sensitive second signal for lightly edited copies (small insertions,
+# deletions, duplications) that token sets underweight. Set higher than the
+# Jaccard threshold because raw character ratio is the noisier signal; 0.85
+# still requires a near-identical character sequence.
+OVERLAP_CHAR_RATIO_THRESHOLD = 0.85
+
+# Private question-text keys, in lookup order. The sealed private items and
+# the public questions both carry "text"; the alternates tolerate minor
+# schema drift without ever changing what crosses the boundary (verdicts
+# only -- text never leaves this module).
+_PRIVATE_TEXT_KEYS = ("text", "question", "question_text", "prompt")
+
+
+def _normalize_question_text(s: str) -> str:
+  """casefold + collapse non-alphanumeric runs to one space + strip."""
+  return re.sub(r"[^a-z0-9]+", " ", s.casefold()).strip()
+
+
+def _jaccard(a: set[str], b: set[str]) -> float:
+  if not a and not b:
+    return 1.0
+  if not a or not b:
+    return 0.0
+  return len(a & b) / len(a | b)
+
+
+def _record_overlaps(
+  norm: str,
+  tokens: set[str],
+  priv_norm: str,
+  priv_tokens: set[str],
+) -> bool:
+  """True when ANY preregistered layer fires for one synthetic/private pair."""
+  if norm == priv_norm:
+    return True
+  if _jaccard(tokens, priv_tokens) >= OVERLAP_JACCARD_THRESHOLD:
+    return True
+  if difflib.SequenceMatcher(None, norm, priv_norm).ratio() >= OVERLAP_CHAR_RATIO_THRESHOLD:
+    return True
+  return False
+
+
+def _validate_training_records(records: Any) -> tuple[list[dict[str, str]] | None, str | None]:
+  """Validate record input. Returns (valid, None) or (None, error_reason)."""
+  if not isinstance(records, list) or not records:
+    return None, "malformed training input"
+  valid: list[dict[str, str]] = []
+  for rec in records:
+    if not isinstance(rec, dict):
+      return None, "malformed training input"
+    sid = rec.get("synthetic_id")
+    text = rec.get("text")
+    if not isinstance(sid, str) or not sid.strip():
+      return None, "malformed training input"
+    if not isinstance(text, str) or not text.strip():
+      return None, "malformed training input"
+    valid.append({"synthetic_id": sid, "text": text})
+  return valid, None
+
+
+def _extract_private_text(item: Any) -> str | None:
+  if isinstance(item, str):
+    return item if item.strip() else None
+  if isinstance(item, dict):
+    for key in _PRIVATE_TEXT_KEYS:
+      val = item.get(key)
+      if isinstance(val, str) and val.strip():
+        return val
+  return None
+
+
+def _load_private_question_texts() -> list[tuple[str, set[str]]]:
+  """Load sealed private question texts as (normalized, token-set) pairs.
+
+  Custodian-side only: normalized text never leaves this module except
+  through similarity comparisons. Raises PrivateEvalError when the questions
+  are absent, unparsable, structurally wrong, or yield no usable text --
+  every one of those is a fail-closed REJECT at the caller.
+  """
+  path = questions_path()
+  try:
+    with open(path, "r", encoding="utf-8") as fh:
+      data = json.load(fh)
+  except (OSError, ValueError) as exc:
+    raise PrivateEvalError("private questions unreadable") from exc
+  if isinstance(data, dict):
+    # Tolerate a wrapped mapping with an items/questions list.
+    for key in ("items", "questions"):
+      if isinstance(data.get(key), list):
+        data = data[key]
+        break
+  if not isinstance(data, list) or not data:
+    raise PrivateEvalError("private questions malformed")
+  out: list[tuple[str, set[str]]] = []
+  for item in data:
+    text = _extract_private_text(item)
+    if text is None:
+      continue
+    norm = _normalize_question_text(text)
+    if not norm:
+      continue
+    out.append((norm, set(norm.split())))
+  if not out:
+    raise PrivateEvalError("private questions malformed")
+  return out
+
+
+def check_training_overlap(records: list[Any]) -> LeakageVerdict:
   """Custodian-side leakage check for architecture-generated training data.
+
+  ``records`` is a list of ``{"synthetic_id": str, "text": str}`` dicts.
+  A legacy list of bare id strings is accepted for backward compatibility
+  and ALWAYS yields REJECT: bare ids carry no question text, so no text
+  comparison is possible and clearance cannot be issued (fail closed).
 
   Document-level overlap is LEGAL (Regime A explicitly allows corpus-known
   specialization). Exact or near-exact private QUESTION leakage is not.
 
   Information asymmetry is preserved by design: this function returns only
-  PASS or REJECT, the count of flagged training examples, and the SYNTHETIC
-  training ids that must be removed. It never returns the matched private
-  question id, private text, private answer, or private evidence.
+  PASS or REJECT, a generic non-revealing reason, and the SYNTHETIC training
+  ids that must be removed. It never returns the matched private question
+  id, private text, private answer, or private evidence.
 
-  FAIL CLOSED: with no seal present the verdict is REJECT with an explicit
-  "seal absent" reason. It never returns PASS on missing data.
+  FAIL CLOSED: REJECT (never PASS) when the private dir resolves inside the
+  repo, the seal is absent/invalid, the private questions are
+  unreadable/malformed, the training input is malformed or empty, or the
+  comparison could not be executed. Every PASS return below has executed the
+  full text comparison over all records; there is no PASS path that skips it.
   """
-  assert_private_dir_outside_repo()
+  try:
+    assert_private_dir_outside_repo()
+  except PrivateEvalError as exc:
+    return LeakageVerdict(
+      verdict="REJECT",
+      reason=f"cannot evaluate leakage: {exc}",
+      flagged_ids=[],
+    )
   try:
     verify_seal()
   except PrivateEvalError as exc:
@@ -215,17 +385,112 @@ def check_training_overlap(training_question_ids: list[str]) -> LeakageVerdict:
       flagged_ids=[],
     )
 
-  # The full comparison needs the sealed questions; that is a Phase 6
-  # custodian concern. This gate exists so the interface is fixed and fails
-  # closed until then. Hash-only matching is wired once the seal exists.
+  # Legacy bare-id calls carry no text to compare: fail closed, never PASS.
+  if isinstance(records, list) and records and all(isinstance(r, str) for r in records):
+    return LeakageVerdict(
+      verdict="REJECT",
+      reason=(
+        "cannot evaluate leakage: training ids carry no question text; "
+        "resubmit as records with synthetic_id and text"
+      ),
+      flagged_ids=[],
+    )
+
+  valid, error = _validate_training_records(records)
+  if error is not None or valid is None:
+    return LeakageVerdict(
+      verdict="REJECT",
+      reason=f"cannot evaluate leakage: {error}",
+      flagged_ids=[],
+    )
+
+  try:
+    private_texts = _load_private_question_texts()
+  except PrivateEvalError:
+    # Generic reason on purpose: the detail could otherwise name private
+    # file layout. The custodian sees the exception; the team sees only this.
+    return LeakageVerdict(
+      verdict="REJECT",
+      reason="cannot evaluate leakage: private questions unreadable or malformed",
+      flagged_ids=[],
+    )
+
+  flagged: list[str] = []
+  for rec in valid:
+    norm = _normalize_question_text(rec["text"])
+    tokens = set(norm.split())
+    for priv_norm, priv_tokens in private_texts:
+      if _record_overlaps(norm, tokens, priv_norm, priv_tokens):
+        flagged.append(rec["synthetic_id"])
+        break
+
+  if flagged:
+    return LeakageVerdict(
+      verdict="REJECT",
+      reason=(
+        f"{len(flagged)} record(s) flagged by question-overlap rule"
+      ),
+      flagged_ids=flagged,
+    )
   return LeakageVerdict(
-    verdict="REJECT",
-    reason=(
-      "sealed present but hash-only comparison not yet bound to a seal; "
-      "custodian must run the sealed comparison before PASS can be issued"
-    ),
+    verdict="PASS",
+    reason="no question-level overlap detected",
     flagged_ids=[],
   )
+
+
+def check_training_file(path: str) -> LeakageVerdict:
+  """Leakage check over a training file: a JSON list or a JSONL file.
+
+  Each element/line must be a ``{"synthetic_id": str, "text": str}``
+  record. Malformed files (missing file, invalid JSON, a top-level JSON
+  object instead of a list, an unparsable JSONL line, an empty file)
+  yield REJECT, never PASS.
+  """
+  try:
+    with open(path, "r", encoding="utf-8") as fh:
+      raw = fh.read()
+  except OSError:
+    return LeakageVerdict(
+      verdict="REJECT",
+      reason="cannot evaluate leakage: training file unreadable or missing",
+      flagged_ids=[],
+    )
+  if not raw.strip():
+    return LeakageVerdict(
+      verdict="REJECT",
+      reason="cannot evaluate leakage: malformed training input",
+      flagged_ids=[],
+    )
+  try:
+    top = json.loads(raw)
+  except ValueError:
+    top = None
+  records: Any = None
+  if isinstance(top, list):
+    records = top
+  elif top is None:
+    # Not whole-file JSON: try JSONL, one record per non-blank line.
+    records = []
+    try:
+      for line in raw.splitlines():
+        if not line.strip():
+          continue
+        obj = json.loads(line)
+        records.append(obj)
+    except ValueError:
+      return LeakageVerdict(
+        verdict="REJECT",
+        reason="cannot evaluate leakage: malformed training input",
+        flagged_ids=[],
+      )
+  else:
+    return LeakageVerdict(
+      verdict="REJECT",
+      reason="cannot evaluate leakage: malformed training input",
+      flagged_ids=[],
+    )
+  return check_training_overlap(records)
 
 
 def load_schema() -> dict[str, Any] | None:

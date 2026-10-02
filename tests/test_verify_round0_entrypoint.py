@@ -380,11 +380,18 @@ class TestCodeOnlyMode(unittest.TestCase):
                   "--code-only must print its not-a-freeze-pass banner:\n%s" % out)
 
   def test_code_only_skips_the_freeze_gated_stages(self):
+    # Behaviour intentionally changed (Round 0 closure, Lane A): --code-only
+    # used to run stage 10 and now does not. Stage 10 needs the out-of-repo
+    # private directory, which a clean clone and a CI runner do not have; the
+    # repo-contained half of stage 10 is covered hermetically by
+    # tests/test_private_eval_tripwire.py.
     rc, out = run_verifier("--code-only", "--root", self.copy_root)
     self.assertNotIn("[6/10]", out,
                      "--code-only must not run stage 6 (question/label partition)")
     self.assertNotIn("[8/10]", out,
                      "--code-only must not run stage 8 (freeze manifest)")
+    self.assertNotIn("[10/10]", out,
+                     "--code-only must not run stage 10 (private custody is full-mode only)")
 
   def test_code_only_lists_what_it_did_not_verify(self):
     rc, out = run_verifier("--code-only", "--root", self.copy_root)

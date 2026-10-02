@@ -35,6 +35,28 @@ def _sha(path):
     return hashlib.sha256(fh.read()).hexdigest()
 
 
+def _init_git(root):
+    """Make a throwaway copy a real git checkout.
+
+    A durable freeze record binds the exact commit and validate_freeze fails
+    closed when it cannot. Copying the repo without .git therefore produces a
+    tree that can never be frozen - correct behaviour, but useless for a test
+    checking something else. A throwaway repo keeps these tests exercising a
+    realistic freeze environment without shipping .git around.
+    """
+    import subprocess
+    env = dict(os.environ)
+    env.update({
+        "GIT_AUTHOR_NAME": "test", "GIT_AUTHOR_EMAIL": "t@example.invalid",
+        "GIT_COMMITTER_NAME": "test", "GIT_COMMITTER_EMAIL": "t@example.invalid",
+        "GIT_AUTHOR_DATE": "2026-01-01T00:00:00+00:00",
+        "GIT_COMMITTER_DATE": "2026-01-01T00:00:00+00:00",
+    })
+    for cmd in (["git", "init", "-q"], ["git", "add", "-A"],
+                ["git", "commit", "-q", "-m", "throwaway freeze fixture"]):
+        subprocess.run(cmd, cwd=root, env=env, capture_output=True, check=True)
+
+
 def _run(root, *stages, env_extra=None):
   env = dict(os.environ)
   env.setdefault("VERIFY_ROUND0_PYTHON", "python3")
@@ -116,6 +138,7 @@ class TestOutOfRepoTrustRoot(unittest.TestCase):
     root = os.path.join(tmp, "repo")
     shutil.copytree(REPO_ROOT, root,
                     ignore=shutil.ignore_patterns(".git", "__pycache__"))
+    _init_git(root)
     rc, out = _run(root, "8", env_extra={"LMR_PRIVATE_EVAL_DIR": PRIVATE_DIR})
     self.assertEqual(rc, 0, f"unmodified tree must pass stage 8:\n{out}")
     self.assertIn("MATCHES out-of-repo freeze pin", out)
@@ -130,6 +153,7 @@ class TestOutOfRepoTrustRoot(unittest.TestCase):
     root = os.path.join(tmp, "repo")
     shutil.copytree(REPO_ROOT, root,
                     ignore=shutil.ignore_patterns(".git", "__pycache__"))
+    _init_git(root)
 
     kept = _truncate_and_coedit(root, 100)
     self.assertEqual(kept, 100)
@@ -150,6 +174,7 @@ class TestOutOfRepoTrustRoot(unittest.TestCase):
     root = os.path.join(tmp, "repo")
     shutil.copytree(REPO_ROOT, root,
                     ignore=shutil.ignore_patterns(".git", "__pycache__"))
+    _init_git(root)
     empty_priv = os.path.join(tmp, "empty-private")
     os.makedirs(empty_priv, exist_ok=True)
     rc, out = _run(root, "8", env_extra={"LMR_PRIVATE_EVAL_DIR": empty_priv})

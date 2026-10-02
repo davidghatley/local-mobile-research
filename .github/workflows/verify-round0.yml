@@ -6,6 +6,13 @@
 #   three test suites, corpus hash/structure verification, QA structural
 #   validation, generator pin validation, and leakage-control artifacts.
 #
+#   Stage 10 (private-test custody) is NOT run in CI and that is correct, not a
+#   gap: it verifies the OUT-OF-REPO private benchmark, which no CI runner has.
+#   The repo-contained half of that guarantee -- the in-repo opaque manifest
+#   carries no private content -- is covered hermetically by
+#   tests/test_private_eval_tripwire.py, which builds its own fixtures and needs
+#   no developer path. Full-mode verification on the freeze host runs stage 10.
+#
 # WHAT THIS WORKFLOW DOES NOT DO
 #   It does NOT certify the Round 0 freeze. It is explicitly NOT a freeze
 #   pass. The freeze verdict comes from an unflagged run of
@@ -74,7 +81,7 @@ jobs:
           echo "$out"
           # A --help that ran the suite has broken this project twice. Assert
           # it prints no stage banner and no stage verdict line.
-          if printf '%s' "$out" | grep -qE '^\[[0-9]/9\]'; then
+          if printf '%s' "$out" | grep -qE '^\[[0-9]+/[0-9]+\]'; then
             echo "::error::--help printed a stage banner; it is not side-effect free"
             exit 1
           fi
@@ -91,8 +98,7 @@ jobs:
             corpus/corpus.jsonl \
             corpus/raw \
             generator_runtime/artifacts/Qwen2.5-1.5B-Instruct-Q4_K_M.gguf \
-            corpus/questions.json \
-            corpus/heldout_labels.sealed.json
+            corpus/questions.json
           do
             if [ -e "$f" ]; then
               echo "present: $f"

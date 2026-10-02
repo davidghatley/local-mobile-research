@@ -24,10 +24,37 @@ CENSUS_REL = "corpus/partition_census.json"
 PARTITION_REL = "corpus/questions.json"
 
 
+def _init_git(root):
+    """Make a throwaway copy a real git checkout.
+
+    A durable freeze record must bind the exact commit, and validate_freeze
+    fails closed when it cannot. Copying the repo without .git therefore
+    produces a tree that can never be frozen - correct behaviour, but useless
+    for a test that is checking something else. Initialising a throwaway repo
+    keeps these tests exercising a realistic freeze environment without
+    shipping .git around.
+    """
+    import subprocess
+    env = dict(os.environ)
+    env.update({
+        "GIT_AUTHOR_NAME": "test", "GIT_AUTHOR_EMAIL": "t@example.invalid",
+        "GIT_COMMITTER_NAME": "test", "GIT_COMMITTER_EMAIL": "t@example.invalid",
+        "GIT_AUTHOR_DATE": "2026-01-01T00:00:00+00:00",
+        "GIT_COMMITTER_DATE": "2026-01-01T00:00:00+00:00",
+    })
+    for cmd in (
+        ["git", "init", "-q"],
+        ["git", "add", "-A"],
+        ["git", "commit", "-q", "-m", "throwaway freeze fixture"],
+    ):
+        subprocess.run(cmd, cwd=root, env=env, capture_output=True, check=True)
+
+
 def _copy_repo(tmp, name="repo"):
   dest = os.path.join(tmp, name)
   shutil.copytree(REPO_ROOT, dest,
                   ignore=shutil.ignore_patterns(".git", "__pycache__"))
+  _init_git(dest)
   return dest
 
 

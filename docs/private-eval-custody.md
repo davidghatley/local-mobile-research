@@ -69,15 +69,45 @@ corpus-specific specialization. Exact or near-exact private **question**
 leakage is not.
 
 `substrate.private_eval.check_training_overlap()` is the custodian-side gate.
-It returns only:
+It takes training RECORDS (`{"synthetic_id", "text"}` dicts) or a training
+file (JSON list or JSONL) via `check_training_file()`, and returns only:
 
 ```
 {"verdict": "PASS" | "REJECT", "reason": ..., "flagged_ids": [synthetic training ids]}
 ```
 
 It never returns the matched private question id, private text, private
-answer, or private evidence. It **fails closed**: with no seal present the
-verdict is `REJECT` with an explicit reason, never `PASS` on missing data.
+answer, or private evidence. It **fails closed**: with no seal present, with
+unreadable/malformed private questions, with malformed training input, or
+whenever the comparison could not be executed, the verdict is `REJECT` with
+a generic reason, never `PASS` on missing data. A legacy list of bare id
+strings (no question text) also yields `REJECT`: without text there is
+nothing to compare, so no clearance can be issued.
+
+## Leakage rule (PREREGISTERED BEFORE any Round 1 training data exists)
+
+Frozen at Round 0 closure, in `substrate/private_eval.py` module docstring
+and constants. Thresholds may not be tuned after seeing a REJECT; changing
+them once training data exists requires a recorded protocol amendment.
+
+Normalization: casefold + collapse non-alphanumeric runs to one space +
+strip. A record is FLAGGED when ANY layer fires against ANY private
+question:
+
+1. Normalized exact match (verbatim copy modulo case/punctuation/whitespace).
+2. Token-set Jaccard similarity >= `OVERLAP_JACCARD_THRESHOLD = 0.80`.
+   Order-insensitive, catches reworded duplicates reusing the private
+   vocabulary. Deliberately conservative: a false positive costs the team
+   only a rewrite; a false negative leaks a held-out question into training.
+3. `difflib.SequenceMatcher` ratio on normalized strings >=
+   `OVERLAP_CHAR_RATIO_THRESHOLD = 0.85`. Order-sensitive second signal for
+   lightly edited copies. Set higher than the Jaccard threshold because
+   character ratio is the noisier signal; 0.85 still requires a
+   near-identical character sequence.
+
+Deterministic, stdlib only, no network. Reasons are generic
+("no question-level overlap detected" / "N record(s) flagged by
+question-overlap rule"); only SYNTHETIC ids are returned.
 
 ## Seal protocol
 

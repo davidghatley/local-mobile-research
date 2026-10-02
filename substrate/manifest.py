@@ -169,6 +169,18 @@ class RunManifest:
   # is only detectable by comparing against a digest held outside git.
   partition_census_sha256: str = ""
   public_reference_pins_sha256: str = "TBD"
+  # Freeze-record bindings (Round 0 closure). The durable freeze record must
+  # bind the exact revision it verified, the exact verifier that verified it,
+  # when the verification completed, and what every stage reported. These are
+  # populated by scripts/verify_round0 stage 8 (candidate) and by the shell
+  # promotion step (stage_results, verified_at_utc); they default to empty so
+  # synthetic freeze fixtures that never claim a durable record keep working.
+  commit_sha: str = ""
+  working_tree_dirty: bool = False
+  verified_at_utc: str = ""
+  verifier_sha256: str = ""
+  verifier_mode: str = "full"
+  stage_results: list = field(default_factory=list)
 
   def to_dict(self) -> dict:
     return {
@@ -198,6 +210,12 @@ class RunManifest:
       "partition_census_sha256": self.partition_census_sha256,
       "questions_sha256": self.questions_sha256,
       "sealed_labels_sha256": self.sealed_labels_sha256,
+      "commit_sha": self.commit_sha,
+      "working_tree_dirty": bool(self.working_tree_dirty),
+      "verified_at_utc": self.verified_at_utc,
+      "verifier_sha256": self.verifier_sha256,
+      "verifier_mode": self.verifier_mode,
+      "stage_results": [dict(r) for r in self.stage_results],
     }
 
   def write(self, path: str) -> None:
@@ -239,6 +257,12 @@ class RunManifest:
       require_partition_census=bool(d.get("require_partition_census", False)),
       partition_census_sha256=d.get("partition_census_sha256", ""),
       public_reference_pins_sha256=d.get("public_reference_pins_sha256", "TBD"),
+      commit_sha=d.get("commit_sha", ""),
+      working_tree_dirty=bool(d.get("working_tree_dirty", False)),
+      verified_at_utc=d.get("verified_at_utc", ""),
+      verifier_sha256=d.get("verifier_sha256", ""),
+      verifier_mode=d.get("verifier_mode", "full"),
+      stage_results=[dict(r) for r in d.get("stage_results", [])],
     )
 
 
@@ -717,6 +741,31 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
   for component, logged in sorted(manifest.seed_derivation_log.items()):
     if derive_seed(manifest.seed, component) != logged:
       gaps.append(f"seed derivation mismatch for component {component!r}")
+
+  # --- freeze-record bindings: a real freeze must name its revision --------
+  # These fields are what make the durable record re-readable and comparable:
+  # the exact commit verified, the exact verifier script, when verification
+  # completed, in which mode, and what every stage reported. Synthetic freeze
+  # fixtures never claim a durable record, so the requirement is opt-in via
+  # require_partition_census, exactly like the census requirement above.
+  if manifest.require_partition_census:
+    if not isinstance(manifest.commit_sha, str) or len(manifest.commit_sha) != 40:
+      gaps.append("commit_sha unrecorded: the freeze record must bind the exact commit")
+    else:
+      try:
+        int(manifest.commit_sha, 16)
+      except ValueError:
+        gaps.append("commit_sha malformed: not a 40-hex commit SHA")
+    if manifest.verifier_sha256 in PLACEHOLDER_HASHES or len(manifest.verifier_sha256) != 64:
+      gaps.append("verifier_sha256 unrecorded: the freeze record must bind the verifier script hash")
+    if manifest.verifier_mode != "full":
+      gaps.append(f"verifier_mode is {manifest.verifier_mode!r}: a durable freeze record requires mode 'full'")
+    if not manifest.verified_at_utc:
+      gaps.append("verified_at_utc unrecorded: the freeze record must carry its verification timestamp")
+    # working_tree_dirty is RECORDED, never a gap: the binding is the flag in
+    # the record itself, so a later reader can tell whether the revision was
+    # clean. Failing on a dirty tree would make the verifier unusable on any
+    # uncommitted checkout, including the one that produces the record.
 
   # --- Regime metadata validations (Round 0 additions) ---
   # PAIRED DESIGN (Issue 3, Phase 3): Regime B is a TAGGED PAIRED CONDITION

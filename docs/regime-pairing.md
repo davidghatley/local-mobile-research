@@ -69,3 +69,66 @@ Effect on `data_tools.validate_qa`: the 87 `declared group split heldout
 residue errors (220 of 311) are map-mismatch artifacts of the stale map
 and clear after migration (+ `data_tools/verify.py` accepting
 `shadow_dev` as a mappable evidence split).
+
+## Operational 21-document superset protocol (PREREGISTERED)
+
+Status: PREREGISTERED at the Round 0 closure. This section defines how
+architecture teams OPERATIONALIZE Regime B without revealing the private
+paired items. It adds the worker-facing procedure; it changes no
+invariant above.
+
+### The public superset
+
+- The PRIVATE Regime B evaluation is 15 paired items over 13 source
+  articles. `corpus/private_test_manifest.json` records that fact as
+  counts only (`paired_regime_b_items: 15`,
+  `paired_regime_b_excluded_articles: 13`) — it is opaque: no article
+  names, no item ids. Those 13 articles and the 15 item ids stay private
+  (custody: `docs/private-eval-custody.md`).
+- The PUBLIC preregistered superset is
+  `corpus/regime_b_excluded_articles.json`: **21 articles** over the
+  cambridge / corona / jaguar / lincoln / washington groups — the sorted
+  union of the Regime B group articles. The private 13 are a subset of
+  these 21.
+
+### Model A / Model B procedure (binding for all Round 1 teams)
+
+- Model A: normal corpus-known adaptation — architecture-specific
+  synthetic training/adaptation may use any corpus document.
+- Model B: the identical procedure, but **ALL 21** publicly declared
+  Regime-B articles are excluded from architecture-specific synthetic
+  training/adaptation data. The worker exclusion list is the public 21,
+  obtained ONLY from `corpus/regime_b_excluded_articles.json`
+  (`substrate.query.worker_regime_b_exclusions` — the only sanctioned
+  source).
+- Query-time corpus is IDENTICAL for A and B: the 21 REMAIN in the
+  retrieval corpus (invariant 1 above; `verify_query_corpus_unchanged`).
+
+### Why scoring the private 15 leaks nothing about which 13 matter
+
+Every Regime B worker sees the SAME public 21. Because the worker list is
+a preregistered superset of the private exclusion set, the A/B delta
+observed on the 15 secret paired items is produced under the same
+exclusion superset regardless of which subset of it the private items
+actually touch: scoring can confirm the superset effect, never the
+private 13-subset boundary.
+
+### Invariant (tested in `tests/test_query_contract.py`)
+
+Private Regime B metadata NEVER changes worker training exclusions:
+
+- the worker-facing exclusion list is derived from the public artifact
+  only and equals its `articles` field (open-spy: only
+  `corpus/regime_b_excluded_articles.json` is opened; no private path is
+  touched);
+- no function in the repository reads private paired-regime metadata to
+  produce a worker exclusion list (source audit of the sanctioned
+  function);
+- the in-repo private manifest is opaque (counts + hashes only) and
+  carries no article-level data from which a worker list could even be
+  derived;
+- the sanctioned source refuses fail-closed any private-labeled source
+  path.
+
+The common Round 1 contract that carries this protocol to every team is
+`experiments/R1_TRAINING_CONTRACT.md`.
