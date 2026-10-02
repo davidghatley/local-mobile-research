@@ -36,11 +36,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "aec4c4239b88018bd002ced3f91b0c9b50168e4226e12de5dd298dc76bde06bd",
+    "decision": "approve",
+    "rationale": "Corpus-wide absence verified: the only 2022 Rano Raraku wildfire statement is t:moai:15:000:12 'an unknown number of moai ... were damaged'; no node in the corpus gives a damaged count.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

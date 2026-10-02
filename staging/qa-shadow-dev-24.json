@@ -42,11 +42,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "9133a57203ca3023e69d17f4159df6ce7a6f556cec9f4a040c240fae7c9f247c",
+    "decision": "approve",
+    "rationale": "The Phase 2 relabel is correct: p:coronavirus:02:001 alone both identifies June Almeida (working with Tyrrell, the group later named coronaviruses) and states St Thomas' Hospital, while the dropped p:coronavirus:01:000 names the coiners but no hospital, so the singleton is sufficient, minimal and correctly a factoid.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

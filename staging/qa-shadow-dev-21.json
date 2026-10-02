@@ -56,11 +56,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "31e7c6c0ec8b5be4592f6fa19d26b7116d9d7dc2251774752804bfc1762d59d9",
+    "decision": "approve",
+    "rationale": "Genuine two-hop: p:washington_state:01:000 fixes the Columbia-to-Washington renaming and names George Washington, p:george_washington:01:000 supplies the February 22, 1732 birth date; negatives give no birth date and no Columbia renaming.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

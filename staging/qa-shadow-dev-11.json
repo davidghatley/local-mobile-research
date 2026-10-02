@@ -42,11 +42,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "519e73d6a84fd2ccd0618714f62d0ba7bc518520dd3dddb9d3b71ea096ba2fce",
+    "decision": "approve",
+    "rationale": "p:mount_vernon:00:000 places the estate on the Potomac; negatives are the mansion construction history and the 1759 marriage/estate-management paragraph, neither naming a river for Mount Vernon.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

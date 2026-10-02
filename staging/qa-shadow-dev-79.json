@@ -46,11 +46,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "2d7c3876df944df397d3749ea9e40d7e5d7d498dca44b334ee7f3dc1c77814f9",
+    "decision": "approve",
+    "rationale": "p:washington_d_c:03:000 states British forces occupied Washington on August 24, 1814; negatives are the Continental Congress capitals list and the Alexandria decline, neither giving the date.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

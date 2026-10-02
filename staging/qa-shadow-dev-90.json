@@ -40,11 +40,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "bddb8967dd4adbc6b4aeee334afdab31b751812311aaf34c6b6fe5b08ee271e5",
+    "decision": "approve",
+    "rationale": "Corpus-wide absence verified: no node states a numerical efficiency computed by Carnot himself; the only numerical Carnot efficiency is p:steam_engine:32:000's 'about 64%' for a modern coal-fired station, and the repaired absent_reason states this accurately.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

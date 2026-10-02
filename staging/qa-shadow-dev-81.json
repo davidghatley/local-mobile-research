@@ -52,11 +52,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "8a0cd6837128f7ee1e07a54de54143bed60fa3a7d7ffe13f69783b4db7cc9745",
+    "decision": "approve",
+    "rationale": "Both recorded singletons independently name Tacoma and Bothell (p:university_of_washington:00:000 'satellite campuses in nearby cities of Tacoma and Bothell'; p:university_of_washington:04:000 'additional campuses in Bothell and Tacoma'); negatives are the 1854 Stevens recommendation and the 1909 exposition.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

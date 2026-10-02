@@ -46,11 +46,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "31765970ae9e7b3842e0bba9fb4c8a96f77321c4dd086b7606e4f68e7a1141d2",
+    "decision": "approve",
+    "rationale": "p:corona_australis:01:000 states the four-letter abbreviations were repealed in 1955; negatives are the constellation lead and the Alfecca Meridiana naming paragraph, neither giving 1955.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

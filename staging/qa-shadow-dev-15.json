@@ -42,11 +42,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "9fc13b1bd03dde4889181beba063105cdb95e45c4dcd585d0fdac59ec9d5a48d",
+    "decision": "approve",
+    "rationale": "p:mary_celeste:00:000 gives the December 4, 1872 discovery date; negatives give Briggs's birth date and the 1868/October 1872 ownership dates, so the December 4, 1872 string appears in no negative.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

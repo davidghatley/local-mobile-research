@@ -42,11 +42,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "ca2a8aed7e298bca8b8e864f64c6336ecfd2814813fcae3653d84f5b906ae80a",
+    "decision": "approve",
+    "rationale": "p:saola:00:000 gives Pseudoryx nghetinhensis with the Annamite Range bovid descriptor; negatives cover range/elevation and Robichaud's measurements, neither naming the species.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

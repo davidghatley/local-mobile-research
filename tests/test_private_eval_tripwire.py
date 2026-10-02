@@ -51,6 +51,10 @@ NAME_EXEMPT_PATHS = {
   ".gitignore",
   "docs/private-eval-custody.md",
   "docs/STATUS.md",
+  # The in-repo manifest is OPAQUE BY CONTRACT: counts, hashes, split metadata,
+  # custody rules and the seal digest. It is asserted content-free by
+  # test_in_repo_manifest_is_content_free below.
+  "corpus/private_test_manifest.json",
   "substrate/private_eval.py",
   "tests/test_private_eval_tripwire.py",
   "tests/test_custody_audit.py",
@@ -117,6 +121,51 @@ class TestPrivateContentNotInRepo(unittest.TestCase):
     self.assertEqual(
       offenders, [], f"private_test content inside repo staging: {offenders}"
     )
+
+  def test_in_repo_manifest_is_content_free(self):
+    """corpus/private_test_manifest.json carries hashes, never content.
+
+    The manifest is the one private-test artifact allowed inside the repo, and
+    it is only legitimate because it is opaque. This test fails if a private
+    question id, answer, support atom, source id or label ever leaks into it.
+    """
+    path = os.path.join(REPO_ROOT, "corpus", "private_test_manifest.json")
+    if not os.path.isfile(path):
+      self.skipTest("in-repo private manifest not yet created")
+    with open(path, "r", encoding="utf-8") as fh:
+      data = json.load(fh)
+
+    def walk_keys(obj, trail=""):
+      if isinstance(obj, dict):
+        for k, v in obj.items():
+          yield from walk_keys(v, f"{trail}.{k}")
+      elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+          yield from walk_keys(v, f"{trail}[{i}]")
+      else:
+        yield trail, obj
+
+    forbidden_keys = (
+      "question", "answer", "sufficient_set", "support_atom", "atom",
+      "label", "evidence_text", "hard_negative", "readings",
+    )
+    forbidden_values = ("qa-private-", "answer_text", "sufficient_sets")
+    for trail, value in walk_keys(data):
+      leaf = trail.rsplit(".", 1)[-1].lower()
+      for bad in forbidden_keys:
+        if leaf == bad or leaf.startswith(bad + "["):
+          self.fail(f"private content key in in-repo manifest: {trail}")
+      if isinstance(value, str):
+        for bad in forbidden_values:
+          self.assertNotIn(
+            bad, value,
+            f"private content fragment {bad!r} in manifest at {trail}",
+          )
+
+    # It MUST still carry the seal + counts, or it is not doing its job.
+    self.assertIn("seal_sha256", data)
+    self.assertIn("counts", data)
+    self.assertGreater(data["counts"]["total"], 0)
 
   def test_private_dir_is_outside_repo(self):
     self.assertNotEqual(

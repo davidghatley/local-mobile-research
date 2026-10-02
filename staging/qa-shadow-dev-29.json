@@ -36,11 +36,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "ef035ca03b7368dbf2d1ef0bb4cf2493663bb477db5d9d2ae6f148b7b95faed0",
+    "decision": "approve",
+    "rationale": "Corpus-wide absence verified: the Atari Jaguar article's only price statements are a redacted relative price (p:atari_jaguar:00:000), an unquantified 'low price point' (:02:000/:17:000), a redacted 1995 price drop (:04:000), 'selling at a loss', competitor figures and 2001 UK resale; no node states a November 1993 launch price.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

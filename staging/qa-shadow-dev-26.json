@@ -57,11 +57,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "47c4e8d96a0e84868c266c4940d2b9031fa8c7b72c16c2a7d02c0c6851aa6e9b",
+    "decision": "approve",
+    "rationale": "Genuine two-hop: p:cambridge_massachusetts:00:000 fixes Washington via the July 2, 1775 Cambridge Common command, p:george_washington:00:000 supplies the 1789 to 1797 term; negatives give no presidential term.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

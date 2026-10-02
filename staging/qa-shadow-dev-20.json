@@ -56,11 +56,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "eb7f1ab56d441a2fca1bcf756db4a1bb94421d90b4468cf5775799c8543a5e81",
+    "decision": "approve",
+    "rationale": "Genuine two-hop: p:cambridge_massachusetts:00:000 fixes the Middlesex County city named for an English university but gives no year, while p:university_of_cambridge:00:000 supplies 1209 without the city link; negatives cover Cambridge, England wartime history and Massachusetts bridge-building, neither giving 1209.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

@@ -42,11 +42,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "cbe4bc84bb9fb6b9e5fbf4babc9a3396d4085a80718f3f8ac9c4383be1de44a7",
+    "decision": "approve",
+    "rationale": "p:washington_d_c:00:000 gives the 2020 census figure 689,545; negatives are the 1814 burning of Washington and the Kennewick Man paragraph, neither stating a census population.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

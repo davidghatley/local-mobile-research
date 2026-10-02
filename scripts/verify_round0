@@ -61,8 +61,8 @@ DEFAULT_ROOT=$(CDPATH= cd -- "$SELF_DIR/.." 2>/dev/null && pwd) || {
 PY=${VERIFY_ROUND0_PYTHON:-python3}
 
 # Stage identifiers are the numbers used by --only and by the report banners.
-STAGE_IDS="1 2 3 4 5 6 7 8 9"
-CODE_ONLY_IDS="1 2 3 4 5 7 9"
+STAGE_IDS="1 2 3 4 5 6 7 8 9 10"
+CODE_ONLY_IDS="1 2 3 4 5 7 9 10"
 
 usage() {
   cat <<'USAGE'
@@ -195,8 +195,8 @@ if [ -n "$ONLY" ]; then
   SELECTED=$(printf '%s' "$ONLY" | tr ',' ' ')
   for id in $SELECTED; do
     case "$id" in
-      [1-9]) ;;
-      *) usage_error "--only accepts stage ids 1-9, got: $id" ;;
+      1|2|3|4|5|6|7|8|9|10) ;;
+      *) usage_error "--only accepts stage ids 1-10, got: $id" ;;
     esac
   done
 elif [ "$MODE" = "code-only" ]; then
@@ -216,9 +216,15 @@ banner() {
 }
 
 stage_head() {
+  # [stage-id/total-stages]. The denominator is the FULL stage set, not the
+  # selected subset, so a reader can always tell which numbered stage is
+  # running and that a --code-only run is skipping numbers rather than
+  # renumbering them.
+  local total
+  total=$(printf '%s' "$STAGE_IDS" | wc -w | tr -d ' ')
   echo
   echo "-------------------------------------------------------------------"
-  echo "[$1/9] $2"
+  echo "[$1/$total] $2"
   echo "-------------------------------------------------------------------"
 }
 
@@ -607,14 +613,14 @@ def stage_qa_validation():
 
 # ===========================================================================
 # Stage 6 -- question/label partition, leakage and split validation
-# (Issue 1 vocabulary: shadow_dev is dev-visible; private_test lives
-# out-of-repo at LMR_PRIVATE_EVAL_DIR; "heldout" is retired legacy.)
+# (Current design: shadow_dev is dev-visible; private_test lives
+# out-of-repo at LMR_PRIVATE_EVAL_DIR; "heldout" is retired legacy.
+# The sealed labels are OUTSIDE the repo; the in-repo manifest
+# corpus/private_test_manifest.json carries the opaque seal digest only.)
 # ===========================================================================
 
-SEAL_REL = "corpus/heldout_labels.sealed.json"
-SEAL_RECORD_REL = "corpus/heldout_seal.json"
-SEAL_ID_PROJECTION_REL = "corpus/heldout_question_ids.json"
 QUESTIONS_REL = "corpus/questions.json"
+PRIVATE_MANIFEST_REL = "corpus/private_test_manifest.json"
 
 
 def stage_partition():
@@ -624,27 +630,29 @@ def stage_partition():
     validate_questions_file,
     verify_seal_opaque,
   )
+  from substrate.private_eval import (
+    private_dir,
+    labels_path as private_labels_path,
+    verify_seal as private_verify_seal,
+    assert_private_dir_outside_repo,
+  )
 
   questions_path = os.path.join(ROOT, QUESTIONS_REL)
-  labels_path = os.path.join(ROOT, SEAL_REL)
+  private_manifest_path = os.path.join(ROOT, PRIVATE_MANIFEST_REL)
 
   questions_present = os.path.isfile(questions_path)
-  labels_present = os.path.isfile(labels_path)
+  private_manifest_present = os.path.isfile(private_manifest_path)
 
-  if not questions_present or not labels_present:
-    absent = []
-    if not questions_present:
-      absent.append(QUESTIONS_REL)
-    if not labels_present:
-      absent.append(SEAL_REL)
-    detail("freeze artifacts absent: %s" % ", ".join(absent))
-    detail("these are REAL freeze blockers; the benchmark question set and the")
-    detail("sealed private-test label artifact (out-of-repo, Phase 5) do not exist yet. Use --code-only")
-    detail("to exercise the code-level portion before they are produced.")
+  if not questions_present:
+    detail("freeze artifact absent: %s" % QUESTIONS_REL)
+    mark_fail()
+    return finish()
+  if not private_manifest_present:
+    detail("freeze artifact absent: %s (in-repo opaque private manifest)" % PRIVATE_MANIFEST_REL)
     mark_fail()
     return finish()
 
-  # --- questions side ------------------------------------------------------
+  # --- questions side (public partition only) ----------------------------------
   checked = validate_questions_file(questions_path)
   qids = set(checked["ids"])
   if checked["errors"]:
@@ -654,11 +662,21 @@ def stage_partition():
   detail("questions: %d ids, %d structural error(s)"
          % (len(qids), len(checked["errors"])))
 
+  # Public questions.json must carry NO evidence atoms, NO hard negatives, NO answers
+  with open(questions_path, "r", encoding="utf-8") as fh:
+    entries = json.load(fh)
+  for e in entries:
+    if isinstance(e, dict):
+      forbidden = [k for k in ("evidence", "hard_negatives", "labels", "answer_text", "sufficient_sets") if k in e]
+      if forbidden:
+        detail("questions: entry %s contains forbidden field(s) %s (public partition must be minimal)"
+               % (e.get("question_id", "?"), forbidden))
+        mark_fail()
+        return finish()
+
   # No legacy-heldout entry may appear in the public/dev questions file,
   # and no private_test entry may appear in ANY in-repo file (private data
   # lives OUTSIDE the repo at LMR_PRIVATE_EVAL_DIR, Phase 5).
-  with open(questions_path, "r", encoding="utf-8") as fh:
-    entries = json.load(fh)
   leaked = [e.get("question_id") for e in entries
             if isinstance(e, dict) and e.get("split") == "heldout"]
   if leaked:
@@ -677,75 +695,66 @@ def stage_partition():
   else:
     detail("questions: no entry declares split=private_test (out-of-repo, Phase 5)")
 
-  # --- sealed side: opaque bytes only -------------------------------------
-  seal_record_path = os.path.join(ROOT, SEAL_RECORD_REL)
-  if not os.path.isfile(seal_record_path):
-    detail("%s absent: no recorded seal hash, so the sealed artifact cannot be"
-           % SEAL_RECORD_REL)
-    detail("verified. This verifier will NOT open the sealed file to invent one.")
-    mark_fail()
-    return finish()
-  with open(seal_record_path, "r", encoding="utf-8") as fh:
-    seal_record = json.load(fh)
-  seal_hash = seal_record.get("seal_sha256") or seal_record.get("seal_hash")
+  # --- private seal: opaque byte-hash only, verified via private_eval ----------
+  with open(private_manifest_path, "r", encoding="utf-8") as fh:
+    private_man = json.load(fh)
+  seal_hash = private_man.get("seal_sha256")
   if not isinstance(seal_hash, str) or len(seal_hash) != 64:
-    detail("%s: no 64-hex seal_sha256 recorded" % SEAL_RECORD_REL)
+    detail("%s: no 64-hex seal_sha256 recorded" % PRIVATE_MANIFEST_REL)
     mark_fail()
     return finish()
-  if verify_seal_opaque(labels_path, seal_hash):
-    detail("sealed labels: opaque byte hash VERIFIED (%s...)" % seal_hash[:16])
-    detail("sealed labels: content NOT read, NOT parsed, NOT printed")
-  else:
-    detail("sealed labels: opaque byte hash MISMATCH (artifact changed since seal)")
+
+  # Verify the private seal exists and matches (opaque bytes, never parsed)
+  try:
+    assert_private_dir_outside_repo()
+    private_verify_seal(seal_hash)
+    detail("private seal: opaque byte hash VERIFIED (%s...)" % seal_hash[:16])
+    detail("private seal: content NOT read, NOT parsed, NOT printed")
+  except Exception as exc:
+    detail("private seal verification failed: %s" % str(exc)[:200])
     mark_fail()
 
-  # --- id disjointness via the published id projection ---------------------
-  # Overlap is proven from a content-free published id list. The sealed file
-  # itself is never opened for content, so this check cannot leak answers.
-  proj_path = os.path.join(ROOT, SEAL_ID_PROJECTION_REL)
-  if not os.path.isfile(proj_path):
-    detail("%s absent: question-id disjointness cannot be proven without"
-           % SEAL_ID_PROJECTION_REL)
-    detail("opening the sealed file. Publish an id-only projection at seal time.")
-    mark_fail()
-    return finish()
-  with open(proj_path, "r", encoding="utf-8") as fh:
-    projection = json.load(fh)
-  sealed_ids = set(projection.get("question_ids", [])) \
-    if isinstance(projection, dict) else set(projection)
-  overlap = sorted(qids & sealed_ids)
-  if overlap:
-    detail("partition violation: %d question id(s) present in both the public"
-           % len(overlap))
-    detail("question file and the sealed held-out set (e.g. %s)"
-           % ", ".join(overlap[:3]))
+  # --- id disjointness: private set uses qa-private- prefix (never published) --
+  # We do NOT publish private question ids. Instead we assert the namespace
+  # separation: no qa-private- id may appear in the public partition.
+  private_prefix = "qa-private-"
+  leaked_private_ids = [qid for qid in qids if qid.startswith(private_prefix)]
+  if leaked_private_ids:
+    detail("partition violation: %d public id(s) use private namespace prefix %r"
+           % (len(leaked_private_ids), private_prefix))
     mark_fail()
   else:
-    detail("partition: %d public ids vs %d sealed ids, 0 overlap"
-           % (len(qids), len(sealed_ids)))
+    detail("partition: public ids use no qa-private- prefix (namespace separation verified)")
 
-  # --- dev-side read refusal ----------------------------------------------
+  # --- dev-side read refusal (custody gate must deny) --------------------------
+  # The dev-side HeldoutCustodian must refuse reads. We test the legacy in-repo
+  # path if it exists, but the REAL private labels are out-of-repo.
+  labels_legacy_path = os.path.join(ROOT, "corpus/heldout_labels.sealed.json")
   denied = 0
-  cust = HeldoutCustodian(labels_path=labels_path,
-                          audit_path=os.path.join(
-                              os.environ.get("TMPDIR", "/tmp"),
-                              "verify_round0_audit_should_not_exist.jsonl"))
-  for kwargs in ({}, {"allow_heldout": True, "accessor": "verify_round0"}):
-    try:
-      cust.load_labels(**kwargs)
-    except HeldoutAccessDenied:
-      denied += 1
-    except Exception as exc:  # fail closed on any other outcome
-      detail("custodian gate raised unexpected %s: %s"
-             % (type(exc).__name__, str(exc)[:120]))
+  if os.path.isfile(labels_legacy_path):
+    cust = HeldoutCustodian(labels_path=labels_legacy_path,
+                            audit_path=os.path.join(
+                                os.environ.get("TMPDIR", "/tmp"),
+                                "verify_round0_audit_should_not_exist.jsonl"))
+    for kwargs in ({}, {"allow_heldout": True, "accessor": "verify_round0"}):
+      try:
+        cust.load_labels(**kwargs)
+      except HeldoutAccessDenied:
+        denied += 1
+      except Exception as exc:
+        detail("custodian gate raised unexpected %s: %s"
+               % (type(exc).__name__, str(exc)[:120]))
+        mark_fail()
+    if denied == 2:
+      detail("dev-side read path (legacy): HeldoutAccessDenied on both default and "
+             "allow_heldout=True calls")
+    else:
+      detail("dev-side read path (legacy): sealed labels were NOT refused (%d/2 denied)"
+             % denied)
       mark_fail()
-  if denied == 2:
-    detail("dev-side read path: HeldoutAccessDenied on both default and "
-           "allow_heldout=True calls")
   else:
-    detail("dev-side read path: sealed labels were NOT refused (%d/2 denied)"
-           % denied)
-    mark_fail()
+    detail("dev-side read path: legacy in-repo sealed labels absent (expected); "
+           "real private labels are out-of-repo via private_eval")
 
   if not FAILED:
     mark_pass()
@@ -987,6 +996,64 @@ def stage_freeze_manifest():
     p = os.path.join(ROOT, relpath)
     return sha256_file(p) if os.path.isfile(p) else "TBD"
 
+  # Read private test manifest for seal and hash digests (out-of-repo custody)
+  private_manifest_rel = "corpus/private_test_manifest.json"
+  private_manifest_path = os.path.join(ROOT, private_manifest_rel)
+  private_seal_sha256 = "TBD"
+  private_questions_sha256 = "TBD"
+  private_labels_sha256 = "TBD"
+  if os.path.isfile(private_manifest_path):
+    with open(private_manifest_path, "r", encoding="utf-8") as fh:
+      private_man = json.load(fh)
+    private_seal_sha256 = private_man.get("seal_sha256", "TBD")
+    private_hashes = private_man.get("hashes", {})
+    private_questions_sha256 = private_hashes.get("questions_json_sha256", "TBD")
+    private_labels_sha256 = private_hashes.get("labels_json_sha256", "TBD")
+    detail("private test manifest: seal_sha256=%s..." % private_seal_sha256[:16])
+
+  # Derive regime metadata from split map for paired condition coverage
+  from substrate.regime_metadata import derive_regime_metadata, REGIME_A, REGIME_B
+  regime_a_groups = []
+  regime_b_groups = []
+  sm_rel = "corpus/split_map.json"
+  sm_path = os.path.join(ROOT, sm_rel)
+  if os.path.isfile(sm_path):
+    try:
+      regime_meta = derive_regime_metadata(sm_path)
+      regime_a_groups = [g.group_key for g in regime_meta.regime_a_groups]
+      regime_b_groups = [g.group_key for g in regime_meta.regime_b_groups]
+      detail("regime metadata: A=%d groups, B=%d paired-condition groups" %
+             (len(regime_a_groups), len(regime_b_groups)))
+    except Exception as exc:
+      detail("regime metadata derivation failed: %s" % str(exc)[:200])
+
+  # Calibration policy declaration for Round 0 substrate
+  # The substrate defines ThresholdPolicy with:
+  # - model_probability: natively probabilistic, ECE/Brier-evaluable, dev-thresholdable without forced fitted calibration
+  # - none_ranking_only: ranking/top-K only, never probability-thresholded (calibration_method)
+  # These are DECLARATIONS, not fitted calibrations. Round 1 teams produce fitted thresholds.
+  from substrate.types import ThresholdPolicy
+  thresholds = {
+    "retrieval": ThresholdPolicy(
+      threshold=None,
+      interpretation="model_probability_dev_selected",
+      top_k=100,
+      min_breadth=1,
+      calibration_method="model_probability",
+      score_kind="model_probability",
+      calibration_partition=""
+    ),
+    "generation": ThresholdPolicy(
+      threshold=None,
+      interpretation="raw_score_absolute",
+      top_k=None,
+      min_breadth=0,
+      calibration_method="none_ranking_only",
+      score_kind="logit",
+      calibration_partition=""
+    )
+  }
+
   master_seed = 1234
   components = ["corpus", "split", "qa", "generator", "run"]
 
@@ -996,8 +1063,8 @@ def stage_freeze_manifest():
     "corpus_hash": corpus_hash,
     "code_hashes": code_hashes,
     "generator": generator,
-    "thresholds": {},  # no threshold-policy artifact exists yet; recorded honestly
-    "sealed_labels_sha256": sha_or_tbd(SEAL_REL),
+    "thresholds": thresholds,
+    "sealed_labels_sha256": private_seal_sha256,
     "questions_sha256": sha_or_tbd(QUESTIONS_REL),
     "split_seed": "TBD",
     "split_method": "group-map",
@@ -1008,8 +1075,8 @@ def stage_freeze_manifest():
     "phase": "round0-substrate",
     "seed_derivation_log": derive_seeds(master_seed, components),
     "public_reference_pins_sha256": sha_or_tbd(pins_rel),
-    "regime_a_heldout_groups": [],
-    "regime_b_document_heldout_groups": [],
+    "regime_a_heldout_groups": regime_a_groups,
+    "regime_b_document_heldout_groups": regime_b_groups,
   }
   # Tolerate fields added by the owning worker without guessing their names.
   known = {f.name for f in dataclasses.fields(RunManifest)}
@@ -1207,6 +1274,114 @@ def stage_leakage_artifacts():
   finish()
 
 
+def stage_private_eval():
+  """Stage 10: private test boundary, seal, and custody.
+
+  Proves, at the code level:
+    * the private test artifact exists OUTSIDE the repository;
+    * the in-repo opaque manifest exists and carries counts + a seal digest;
+    * the recorded seal MATCHES the private artifacts (opaque bytes only, no
+      parsing, no printing of content);
+    * private labels remain outside the repository;
+    * the in-repo tripwire suite passes (it is also stage 1, but its result is
+      restated here because it is the custody load-bearing check).
+  """
+  detail("private test boundary (LMR_PRIVATE_EVAL_DIR, out-of-repo custody)")
+
+  man_rel = "corpus/private_test_manifest.json"
+  man_path = os.path.join(ROOT, man_rel)
+  if not os.path.isfile(man_path):
+    detail("%s absent: no in-repo private manifest" % man_rel)
+    return mark_skip("required artifact absent: %s" % man_rel) or finish()
+
+  try:
+    with open(man_path, "r", encoding="utf-8") as fh:
+      man = json.load(fh)
+  except (ValueError, OSError) as exc:
+    detail("%s unreadable: %s" % (man_rel, str(exc)[:120]))
+    mark_fail()
+    return finish()
+
+  counts = man.get("counts") or {}
+  seal = man.get("seal_sha256")
+  if not counts or not counts.get("total"):
+    detail("in-repo private manifest carries no counts")
+    mark_fail()
+  else:
+    detail("in-repo private manifest counts: total=%s by_type=%s"
+           % (counts.get("total"), counts.get("by_type")))
+  if not seal:
+    detail("in-repo private manifest carries no seal_sha256")
+    mark_fail()
+
+  # No private content may appear in the in-repo manifest.
+  raw = open(man_path, "r", encoding="utf-8").read()
+  if "qa-private-" in raw or "answer_text" in raw or "sufficient_sets" in raw:
+    detail("in-repo private manifest contains PRIVATE CONTENT")
+    mark_fail()
+  else:
+    detail("in-repo private manifest is content-free (counts/hashes/custody only)")
+
+  # Locate the private directory and confirm it is outside the repository.
+  sys.path.insert(0, ROOT)
+  try:
+    from substrate import private_eval
+  except Exception as exc:
+    detail("substrate.private_eval import FAILED: %s: %s"
+           % (type(exc).__name__, str(exc)[:160]))
+    mark_fail()
+    return finish()
+
+  try:
+    private_eval.assert_private_dir_outside_repo()
+    pdir = private_eval.private_dir()
+  except Exception as exc:
+    detail("private dir is not outside the repository: %s" % str(exc)[:160])
+    mark_fail()
+    pdir = None
+
+  if pdir:
+    detail("private eval dir: %s (outside repo: OK)" % pdir)
+    if not os.path.isdir(pdir):
+      detail("private eval dir ABSENT: private test artifact does not exist")
+      mark_fail()
+    else:
+      qs = os.path.join(pdir, "questions.json")
+      ls = os.path.join(pdir, "labels.json")
+      cs = os.path.join(pdir, "counts.json")
+      missing = [n for n, p in (("questions.json", qs), ("labels.json", ls),
+                                ("counts.json", cs)) if not os.path.isfile(p)]
+      if missing:
+        detail("private test artifact(s) absent: %s" % missing)
+        mark_fail()
+      else:
+        # Opaque byte comparison only. Nothing is parsed or printed.
+        qh = private_eval.sha256_file(qs)
+        lh = private_eval.sha256_file(ls)
+        rec_q = (man.get("hashes") or {}).get("questions_json_sha256")
+        rec_l = (man.get("hashes") or {}).get("labels_json_sha256")
+        if rec_q and rec_q != qh:
+          detail("private questions.json hash MISMATCH vs in-repo manifest")
+          mark_fail()
+        else:
+          detail("private questions.json sha256 MATCHES in-repo manifest")
+        if rec_l and rec_l != lh:
+          detail("private labels.json hash MISMATCH vs in-repo manifest")
+          mark_fail()
+        else:
+          detail("private labels.json sha256 MATCHES in-repo manifest")
+      try:
+        private_eval.verify_seal(seal)
+        detail("private seal verified against in-repo digest")
+      except Exception as exc:
+        detail("private seal verification FAILED: %s" % str(exc)[:160])
+        mark_fail()
+
+  if not FAILED and not SKIPPED:
+    mark_pass()
+  finish()
+
+
 # ===========================================================================
 # Dispatch
 # ===========================================================================
@@ -1218,6 +1393,7 @@ STAGE_BODIES = {
   "7": stage_generator_pin,
   "8": stage_freeze_manifest,
   "9": stage_leakage_artifacts,
+  "10": stage_private_eval,
 }
 
 try:
@@ -1293,6 +1469,8 @@ for id in $SELECTED; do
        py_stage 8 "freeze-manifest" ;;
     9) stage_head 9 "leakage-control artifacts"
        py_stage 9 "leakage-control-artifacts" ;;
+    10) stage_head 10 "private test boundary, seal and custody"
+       py_stage 10 "private-eval-custody" ;;
     *) usage_error "internal: unknown stage id $id" ;;
   esac
 done

@@ -42,11 +42,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "96ca79f383d1f78c6e94852754c102333837435ef5b82ad4e743ab004efe415f",
+    "decision": "approve",
+    "rationale": "p:solar_corona:00:000 opens by identifying the corona as the outermost atmospheric layer, which is the whole answer; negatives describe coronal structure and Corona Australis stars and do not answer the layer question.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

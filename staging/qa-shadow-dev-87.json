@@ -65,11 +65,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "3a569268098c13e8b1ebb1598bf106c7df3ef241ebd9f419d86ad9f7d3539f2c",
+    "decision": "approve",
+    "rationale": "Ambiguity is genuine: 'the capital of Washington' resolves to Olympia's role as the state capital (p:washington_state:00:000) or Washington's role as the federal capital city (p:washington_d_c:00:000), two concrete corpus-grounded answers; negatives are the Cascade climate and the Mount Vernon land purchase.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

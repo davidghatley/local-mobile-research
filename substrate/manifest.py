@@ -43,6 +43,16 @@ from .splits import (
   verify_seal_opaque,
 )
 from .types import ThresholdPolicy
+from .private_eval import (
+  private_dir,
+  labels_path as private_labels_path,
+  seal_path as private_seal_path,
+  questions_path as private_questions_path,
+  counts as private_counts,
+  verify_seal as private_verify_seal,
+  seal_digest as private_seal_digest,
+  sha256_file as private_sha256_file,
+)
 
 
 def sha256_file(path: str) -> str:
@@ -223,11 +233,13 @@ class FreezeCheck:
 
 
 # Artifacts that MUST exist with real pinned content before any freeze claim.
-# NOTE (Issue 1, Phase 1): the sealed-labels path below is the legacy in-repo
-# location. Phase 5 will repoint the private_test seal OUTSIDE the repo at
-# LMR_PRIVATE_EVAL_DIR; shadow_dev is dev-visible and never sealed.
+# The sealed private-test labels live OUTSIDE the repo at LMR_PRIVATE_EVAL_DIR
+# (Phase 5). The in-repo manifest carries only opaque digests from
+# corpus/private_test_manifest.json. shadow_dev is dev-visible and never sealed.
 REQUIRED_CORPUS_FILE = "corpus/corpus.jsonl"
 REQUIRED_QUESTIONS_FILE = "corpus/questions.json"
+# Legacy in-repo path retained for backward compat in some tests; the REAL
+# sealed labels are out-of-repo via substrate.private_eval.labels_path().
 REQUIRED_LABELS_FILE = "corpus/heldout_labels.sealed.json"
 REQUIRED_GENERATOR_FILE = "corpus/generator_config.json"
 
@@ -303,15 +315,20 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
   text carries ids/counts/hashes only.
   """
   gaps: list[str] = []
+  # Required artifacts: corpus, questions (public partition), generator config.
+  # Private sealed labels are OUTSIDE the repo at LMR_PRIVATE_EVAL_DIR;
+  # the legacy in-repo path (REQUIRED_LABELS_FILE) is NOT required.
   paths = {
     "corpus": os.path.join(root, REQUIRED_CORPUS_FILE),
     "questions": os.path.join(root, REQUIRED_QUESTIONS_FILE),
-    "labels": os.path.join(root, REQUIRED_LABELS_FILE),
     "generator": os.path.join(root, REQUIRED_GENERATOR_FILE),
   }
   for name, full in paths.items():
     if not os.path.isfile(full):
       gaps.append(f"missing required artifact: {os.path.relpath(full, root)}")
+
+  # Legacy in-repo sealed labels path (for backward compat with tests only)
+  labels_path = os.path.join(root, REQUIRED_LABELS_FILE)
 
   if manifest.phase != "round0-substrate":
     gaps.append(f"unknown freeze phase: {manifest.phase!r}")
@@ -332,14 +349,31 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
     gaps.append("corpus_hash is a placeholder, not a real pinned hash")
 
   # --- sealed labels: opaque byte-hash only; never parse or print ---
+  # Private test seal lives OUTSIDE the repo at LMR_PRIVATE_EVAL_DIR.
+  # The manifest records the opaque seal digest from corpus/private_test_manifest.json.
+  # For backward compatibility with tests that use the legacy in-repo path,
+  # also accept verification against REQUIRED_LABELS_FILE if present.
   if manifest.sealed_labels_sha256 in PLACEHOLDER_HASHES:
     gaps.append("sealed_labels_sha256 unrecorded")
-  elif os.path.isfile(paths["labels"]):
+  else:
+    verified = False
+    # Try out-of-repo private eval first (real freezes)
     try:
-      if not verify_seal_opaque(paths["labels"], manifest.sealed_labels_sha256):
-        gaps.append("sealed labels hash mismatch: artifact changed since seal")
-    except FileNotFoundError as exc:
-      gaps.append(str(exc))
+      private_verify_seal(manifest.sealed_labels_sha256)
+      verified = True
+    except Exception:
+      pass
+    # Fallback: legacy in-repo sealed labels (test fixtures)
+    if not verified and os.path.isfile(labels_path):
+      try:
+        if verify_seal_opaque(labels_path, manifest.sealed_labels_sha256):
+          verified = True
+        else:
+          gaps.append("sealed labels hash mismatch: artifact changed since seal (legacy path)")
+      except FileNotFoundError as exc:
+        gaps.append(str(exc))
+    if not verified:
+      gaps.append("sealed labels verification failed: neither out-of-repo private seal nor legacy in-repo artifact matched")
 
   # --- questions: byte hash + schema + split consistency (labels untouched) ---
   question_entries: list[dict] = []
@@ -509,8 +543,14 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
       gaps.append(f"code hash mismatch (recomputed): {rel}")
 
   # --- threshold policies: Round 0 records DECLARATIONS, not learned fits ---
+  # Round 0 substrate freeze must declare the calibration policy that exists.
+  # The actual calibrated thresholds are produced by Round 1 architecture teams.
   if not manifest.thresholds:
-    gaps.append("thresholds empty: calibration policy unrecorded")
+    # Record the calibration policy declaration that exists in the substrate
+    # The substrate defines ThresholdPolicy with model_probability as evaluable
+    # and none_ranking_only for ranking-only stages. This is a DECLARATION,
+    # not a fitted calibration.
+    gaps.append("thresholds empty: calibration policy declaration unrecorded")
   for stage, policy in sorted(manifest.thresholds.items()):
     if not isinstance(policy, ThresholdPolicy):
       gaps.append(f"thresholds[{stage}]: not a ThresholdPolicy")

@@ -55,11 +55,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "ed25dfb684bfe08ae622d810b8aa3ef02df58aaa6978d5d9e2193710b1001a27",
+    "decision": "approve",
+    "rationale": "Genuine two-hop: p:atari_jaguar:00:000 gives the November 1993 North American release with no tagline, p:atari_jaguar:03:000 gives the 'Do the math!' American-market tagline with no release date; negatives are the peripherals paragraph and the Atari 7800 sentence.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

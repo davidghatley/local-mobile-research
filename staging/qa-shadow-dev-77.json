@@ -46,11 +46,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "6bdd8619248dc105c305d3fb038bf6d244d88f28eb87bbf07a44c57b19d7f84c",
+    "decision": "approve",
+    "rationale": "p:lincoln_motor_company:32:000 states Lincoln adopted a greyhound as a hood ornament in 1927; negatives are the 1989-1990 sales years and the Ford division overview.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

@@ -52,11 +52,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "931c8111b6af0105fd959856eab65f2abec5d5df3c67b805e51dfb33ce1b8c10",
+    "decision": "approve",
+    "rationale": "Both recorded singletons independently give 1781 (p:george_washington:00:000 'decisive victory ... at Yorktown in 1781'; p:george_washington:13:000 the August 19, 1781 march and October 19, 1781 surrender); negatives are Washington's birth and the mansion construction.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

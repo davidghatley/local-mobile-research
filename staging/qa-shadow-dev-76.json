@@ -52,11 +52,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "d1fd9f8c567564fc620d48d8ed640f80bd3a2f174f3a6e8a6cc3107350974532",
+    "decision": "approve",
+    "rationale": "Both recorded singletons independently give Lindum Colonia (p:lincolnshire:01:000 'derived from Lindum Colonia'; p:lincolnshire:00:000 'In the Roman era Lincoln was a major settlement, called Lindum Colonia'); negatives are Lincoln's 1831 move and the Proclamation's covered states.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

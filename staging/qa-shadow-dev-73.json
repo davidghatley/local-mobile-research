@@ -52,11 +52,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "dcffe19b3fa17d4a4c17ae4c0b260c23ff28dca55bc4cc91ff1bf61e1fbb360d",
+    "decision": "approve",
+    "rationale": "Both recorded singletons independently state the answer, in different passages: p:jaguar:00:000 'bites directly through the skull of mammalian prey between the ears' and p:jaguar:10:000 'bites mammalian prey directly through the skull between the ears'; negatives are the jaguar etymology and the Daimler factory history.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

@@ -46,11 +46,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "a194c7fa935c6b2e4bd7ff276319a835c0698975fae531b440cafa8a3713c63e",
+    "decision": "approve",
+    "rationale": "p:corona_beer:01:000 states Anheuser-Busch InBev transferred all US distribution rights to Constellation Brands to satisfy DOJ antitrust concerns; negatives are the solar corona interior and Corona Australis boundaries.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

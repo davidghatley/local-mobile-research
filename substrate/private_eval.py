@@ -149,8 +149,9 @@ def counts() -> dict[str, Any]:
   """Report private counts. Never fabricates: absent file -> explicit absence.
 
   Returns {"present": bool, "counts": {...}, "seal_sha256": str|None,
-  "questions_sha256": str|None}. ``counts`` is the parsed counts.json when
-  present, otherwise {} (an honest empty result, not a default guess).
+  "questions_sha256": str|None, "labels_sha256": str|None}. ``counts`` is the
+  parsed counts.json when present, otherwise {} (an honest empty result, not a
+  default guess).
   """
   assert_private_dir_outside_repo()
   cpath = counts_path()
@@ -160,6 +161,7 @@ def counts() -> dict[str, Any]:
       "counts": {},
       "seal_sha256": None,
       "questions_sha256": None,
+      "labels_sha256": None,
     }
   with open(cpath, "r", encoding="utf-8") as fh:
     data = json.load(fh)
@@ -170,6 +172,7 @@ def counts() -> dict[str, Any]:
     "counts": data,
     "seal_sha256": seal_digest(),
     "questions_sha256": seal_question_bytes(),
+    "labels_sha256": sha256_file(labels_path()) if os.path.isfile(labels_path()) else None,
   }
 
 

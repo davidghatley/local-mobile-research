@@ -72,11 +72,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "ebd631433dc9b1129a1adfcd3d0d4cb3b6536feb434c01699d074113fc6b5227",
+    "decision": "approve",
+    "rationale": "Two genuinely different conjunctive sufficient sets: p:lincoln_motor_company:01:000 fixes Lincoln as Leland's first-ever presidential vote, and 1860 comes from either p:abraham_lincoln:00:000 or p:american_civil_war:02:000; negatives give no election year.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

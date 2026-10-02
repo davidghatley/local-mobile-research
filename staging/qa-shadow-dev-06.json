@@ -42,11 +42,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "fe3e9f4d051826fa3123b14acb5a133a7949dc779163a72e00c4082ce51028a4",
+    "decision": "approve",
+    "rationale": "p:corona_australis:00:000 gives the Latin gloss 'southern crown' directly; negatives cover constellation boundaries and beer ingredients, neither of which glosses the name.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

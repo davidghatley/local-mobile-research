@@ -61,11 +61,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "6d492738bacdcd604ebd4b0f5b167af39cb0981cb4611d54cd26bf2affba6525",
+    "decision": "approve",
+    "rationale": "Genuine two-hop in one conjunctive set: p:virtual_reality:05:000 gives the 1978 Aspen Movie Map at MIT and no city, p:cambridge_massachusetts:00:000 gives MIT's 168-acre campus in Cambridge and no Aspen tour; negatives are VR precursors and Harvard admissions history.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

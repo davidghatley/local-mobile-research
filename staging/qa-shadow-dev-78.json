@@ -60,11 +60,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "f32bc015756a7a29c15b49b997454704287af1414da87ef144e46abf4cab1767",
+    "decision": "approve",
+    "rationale": "All three recorded singletons independently give April 12, 1861 with the Fort Sumter firing (p:american_civil_war:04:000 'began on April 12, 1861, when Confederate forces opened fire on the Union-held Fort Sumter'; p:american_civil_war:00:000 'the Confederacy bombarded Fort Sumter'; p:abraham_lincoln:15:000 'On April 12, 1861, Confederate forces fired on Union troops at Fort Sumter'); negatives are secession politics and the battles overview.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

@@ -1,0 +1,2829 @@
+[
+  {
+    "meta": {
+      "group": "orange",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:orange_colour",
+        "a:orange_fruit"
+      ]
+    },
+    "question_id": "qa-dev-11",
+    "split": "dev",
+    "text": "The colour that derives its name from a fruit shares its name with a crop whose 2024 world production of 67 million tonnes was led by which country?"
+  },
+  {
+    "meta": {
+      "group": "orange",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:orange_group"
+      ]
+    },
+    "question_id": "qa-dev-12",
+    "split": "dev",
+    "text": "Which cybersecurity company did Orange acquire in 2019?"
+  },
+  {
+    "meta": {
+      "group": "revolutions",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:napoleon",
+        "a:russian_revolution"
+      ]
+    },
+    "question_id": "qa-dev-13",
+    "split": "dev",
+    "text": "Between Napoleon's self-coronation as Emperor of the French and the February Revolution that inaugurated the Russian Revolution, which event came first?"
+  },
+  {
+    "meta": {
+      "group": "revolutions",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:napoleon"
+      ]
+    },
+    "question_id": "qa-dev-14",
+    "split": "dev",
+    "text": "The general who rose to prominence during the French Revolution became First Consul by engineering which coup?"
+  },
+  {
+    "meta": {
+      "group": "solo:aristotle",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:aristotle"
+      ]
+    },
+    "question_id": "qa-dev-15",
+    "split": "dev",
+    "text": "At what does Aristotle's philosophy aim?"
+  },
+  {
+    "meta": {
+      "group": "solo:aristotle",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:aristotle"
+      ]
+    },
+    "question_id": "qa-dev-16",
+    "split": "dev",
+    "text": "With which work is Aristotle credited with the earliest systematic study of logic?"
+  },
+  {
+    "meta": {
+      "group": "solo:bald eagle",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:bald_eagle"
+      ]
+    },
+    "question_id": "qa-dev-17",
+    "split": "dev",
+    "text": "Across which areas does the bald eagle range?"
+  },
+  {
+    "meta": {
+      "group": "solo:bald eagle",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:bald_eagle"
+      ]
+    },
+    "question_id": "qa-dev-18",
+    "split": "dev",
+    "text": "As the national symbol of the United States, the bald eagle is prominent in which items?"
+  },
+  {
+    "meta": {
+      "group": "solo:buford, wyoming",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:buford_wyoming"
+      ]
+    },
+    "question_id": "qa-dev-19",
+    "split": "dev",
+    "text": "The town along the eastern approach to Sherman Hill Summit, the highest point of the transcontinental Interstate 80, provides access to reach which monument?"
+  },
+  {
+    "meta": {
+      "group": "solo:buford, wyoming",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:buford_wyoming"
+      ]
+    },
+    "question_id": "qa-dev-20",
+    "split": "dev",
+    "text": "On what exact date in 1866 was the original town of Buford founded?"
+  },
+  {
+    "meta": {
+      "group": "solo:colombo",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:colombo"
+      ]
+    },
+    "question_id": "qa-dev-21",
+    "split": "dev",
+    "text": "The city with the 65 ha Beira Lake in its heart has an airport located how far south of the city centre?"
+  },
+  {
+    "meta": {
+      "group": "solo:colombo",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:colombo"
+      ]
+    },
+    "question_id": "qa-dev-22",
+    "split": "dev",
+    "text": "What did Ibn Battuta call the island when he visited in the 14th century?"
+  },
+  {
+    "meta": {
+      "group": "solo:congo basin",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:congo_basin"
+      ]
+    },
+    "question_id": "qa-dev-23",
+    "split": "dev",
+    "text": "The basin located in west equatorial Africa has a rainforest second in size only to which forest?"
+  },
+  {
+    "meta": {
+      "group": "solo:congo basin",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:congo_basin"
+      ]
+    },
+    "question_id": "qa-dev-24",
+    "split": "dev",
+    "text": "The Congo Basin rainforest covers 300 million hectares compared to 800 million hectares in another forest; which forest is larger?"
+  },
+  {
+    "meta": {
+      "group": "solo:darvaza gas crater",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:darvaza_gas_crater"
+      ]
+    },
+    "question_id": "qa-dev-25",
+    "split": "dev",
+    "text": "The crater that has been burning since 1971 was first descended to the bottom by a person gathering soil samples for which project?"
+  },
+  {
+    "meta": {
+      "group": "solo:darvaza gas crater",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:darvaza_gas_crater"
+      ]
+    },
+    "question_id": "qa-dev-26",
+    "split": "dev",
+    "text": "On what exact date did engineers ignite the Darvaza gas crater?"
+  },
+  {
+    "meta": {
+      "group": "solo:delhi",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:delhi"
+      ]
+    },
+    "question_id": "qa-dev-27",
+    "split": "dev",
+    "text": "The territory that became a union territory in 1956 and the NCT in 1995 covers what area?"
+  },
+  {
+    "meta": {
+      "group": "solo:delhi",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:delhi"
+      ]
+    },
+    "question_id": "qa-dev-28",
+    "split": "dev",
+    "text": "Which language is Delhi's most spoken, at 80.94%?"
+  },
+  {
+    "meta": {
+      "group": "solo:game theory",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:game_theory"
+      ]
+    },
+    "question_id": "qa-dev-29",
+    "split": "dev",
+    "text": "In game theory, which game involves two players of different sexes with different preferences?"
+  },
+  {
+    "meta": {
+      "group": "solo:game theory",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:game_theory"
+      ]
+    },
+    "question_id": "qa-dev-30",
+    "split": "dev",
+    "text": "What is a Nash equilibrium, in terms of how every player responds to the others?"
+  },
+  {
+    "meta": {
+      "group": "solo:heart",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:heart"
+      ]
+    },
+    "question_id": "qa-dev-31",
+    "split": "dev",
+    "text": "Through what does the muscular organ found in humans and other animals pump blood?"
+  },
+  {
+    "meta": {
+      "group": "solo:heart",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:heart"
+      ]
+    },
+    "question_id": "qa-dev-32",
+    "split": "dev",
+    "text": "Into which four chambers is the human heart divided?"
+  },
+  {
+    "meta": {
+      "group": "solo:human genome",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:human_genome"
+      ]
+    },
+    "question_id": "qa-dev-33",
+    "split": "dev",
+    "text": "Which two genomes are usually treated separately?"
+  },
+  {
+    "meta": {
+      "group": "solo:human genome",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:human_genome"
+      ]
+    },
+    "question_id": "qa-dev-34",
+    "split": "dev",
+    "text": "On average, how many DNA damage events does the human genome experience per cell per day?"
+  },
+  {
+    "meta": {
+      "group": "solo:immune system",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:immune_system"
+      ]
+    },
+    "question_id": "qa-dev-35",
+    "split": "dev",
+    "text": "The lymphocytes that carry receptor molecules recognizing specific targets include which two major T-cell subtypes?"
+  },
+  {
+    "meta": {
+      "group": "solo:immune system",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:immune_system"
+      ]
+    },
+    "question_id": "qa-dev-36",
+    "split": "dev",
+    "text": "Into which three broad categories do failures of host defense fall?"
+  },
+  {
+    "meta": {
+      "group": "solo:lake baikal",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:lake_baikal"
+      ]
+    },
+    "question_id": "qa-dev-37",
+    "split": "dev",
+    "text": "Which species is the most important local species for fisheries in Lake Baikal?"
+  },
+  {
+    "meta": {
+      "group": "solo:lake baikal",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:lake_baikal"
+      ]
+    },
+    "question_id": "qa-dev-38",
+    "split": "dev",
+    "text": "How much water did AquaSib aim to export to China from its Kultuk plant?"
+  },
+  {
+    "meta": {
+      "group": "solo:manatee",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:manatee"
+      ]
+    },
+    "question_id": "qa-dev-39",
+    "split": "dev",
+    "text": "Which preexisting member of the order Sirenia was hunted to extinction in the eighteenth century?"
+  },
+  {
+    "meta": {
+      "group": "solo:manatee",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:manatee"
+      ]
+    },
+    "question_id": "qa-dev-40",
+    "split": "dev",
+    "text": "Between the West Indian manatee and the Amazonian manatee, which is the only exclusively freshwater manatee?"
+  },
+  {
+    "meta": {
+      "group": "solo:nanotechnology",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:nanotechnology"
+      ]
+    },
+    "question_id": "qa-dev-41",
+    "split": "dev",
+    "text": "The field seeded by concepts first discussed in Feynman's 1959 talk manipulates matter at what scale?"
+  },
+  {
+    "meta": {
+      "group": "solo:nanotechnology",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:nanotechnology"
+      ]
+    },
+    "question_id": "qa-dev-42",
+    "split": "dev",
+    "text": "How can nanomaterials be classified by dimensionality?"
+  },
+  {
+    "meta": {
+      "group": "solo:nuclear fusion",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:nuclear_fusion"
+      ]
+    },
+    "question_id": "qa-dev-43",
+    "split": "dev",
+    "text": "In the reaction where atomic nuclei combine to form a larger nucleus, the mass difference between reactants and products is manifested as what?"
+  },
+  {
+    "meta": {
+      "group": "solo:nuclear fusion",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:nuclear_fusion"
+      ]
+    },
+    "question_id": "qa-dev-44",
+    "split": "dev",
+    "text": "Who studied muon-catalyzed fusion in detail in the early 1980s?"
+  },
+  {
+    "meta": {
+      "group": "solo:platypus",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:platypus"
+      ]
+    },
+    "question_id": "qa-dev-45",
+    "split": "dev",
+    "text": "What sense does the platypus use to detect prey in water?"
+  },
+  {
+    "meta": {
+      "group": "solo:platypus",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:platypus"
+      ]
+    },
+    "question_id": "qa-dev-46",
+    "split": "dev",
+    "text": "What did the first scientists to examine a preserved platypus body judge it to be in 1799?"
+  },
+  {
+    "meta": {
+      "group": "solo:printing press",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:printing_press"
+      ]
+    },
+    "question_id": "qa-dev-47",
+    "split": "dev",
+    "text": "The machine invented by Gutenberg around 1440 transfers ink onto surfaces made of what materials?"
+  },
+  {
+    "meta": {
+      "group": "solo:printing press",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:printing_press"
+      ]
+    },
+    "question_id": "qa-dev-48",
+    "split": "dev",
+    "text": "Which historian described the printing press as an 'agent of change'?"
+  },
+  {
+    "meta": {
+      "group": "solo:semiconductor",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:semiconductor"
+      ]
+    },
+    "question_id": "qa-dev-49",
+    "split": "dev",
+    "text": "The material whose conductivity can be modified by adding impurities to its crystal structure forms what when two differently doped regions share a crystal?"
+  },
+  {
+    "meta": {
+      "group": "solo:semiconductor",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:semiconductor"
+      ]
+    },
+    "question_id": "qa-dev-50",
+    "split": "dev",
+    "text": "Why are semiconductors in their natural state poor conductors?"
+  },
+  {
+    "meta": {
+      "group": "solo:solar power",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:solar_power"
+      ]
+    },
+    "question_id": "qa-dev-51",
+    "split": "dev",
+    "text": "About what share of installed solar capacity is utility scale?"
+  },
+  {
+    "meta": {
+      "group": "solo:solar power",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:solar_power"
+      ]
+    },
+    "question_id": "qa-dev-52",
+    "split": "dev",
+    "text": "Between photovoltaic systems and concentrated solar thermal, which converts sunlight directly into electric power?"
+  },
+  {
+    "meta": {
+      "group": "solo:south africa",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:south_africa"
+      ]
+    },
+    "question_id": "qa-dev-53",
+    "split": "dev",
+    "text": "The country whose administrative capital is Pretoria and whose legislative capital is Cape Town has which largest and most populous city?"
+  },
+  {
+    "meta": {
+      "group": "solo:south africa",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:south_africa"
+      ]
+    },
+    "question_id": "qa-dev-54",
+    "split": "dev",
+    "text": "What is the capital of South Africa?"
+  },
+  {
+    "meta": {
+      "group": "solo:vienna",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:vienna"
+      ]
+    },
+    "question_id": "qa-dev-55",
+    "split": "dev",
+    "text": "Into how many districts is Vienna divided?"
+  },
+  {
+    "meta": {
+      "group": "solo:vienna",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:vienna"
+      ]
+    },
+    "question_id": "qa-dev-56",
+    "split": "dev",
+    "text": "Since when was the area of Vienna inhabited by modern humans?"
+  },
+  {
+    "meta": {
+      "group": "solo:x-ray",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:x_ray"
+      ]
+    },
+    "question_id": "qa-dev-57",
+    "split": "dev",
+    "text": "The high-energy radiation with a wavelength between ultraviolet and gamma rays is produced whenever what hits a material?"
+  },
+  {
+    "meta": {
+      "group": "solo:x-ray",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:x_ray"
+      ]
+    },
+    "question_id": "qa-dev-58",
+    "split": "dev",
+    "text": "What exact mechanism in the eye produced the X-ray visibility reported by R\u00f6ntgen and Brandes?"
+  },
+  {
+    "meta": {
+      "group": "orange",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:orange_county_california"
+      ]
+    },
+    "question_id": "qa-dev-59",
+    "split": "dev",
+    "text": "Which theme park in Anaheim is the second most visited in the world?"
+  },
+  {
+    "meta": {
+      "group": "revolutions",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:napoleon",
+        "a:russian_revolution"
+      ]
+    },
+    "question_id": "qa-dev-60",
+    "split": "dev",
+    "text": "When did the revolution begin?"
+  },
+  {
+    "meta": {
+      "group": "mercury",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:mercury_planet"
+      ]
+    },
+    "question_id": "qa-pilot-dev-01",
+    "split": "dev",
+    "text": "Which planet is described as the first from the Sun and the smallest in the Solar System?"
+  },
+  {
+    "meta": {
+      "group": "mercury",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:freddie_mercury"
+      ]
+    },
+    "question_id": "qa-pilot-dev-02",
+    "split": "dev",
+    "text": "Under what birth name was the British singer who achieved global fame as the lead vocalist and pianist of Queen born?"
+  },
+  {
+    "meta": {
+      "group": "mercury",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:mercury_automobile"
+      ]
+    },
+    "question_id": "qa-pilot-dev-03",
+    "split": "dev",
+    "text": "The automobile brand created in 1938 to bridge the gap between the Ford and Lincoln model lines later formed half of which company division?"
+  },
+  {
+    "meta": {
+      "group": "java",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:java"
+      ]
+    },
+    "question_id": "qa-pilot-dev-04",
+    "split": "dev",
+    "text": "Which Greater Sunda island, home to the national capital on its northwestern coast, holds the distinction of being the most populous island on Earth?"
+  },
+  {
+    "meta": {
+      "group": "java",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:borneo",
+        "a:java"
+      ]
+    },
+    "question_id": "qa-pilot-dev-05",
+    "split": "dev",
+    "text": "Between the third-largest island in the world and the island reported to house about 56 percent of the Indonesian population, which one has roughly 159.2 million people?"
+  },
+  {
+    "meta": {
+      "group": "berlin",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:berlin_wall"
+      ]
+    },
+    "question_id": "qa-pilot-dev-06",
+    "split": "dev",
+    "text": "On what date did the government of the GDR commence construction of the guarded concrete barrier encircling West Berlin?"
+  },
+  {
+    "meta": {
+      "group": "berlin",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:berlin_wall"
+      ]
+    },
+    "question_id": "qa-pilot-dev-07",
+    "split": "dev",
+    "text": "How many visitors toured the Berlin Wall Memorial in 2023?"
+  },
+  {
+    "meta": {
+      "group": "apes",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:orangutan"
+      ]
+    },
+    "question_id": "qa-pilot-dev-08",
+    "split": "dev",
+    "text": "Which great ape is described as the most solitary, with social bonds occurring primarily between mothers and dependent offspring?"
+  },
+  {
+    "meta": {
+      "group": "apes",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:gorilla",
+        "a:chimpanzee"
+      ]
+    },
+    "question_id": "qa-pilot-dev-09",
+    "split": "dev",
+    "text": "How is the social grouping of the great ape described?"
+  },
+  {
+    "meta": {
+      "group": "orange",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:orange_colour"
+      ]
+    },
+    "question_id": "qa-pilot-dev-10",
+    "split": "dev",
+    "text": "What dominant wavelength range corresponds to human perception of the colour produced by mixing yellow and red pigments?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge"
+      ],
+      "group": "cambridge",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:cambridge"
+      ]
+    },
+    "question_id": "qa-shadow-dev-01",
+    "split": "shadow_dev",
+    "text": "On which river does the English county town of Cambridgeshire stand?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge"
+      ],
+      "group": "cambridge",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:cambridge_massachusetts"
+      ]
+    },
+    "question_id": "qa-shadow-dev-02",
+    "split": "shadow_dev",
+    "text": "In honor of which English university was the Middlesex County city across the Charles River from Boston named?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge"
+      ],
+      "group": "cambridge",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:harvard_university"
+      ]
+    },
+    "question_id": "qa-shadow-dev-03",
+    "split": "shadow_dev",
+    "text": "In which year was Harvard University, the private Ivy League research university in Cambridge, Massachusetts, founded?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "corona"
+      ],
+      "group": "corona",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:solar_corona"
+      ]
+    },
+    "question_id": "qa-shadow-dev-04",
+    "split": "shadow_dev",
+    "text": "Which layer of the Sun's atmosphere is the solar corona?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "corona"
+      ],
+      "group": "corona",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:corona_beer"
+      ]
+    },
+    "question_id": "qa-shadow-dev-05",
+    "split": "shadow_dev",
+    "text": "Which company produces the Mexican beer brand Corona in Mexico?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "corona"
+      ],
+      "group": "corona",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:corona_australis"
+      ]
+    },
+    "question_id": "qa-shadow-dev-06",
+    "split": "shadow_dev",
+    "text": "What does the Latin name of Corona Australis mean?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "jaguar"
+      ],
+      "group": "jaguar",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:jaguar"
+      ]
+    },
+    "question_id": "qa-shadow-dev-07",
+    "split": "shadow_dev",
+    "text": "What is the scientific name of the jaguar, the large cat species native to the Americas?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "jaguar"
+      ],
+      "group": "jaguar",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:jaguar_cars"
+      ]
+    },
+    "question_id": "qa-shadow-dev-08",
+    "split": "shadow_dev",
+    "text": "Which company owns the British sports car and luxury vehicle brand Jaguar?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "jaguar"
+      ],
+      "group": "jaguar",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:jaguar_supercomputer"
+      ]
+    },
+    "question_id": "qa-shadow-dev-09",
+    "split": "shadow_dev",
+    "text": "At which national laboratory was the petascale Jaguar supercomputer built?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "lincoln"
+      ],
+      "group": "lincoln",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:lincolnshire"
+      ]
+    },
+    "question_id": "qa-shadow-dev-10",
+    "split": "shadow_dev",
+    "text": "What is the highest point in Lincolnshire?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:mount_vernon"
+      ]
+    },
+    "question_id": "qa-shadow-dev-11",
+    "split": "shadow_dev",
+    "text": "On the banks of which river does the Mount Vernon estate lie?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:washington_d_c"
+      ]
+    },
+    "question_id": "qa-shadow-dev-12",
+    "split": "shadow_dev",
+    "text": "What was the population of Washington, D.C. as of the 2020 census?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:university_of_washington"
+      ]
+    },
+    "question_id": "qa-shadow-dev-13",
+    "split": "shadow_dev",
+    "text": "In which year was the public research university in Seattle known informally as U-Dub founded?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:oymyakon"
+      ],
+      "group": "solo:oymyakon",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:oymyakon"
+      ]
+    },
+    "question_id": "qa-shadow-dev-14",
+    "split": "shadow_dev",
+    "text": "What distinction does Oymyakon currently hold among human settlements?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:mary celeste"
+      ],
+      "group": "solo:mary celeste",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:mary_celeste"
+      ]
+    },
+    "question_id": "qa-shadow-dev-15",
+    "split": "shadow_dev",
+    "text": "On what date was the Mary Celeste discovered adrift and deserted off the Azores?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:saola"
+      ],
+      "group": "solo:saola",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:saola"
+      ]
+    },
+    "question_id": "qa-shadow-dev-16",
+    "split": "shadow_dev",
+    "text": "What is the scientific name of the saola, the forest-dwelling bovid of the Annamite Range?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:dead sea"
+      ],
+      "group": "solo:dead sea",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:dead_sea"
+      ]
+    },
+    "question_id": "qa-shadow-dev-17",
+    "split": "shadow_dev",
+    "text": "Which river is the main tributary of the Dead Sea?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge"
+      ],
+      "group": "cambridge",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:harvard_university"
+      ]
+    },
+    "question_id": "qa-shadow-dev-18",
+    "split": "shadow_dev",
+    "text": "Which Harvard University campus covers more land: the main campus centered on Harvard Yard or the campus across the Charles River?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge"
+      ],
+      "group": "cambridge",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:university_of_cambridge",
+        "a:harvard_university"
+      ]
+    },
+    "question_id": "qa-shadow-dev-19",
+    "split": "shadow_dev",
+    "text": "Which university is older: the collegiate public research university in Cambridge, England or the private Ivy League research university in Cambridge, Massachusetts?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge"
+      ],
+      "group": "cambridge",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:cambridge_massachusetts",
+        "a:university_of_cambridge"
+      ]
+    },
+    "question_id": "qa-shadow-dev-20",
+    "split": "shadow_dev",
+    "text": "The Middlesex County city named in honor of an English university was named for a university founded in which year?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:washington_state",
+        "a:george_washington"
+      ]
+    },
+    "question_id": "qa-shadow-dev-21",
+    "split": "shadow_dev",
+    "text": "The state that was originally to have been named Columbia was named after a man born on what date?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "lincoln"
+      ],
+      "group": "lincoln",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:emancipation_proclamation",
+        "a:abraham_lincoln"
+      ]
+    },
+    "question_id": "qa-shadow-dev-22",
+    "split": "shadow_dev",
+    "text": "The president who issued the Emancipation Proclamation on January 1, 1863 was a descendant of an Englishman who emigrated to which place in 1637?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "lincoln",
+        "solo:american civil war"
+      ],
+      "group": "lincoln",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:american_civil_war",
+        "a:lincoln_motor_company"
+      ]
+    },
+    "question_id": "qa-shadow-dev-23",
+    "split": "shadow_dev",
+    "text": "The winner of the 1860 presidential election whose victory triggered secession declarations was the namesake of which motor company?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "corona"
+      ],
+      "group": "corona",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:coronavirus"
+      ]
+    },
+    "question_id": "qa-shadow-dev-24",
+    "split": "shadow_dev",
+    "text": "The woman who co-coined the name 'coronavirus' alongside David Tyrrell worked at which hospital?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "jaguar"
+      ],
+      "group": "jaguar",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:atari_jaguar"
+      ]
+    },
+    "question_id": "qa-shadow-dev-25",
+    "split": "shadow_dev",
+    "text": "The home video game console released in North America in November 1993 used which tagline in its American marketing?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge",
+        "washington"
+      ],
+      "group": "cambridge",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:cambridge_massachusetts",
+        "a:george_washington"
+      ]
+    },
+    "question_id": "qa-shadow-dev-26",
+    "split": "shadow_dev",
+    "text": "The commander who arrived at Cambridge Common in July 1775 to take command of the Patriot soldiers camped there later served as U.S. president during which years?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "corona"
+      ],
+      "group": "corona",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:corona_beer",
+        "a:corona_australis"
+      ]
+    },
+    "question_id": "qa-shadow-dev-27",
+    "split": "shadow_dev",
+    "text": "In which year was Corona officially introduced or entered as a name?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge"
+      ],
+      "group": "cambridge",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:cambridge",
+        "a:cambridge_massachusetts"
+      ]
+    },
+    "question_id": "qa-shadow-dev-28",
+    "split": "shadow_dev",
+    "text": "What was the population of the city of Cambridge?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "jaguar"
+      ],
+      "group": "jaguar",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:atari_jaguar"
+      ]
+    },
+    "question_id": "qa-shadow-dev-29",
+    "split": "shadow_dev",
+    "text": "At what price did the Atari Jaguar launch on November 23, 1993?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:moai"
+      ],
+      "group": "solo:moai",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:moai"
+      ]
+    },
+    "question_id": "qa-shadow-dev-30",
+    "split": "shadow_dev",
+    "text": "How many moai in Rano Raraku were damaged by the 2022 wildfire?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:australia"
+      ],
+      "group": "solo:australia",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:australia"
+      ]
+    },
+    "question_id": "qa-shadow-dev-31",
+    "split": "shadow_dev",
+    "text": "Which ship's crew made the first documented European landing in Australia in 1606?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:buenos aires"
+      ],
+      "group": "solo:buenos aires",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:buenos_aires"
+      ]
+    },
+    "question_id": "qa-shadow-dev-32",
+    "split": "shadow_dev",
+    "text": "In which year did British forces first attack Buenos Aires during the invasions of the Rio de la Plata?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:cactus"
+      ],
+      "group": "solo:cactus",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:cactus"
+      ]
+    },
+    "question_id": "qa-shadow-dev-33",
+    "split": "shadow_dev",
+    "text": "About how many genera does the cactus family comprise?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:cheese"
+      ],
+      "group": "solo:cheese",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:cheese"
+      ]
+    },
+    "question_id": "qa-shadow-dev-34",
+    "split": "shadow_dev",
+    "text": "What did Anglo-Saxons name a village by the River Thames around 1000, meaning 'Cheese farm'?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:fifa world cup"
+      ],
+      "group": "solo:fifa world cup",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:fifa_world_cup"
+      ]
+    },
+    "question_id": "qa-shadow-dev-35",
+    "split": "shadow_dev",
+    "text": "Who scored the first goal in World Cup history?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:gda\u0144sk"
+      ],
+      "group": "solo:gda\u0144sk",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:gda_sk"
+      ]
+    },
+    "question_id": "qa-shadow-dev-36",
+    "split": "shadow_dev",
+    "text": "Under what name was the settlement that became Gdansk recorded after St. Adalbert's death in 997?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:great zimbabwe"
+      ],
+      "group": "solo:great zimbabwe",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:great_zimbabwe"
+      ]
+    },
+    "question_id": "qa-shadow-dev-37",
+    "split": "shadow_dev",
+    "text": "What distinction does Great Zimbabwe hold among precolonial Southern African structures?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:hiv/aids"
+      ],
+      "group": "solo:hiv/aids",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:hiv_aids"
+      ]
+    },
+    "question_id": "qa-shadow-dev-38",
+    "split": "shadow_dev",
+    "text": "Below what CD4+ T cell count is AIDS defined in an HIV infection?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:kyiv"
+      ],
+      "group": "solo:kyiv",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:kyiv"
+      ]
+    },
+    "question_id": "qa-shadow-dev-39",
+    "split": "shadow_dev",
+    "text": "In which year did Kyiv celebrate its 1,500th anniversary?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:ludwig van beethoven"
+      ],
+      "group": "solo:ludwig van beethoven",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:ludwig_van_beethoven"
+      ]
+    },
+    "question_id": "qa-shadow-dev-40",
+    "split": "shadow_dev",
+    "text": "In which month and year did Beethoven move permanently from Bonn to Vienna?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:neutron star"
+      ],
+      "group": "solo:neutron star",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:neutron_star"
+      ]
+    },
+    "question_id": "qa-shadow-dev-41",
+    "split": "shadow_dev",
+    "text": "What initial mass gives a main-sequence star the potential to become a neutron star?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:operating system"
+      ],
+      "group": "solo:operating system",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:operating_system"
+      ]
+    },
+    "question_id": "qa-shadow-dev-42",
+    "split": "shadow_dev",
+    "text": "What does a hypervisor run?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:silk road"
+      ],
+      "group": "solo:silk road",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:silk_road"
+      ]
+    },
+    "question_id": "qa-shadow-dev-43",
+    "split": "shadow_dev",
+    "text": "Who first popularized the term 'Silk Road' in 1877?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:superconductivity"
+      ],
+      "group": "solo:superconductivity",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:superconductivity"
+      ]
+    },
+    "question_id": "qa-shadow-dev-44",
+    "split": "shadow_dev",
+    "text": "In which material was superconductivity first discovered in 1911?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:acid"
+      ],
+      "group": "solo:acid",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:acid"
+      ]
+    },
+    "question_id": "qa-shadow-dev-45",
+    "split": "shadow_dev",
+    "text": "Which acidity concept was proposed first: the one attributing acidity to hydrogen cations, or the one based on proton transfer?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:gda\u0144sk",
+        "solo:zurich"
+      ],
+      "group": "solo:gda\u0144sk",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:gda_sk",
+        "a:zurich"
+      ]
+    },
+    "question_id": "qa-shadow-dev-46",
+    "split": "shadow_dev",
+    "text": "Which municipality is more populous: the Polish city at the mouth of the Motlawa River, or the largest city in Switzerland?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:hummingbird"
+      ],
+      "group": "solo:hummingbird",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:hummingbird"
+      ]
+    },
+    "question_id": "qa-shadow-dev-47",
+    "split": "shadow_dev",
+    "text": "Which hummingbird is heavier: the smallest bird at about 2 g, or the largest hummingbird at roughly twice the mass of the next largest?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:superconductivity"
+      ],
+      "group": "solo:superconductivity",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:superconductivity"
+      ]
+    },
+    "question_id": "qa-shadow-dev-48",
+    "split": "shadow_dev",
+    "text": "Who made their contribution first: the researcher who discovered superconductivity in solid mercury, or the theorist who predicted supercurrent through an insulating layer?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "jaguar"
+      ],
+      "group": "jaguar",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:jaguar_cars"
+      ]
+    },
+    "question_id": "qa-shadow-dev-49",
+    "split": "shadow_dev",
+    "text": "The motor business founded by two motorcycle enthusiasts, William Lyons and William Walmsley, is now owned by which company?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "corona"
+      ],
+      "group": "corona",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:coronavirus",
+        "a:corona_australis"
+      ]
+    },
+    "question_id": "qa-shadow-dev-50",
+    "split": "shadow_dev",
+    "text": "The virus family whose name was coined by June Almeida and David Tyrrell shares its Latin root with which constellation in the Southern Celestial Hemisphere?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "lincoln"
+      ],
+      "group": "lincoln",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:emancipation_proclamation",
+        "a:lincoln_motor_company"
+      ]
+    },
+    "question_id": "qa-shadow-dev-51",
+    "split": "shadow_dev",
+    "text": "The motor company named for the president who issued Proclamation 95 on January 1, 1863 was founded in which month and year?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:mount_vernon",
+        "a:george_washington"
+      ]
+    },
+    "question_id": "qa-shadow-dev-52",
+    "split": "shadow_dev",
+    "text": "The half-brother who inherited the remainder interest in Mount Vernon in 1752 lived there with whom after his 1759 marriage?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge"
+      ],
+      "group": "cambridge",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:cambridge_massachusetts",
+        "a:harvard_university"
+      ]
+    },
+    "question_id": "qa-shadow-dev-53",
+    "split": "shadow_dev",
+    "text": "The university founded in Cambridge in 1636 holds how many acres in its main campus centered on Harvard Yard?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge"
+      ],
+      "group": "cambridge",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:university_of_cambridge",
+        "a:cambridge_massachusetts"
+      ]
+    },
+    "question_id": "qa-shadow-dev-54",
+    "split": "shadow_dev",
+    "text": "The university founded in 1209 by scholars who left Oxford is the namesake of which city in Middlesex County?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:fifa world cup"
+      ],
+      "group": "solo:fifa world cup",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:fifa_world_cup"
+      ]
+    },
+    "question_id": "qa-shadow-dev-55",
+    "split": "shadow_dev",
+    "text": "The national team that was already a two-time official world champion when named host of the inaugural World Cup defeated which team in that tournament's final?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:university_of_washington"
+      ]
+    },
+    "question_id": "qa-shadow-dev-56",
+    "split": "shadow_dev",
+    "text": "The university whose light rail station connecting Capitol Hill to Husky Stadium was completed in March 2016 has its main campus in which district of Seattle?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "jaguar"
+      ],
+      "group": "jaguar",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:jaguar",
+        "a:jaguar_cars"
+      ]
+    },
+    "question_id": "qa-shadow-dev-57",
+    "split": "shadow_dev",
+    "text": "In which year was Jaguar first founded or scientifically described?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:washington_d_c",
+        "a:washington_state"
+      ]
+    },
+    "question_id": "qa-shadow-dev-58",
+    "split": "shadow_dev",
+    "text": "In which year was Washington given its name?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:plitvice lakes national park"
+      ],
+      "group": "solo:plitvice lakes national park",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:plitvice_lakes_national_park"
+      ]
+    },
+    "question_id": "qa-shadow-dev-59",
+    "split": "shadow_dev",
+    "text": "What is the adult admission ticket price for Plitvice Lakes National Park?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge",
+        "solo:virtual reality"
+      ],
+      "group": "cambridge",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:cambridge_massachusetts",
+        "a:virtual_reality"
+      ]
+    },
+    "question_id": "qa-shadow-dev-61",
+    "split": "shadow_dev",
+    "text": "The institute where the crude 1978 virtual tour of Aspen's streets was created has its 168-acre campus in which city?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge",
+        "solo:virtual reality"
+      ],
+      "group": "cambridge",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:cambridge_massachusetts",
+        "a:harvard_university",
+        "a:virtual_reality"
+      ]
+    },
+    "question_id": "qa-shadow-dev-62",
+    "split": "shadow_dev",
+    "text": "The professor who created the first head-mounted display system for immersive simulation in 1968 together with his students taught at a university founded in which year?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:university_of_washington",
+        "a:washington_state"
+      ]
+    },
+    "question_id": "qa-shadow-dev-63",
+    "split": "shadow_dev",
+    "text": "The most populous city of the Pacific Northwest state named after the first U.S. president is home to a public research university founded in which year?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:george_washington",
+        "a:washington_state"
+      ]
+    },
+    "question_id": "qa-shadow-dev-64",
+    "split": "shadow_dev",
+    "text": "The Founding Father for whom both the Pacific Northwest state and the national capital were named served as the first president during which years?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "lincoln",
+        "solo:american civil war"
+      ],
+      "group": "lincoln",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:abraham_lincoln",
+        "a:american_civil_war",
+        "a:lincoln_motor_company"
+      ]
+    },
+    "question_id": "qa-shadow-dev-65",
+    "split": "shadow_dev",
+    "text": "The president for whom Henry Leland cast his first-ever presidential vote in 1864 first won the presidency in which year?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "lincoln"
+      ],
+      "group": "lincoln",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:abraham_lincoln",
+        "a:emancipation_proclamation"
+      ]
+    },
+    "question_id": "qa-shadow-dev-66",
+    "split": "shadow_dev",
+    "text": "The president born in a log cabin in Kentucky issued which proclamation on January 1, 1863?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:george_washington",
+        "a:washington_d_c"
+      ]
+    },
+    "question_id": "qa-shadow-dev-67",
+    "split": "shadow_dev",
+    "text": "The first U.S. president for whom the federal capital district was named led Patriot forces to victory in which war?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:thermodynamics"
+      ],
+      "group": "solo:thermodynamics",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:thermodynamics"
+      ]
+    },
+    "question_id": "qa-shadow-dev-68",
+    "split": "shadow_dev",
+    "text": "Who wrote the first thermodynamic textbook in 1859?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:virtual reality"
+      ],
+      "group": "solo:virtual reality",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:virtual_reality"
+      ]
+    },
+    "question_id": "qa-shadow-dev-69",
+    "split": "shadow_dev",
+    "text": "In which year did Google introduce Street View?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "corona"
+      ],
+      "group": "corona",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:corona_beer"
+      ]
+    },
+    "question_id": "qa-shadow-dev-70",
+    "split": "shadow_dev",
+    "text": "To satisfy United States antitrust concerns, Anheuser-Busch InBev transferred all United States distribution rights for Corona to which company?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "corona"
+      ],
+      "group": "corona",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:solar_corona"
+      ]
+    },
+    "question_id": "qa-shadow-dev-71",
+    "split": "shadow_dev",
+    "text": "In which year did Giacomo F. Maraldi recognize that the aura visible during a solar eclipse belongs to the Sun?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "corona"
+      ],
+      "group": "corona",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:corona_australis"
+      ]
+    },
+    "question_id": "qa-shadow-dev-72",
+    "split": "shadow_dev",
+    "text": "In which year were the IAU four-letter constellation abbreviations repealed?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "jaguar"
+      ],
+      "group": "jaguar",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:jaguar"
+      ]
+    },
+    "question_id": "qa-shadow-dev-73",
+    "split": "shadow_dev",
+    "text": "Through which part of mammalian prey does the jaguar bite to deliver a fatal blow to the brain?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "jaguar"
+      ],
+      "group": "jaguar",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:jaguar_supercomputer"
+      ]
+    },
+    "question_id": "qa-shadow-dev-74",
+    "split": "shadow_dev",
+    "text": "Which Chinese supercomputer took over the top TOP500 spot from Jaguar in late October 2010?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "jaguar"
+      ],
+      "group": "jaguar",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:atari_jaguar"
+      ]
+    },
+    "question_id": "qa-shadow-dev-75",
+    "split": "shadow_dev",
+    "text": "Which game launched with the Atari Jaguar as its pack-in game?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "lincoln"
+      ],
+      "group": "lincoln",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:lincolnshire"
+      ]
+    },
+    "question_id": "qa-shadow-dev-76",
+    "split": "shadow_dev",
+    "text": "From which Roman name was the name Lincoln derived?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "lincoln"
+      ],
+      "group": "lincoln",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:lincoln_motor_company"
+      ]
+    },
+    "question_id": "qa-shadow-dev-77",
+    "split": "shadow_dev",
+    "text": "Which animal did Lincoln adopt as a hood ornament in 1927?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "lincoln",
+        "solo:american civil war"
+      ],
+      "group": "solo:american civil war",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:abraham_lincoln",
+        "a:american_civil_war"
+      ]
+    },
+    "question_id": "qa-shadow-dev-78",
+    "split": "shadow_dev",
+    "text": "On which date did Confederate forces open fire on the Union-held Fort Sumter?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:washington_d_c"
+      ]
+    },
+    "question_id": "qa-shadow-dev-79",
+    "split": "shadow_dev",
+    "text": "On which date did British forces occupy Washington during the War of 1812?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:george_washington"
+      ]
+    },
+    "question_id": "qa-shadow-dev-80",
+    "split": "shadow_dev",
+    "text": "In which year did Washington lead a combined French and American force to victory at Yorktown?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:university_of_washington"
+      ]
+    },
+    "question_id": "qa-shadow-dev-81",
+    "split": "shadow_dev",
+    "text": "In which nearby cities does the Seattle public research university have satellite campuses?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:washington_state"
+      ]
+    },
+    "question_id": "qa-shadow-dev-82",
+    "split": "shadow_dev",
+    "text": "At what elevation does Mount Rainier, the state's highest elevation, stand?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:kyiv"
+      ],
+      "group": "solo:kyiv",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:kyiv"
+      ]
+    },
+    "question_id": "qa-shadow-dev-83",
+    "split": "shadow_dev",
+    "text": "Which river flows through Kyiv, with the city straddling both its banks?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:virtual reality"
+      ],
+      "group": "solo:virtual reality",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:virtual_reality"
+      ]
+    },
+    "question_id": "qa-shadow-dev-84",
+    "split": "shadow_dev",
+    "text": "Which consumer headset effort came first: the 1991 headset for the Mega Drive home console, or the headset first presented at the E3 video game trade show in 2012?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "cambridge",
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:harvard_university",
+        "a:university_of_washington"
+      ]
+    },
+    "question_id": "qa-shadow-dev-85",
+    "split": "shadow_dev",
+    "text": "Which university's main campus covers more land: the Ivy League university founded in Cambridge in 1636, or the Seattle public research university known informally as U-Dub?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:washington_d_c",
+        "a:washington_state"
+      ]
+    },
+    "question_id": "qa-shadow-dev-86",
+    "split": "shadow_dev",
+    "text": "Which was established first: the federal capital district created by the 1790 Residence Act, or the 42nd state admitted in 1889?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "washington"
+      ],
+      "group": "washington",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:washington_d_c",
+        "a:washington_state"
+      ]
+    },
+    "question_id": "qa-shadow-dev-87",
+    "split": "shadow_dev",
+    "text": "What is the capital of Washington?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:virtual reality"
+      ],
+      "group": "solo:virtual reality",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:virtual_reality"
+      ]
+    },
+    "question_id": "qa-shadow-dev-88",
+    "split": "shadow_dev",
+    "text": "In which year was the term 'virtual reality' first used?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:virtual reality"
+      ],
+      "group": "solo:virtual reality",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:virtual_reality"
+      ]
+    },
+    "question_id": "qa-shadow-dev-89",
+    "split": "shadow_dev",
+    "text": "What was the retail price of Morton Heilig's Sensorama prototype?"
+  },
+  {
+    "meta": {
+      "evidence_groups": [
+        "solo:thermodynamics"
+      ],
+      "group": "solo:thermodynamics",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:thermodynamics"
+      ]
+    },
+    "question_id": "qa-shadow-dev-90",
+    "split": "shadow_dev",
+    "text": "What numerical thermal efficiency did Sadi Carnot calculate for his ideal engine?"
+  },
+  {
+    "meta": {
+      "group": "amazon",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:amazon_company"
+      ]
+    },
+    "question_id": "qa-train-01",
+    "split": "train",
+    "text": "Which company owns the subsidiaries Audible, Goodreads, Twitch, and Zappos?"
+  },
+  {
+    "meta": {
+      "group": "amazon",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:amazon_company",
+        "a:amazon_rainforest",
+        "a:jeff_bezos"
+      ]
+    },
+    "question_id": "qa-train-02",
+    "split": "train",
+    "text": "What does the term Amazon refer to?"
+  },
+  {
+    "meta": {
+      "group": "amazon",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:amazon_rainforest"
+      ]
+    },
+    "question_id": "qa-train-03",
+    "split": "train",
+    "text": "What percentage of the Amazon rainforest lies within the borders of Brazil, compared with the 12.8% share held by Peru?"
+  },
+  {
+    "meta": {
+      "group": "apple",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:apple_records"
+      ]
+    },
+    "question_id": "qa-train-04",
+    "split": "train",
+    "text": "Which British record label was established by the Beatles in 1968 as part of Apple Corps?"
+  },
+  {
+    "meta": {
+      "group": "apple",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:steve_jobs"
+      ]
+    },
+    "question_id": "qa-train-05",
+    "split": "train",
+    "text": "The entrepreneur who funded the 1986 Pixar spinout from Lucasfilm also co-founded which computer company a decade earlier?"
+  },
+  {
+    "meta": {
+      "group": "apple",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:apple"
+      ]
+    },
+    "question_id": "qa-train-06",
+    "split": "train",
+    "text": "Which country accounted for 52% of world apple production in 2024?"
+  },
+  {
+    "meta": {
+      "group": "columbia",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:columbia_river"
+      ]
+    },
+    "question_id": "qa-train-07",
+    "split": "train",
+    "text": "What is the length of the Columbia River whose largest tributary is the Snake River?"
+  },
+  {
+    "meta": {
+      "group": "columbia",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:columbia_university",
+        "a:columbia_river"
+      ]
+    },
+    "question_id": "qa-train-08",
+    "split": "train",
+    "text": "What is Columbia?"
+  },
+  {
+    "meta": {
+      "group": "columbia",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:columbia_university"
+      ]
+    },
+    "question_id": "qa-train-09",
+    "split": "train",
+    "text": "The institution renamed Columbia College in 1784 moved to its current campus in 1896; in which city is that campus located?"
+  },
+  {
+    "meta": {
+      "group": "delta",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:okavango_delta"
+      ]
+    },
+    "question_id": "qa-train-10",
+    "split": "train",
+    "text": "Which UNESCO World Heritage Site is one of the few interior delta systems that does not drain into a sea or ocean?"
+  },
+  {
+    "meta": {
+      "group": "delta",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:sars_cov_2_delta_variant"
+      ]
+    },
+    "question_id": "qa-train-11",
+    "split": "train",
+    "text": "Where and when was the Delta variant of SARS-CoV-2 first detected?"
+  },
+  {
+    "meta": {
+      "group": "delta",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:river_delta"
+      ]
+    },
+    "question_id": "qa-train-12",
+    "split": "train",
+    "text": "The Ganges-Brahmaputra Delta is described as the largest delta on Earth; into which lake does the largest delta emptying into fresh water flow?"
+  },
+  {
+    "meta": {
+      "group": "eclipse",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:solar_eclipse"
+      ]
+    },
+    "question_id": "qa-train-13",
+    "split": "train",
+    "text": "In a total solar eclipse, what happens to the disk of the Sun?"
+  },
+  {
+    "meta": {
+      "group": "eclipse",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:lunar_eclipse"
+      ]
+    },
+    "question_id": "qa-train-14",
+    "split": "train",
+    "text": "A blood moon is a kind of lunar eclipse; during which recurring season do lunar eclipses occur?"
+  },
+  {
+    "meta": {
+      "group": "eclipse",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:solar_eclipse",
+        "a:lunar_eclipse"
+      ]
+    },
+    "question_id": "qa-train-15",
+    "split": "train",
+    "text": "How many people travelled to observe the 2024 total solar eclipse in North America?"
+  },
+  {
+    "meta": {
+      "group": "london",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:tower_of_london"
+      ]
+    },
+    "question_id": "qa-train-16",
+    "split": "train",
+    "text": "Who built the White Tower in 1078?"
+  },
+  {
+    "meta": {
+      "group": "london",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:london_bridge"
+      ]
+    },
+    "question_id": "qa-train-17",
+    "split": "train",
+    "text": "When the bridge was the busiest point in London in 1896, how many pedestrians and vehicles crossed it every hour?"
+  },
+  {
+    "meta": {
+      "group": "london",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:tower_of_london",
+        "a:london_bridge"
+      ]
+    },
+    "question_id": "qa-train-18",
+    "split": "train",
+    "text": "The Tower of London was founded toward the end of 1066; is it older or younger than the original Roman timber crossing of the Thames?"
+  },
+  {
+    "meta": {
+      "group": "mars",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:olympus_mons"
+      ]
+    },
+    "question_id": "qa-train-19",
+    "split": "train",
+    "text": "What height did the Mars Orbiter Laser Altimeter measure for Olympus Mons?"
+  },
+  {
+    "meta": {
+      "group": "mars",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:mars",
+        "a:mars_bar"
+      ]
+    },
+    "question_id": "qa-train-20",
+    "split": "train",
+    "text": "What is Mars?"
+  },
+  {
+    "meta": {
+      "group": "mars",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:mars_bar"
+      ]
+    },
+    "question_id": "qa-train-21",
+    "split": "train",
+    "text": "Forrest Mars Sr. first manufactured the Mars bar in 1932; after whose candy bar did he model it, and what was that person's relationship to him?"
+  },
+  {
+    "meta": {
+      "group": "nile",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:aswan_high_dam"
+      ]
+    },
+    "question_id": "qa-train-22",
+    "split": "train",
+    "text": "Across which river and in which city was the Aswan High Dam built between 1960 and 1970?"
+  },
+  {
+    "meta": {
+      "group": "nile",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:giza_pyramid_complex"
+      ]
+    },
+    "question_id": "qa-train-23",
+    "split": "train",
+    "text": "From whose reign does the Sphinx date?"
+  },
+  {
+    "meta": {
+      "group": "nile",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:aswan_high_dam"
+      ]
+    },
+    "question_id": "qa-train-24",
+    "split": "train",
+    "text": "The Aswan Low Dam was completed in 1902; the High Dam built between 1960 and 1970 changed the economy and culture of which country?"
+  },
+  {
+    "meta": {
+      "group": "paris",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:paris_mythology"
+      ]
+    },
+    "question_id": "qa-train-25",
+    "split": "train",
+    "text": "Whom did Paris fatally wound during the Trojan War?"
+  },
+  {
+    "meta": {
+      "group": "paris",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:paris_mythology",
+        "a:paris"
+      ]
+    },
+    "question_id": "qa-train-26",
+    "split": "train",
+    "text": "Who or what was Paris?"
+  },
+  {
+    "meta": {
+      "group": "paris",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:eiffel_tower"
+      ]
+    },
+    "question_id": "qa-train-27",
+    "split": "train",
+    "text": "The first floor of the tower hosts Le 58 Tour Eiffel; what is the name of the gourmet Michelin-starred restaurant on the second floor?"
+  },
+  {
+    "meta": {
+      "group": "peaks",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:k2"
+      ]
+    },
+    "question_id": "qa-train-28",
+    "split": "train",
+    "text": "What is the height of K2, the second-highest mountain on Earth?"
+  },
+  {
+    "meta": {
+      "group": "peaks",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:mount_kilimanjaro"
+      ]
+    },
+    "question_id": "qa-train-29",
+    "split": "train",
+    "text": "About how many trekkers visit Mount Kilimanjaro each year?"
+  },
+  {
+    "meta": {
+      "group": "peaks",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:mount_kilimanjaro"
+      ]
+    },
+    "question_id": "qa-train-30",
+    "split": "train",
+    "text": "What was the summit success rate for the Machame route on Kilimanjaro in 2024?"
+  },
+  {
+    "meta": {
+      "group": "python",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:python_programming_language"
+      ]
+    },
+    "question_id": "qa-train-31",
+    "split": "train",
+    "text": "What programming language emphasizes readability and uses significant indentation?"
+  },
+  {
+    "meta": {
+      "group": "python",
+      "question_type": "multihop",
+      "source_articles": [
+        "a:guido_van_rossum",
+        "a:python_programming_language"
+      ]
+    },
+    "question_id": "qa-train-32",
+    "split": "train",
+    "text": "Guido van Rossum created the Python language; which comedy group inspired its name?"
+  },
+  {
+    "meta": {
+      "group": "python",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:python_genus",
+        "a:pythonidae"
+      ]
+    },
+    "question_id": "qa-train-33",
+    "split": "train",
+    "text": "Pythons lay eggs while most boas bear live young; how many python species are currently recognized as valid taxa?"
+  },
+  {
+    "meta": {
+      "group": "rome",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:rome"
+      ]
+    },
+    "question_id": "qa-train-34",
+    "split": "train",
+    "text": "What is the capital and largest city of Italy?"
+  },
+  {
+    "meta": {
+      "group": "rome",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:ancient_rome"
+      ]
+    },
+    "question_id": "qa-train-35",
+    "split": "train",
+    "text": "At what age and in which year did Octavian take the name Augustus?"
+  },
+  {
+    "meta": {
+      "group": "rome",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:ancient_rome"
+      ]
+    },
+    "question_id": "qa-train-36",
+    "split": "train",
+    "text": "Octavian took the name Augustus in 27 BC at the age of 36; the imperial capital's population is estimated between which figures?"
+  },
+  {
+    "meta": {
+      "group": "saturn",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:saturn"
+      ]
+    },
+    "question_id": "qa-train-37",
+    "split": "train",
+    "text": "Which planet is sixth from the Sun and the second largest in the Solar System?"
+  },
+  {
+    "meta": {
+      "group": "saturn",
+      "question_type": "ambiguous",
+      "source_articles": [
+        "a:saturn",
+        "a:saturn_mythology"
+      ]
+    },
+    "question_id": "qa-train-38",
+    "split": "train",
+    "text": "What is Saturn?"
+  },
+  {
+    "meta": {
+      "group": "saturn",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:saturn"
+      ]
+    },
+    "question_id": "qa-train-39",
+    "split": "train",
+    "text": "On what exact date did NASA's Dragonfly rotorcraft launch toward Titan?"
+  },
+  {
+    "meta": {
+      "group": "shell",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:shell_computing"
+      ]
+    },
+    "question_id": "qa-train-40",
+    "split": "train",
+    "text": "What kind of programs are most operating system shells?"
+  },
+  {
+    "meta": {
+      "group": "shell",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:shell_plc"
+      ]
+    },
+    "question_id": "qa-train-41",
+    "split": "train",
+    "text": "How much did Shell pay per share for Pennzoil-Quaker State in 2002?"
+  },
+  {
+    "meta": {
+      "group": "shell",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:seashell"
+      ]
+    },
+    "question_id": "qa-train-42",
+    "split": "train",
+    "text": "Hermit crabs wear empty marine gastropod shells; which field studies the seashells of marine mollusks?"
+  },
+  {
+    "meta": {
+      "group": "tesla",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:alternating_current"
+      ]
+    },
+    "question_id": "qa-train-43",
+    "split": "train",
+    "text": "What type of current periodically reverses direction, unlike direct current?"
+  },
+  {
+    "meta": {
+      "group": "tesla",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:nikola_tesla"
+      ]
+    },
+    "question_id": "qa-train-44",
+    "split": "train",
+    "text": "Tesla demonstrated the telautomaton boat in 1898; licensing which patents had made him independently wealthy?"
+  },
+  {
+    "meta": {
+      "group": "tesla",
+      "question_type": "unanswerable",
+      "source_articles": [
+        "a:tesla_inc"
+      ]
+    },
+    "question_id": "qa-train-45",
+    "split": "train",
+    "text": "How many Cybercabs had been delivered to third-party operators by the end of 2025?"
+  },
+  {
+    "meta": {
+      "group": "venus",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:venus"
+      ]
+    },
+    "question_id": "qa-train-46",
+    "split": "train",
+    "text": "How long does Venus take to complete one orbit of the Sun?"
+  },
+  {
+    "meta": {
+      "group": "venus",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:venus_flytrap"
+      ]
+    },
+    "question_id": "qa-train-47",
+    "split": "train",
+    "text": "In what year was the Venus flytrap designated the state carnivorous plant of North Carolina?"
+  },
+  {
+    "meta": {
+      "group": "venus",
+      "question_type": "comparison",
+      "source_articles": [
+        "a:venus_mythology"
+      ]
+    },
+    "question_id": "qa-train-48",
+    "split": "train",
+    "text": "Venus was the ancestor of the Roman people through Aeneas; which historical figure also claimed her as his ancestor?"
+  },
+  {
+    "meta": {
+      "group": "solo:african elephant",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:african_elephant"
+      ]
+    },
+    "question_id": "qa-train-49",
+    "split": "train",
+    "text": "Members of the genus Loxodonta comprise which two living elephant species?"
+  },
+  {
+    "meta": {
+      "group": "solo:alfred hitchcock",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:alfred_hitchcock"
+      ]
+    },
+    "question_id": "qa-train-50",
+    "split": "train",
+    "text": "How detailed was Hitchcock's storyboarding, and did he look through the viewfinder?"
+  },
+  {
+    "meta": {
+      "group": "solo:amsterdam",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:amsterdam"
+      ]
+    },
+    "question_id": "qa-train-51",
+    "split": "train",
+    "text": "Name the three main canals of Amsterdam."
+  },
+  {
+    "meta": {
+      "group": "solo:black death",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:black_death"
+      ]
+    },
+    "question_id": "qa-train-52",
+    "split": "train",
+    "text": "Which bacterium caused the Black Death, and how is it primarily spread?"
+  },
+  {
+    "meta": {
+      "group": "solo:blockchain",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:blockchain"
+      ]
+    },
+    "question_id": "qa-train-53",
+    "split": "train",
+    "text": "What are the block times of Ethereum and Bitcoin?"
+  },
+  {
+    "meta": {
+      "group": "solo:grand canyon",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:grand_canyon"
+      ]
+    },
+    "question_id": "qa-train-54",
+    "split": "train",
+    "text": "What are the length, width, and depth of the Grand Canyon?"
+  },
+  {
+    "meta": {
+      "group": "solo:great barrier reef",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:great_barrier_reef"
+      ]
+    },
+    "question_id": "qa-train-55",
+    "split": "train",
+    "text": "Which starfish preys on coral polyps, and what loss did a 2000 outbreak cause on sampled reefs?"
+  },
+  {
+    "meta": {
+      "group": "solo:himalayas",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:himalayas"
+      ]
+    },
+    "question_id": "qa-train-56",
+    "split": "train",
+    "text": "Which five countries does the Himalayan range span?"
+  },
+  {
+    "meta": {
+      "group": "solo:linux",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:linux"
+      ]
+    },
+    "question_id": "qa-train-57",
+    "split": "train",
+    "text": "When was the Linux kernel first released, and by whom?"
+  },
+  {
+    "meta": {
+      "group": "solo:octopus",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:octopus"
+      ]
+    },
+    "question_id": "qa-train-58",
+    "split": "train",
+    "text": "What ability lets an octopus squeeze through small gaps?"
+  },
+  {
+    "meta": {
+      "group": "solo:penicillin",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:penicillin"
+      ]
+    },
+    "question_id": "qa-train-59",
+    "split": "train",
+    "text": "From what was Penicillin G first produced?"
+  },
+  {
+    "meta": {
+      "group": "solo:tokyo",
+      "question_type": "factoid",
+      "source_articles": [
+        "a:tokyo"
+      ]
+    },
+    "question_id": "qa-train-60",
+    "split": "train",
+    "text": "How many Michelin stars did Tokyo receive in the 2007 guide, and how did that compare to its nearest competitor?"
+  }
+]

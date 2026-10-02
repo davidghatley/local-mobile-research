@@ -57,11 +57,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "a091b154640d67a226101699dbe2c0fa5eb177098280ffb99a34b4252fac3072",
+    "decision": "approve",
+    "rationale": "Genuine two-hop: p:american_civil_war:02:000 fixes Lincoln as the 1860 winner whose victory triggered secession, p:lincoln_motor_company:01:000 supplies the Leland naming; negatives are slavery-cause history and Model L/K production, neither naming a namesake company.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

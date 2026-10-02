@@ -56,11 +56,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "1004c3ab76b9239d95209c7cefc8a439edfc57279a5821e5ab86cb2792b5d7b0",
+    "decision": "approve",
+    "rationale": "Comparison with is_multi_hop=true is sound: p:university_of_cambridge:00:000 (1209) and p:harvard_university:00:000 (1636) are both required to compare, and the negatives state no founding year for either.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

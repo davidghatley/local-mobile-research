@@ -358,13 +358,15 @@ class TestCodeOnlyMode(unittest.TestCase):
     shutil.rmtree(cls.tmp, ignore_errors=True)
 
   def test_code_only_runs_with_freeze_artifacts_absent(self):
-    # The copy has no corpus/questions.json and no sealed labels, exactly like
-    # the pre-freeze repository. --code-only must still get through the
-    # code-level portion.
+    # The copy now HAS corpus/questions.json (public partition, 209 items)
+    # but NO sealed labels (private data lives out-of-repo).
+    # --code-only must still get through the code-level portion.
+    self.assertTrue(os.path.exists(
+      os.path.join(self.copy_root, "corpus", "questions.json")),
+      "corpus/questions.json should exist (public partition)")
     self.assertFalse(os.path.exists(
-      os.path.join(self.copy_root, "corpus", "questions.json")))
-    self.assertFalse(os.path.exists(
-      os.path.join(self.copy_root, "corpus", "heldout_labels.sealed.json")))
+      os.path.join(self.copy_root, "corpus", "heldout_labels.sealed.json")),
+      "legacy in-repo sealed labels should not exist (private data is out-of-repo)")
 
     rc, out = run_verifier("--code-only", "--root", self.copy_root)
     self.assertIn(rc, (0, 1),
@@ -379,9 +381,9 @@ class TestCodeOnlyMode(unittest.TestCase):
 
   def test_code_only_skips_the_freeze_gated_stages(self):
     rc, out = run_verifier("--code-only", "--root", self.copy_root)
-    self.assertNotIn("[6/9]", out,
+    self.assertNotIn("[6/10]", out,
                      "--code-only must not run stage 6 (question/label partition)")
-    self.assertNotIn("[8/9]", out,
+    self.assertNotIn("[8/10]", out,
                      "--code-only must not run stage 8 (freeze manifest)")
 
   def test_code_only_lists_what_it_did_not_verify(self):
@@ -405,9 +407,9 @@ class TestCodeOnlyMode(unittest.TestCase):
 
   def test_full_mode_runs_the_freeze_gated_stages(self):
     rc, out = run_verifier("--root", self.copy_root)
-    self.assertIn("[6/9]", out,
+    self.assertIn("[6/10]", out,
                   "a full run must execute stage 6:\n%s" % out[:2000])
-    self.assertIn("[8/9]", out,
+    self.assertIn("[8/10]", out,
                   "a full run must execute stage 8:\n%s" % out[:2000])
 
   def test_full_mode_fails_when_freeze_artifacts_are_missing(self):

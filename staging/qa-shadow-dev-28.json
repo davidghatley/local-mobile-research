@@ -61,11 +61,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "ba1fb80dbb7273a9cc784979d3d583b7cc804ec7c96cab05fad84eed324c8135",
+    "decision": "approve",
+    "rationale": "Ambiguity is genuine: two corpus cities are named Cambridge, giving 145,700 (p:cambridge:00:000, City of Cambridge 2021) and 118,403 (p:cambridge_massachusetts:00:000, 2020 US census); each atom states its own city's figure and neither states the other's.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",

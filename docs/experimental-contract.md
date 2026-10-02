@@ -223,19 +223,21 @@ v0.1 → v0.2 detail (retained for provenance):
 ## 9. Readiness gaps (freeze blockers; owners in parentheses)
 
 1. No pinned corpus artifact (`corpus/corpus.jsonl` absent; pilot fetch ongoing, do not poll).
-2. No pinned questions (`corpus/questions.json` absent; later step, no QA generation in substrate scope).
-3. No sealed held-out labels (orchestrator custody; dev workers must not inspect or parse).
+2. Public questions pinned at `corpus/questions.json` (209 items: 60 train, 50 dev, 89 shadow_dev). Private test questions live out-of-repo at `LMR_PRIVATE_EVAL_DIR` with seal verified via `substrate.private_eval`.
+3. Private sealed labels live out-of-repo; in-repo opaque manifest `corpus/private_test_manifest.json` carries seal_sha256 and hashes. Verifier uses `substrate.private_eval.verify_seal()` (opaque bytes only).
 4. Generator v3 stable on disk and substrate-pinned (verified live: `is_pinned()` true, 9/9 runtime binaries resolve); no substrate-side generator work remains.
 5. Independent re-review of THESE v0.3 repairs (orchestrator decision).
 6. Custodian separation remains procedural (same-user limitation, §3).
+7. Regime B excluded-article artifact (`corpus/regime_b_excluded_articles.json`) absent while regime B has 5 paired-condition groups.
 
 ## 10. Concrete next steps for freeze
 
 1. Pilot corpus lands → `corpus/corpus.jsonl` (+ `split_map.json` per pilot builder).
-2. Questions + sealed labels pinned by later steps (labels withheld from dev).
-3. Run `python3 -m unittest discover -s tests` (must pass) + `validate_freeze` on a real manifest (must pass).
-4. Independent reviewer PASS on contract v0.3 + repairs.
-5. Orchestrator records freeze (commit, hashes, seeds); only then Round 1.
+2. Public questions pinned at `corpus/questions.json` (209 items). Private test questions + sealed labels at `LMR_PRIVATE_EVAL_DIR`; in-repo manifest `corpus/private_test_manifest.json` records seal_sha256 and hashes.
+3. Regime B excluded-article artifact (`corpus/regime_b_excluded_articles.json`) produced from paired subset.
+4. Run `python3 -m unittest discover -s tests` (must pass) + `validate_freeze` on a real manifest (must pass).
+5. Independent reviewer PASS on contract v0.3 + repairs.
+6. Orchestrator records freeze (commit, hashes, seeds); only then Round 1.
 
 ## 11. What this contract forbids
 

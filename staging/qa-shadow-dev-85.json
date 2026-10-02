@@ -71,11 +71,11 @@
   "provenance": {
     "author": "round0-heldout-author-5d-b3",
     "author_model": "opencode/muse-spark-1.3-free",
-    "content_hash": "",
-    "decision": "pending",
-    "rationale": "",
-    "verifier": "tbd-independent-reviewer",
-    "verifier_model": "tbd",
+    "content_hash": "3bd68b2ee451dab3f4ca5f2d2f737defd16ef34c12ab4268e59beb60c473cace",
+    "decision": "approve",
+    "rationale": "Comparison with is_multi_hop=true is sound, with two genuine Harvard-acreage routes: p:harvard_university:08:000 (209 acre main campus) or :00:000 ('a 209 acre in Cambridge'), each paired with p:university_of_washington:00:000 (700 acre main campus), and 700 > 209 gives the University of Washington; negative p:harvard_university:09:000 supplies the Allston 358-acre campus, a competing figure for a different campus.",
+    "verifier": "round0-shadow-dev-reapprover",
+    "verifier_model": "opencode/space-bunny-free",
     "reclassification": {
       "by": "round0-repair-worker-phase1",
       "at": "2026-10-01",
