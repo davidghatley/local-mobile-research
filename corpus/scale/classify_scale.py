@@ -30,8 +30,10 @@ import sys
 import hashlib
 
 # Add project root to path
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SCALE_DIR = os.path.join(PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+# Script is at corpus/scale/classify_scale.py, so project root is two dirs up
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))          # corpus/scale
+PROJECT_ROOT = os.path.dirname(os.path.dirname(SCRIPT_DIR))        # project root (parent of corpus)
+SCALE_DIR = os.path.join(PROJECT_ROOT, "corpus", "scale")         # corpus/scale (same as SCRIPT_DIR)
 
 sys.path.insert(0, PROJECT_ROOT)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "corpus"))
@@ -48,15 +50,34 @@ def sha256_file(path):
 
 
 def load_scale_articles(scale_dir):
-    """Load all 940 scale article nodes from distractor.jsonl."""
+    """Load all 940 scale articles from raw snapshots.
+
+    Returns list of dicts with 'requested_title', 'wikitext', and original
+    snapshot file metadata. Reads from corpus/scale/raw/ directly.
+    """
     articles = []
-    distractor_path = os.path.join(scale_dir, "distractor.jsonl")
-    with open(distractor_path, encoding="utf-8") as f:
-        for line in f:
-            node = json.loads(line)
-            # Only include article-kind nodes (not corpus root, not paragraph/sentence)
-            if node.get("kind") == "article":
-                articles.append(node)
+    raw_dir = os.path.join(scale_dir, "raw")
+    for fname in sorted(os.listdir(raw_dir)):
+        if not fname.endswith(".json"):
+            continue
+        path = os.path.join(raw_dir, fname)
+        try:
+            with open(path, encoding="utf-8") as fh:
+                d = json.load(fh)
+        except Exception:
+            continue
+        # Verify required keys exist
+        REQUIRED_SNAP_KEYS = ("requested_title", "normalized_title", "pageid",
+                              "revid", "timestamp", "source_url", "wikitext",
+                              "outlinks", "cluster", "split_group", "content_sha256")
+        missing = [k for k in REQUIRED_SNAP_KEYS if k not in d]
+        if missing:
+            continue
+        articles.append({
+            "requested_title": d.get("requested_title", ""),
+            "wikitext": d.get("wikitext", ""),
+            "file": fname,
+        })
     return articles
 
 
@@ -102,8 +123,7 @@ def classify_article(node, core_norm_keys, redirect_titles):
     # If this article's norm_key matches a core article's norm_key, it's confusable
     # (this catches case-variants, spelling variants that normalize the same)
     if norm_title in core_norm_keys:
-        return "confusable_adversarial",
-                f"confusable_adversarial: normalized title '{norm_title}' matches core corpus normalized key"
+        return "confusable_adversarial", f"confusable_adversarial: normalized title '{norm_title}' matches core corpus normalized key"
 
     # Check for keyword-based confusable themes
     # Roman Empire variants
@@ -122,29 +142,24 @@ def classify_article(node, core_norm_keys, redirect_titles):
     # Check each confusable category
     for kw in roman_keywords:
         if kw in title_lower:
-            return "confusable_adversarial",
-                    f"confusable_adversarial: title contains Roman Empire keyword '{kw}'"
+            return "confusable_adversarial", f"confusable_adversarial: title contains Roman Empire keyword '{kw}'"
 
     for kw in nile_keywords:
         if kw in title_lower:
-            return "confusable_adversarial",
-                    f"confusable_adversarial: title contains Nile-related keyword '{kw}'"
+            return "confusable_adversarial", f"confusable_adversarial: title contains Nile-related keyword '{kw}'"
 
     for kw in war_keywords:
         if kw in title_lower:
-            return "confusable_adversarial",
-                    f"confusable_adversarial: title contains war-related keyword '{kw}'"
+            return "confusable_adversarial", f"confusable_adversarial: title contains war-related keyword '{kw}'"
 
     for kw in bigcat_keywords:
         if kw in title_lower:
-            return "confusable_adversarial",
-                    f"confusable_adversarial: title contains big cat keyword '{kw}'"
+            return "confusable_adversarial", f"confusable_adversarial: title contains big cat keyword '{kw}'"
 
     # Check for disambiguation indicators that suggest multiple entities
     for kw in disambig_indicators:
         if kw in title_lower:
-            return "confusable_adversarial",
-                    f"confusable_adversarial: title contains disambiguation indicator '{kw}'"
+            return "confusable_adversarial", f"confusable_adversarial: title contains disambiguation indicator '{kw}'"
 
     # 3. Fallback to background
     return "background", f"background: no confusable keyword or core title overlap detected"

@@ -5,11 +5,53 @@ Scope: `corpus/scale/**` plus this document. Nothing here modifies the frozen
 
 ## 1. What this layer is, stated plainly
 
-**The scale layer is irrelevant distractor material.** It exists only to provide
+**The scale layer is distractor material.** It exists only to provide
 background mass for scale/regime experiments: extra articles that a retriever
-can be made to consider and then reject. It carries no evidence, it is not part
-of any question set, and no result about answer quality, difficulty, or
-architecture merit may be derived from it.
+can be made to consider and then reject. The 297-article core corpus (`corpus/corpus.jsonl`)
+is the only evidence-bearing semantic base. Scale articles are background
+material — they may have surface-level title or keyword overlap with core topics
+(confusable_adversarial class) but carry no verified evidence bearings. No result
+about answer quality, difficulty, or architecture merit may be derived from scale
+articles alone; top confusable retrievals require adjudication against core
+annotated evidence (see docs/scale-evaluation-rule.md).
+
+### 1.1 Background vs Confusable distinction
+
+Not all scale articles that retrieve core-related terms are equal. The classifier
+distinguishes two categories:
+
+- **background**: General distractor material with no strong confusable overlap.
+  These articles have no significant title/keyword match with core corpus
+  topics and serve purely as retrieval noise that a system should learn to
+  ignore.
+
+- **confusable_adversarial**: Articles whose title or keywords surface-levelly
+  overlap with core topics. This class flags retrieval risk — the article may
+  cause a retriever to return core-matching results that are not actually
+  relevant to the question. However, a retrieved scale passage must NOT
+  auto-count as a false positive merely for coming from the distractor layer.
+  Top confusable retrievals require adjudication: the passage must be examined
+  against core annotated evidence (the ground truth) to determine if it
+  genuinely supports or contradicts the query, or if the match is merely
+  superficial (same name, different entity).
+
+The adjudication rule is therefore: *a retrieved scale passage is not
+automatically a false positive simply because it originates from the distractor
+tier*. Instead, it must be evaluated on its actual content relative to core
+annotated evidence. Only when a scale article's content is verified as
+irrelevant or contradictory to the core evidence can it be classified as a false
+positive. Core annotated evidence remains the ground truth for all measured
+claims.
+
+### 1.2 Provenance timeline correction
+
+The distractor candidate list (`corpus/scale/distractor_candidates.json`) was
+added in commit `814dcc1` (2026-10-01), **after** question work began in commit
+`4d924c5` (2026-09-29). Selection independence is procedural curation, not
+pre-question independence. The 960-title candidate list was a procedurally
+curated list frozen before fetch completion, but it was created after the
+question draft authoring commenced. This is recorded as a procedural guarantee
+about a curated list, not an empirical independence claim.
 
 **The 297-article core corpus (`corpus/corpus.jsonl`) is the only
 evidence-bearing semantic base.** Every measured claim in this project rests on

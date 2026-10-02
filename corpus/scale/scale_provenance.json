@@ -16007,7 +16007,7 @@
   },
   "core_reference": {
     "core_article_count": 297,
-    "core_build_manifest_sha256": "5647f794b813ae11c05f2b56e1ec3fcd60ffe69aa8d939bb31c78ee0b5e0e997",
+    "core_build_manifest_sha256": "8d28b48fb1a474aab54a3f5b5f8bd98e3854211c2c890194ea1cb7c3b50acbf0",
     "core_corpus_hash": "08aa2c53ddee6f35b8139de0010e6aa20a4504ea881941b3ec20a5d747f089d1",
     "core_corpus_path": "corpus/corpus.jsonl",
     "core_corpus_sha256": "98e1237e74a40574ed9a41104bc7ae9612cfbed656e2240cea6ee9d5e98d5f64",

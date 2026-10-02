@@ -1,0 +1,4715 @@
+{
+  "revision": "scale-tier1-940-r1-classifier-v1",
+  "method": {
+    "name": "deterministic key-match + keyword heuristic",
+    "description": "Each scale article is classified in priority order:\n1. redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list.\n2. confusable_adversarial: normalized title (via bp.norm_key) matches a core corpus normalized key, OR title contains keyword from defined confusable categories (Roman Empire, Nile, WWI/WWII, big cat species, disambiguation indicators).\n3. background: fallback — no match detected.\n4. unknown: fallback (should not occur).\n\nHeuristic limits honestly:\n- Surface‑level keyword/substring matching only; does NOT imply semantic relatedness to core topics.\n- confusable_adversarial flags retrieval risk, not factual overlap.\n- Keyword lists are finite and may miss edge cases; new confusable categories require manual update.\n- Matching on norm_key catches case/casing variants but may produce false positives on unrelated titles that normalize identically.\n- No article should be auto-counted as a false positive merely for coming from the distractor layer; top confusable retrievals must be adjudicated (see docs/scale-evaluation-rule.md)."
+  },
+  "counts": {
+    "redirect_stub": 110,
+    "confusable_adversarial": 15,
+    "background": 815,
+    "unknown": 0
+  },
+  "articles": [
+    {
+      "title": "100",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "100 gecs",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "10cc",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "12 Angry Men",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "12 Stones",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "12 bar blues",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "1975",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "1989",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "2000s",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "2Pac",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "2 Live Crew",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "30 Seconds to Mars",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "311",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "40",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "4 Non Blondes",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "50 Cent",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "5 Seconds of Summer",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "7 Seconds",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "808",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "80s",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "A-ha",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "A",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "ABBA",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "AC/DC",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "AFI",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "AIDS",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "AOA",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "ARG",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "ASCII",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "A Flock of Seagulls",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "A Perfect Circle",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aardvark",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aaron Neville",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Abba",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Abusua",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Achaemenid Empire",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Adele",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aerosmith",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Africa",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Afroman",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains Roman Empire keyword 'roman'"
+    },
+    {
+      "title": "After 7",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Age of Discovery",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Age of Love",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Agnes",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ainu language",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aja",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Akala",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Akan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Akbar",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Akcent",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Akon",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Al Jolson",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alabama",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alabama Shakes",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alanis",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Albania",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Albatross",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Albert",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Albini",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alcazar",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alchemy",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alda",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aldermaston",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ale",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aleister Crowley",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aleksandar",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Alessia Cara",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alex",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alex Turner",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alexander the Great",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alfa",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Algal",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Algebra",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Algeria",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Algonquin",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alhambra",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alice",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alice in Chains",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alice in Wonderland",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Alicia Keys",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alien",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alien vs Predator",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "All About That Bass",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "All Angels",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "All That",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "All That Jazz",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "All The Small Things",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Allan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Allen",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alligator",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Allman Brothers",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Allure",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Almaty",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alpaca",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alpha",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alphabet",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alphaville",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Already",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alt-J",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alt",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alter Bridge",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alter Ego",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alzheimer's disease",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Alzheimer",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Am",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Amadeus",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amalia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amandla",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amber",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amebix",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aminé",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amir",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Amon Amarth",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amon Tobin",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amorphis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amos",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amulet",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amy",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amy Winehouse",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amyloidosis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Amyotrophic lateral sclerosis",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Anacin",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anal Cunt",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anatolian",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anaïs",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anchorage",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Anchors",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Ancient",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Ancient Greece",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "And Then There Were None",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andorra",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andre",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Andre 3000",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Andre the Giant",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Andrea",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andrea Corr",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andrea Rossi",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andrew",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andrew Eldritch",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andrew W.K.",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andy's",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Andy",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andy Bell",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andy Grammer",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andy McKee",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andy Paley",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andy Samberg",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Andy warhol",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Angel",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Angelique",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anggun",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Angkor Wat",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anglerfish",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anglo-Saxon",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Angola",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Animaniacs",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anime",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anita",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anita Ward",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anna",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anna Calvi",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anna Nalick",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anna Vissi",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Annie Lennox",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anniversary",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Annoying",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Anohni",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anorexia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ant",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Antarctica",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anteater",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Antena",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Anthropocene",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anthropology",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anti-matter",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Anti-natalism",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Anti",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Antibiotic",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Antichrist",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Antichrist Superstar",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Antigua and Barbuda",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Antikythera mechanism",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Antisemitism",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Antlers",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Anuria",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anvil",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Anzac",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Apartheid",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ape",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aphex Twin",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Apollo",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Apollo 11",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Apollo 440",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Apollo program",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aqua",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aquarius",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arabs",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arachnophobia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ararat",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arawak",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arcade",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arcade Fire",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Archaeology",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Archers",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Architects",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Architecture",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arctic",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arctic Monkeys",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Area 51",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aretha",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Aretha Franklin",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Argentina",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Argonautica",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Argun",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ariel",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arietis",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Ark",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arlo Guthrie",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arma",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Armenia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Armin van Buuren",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arrested Development",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arrow",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Art",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Art of Noise",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arteriosclerosis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Artificial intelligence",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arts",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Aryabhata",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Arzamas",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "As I Lay Dying",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Asar",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Asch conformity",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Ash",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ashanti",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Asia-Pacific",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Asia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Asia Minor",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Asian American",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Asian American Pacific Islander",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Asian Elephant",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Asian Games",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Asian culture",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Asian diaspora",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Asian languages",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Asian philosophy",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Asking Alexandria",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aspect",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ass",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ass like that",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Assaf",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ast",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Asthma",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aston",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Astronomia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aswan Dam",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "At the Drive-In",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ata",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ataxx",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Athens",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Atomic",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Atomic bombings of Hiroshima and Nagasaki",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Attic",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Auckland",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Audioslave",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "August Burns Red",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Austria",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Auto-tune",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Auto",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Autoimmune disease",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Automatic",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Autumn",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Avenged Sevenfold",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Avicii",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aye Aye",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Aylen",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Aytac",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Azerbaijan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aziz",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Aztec Empire",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "B.o.B",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "BSB",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Baboon",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Babymetal",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bach",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Back pain",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bad Bunny",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Badger",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Badly Drawn Boy",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bahamas",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Bahrain",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bail",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bajofondo",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Baker",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Baku",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ballet",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bamboo",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bangers",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Bangladesh",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Banks",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Baobab",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Barbados",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Barbra Streisand",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Barcelona",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Barenaked Ladies",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Barracuda",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Barry White",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Basque language",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bassnectar",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bastille",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Battery (electricity)",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Bauhaus",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bayeux Tapestry",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bayside",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Beach Boys",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Beatles",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Beaver",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Beck",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bedouin Soundclash",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bee Gees",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Beefheart",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Belarus",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Belgium",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Belgrade",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Belinda Carlisle",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Belize",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bell Biv Devoe",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Ben Folds",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ben Howard",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ben Lee",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Benign prostatic hyperplasia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Benin",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bernard Sumner",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bhutan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bison",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bjork",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Black hole",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Blindness",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Bloc Party",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Blondie",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bloodpop",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Blues",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Blur",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Boa constrictor",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bob Dylan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bocelli",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Bodysnatcher",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Bolin",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bolivia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Book of Kells",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Boris",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bosnia and Herzegovina",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Boston",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Botswana",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Boulevard",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bowie",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bowling",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Boy",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Boyzone",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Brain",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Brandy",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Brat",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Brave",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Brazil",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Breakbot",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bree",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Breezer",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Bretagne",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bridgit Mendler",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bright Eyes",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Brisbane",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bristol",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "British Sea Power",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Brockhampton",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Broke",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Broken Social Scene",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Brooks",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Brother",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Brown bear",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Brownie",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bruise",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Brunei",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Brussels",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Buck-Tick",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Budapest",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Buddhism",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bulgaria",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bulgarian",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bulimia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bully",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Bump",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bump N' Grind",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Bun",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bungalow",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bunny",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Burkina Faso",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Burnout",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Bursitis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Burundi",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Busan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Buzzcocks",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Byzantine Empire",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "COPD",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Cabo Verde",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Cairo",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Calculus",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Calendar",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cambodia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cameroon",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Canada",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cancer",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cape Town",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cappadocia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Capybara",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Casablanca (film)",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains disambiguation indicator ' (film)'"
+    },
+    {
+      "title": "Cataract",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains big cat keyword 'cat'"
+    },
+    {
+      "title": "Central African Republic",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cerebral palsy",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Chad",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Chagas disease",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cheetah",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains big cat keyword 'cheetah'"
+    },
+    {
+      "title": "Chess",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Chicago",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Chichen Itza",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Chile",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "China",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Chocolate",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cholera",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Christianity",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Christopher Columbus",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Chronic fatigue syndrome",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Chronic pain",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Clam",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cluster headache",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cobra",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Codex Gigas",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Coffee",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cold War",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Colossal squid",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Colosseum",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Comoros",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Computer virus",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Computer vision",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Confucius",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Congo",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Copenhagen",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Costa Rica",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Coyote",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Crab",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Croatia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Crocodile",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cryptography",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cuba",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cuban Missile Crisis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Currency",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cyprus",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Cystic fibrosis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Czech Republic",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "DNA",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Dancing Plague of 1518",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Danube",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Dark matter",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Database",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Dead Sea Scrolls",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Deer",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Dementia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Dengue fever",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Denmark",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Depression",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Diabetes insipidus",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Diabetes mellitus",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Diabetic ketoacidosis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Diarrhea",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Dingo",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Diphtheria",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Disability",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Djibouti",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Dodo",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Dog",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Dominica",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Dominican Republic",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Don Quixote",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Donkey",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Dubai",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Dublin",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Eagle",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Easter Island",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ebola virus disease",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Ecuador",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Eczema",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Edinburgh",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Eel",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Egypt",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "El Salvador",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Eland",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Electrolyte imbalance",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Elk",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Emphysema",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Emu",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Endometriosis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Epilepsy",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Equatorial Guinea",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Eritrea",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Estonia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Eswatini",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ethiopia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Evolution",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Exoplanet",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Falcon",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Falcon 9",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ferret",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Fiber-optic communication",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains big cat keyword 'cat'"
+    },
+    {
+      "title": "Fibromyalgia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Fiji",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Film",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Finland",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Fish",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Florence",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "France",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Frankenstein",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "French Revolution",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "GPS",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Gabon",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Galápagos Islands",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Gambia",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Gastritis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "General relativity",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Geneva",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Genghis Khan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Geometry",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Georgia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Germany",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ghana",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Giant sequoia",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Giraffe",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Glasgow",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Glaucoma",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Go (game)",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Goral",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Gout",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Graphene",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Gray wolf",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Great Depression",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Great auk",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Greece",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Greenland",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Grouse",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Guanaco",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Guatemala",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Guinea-Bissau",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Guinea",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Guyana",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Haiti",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hamburg",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hamlet",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hare",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hashima Island",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Havana",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Helsinki",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hepatitis A",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hepatitis B",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hepatitis C",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hepatitis D",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hepatitis E",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Herpes",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Higgs boson",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hinduism",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hip hop music",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Hippopotamus",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Honduras",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Honey bee",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hong Kong",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hubble Space Telescope",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hungary",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Huntington's disease",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hydroelectricity",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hyena",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hypertension",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Hypothermia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "ICP",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ibex",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Iceland",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Impala",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Impressionism",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "India",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Indonesia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Internet",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Iran",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Iraq",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ireland",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Iritis",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Islam",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Israel",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Istanbul",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Italy",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Jackal",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Jamaica",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "James Webb Space Telescope",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Japan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Jazz",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Jordan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Judaism",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kangaroo",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kaposi's sarcoma",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kathmandu",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Katyn massacre",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kazakhstan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kenya",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kidney failure",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kidney stone",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Kilimanjaro",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "King cobra",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kingdom of Kush",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kiribati",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Koala",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Komodo dragon",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kraków",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kuwait",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kyoto",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Kyrgyzstan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Lactose intolerance",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Laos",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Large Hadron Collider",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Laser",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Latvia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Lebanon",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Lemur",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Leonardo da Vinci",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Leopard",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains big cat keyword 'leopard'"
+    },
+    {
+      "title": "Lesotho",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Liberia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Library of Alexandria",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Libya",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Lidice",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Liechtenstein",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Light bulb",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Lion",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains big cat keyword 'lion'"
+    },
+    {
+      "title": "Lisbon",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Lithium-ion battery",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Lithuania",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ljubljana",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Los Angeles",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Lupus",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Luxembourg",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Lyon",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Lyrebird",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Macaque",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Macedon",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Machine learning",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Machu Picchu",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Madagascar",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Madrid",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Magnetic resonance imaging",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Malaria",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Malawi",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Malaysia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Maldives",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mali",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Malta",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Manx language",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Marmoset",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Marrakesh",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mars (chocolate bar)",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Marseille",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Marshall Islands",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mauritania",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mauritius",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Maya civilization",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Meiji Restoration",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Melbourne",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Meningitis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mesopotamia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Michelangelo",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Micronesia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Microscope",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Migraine",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ming dynasty",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mink",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Moby-Dick",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Moldova",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mole",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mona Lisa",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Monaco",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Monarch butterfly",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mongol Empire",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mongolia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mongoose",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Monitor lizard",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mononucleosis",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Montenegro",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Morocco",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mouflon",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mount Fuji",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mountaineering",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mouse",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Mozambique",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Musk deer",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Muskox",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Myanmar",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Nairobi",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Namibia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Naples",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Narcolepsy",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Nauru",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Nausea",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Nepal",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Nephritis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Netherlands",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Neuropathy",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "New York City",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "New Zealand",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Nicaragua",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Niger",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Nigeria",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Nile",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains Nile-related keyword 'nile'"
+    },
+    {
+      "title": "North Korea",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "North Macedonia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Norway",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Novel",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Oak",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Obesity",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ocelot",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Oman",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Opera",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Oradour-sur-Glane",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Orange S.A.",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Oryx",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Osaka",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Osteoarthritis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Osteoporosis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ostrich",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Otter",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ottoman Empire",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Owl",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Pablo Picasso",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Pakistan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Palau",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Palestine",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Panama",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Pancreatitis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Panda",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Panther",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains big cat keyword 'panther'"
+    },
+    {
+      "title": "Paper",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Papua New Guinea",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Paraguay",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Parkinson's disease",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Particle accelerator",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Passenger pigeon",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Peccary",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Periodic table",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Perth",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Petra",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Philippines",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Photosynthesis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Pneumonia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Poetry",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Poker",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Poland",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Polar bear",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Pollen allergy",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Porphyria",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Porto",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Portugal",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Prague",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Prion disease",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Pripyat",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Prostate cancer",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Protestant Reformation",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Psoriasis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Pulmonary fibrosis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Puma",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Pyramids of Giza",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Python",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Qatar",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Quagga",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Quail",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Quebec City",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Rabbit",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Rabies",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Raccoon",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Radar",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Rafflesia arnoldii",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ram",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Rat",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Raynaud's phenomenon",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Red panda",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Reindeer",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Renaissance",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Reykjavik",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Rhesus macaque",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Rhinoceros",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Rhinosinusitis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ringworm",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Roman Empire",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains Roman Empire keyword 'roman'"
+    },
+    {
+      "title": "Roman Republic",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains Roman Empire keyword 'roman'"
+    },
+    {
+      "title": "Romania",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains Roman Empire keyword 'roman'"
+    },
+    {
+      "title": "Rosetta Stone",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Russia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Rwanda",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Rwandan genocide",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Sahara",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Saint Kitts and Nevis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Saint Lucia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Saint Vincent and the Grenadines",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Salamander",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Samoa",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "San Marino",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Santorini",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Sao Tome and Principe",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Saudi Arabia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Scabies",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Seal",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Senegal",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Seoul",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "September 11 attacks",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Serbia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Seville",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Seychelles",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Shark",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Sheep",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Shrew",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Sickle cell anemia",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Sierra Leone",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Singapore",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Sinus infection",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Sleep apnea",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Slovakia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Slovenia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Slug",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Smallpox",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Socrates",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Sofia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Solomon Islands",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Somalia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "South Korea",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "South Sudan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "SpaceX",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Space Race",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Spain",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Sparrow",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Sparta",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Special relativity",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Squid",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Sri Lanka",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Statistics",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Stock market",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "String theory",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Stroke",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Subarachnoid hemorrhage",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Sudan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Surfing",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Surgery",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Suriname",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Sutton Hoo",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Sweden",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Switzerland",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Syria",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Taiwan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tajikistan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tanzania",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tapir",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tarsier",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tashkent",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tea",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Telescope",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Thalassemia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "The Beatles",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "The Holocaust",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Theatre",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Thylacine",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Thyroid cancer",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tiger",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains big cat keyword 'tiger'"
+    },
+    {
+      "title": "Timbuktu",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Time zone",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Timor-Leste",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Toad",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Togo",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tonga",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tonsillitis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Transatlantic slave trade",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Treaty of Versailles",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Trinidad and Tobago",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Trout",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tuberculosis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tunguska event",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tunisia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Turkey",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Turkey (bird)",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Turkmenistan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Turtle",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Tuvalu",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Typhoid",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Uganda",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ukraine",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ulaanbaatar",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Ulcerative colitis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Undulant fever",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "United Arab Emirates",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "United Kingdom",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "United States",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Urinary tract infection",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Uruguay",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Uzbekistan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Vaccine",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Vaginosis",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Vanuatu",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Varicose veins",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Vatican City",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Venezuela",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Vertigo",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Vietnam",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Vietnam War",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Viking Age",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Vilnius",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Vincent van Gogh",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Viper",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Viral gastroenteritis",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Viral hepatitis",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Voyager 1",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Voynich manuscript",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Wallaby",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Warsaw",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Whooping cough",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "William Shakespeare",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Wolf",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Wolverine",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Wombat",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Woolly mammoth",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "World War I",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains war-related keyword 'world war'"
+    },
+    {
+      "title": "World War II",
+      "class": "confusable_adversarial",
+      "reason": "confusable_adversarial: title contains war-related keyword 'world war'"
+    },
+    {
+      "title": "World Wide Web",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Wound infection",
+      "class": "redirect_stub",
+      "reason": "redirect_stub: wikitext contains #REDIRECT or title in tier_1k.json redirect_stub_titles list"
+    },
+    {
+      "title": "Yak",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Yellow fever",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Yemen",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Yerevan",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Zagreb",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Zambia",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Zebra",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    },
+    {
+      "title": "Zimbabwe",
+      "class": "background",
+      "reason": "background: no confusable keyword or core title overlap detected"
+    }
+  ]
+}
