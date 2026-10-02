@@ -1,0 +1,37 @@
+{
+  "revision": "public-partition-census-r1",
+  "purpose": "Exact expected census of the worker-visible question partition. This file exists so a CONSISTENT truncation cannot pass: deleting staging drafts and the matching partition entries leaves every internal cross-check self-consistent, so only an external pin can detect it.",
+  "expected": {
+    "total": 206,
+    "by_split": {
+      "dev": 59,
+      "shadow_dev": 87,
+      "train": 60
+    }
+  },
+  "approved_drafts": {
+    "total": 206,
+    "by_split": {
+      "dev": 59,
+      "shadow_dev": 87,
+      "train": 60
+    }
+  },
+  "rejected_quarantined": {
+    "count": 3,
+    "ids": [
+      "qa-dev-24",
+      "qa-shadow-dev-84",
+      "qa-shadow-dev-86"
+    ],
+    "note": "Authored, independently reviewed, and rejected on semantic grounds. Retained under staging/rejected/ and deliberately NOT published. Authored_total = expected.total + rejected_quarantined.count = 209."
+  },
+  "authored_total": 209,
+  "invariants": [
+    "corpus/questions.json must contain exactly expected.total entries",
+    "per-split counts must match expected.by_split exactly",
+    "the staging drafts must contain exactly approved_drafts.total approved items with matching per-split counts",
+    "no rejected id may appear in the partition or among approved drafts",
+    "authored_total == expected.total + rejected_quarantined.count"
+  ]
+}

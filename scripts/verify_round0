@@ -603,6 +603,39 @@ def stage_qa_validation():
          % (drafts, approved, errors))
   detail("splits: " + json.dumps(manifest.get("splits", {}), sort_keys=True))
   detail("types: " + json.dumps(manifest.get("types", {}), sort_keys=True))
+
+  # External census pin. Without it, deleting drafts and the matching partition
+  # entries together leaves every internal check self-consistent and this stage
+  # still passes on half a freeze.
+  census_path = os.path.join(ROOT, CENSUS_REL)
+  if not os.path.isfile(census_path):
+    detail("%s absent: the approved-draft census pin is required" % CENSUS_REL)
+    mark_fail()
+  else:
+    try:
+      with open(census_path, "r", encoding="utf-8") as fh:
+        census = json.load(fh)
+    except (ValueError, OSError) as exc:
+      detail("%s unreadable: %s" % (CENSUS_REL, str(exc)[:120]))
+      mark_fail()
+      census = None
+    if isinstance(census, dict):
+      want = (census.get("approved_drafts") or {})
+      want_total = want.get("total")
+      want_split = want.get("by_split") or {}
+      if isinstance(want_total, int) and approved != want_total:
+        detail("approved-draft census mismatch: %s approved, census pins %d. "
+               "A consistent truncation must not pass." % (approved, want_total))
+        mark_fail()
+      got_split = manifest.get("splits", {}) or {}
+      for split, want_n in sorted(want_split.items()):
+        got_n = got_split.get(split, 0)
+        if got_n != want_n:
+          detail("approved-draft census mismatch: split %s has %s, census pins %d"
+                 % (split, got_n, want_n))
+          mark_fail()
+      if isinstance(want_total, int) and approved == want_total:
+        detail("approved-draft census matches pin (%d)" % want_total)
   detail("public projection ids sha256: %s"
          % str(manifest.get("public_projection_ids_sha256"))[:16])
   detail("runtime projection sha256:  %s"
@@ -635,7 +668,11 @@ QUESTIONS_REL = "corpus/questions.json"
 # Floor for the worker-visible partition. Not an exact census: it exists so an
 # empty or truncated questions.json cannot pass. The real census lives in
 # stage 5 (approved drafts) and stage 8 (partition/draft drift).
-MIN_PUBLIC_PARTITION = 100
+# Exact census of the worker-visible partition, pinned OUTSIDE the artifacts it
+# checks. A consistent truncation (delete staging drafts AND the matching
+# partition entries) leaves every internal cross-check self-consistent, so
+# without an external pin stages 5, 6 and 8 all pass on half a freeze.
+CENSUS_REL = "corpus/partition_census.json"
 PRIVATE_MANIFEST_REL = "corpus/private_test_manifest.json"
 
 
@@ -678,25 +715,76 @@ def stage_partition():
   detail("questions: %d ids, %d structural error(s)"
          % (len(qids), len(checked["errors"])))
 
-  # Non-vacuity: an EMPTY or near-empty partition is a failure, not a pass.
-  # Without this, `questions.json = []` produced "0 ids, 0 errors" -> PASS.
-  # The census below is a floor, not an exact target: it proves the partition
-  # actually carries the controlled question set.
-  if not qids:
-    detail("questions: partition is EMPTY: 0 ids cannot pass a freeze check")
-    mark_fail()
-  elif len(qids) < MIN_PUBLIC_PARTITION:
-    detail("questions: partition has only %d id(s); the controlled set is at "
-           "least %d. A truncated partition is not a freeze." %
-           (len(qids), MIN_PUBLIC_PARTITION))
-    mark_fail()
-  else:
-    detail("questions: partition is non-vacuous (%d ids >= %d floor)"
-           % (len(qids), MIN_PUBLIC_PARTITION))
 
   # Public questions.json must carry NO evidence atoms, NO hard negatives, NO answers
   with open(questions_path, "r", encoding="utf-8") as fh:
     entries = json.load(fh)
+
+  # Exact census, pinned in corpus/partition_census.json. A consistent
+  # truncation leaves every internal cross-check self-consistent, so only an
+  # external pin detects it: an independent review deleted 106 drafts plus the
+  # matching partition entries and stages 5, 6 and 8 all PASSED.
+  census_path = os.path.join(ROOT, CENSUS_REL)
+  if not os.path.isfile(census_path):
+    detail("%s absent: the partition census is the external pin that detects a "
+           "consistent truncation, and it is required" % CENSUS_REL)
+    mark_fail()
+  else:
+    try:
+      with open(census_path, "r", encoding="utf-8") as fh:
+        census = json.load(fh)
+    except (ValueError, OSError) as exc:
+      detail("%s unreadable: %s" % (CENSUS_REL, str(exc)[:120]))
+      mark_fail()
+      census = None
+    if census:
+      exp = census.get("expected", {})
+      want_total = exp.get("total")
+      want_split = exp.get("by_split", {})
+      got_split: dict[str, int] = {}
+      for e in entries if isinstance(entries, list) else []:
+        if isinstance(e, dict):
+          got_split[e.get("split", "?")] = got_split.get(e.get("split", "?"), 0) + 1
+
+      if not qids:
+        detail("questions: partition is EMPTY: 0 ids cannot pass a freeze check")
+        mark_fail()
+      elif isinstance(want_total, int) and len(qids) != want_total:
+        detail("questions: partition has %d id(s), pinned census says %d. A "
+               "consistent truncation must not pass." % (len(qids), want_total))
+        mark_fail()
+      else:
+        detail("questions: partition census matches pin (%d ids)" % len(qids))
+
+      for split, want in sorted(want_split.items()):
+        got = got_split.get(split, 0)
+        if got != want:
+          detail("questions: split %s has %d id(s), pinned census says %d"
+                 % (split, got, want))
+          mark_fail()
+      unknown_splits = sorted(set(got_split) - set(want_split))
+      if unknown_splits:
+        detail("questions: partition carries undeclared split(s): %s"
+               % unknown_splits)
+        mark_fail()
+
+      # Rejected items must not reappear, and the accounting must add up.
+      rej = census.get("rejected_quarantined", {})
+      rejected_ids = set(rej.get("ids", []) or [])
+      published = set(qids)
+      if published & rejected_ids:
+        detail("questions: rejected id(s) present in the partition: %s"
+               % sorted(published & rejected_ids))
+        mark_fail()
+      authored = census.get("authored_total")
+      if isinstance(authored, int) and isinstance(rej.get("count"), int):
+        if authored != (want_total or 0) + rej["count"]:
+          detail("%s: authored_total %d != expected %d + rejected %d"
+                 % (CENSUS_REL, authored, want_total, rej["count"]))
+          mark_fail()
+        else:
+          detail("questions: accounting closes: %d authored = %d published + %d "
+                 "rejected" % (authored, want_total, rej["count"]))
 
   # Answer LOCATION must not be published: group / evidence_groups /
   # source_articles name the articles the answer lives in, which would hand a

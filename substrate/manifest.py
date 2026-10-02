@@ -238,6 +238,9 @@ class FreezeCheck:
 # corpus/private_test_manifest.json. shadow_dev is dev-visible and never sealed.
 REQUIRED_CORPUS_FILE = "corpus/corpus.jsonl"
 REQUIRED_QUESTIONS_FILE = "corpus/questions.json"
+# External pin on the partition size. Without it a consistent
+# truncation passes every internal cross-check.
+PARTITION_CENSUS_FILE = "corpus/partition_census.json"
 # Legacy in-repo path retained for backward compat in some tests; the REAL
 # sealed labels are out-of-repo via substrate.private_eval.labels_path().
 REQUIRED_LABELS_FILE = "corpus/heldout_labels.sealed.json"
@@ -531,6 +534,54 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
           gaps.append(
             f"partition drift: {qid} published as {public_split[qid]!r} but its "
             f"draft says {draft_split[qid]!r}"
+          )
+
+    # External census pin. A CONSISTENT truncation (drafts and partition
+    # entries deleted together) leaves the drift check self-satisfied, so the
+    # only thing that detects it is a pin held outside the artifacts it checks.
+    census_path = os.path.join(root, PARTITION_CENSUS_FILE)
+    if not os.path.isfile(census_path):
+      gaps.append(f"missing census artifact: {PARTITION_CENSUS_FILE}")
+    else:
+      try:
+        with open(census_path, "r", encoding="utf-8") as fh:
+          census = json.load(fh)
+      except (ValueError, OSError) as exc:
+        gaps.append(f"census artifact unreadable: {str(exc)[:120]}")
+        census = None
+      if isinstance(census, dict):
+        want_total = (census.get("expected") or {}).get("total")
+        want_split = (census.get("expected") or {}).get("by_split") or {}
+        want_approved = (census.get("approved_drafts") or {}).get("total")
+        if isinstance(want_total, int) and len(public_split) != want_total:
+          gaps.append(
+            f"partition census mismatch: {len(public_split)} published id(s), "
+            f"census pins {want_total}. A consistent truncation must not pass."
+          )
+        published_split_counts: dict[str, int] = {}
+        for split in public_split.values():
+          published_split_counts[split] = published_split_counts.get(split, 0) + 1
+        for split, want in sorted(want_split.items()):
+          got = published_split_counts.get(split, 0)
+          if got != want:
+            gaps.append(
+              f"partition census mismatch: split {split} has {got} id(s), "
+              f"census pins {want}"
+            )
+        if isinstance(want_approved, int) and draft_split:
+          approved = sum(1 for e in provenance_entries
+                         if isinstance(e, dict)
+                         and (e.get("provenance") or {}).get("decision") == "approve")
+          if approved != want_approved:
+            gaps.append(
+              f"approved-draft census mismatch: {approved} approved draft(s), "
+              f"census pins {want_approved}"
+            )
+        rejected = set((census.get("rejected_quarantined") or {}).get("ids") or [])
+        leaked = sorted(rejected & (set(public_split) | set(draft_split)))
+        if leaked:
+          gaps.append(
+            f"rejected id(s) present among published/approved items: {leaked}"
           )
 
   # --- generator: raw config bytes, semantic contract, artifact, runtime ---
