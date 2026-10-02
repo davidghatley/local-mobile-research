@@ -345,14 +345,15 @@ was reset.
 | 4 scale semantics | `908dcaa` | classification 815/15/110/0; `PROVENANCE-CORRECTION.md`; scale provenance re-pinned by regeneration |
 | 5 private-eval custody | `9253655` | out-of-repo private dir; `substrate/private_eval.py`; 9 tripwire tests |
 | 6–7 private test + gate | `49047f9` | 116 private items authored/reviewed/sealed; shadow-dev re-approved 89/89; full verifier 10/10 |
-| 8 freeze review + repairs | see §8.5 | 7 review repairs; 2 shadow-dev items rejected; 2 functional regressions fixed |
+| 8 freeze review + repairs | see §8.5, §8.7 | 7 review repairs; 3 items rejected (2 shadow_dev, 1 dev); 2 functional regressions fixed; public-partition answer/location leak closed |
 
 ### 8.2 Measured (orchestrator rerun, this run)
 
-- `tests` 343 OK → later 372 OK after the freeze-review repairs
+- `tests` 343 OK → 372 OK after the freeze-review repairs → **389 OK** after the
+  pre-stated-premise sweep and the public-partition leak fix
 - `data_tools/tests` 77 OK; `corpus/tests` 17 OK; `corpus/scale/tests` 38 OK
-- `validate_qa`: 311 → 91 → **0 errors**; 209 drafts, **207 approved**
-  (60 train, 60 dev, 87 shadow_dev)
+- `validate_qa`: 311 → 91 → **0 errors**; 209 drafts, **206 approved**
+  (60 train, 59 dev, 87 shadow_dev) — 3 rejected and quarantined
 - `./scripts/verify_round0 --code-only` → exit 0, 8/8
 - `./scripts/verify_round0` → exit 0, **10/10**
 - core corpus 297 articles / 113,951 nodes; corpus hash `08aa2c53…089d1` unchanged
@@ -412,3 +413,46 @@ cross-provider split and is recorded rather than glossed.
   orchestrator decision.
 - Calibration thresholds are declared, not fitted.
 - Nothing here is an Android or on-device measurement, and none may be claimed.
+
+### 8.7 Second freeze review and the pre-stated-premise sweep
+
+A second fresh reviewer (`opencode/nemotron-3-ultra-free`) confirmed all seven
+findings from the first review were closed, then did something the first did
+not: it swept the **whole** approved set instead of sampling. That found
+`qa-dev-24` — a **dev**-split comparison question stating both compared
+magnitudes, so its single atom was unnecessary. Verdict: REPAIR REQUIRED.
+
+A dedicated sweep then adjudicated all 22 machine-flagged candidates plus a
+manual sweep of every approved item (`docs/qa-prestated-premise-sweep.md`):
+
+- 22 candidates: **all sound**. A year appearing in both question and evidence
+  is normal context, not a defect. Over-rejection was explicitly avoided.
+- `qa-dev-24`: **rejected** and quarantined.
+- 0 additional unsound items found.
+- Defect class is 3 items out of 209: comparison questions embedding both
+  compared values or dates in the question text.
+
+#### A leak nobody was looking for
+
+Fixing the count exposed a separate problem. `corpus/questions.json` — the
+file Round 1 workers read — was publishing `meta.group`,
+`meta.evidence_groups`, `meta.source_articles`, and auditor `rationale`.
+
+- **Answer location**: those three fields name the articles the answer lives
+  in. A retriever reading them gets a 1–3 article candidate set inside a
+  297-article corpus, which destroys the measurement the project exists to make.
+- **Answer text**: 70 of 76 verbatim answer mentions in the partition came from
+  `rationale` prose ("single atom states the 209 acre size"). No field was called
+  "answer"; the answer was simply written into a free-text justification.
+
+`data_tools/build_public_partition.py` now generates the file from a narrow
+allowlist (`question_id`, `text`, `split`, `question_type`, `meta.original_id`,
+`meta.exposure_note`, and who/which-model/decision provenance) and refuses to
+write if a multi-word answer appears verbatim anywhere in the output.
+`tests/test_public_partition.py` (17 tests) pins the contract and asserts
+regeneration is byte-identical to the committed file.
+
+`substrate.manifest.validate_freeze` now reads QA provenance from the staging
+drafts rather than the public partition (which by design cannot carry it), and
+adds a drift check so the two files cannot disagree about which questions are
+published or under which split.

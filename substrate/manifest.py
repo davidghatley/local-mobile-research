@@ -447,21 +447,91 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
       gaps.append(f"unknown split_method: {manifest.split_method}")
 
   # --- QA provenance: mandatory for controlled, dev-only public exception ---
-  if os.path.isfile(paths["questions"]):
-    if not corpus_nodes:
-      gaps.append("qa provenance: unresolvable without corpus artifact")
-    else:
-      prov = validate_question_provenance(
-        question_entries,
-        article_index=build_article_index(corpus_nodes),
-        map_groups=map_groups if manifest.split_method == "group-map" else {},
-        article_to_group=article_to_group
-        if manifest.split_method == "group-map"
-        else {},
-        split_seed=manifest.split_seed,
-        use_map_splits=manifest.split_method == "group-map",
-      )
-      gaps.extend(f"qa provenance: {e}" for e in prov["errors"])
+  #
+  # Provenance is validated against the CUSTODIAN drafts, not the public
+  # partition. corpus/questions.json is the worker-visible projection and
+  # deliberately OMITS meta.group / meta.evidence_groups / meta.source_articles:
+  # those name the answer's location, and publishing them would hand every
+  # retriever a 1-3 article candidate set inside a 297-article corpus. So the
+  # public partition cannot carry provenance, and the freeze check reads the
+  # drafts. Split membership is still cross-checked: the draft's declared split
+  # must equal the split recorded in the public partition, so the two files
+  # cannot drift apart unnoticed.
+  staging_dir = os.path.join(root, "staging")
+  provenance_entries: list[dict] = []
+  if os.path.isdir(staging_dir):
+    for name in sorted(os.listdir(staging_dir)):
+      if not name.endswith(".json"):
+        continue
+      path = os.path.join(staging_dir, name)
+      if not os.path.isfile(path):
+        continue
+      try:
+        with open(path, "r", encoding="utf-8") as fh:
+          rec = json.load(fh)
+      except (ValueError, OSError):
+        continue
+      if isinstance(rec, dict):
+        provenance_entries.append(rec)
+
+  if not provenance_entries:
+    # No staging drafts. Fall back to the public partition itself, which is
+    # valid for synthetic freeze fixtures that inline their own provenance.
+    # A real freeze has staging drafts and never takes this path.
+    provenance_entries = [
+      e for e in question_entries
+      if isinstance(e.get("meta"), dict) and e["meta"].get("source_articles")
+    ]
+    if not provenance_entries:
+      gaps.append("qa provenance: no staging drafts and no inlined provenance")
+  if provenance_entries and not corpus_nodes:
+    gaps.append("qa provenance: unresolvable without corpus artifact")
+  else:
+    prov = validate_question_provenance(
+      provenance_entries,
+      article_index=build_article_index(corpus_nodes),
+      map_groups=map_groups if manifest.split_method == "group-map" else {},
+      article_to_group=article_to_group
+      if manifest.split_method == "group-map"
+      else {},
+      split_seed=manifest.split_seed,
+      use_map_splits=manifest.split_method == "group-map",
+    )
+    gaps.extend(f"qa provenance: {e}" for e in prov["errors"])
+
+    # Drift check: when provenance came from staging drafts, the public
+    # partition and the drafts must agree on WHICH questions are published and
+    # under WHICH split. Skipped for the inlined-provenance fixture path, where
+    # the same entries are both sides.
+    draft_split = {
+      e.get("question_id"): e.get("split", "dev")
+      for e in provenance_entries
+      if isinstance(e, dict) and isinstance(e.get("question_id"), str)
+    }
+    public_split = {
+      e.get("question_id"): e.get("split", "dev")
+      for e in question_entries
+      if isinstance(e, dict) and isinstance(e.get("question_id"), str)
+    }
+    if draft_split and draft_split != public_split:
+      only_public = sorted(set(public_split) - set(draft_split))
+      only_drafts = sorted(set(draft_split) - set(public_split))
+      if only_public:
+        gaps.append(
+          f"partition drift: {len(only_public)} published id(s) have no staging "
+          f"draft (e.g. {only_public[:3]})"
+        )
+      if only_drafts:
+        gaps.append(
+          f"partition drift: {len(only_drafts)} approved draft(s) are not "
+          f"published (e.g. {only_drafts[:3]})"
+        )
+      for qid in sorted(set(draft_split) & set(public_split)):
+        if draft_split[qid] != public_split[qid]:
+          gaps.append(
+            f"partition drift: {qid} published as {public_split[qid]!r} but its "
+            f"draft says {draft_split[qid]!r}"
+          )
 
   # --- generator: raw config bytes, semantic contract, artifact, runtime ---
   gen = manifest.generator
