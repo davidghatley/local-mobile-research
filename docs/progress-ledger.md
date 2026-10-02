@@ -326,3 +326,89 @@ Freeze still requires (per contract §9, final-review §status, log checkpoint, 
 - Documentation steward: Muse Spark Free (initial ledger and earlier updates), `opencode/space-bunny-free` (2026-09-29 pass, and the 2026-10-01 pass that created `docs/STATUS.md` and updated this ledger plus `docs/orchestration-log.md`) — read-only reruns, no source/test/data file edited.
 - Endpoint failures recorded: Nemotron 3.5 Lightning Free silent non-response; `[504] Upstream idle timeout exceeded` ×3 (two reviews + one pilot pass); `Rate limit exceeded` on Muse, Ling, and Mimo, triggering redistribution across Space Bunny, LongCat, and Nemotron Ultra free endpoints. **Plus, in the 2026-09-30/10-01 repair run, one 504, one 503 and one 502 upstream failure and one abandoned check — orchestrator-reported, with no repository artifact recording session ids or endpoints.** No paid fallback at any point in this project; no endpoint inherited rather than explicitly selected; nested spawning disabled throughout.
 - Repository: private GitHub remote `davidghatley/local-mobile-research`, commits `4d924c5` → `b38a457` → `230e7d5` → `3e82aa2` → `9756649` → `814dcc1` (HEAD); large artifacts gitignored and hash-pinned on disk.
+
+---
+
+## 8. Round 0 benchmark-boundary repair run (2026-10-01 → 2026-10-02)
+
+Continuation of the ledger above. The externally reviewed HEAD at the start of
+this run was `f819d9b`, which matched the working tree; no newer legitimate work
+was reset.
+
+### 8.1 What this run changed
+
+| Phase | Commit | Substance |
+|---|---|---|
+| 1 reclassify exposed held-out | `937b3c5` | 89 `qa-heldout-*` → `qa-shadow-dev-*` via `git mv`; `SPLITS=(train,dev,shadow_dev,private_test)`; 6 tripwire tests |
+| 2 semantic audit | `182b583` | 89 items audited in 3 batches; conjunctive singletons merged (45,46,48,61,63,84,…); inflated multihop relabelled (24,49,53,64,67) |
+| 3 paired regimes | `e62de3e` | `split_map` `heldout`→`shadow_dev`; Regime B became a paired condition over the same 56 questions; 13 paired tests |
+| 4 scale semantics | `908dcaa` | classification 815/15/110/0; `PROVENANCE-CORRECTION.md`; scale provenance re-pinned by regeneration |
+| 5 private-eval custody | `9253655` | out-of-repo private dir; `substrate/private_eval.py`; 9 tripwire tests |
+| 6–7 private test + gate | `49047f9` | 116 private items authored/reviewed/sealed; shadow-dev re-approved 89/89; full verifier 10/10 |
+| 8 freeze review + repairs | see §8.5 | 7 review repairs; 2 shadow-dev items rejected; 2 functional regressions fixed |
+
+### 8.2 Measured (orchestrator rerun, this run)
+
+- `tests` 343 OK → later 372 OK after the freeze-review repairs
+- `data_tools/tests` 77 OK; `corpus/tests` 17 OK; `corpus/scale/tests` 38 OK
+- `validate_qa`: 311 → 91 → **0 errors**; 209 drafts, **207 approved**
+  (60 train, 60 dev, 87 shadow_dev)
+- `./scripts/verify_round0 --code-only` → exit 0, 8/8
+- `./scripts/verify_round0` → exit 0, **10/10**
+- core corpus 297 articles / 113,951 nodes; corpus hash `08aa2c53…089d1` unchanged
+- scale tier 940 articles / 300,041 nodes; classification 815 background /
+  15 confusable / 110 redirect_stub / 0 unknown
+- private test: 116 items — factoid 59, multihop 19, comparison 15,
+  unanswerable 12, ambiguous 11; 19.8% ambiguous+unanswerable; 62 distinct
+  groups; 15 paired Regime B items over 13 excluded articles
+- private seal `c6e1e98d843eaf1eb962a9ec2f89026af2d532f9b963c5d0a78d45056293c54c`
+
+### 8.3 Reviewer-reported (not orchestrator-rerun)
+
+- Phase 2 batch verdicts and the 89/89 re-approval verdicts
+- the 64 private-test repairs, 3 rejections, 1 duplicate removal
+- private-item absence claims (corpus-wide scans) for the 10 unanswerable items
+- `corpus/scale/tests` full 38-test run
+
+### 8.4 ORCHESTRATOR-REPORTED ONLY (no repository artifact)
+
+Upstream endpoint failures this run, all with a recorded substitution and **no
+paid fallback**: `nemotron-3.5-lightning-free` garbled output (private author
+batch B, 0 files written); `gemma-4-31b-it:free` provider error ×3 (private
+review 35–67, private review 105–120, independent freeze review); one rate
+limit on `longcat-2.5-preview-free`. No session ids or endpoints are recorded in
+the tree for these.
+
+### 8.5 Independent freeze review and its repairs
+
+A fresh reviewer (`openrouter/qwen/qwen3.8-27b:free`, substituted after the
+gemma failure) returned **REPAIR REQUIRED**, not PASS. Its load-bearing findings
+and what was done:
+
+| Finding | Resolution |
+|---|---|
+| `qa-shadow-dev-84` and `-86` pre-stated the years they compared, so the questions were answerable without evidence | Both **rejected**, moved to `staging/rejected/`, documented in `staging/rejected/README.md` and `docs/qa-shadow-dev-84-86-repair-ledger.md`. Shadow-dev is honestly **87**, not 89. |
+| `data_tools/derive.py` rejected all 32 `shadow_dev` groups after the split-map migration (functional regression, untested) | `group_articles` accepts `shadow_dev`; 9 regression tests in `tests/test_group_split_vocabulary.py` |
+| stage 10 printed "MATCHES" when the manifest recorded no hash (vacuous pass) | stage 10 fails closed on an absent digest; 8 tests in `tests/test_private_eval_custody_failclosed.py` |
+| `eval/scale_adjudication.py` documented but absent | created, with 12 tests; the title→slug collision between `ABBA` and `Abba` was found and fixed by resolving titles through the tier manifest's authoritative node ids |
+| `docs/verify-round0.md` §4/§7 and the verifier header/--help said "stages 1-5, 7, 9" and "exit 1" | updated; a 10-stage table is in the script header |
+| ledger ended at `814dcc1`; `docs/STATUS.md` uncommitted | this section and §8.1 added; `docs/STATUS.md` committed |
+
+The reviewer also recorded an endpoint overlap: the batch-c private author and
+the 68–100 private reviewer share `qwen3.8-27b:free`. They are distinct workers
+and verdicts were independent, but the independence is weaker than a
+cross-provider split and is recorded rather than glossed.
+
+### 8.6 What remains unproven after this run
+
+- Semantic QA correctness. Every approval is review-provenance. The freeze
+  reviewer's own verdict was REPAIR REQUIRED, so the freeze gate is **not yet
+  satisfied** and no freeze tag exists.
+- The leakage gate's hash-only comparison is not bound to the seal. It refuses
+  to issue PASS, which is correct, but a real sealed comparison is still needed
+  before Round 1 teams can get a meaningful verdict.
+- 6 ambiguous shadow-dev items put a prose disjunction in `answer_text`; any
+  scorer comparing `answer_text` to model output scores all six wrong. Needs an
+  orchestrator decision.
+- Calibration thresholds are declared, not fitted.
+- Nothing here is an Android or on-device measurement, and none may be claimed.

@@ -68,6 +68,7 @@ fair comparison. **Checklist completion is not freeze.**
 | 7 | `generator-pin` | Requires `corpus/generator_config.json` to be fully pinned: no `TBD`/`unspecified` fields, `is_pinned()` true, not an infrastructure stub, prompt hash equal to `substrate.generator.PROMPT_HASH`, tokenizer and chat-template hashes present as 64-hex, model artifact byte count and SHA-256 verified against the file on disk, and every declared runtime binary/library SHA-256 verified. |
 | 8 | `freeze-manifest` | Runs `substrate.manifest.validate_freeze` against a `RunManifest` built from the **real** on-disk artifact set (recomputed corpus hash, real generator config, real code hashes, real inventory pins, real split map, derived seed log, **calibration policy declarations**, **regime A/B group metadata derived from split map**). Records: `sealed_labels_sha256` from private manifest, `questions_sha256` from public questions.json, regime groups (A = full shadow_dev population, B = paired document-heldout subset). Prints explicit gap list verbatim. |
 | 9 | `leakage-control-artifacts` | Requires `references/public_eval_pins.json` to be present and well formed (64-hex SHA-256, 40-hex revision, positive byte counts, matching `total_bytes`, empty `pin_mismatches`), cross-checks pin hashes byte-for-byte against `references/pins.json`, derives regime metadata from `corpus/split_map.json` via `substrate.regime_metadata`, verifies regime B paired-condition groups key on shadow_dev groups (legacy "heldout" accepted; B overlaps A by design — same questions, two conditions, never a disjoint population; see `docs/regime-pairing.md`), verifies the regime B excluded-article artifact is consistent with the split map when regime B is non-empty, and reports the paired-condition artifact (`corpus/regime_b_paired.json`) informationally. |
+| 10 | `private-eval-custody` | Requires `corpus/private_test_manifest.json` to be present, content-free (no `qa-private-` id, no `answer_text`, no `sufficient_sets`), and to carry non-zero counts plus a `seal_sha256`. Then requires the private artifacts to exist **outside** the repository at `LMR_PRIVATE_EVAL_DIR` (`questions.json`, `labels.json`, `counts.json`), and **fails closed**: an *absent recorded digest* is a gap, not a match. Only opaque bytes are hashed; content is never parsed or printed. |
 
 ### Artifacts the verifier expects but does not own
 
@@ -88,8 +89,8 @@ frozen.
 
 ### `--code-only`
 
-Runs stages 1–5, 7, and 9. Stages 6 and 8 are skipped because they cannot pass
-until the freeze artifacts exist. The run prints, in a boxed banner:
+Runs stages 1–5, 7, 9, and 10. Stages 6 and 8 are the freeze-gated pair and
+are skipped. The run prints, in a boxed banner:
 
 ```
 CODE-ONLY MODE -- THIS IS NOT A FREEZE PASS.
@@ -160,31 +161,42 @@ change made CI *silently pass* a check it never ran, the workflow would not
 catch it — assertions 3 and 4 are the mitigation, and the artifact-complete
 verification happens on the freeze host.
 
-## 7. Current status (pre-freeze, expected)
+## 7. Current status
 
-At the time of writing the full run **FAILS with exit 1**. This is the
-expected and desired state before freeze. Current failures:
+The full run now **exits 0 with all 10 stages PASS** on a complete local
+checkout, with `LMR_PRIVATE_EVAL_DIR` pointing at the out-of-repo private
+directory. This is a **structural** result only.
 
-| Stage | Status | Reason |
-|-------|--------|--------|
-| 1, 2, 3 | PASS | 343 tests total. |
-| 4 | PASS | Canonical hash, hierarchy, group map, and all `build_manifest` artifact hashes verified. |
-| 5 | PASS | 209 drafts, 209 approved, 0 errors (structural only). |
-| **6** | **FAIL** | `corpus/questions.json` exists now; `corpus/private_test_manifest.json` exists. Private seal verification will be tested when LMR_PRIVATE_EVAL_DIR is set. |
-| 7 | PASS | Generator contract fully pinned; GGUF bytes and SHA-256 verified; all 9 runtime binaries verified. |
-| **8** | **FAIL** | `validate_freeze` gaps: `questions_sha256` placeholder (public file exists but manifest must pin real hash), `regime_b_excluded_articles.json` absent while regime B has 5 non-empty groups. Calibration policy declarations now present. Regime groups populated from split map. |
-| **9** | **FAIL** | `corpus/regime_b_excluded_articles.json` absent while regime B has 5 non-empty groups. |
+| Stage | Status | Notes |
+|-------|--------|-------|
+| 1 | PASS | Shared substrate tests. |
+| 2 | PASS | Data-tools tests. |
+| 3 | PASS | Corpus converter tests. |
+| 4 | PASS | Canonical hash, hierarchy, group map, `build_manifest` artifact hashes. |
+| 5 | PASS | 207 approved drafts, 0 errors (structural only). |
+| 6 | PASS | Public-only partition + out-of-repo opaque seal verified. |
+| 7 | PASS | Generator contract pinned; GGUF bytes/SHA-256 and all runtime binaries verified. |
+| 8 | PASS | `validate_freeze` with real hashes, calibration-policy declarations, paired regime groups. |
+| 9 | PASS | Public pins, regime metadata, excluded-article artifact, paired-condition artifact. |
+| 10 | PASS | Private artifacts exist outside the repo; digests match; manifest is content-free. |
 
-These are artifact-availability failures, not defects in the verifier. Each one
-names exactly what must be produced.
+**This is not the freeze.** A structural PASS never certifies semantic QA
+correctness (see §2), and freeze additionally requires an independent reviewer
+who implemented none of it.
 
-The regime validation bug (`groups_raw` scope) has been fixed in the updated `validate_freeze`.
+### CI is still weaker than the local run
+
+Because the pinned artifacts are git-ignored and the private directory is
+outside the repository, a CI run **cannot** verify stages 3, 4, 5, 7
+(artifact portion) or 10 (private boundary). Those report `SKIP` with an
+explicit reason. Local artifact-complete verification remains authoritative.
 
 ## 8. Reproducing
 
 ```bash
-# Full verification (expected: exit 1 before freeze)
-./scripts/verify_round0; echo "exit=$?"
+# Full verification (expected: exit 0 on a complete local checkout)
+LMR_PRIVATE_EVAL_DIR=/home/davidhatley/Projects/testing/local_mobile_research-private-eval \
+  ./scripts/verify_round0; echo "exit=$?"
 
 # Code-level only (expected: exit 0)
 ./scripts/verify_round0 --code-only; echo "exit=$?"

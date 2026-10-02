@@ -1,130 +1,209 @@
-# Round 0 Repair Run — Final Status
+# Round 0 Status
 
-Authoritative status as of **2026-10-01**. Supersedes earlier status claims; see
-`docs/progress-ledger.md` and `docs/orchestration-log.md` for full history.
+**Status captured at commit `49047f9`.** This file describes the state at that
+commit. It is not a live view; re-run `scripts/verify_round0` for the current
+answer.
 
-Status captured at head **`f819d9b`** (prior drafts cited `688c779`; that hash
-is superseded and must not be used).
+Supersedes the pre-repair status claims. See `docs/progress-ledger.md` and
+`docs/orchestration-log.md` for the full history including the mistakes that
+produced the previous `NOT FROZEN` verdict.
 
-## Verdict: NOT FROZEN
+## Verdict: code-level verification PASSES (10/10); freeze gate NOT yet satisfied
 
-The common substrate is repaired, adversarially reviewed, and independently
-re-verified. **The controlled evaluation set is not complete**, so no freeze is possible.
+The four load-bearing issues from the external review of `f819d9b` are
+repaired, and the private test boundary exists outside git and is sealed.
 
-| Head | `f819d9b` |
-|---|---|
-| Verified controlled set | 120 items (60 train + 60 dev), all independently approved |
-| Shadow-dev (exposed, dev-visible, NEVER sealed) | 89 items reclassified from `qa-heldout-*` → `qa-shadow-dev-*` per Issue 1 (Phase 1); 0 independently verified as sealed; exposure in git history through f819d9b |
-| Sealed set | 0 sealed |
-| Private test | 0 authored; planned out-of-repo at `LMR_PRIVATE_EVAL_DIR` (Phase 5) |
-| Freezes blocked by | private-test authoring + sealing (Phase 5), shadow-dev audit (Phase 2), paired regimes (Phase 3) |
+**The independent freeze review returned `REPAIR REQUIRED`, not `PASS`.** Its
+seven findings have been addressed (two shadow-dev items rejected, a functional
+regression in `data_tools/derive.py` fixed, a vacuous pass in stage 10 closed,
+`eval/scale_adjudication.py` written, verifier docs corrected, ledger updated).
+Round 0 must not be tagged frozen until a fresh reviewer confirms the repairs
+landed. See `docs/round0-independent-freeze-review.md` and
+`docs/progress-ledger.md` §8.
 
-## Repaired and independently reviewed
+```
+LMR_PRIVATE_EVAL_DIR=/home/davidhatley/Projects/testing/local_mobile_research-private-eval \
+  ./scripts/verify_round0             → 10/10 stages PASS, exit 0
+./scripts/verify_round0 --code-only   → 8/8 stages PASS, exit 0
+```
 
-| Blocker | State | Evidence |
+| Stage | What it proves | Result |
 |---|---|---|
-| 1 evidence granularity | REPAIRED | derived support index; ancestry-aware support; leaf beats parent on precision/tokens; `docs/round0-review-evidence-semantics.md` PASS |
-| 2 one score kind per trace | REPAIRED | per-stage `score_kind` + per-stage policy; `model_probability` is first-class and bounded | 
-| 3 minimal sufficient sets | REPAIRED | leave-one-out protocol; all 70 original drafts audited |
-| 4 genuine multi-hop | REPAIRED | only **2 of 10** original multihop labels were genuine |
-| 5 one-group restriction | REPAIRED | same-split cross-group allowed; leakage prevention not weakened |
-| 6 shadow-dev too small / unverified | **PARTIAL** | 89 shadow-dev (exposed, target 120-era) — unverified, dev-visible, never sealed |
-| 7 two regimes | REPAIRED | Regime A (primary) + Regime B machine-readable; cross-regime aggregation refused |
-| 8 sufficiency/abstention | REPAIRED | `EvidenceDecision`; generator provably not invoked on abstain |
-| 10 storage honesty | REPAIRED | missing artifact → `total_bytes: null`, never a plausible total |
-| 11 memory peak | REPAIRED | `VmHWM` peak vs `VmRSS` point, distinct; magnitude heuristic deleted |
-| 13 one-command verify | REPAIRED | `scripts/verify_round0`; exits 1 honestly; CI never downloads the 986 MB model |
-| 9 scale corpus | PARTIAL | tier 1 built: 940 articles (830 substantive), 38 tests pass |
-| 12 stale docs | REPAIRED | `docs/STATUS.md` + docstring + protocol status corrections |
+| 1 | shared substrate tests (372) | PASS |
+| 2 | data-tools tests (77) | PASS |
+| 3 | corpus converter tests (17) | PASS |
+| 4 | corpus structure + hash | PASS |
+| 5 | QA validation (`validate_qa`: 0 errors, 207 approved) | PASS |
+| 6 | question/label partition: public-only file + out-of-repo opaque seal | PASS |
+| 7 | generator pin | PASS |
+| 8 | freeze manifest incl. paired regime fields | PASS |
+| 9 | leakage-control artifacts (paired Regime A/B, exclusions) | PASS |
+| 10 | private test exists outside repo, seal matches, labels stay outside | PASS |
 
-Blockers **3 and 4** were the substantive scientific findings; 6, 9 and 12 remain open.
+A PASS here proves **structure, hashes, splits, provenance, custody and pins**.
+It does not prove semantic QA correctness, and the verifier says so on every run.
 
-## Controlled dataset (MEASURED)
+## Issue 1 — exposed held-out reclassified to SHADOW-DEV
 
-```
-drafts 209 | approved 120 | pending 89
-splits   train 60 | dev 60 | shadow_dev 89 (exposed, unverified, dev-visible)
-types    factoid 123 | multihop 38 | comparison 20 | ambiguous 15 | unanswerable 13
-```
+The 89 items committed as `qa-heldout-*` through `f819d9b` can never be a
+sealed benchmark: git history retains their text, answers, sufficient evidence,
+hard negatives and sources. They were **not** scrubbed and history was **not**
+rewritten.
 
-Split vocabulary (Issue 1, Phase 1): `SPLITS = ("train", "dev", "shadow_dev",
-"private_test")`; `"heldout"` is RETIRED (validators accept it only as legacy
-backward compat; no new item may use it). `shadow_dev` is dev-visible and must
-never be called sealed/secret. `private_test` validates as a split name but
-lives OUTSIDE the repo (Phase 5); no private-test question files exist in-repo.
+- 89 items renamed `qa-heldout-NN` → `qa-shadow-dev-NN` (`git mv`, history preserved)
+  — of which **87 remain usable**; 2 were later rejected (see below)
+- `SPLITS = ("train", "dev", "shadow_dev", "private_test")`; `heldout` is retired
+  legacy, still accepted by validators for backward compatibility only
+- each item carries `meta.original_id`, `meta.exposure_note`, and a
+  `provenance.reclassification` record
+- `qa-shadow-dev-60` is genuinely **absent** (an author deleted it and a
+  garbled re-author produced nothing). The count is honestly 89, not 90.
 
-Of the **verified 120**: all 50 new dev drafts were audited in five independent
-batches (42 approve, 8 repaired, 0 rejected). **All 14 claimed dev multi-hop items
-verified genuine** — no single atom determines the answer. The 60 train items were
-audited in Phase 4 (59 approve, 11 repaired, 0 rejected).
+They are dev-visible forever. **Never call them held-out, sealed, secret, or
+proof of generalization.**
 
-## Honest statement of what is NOT established
+### Honest count: 87 usable, 89 reclassified, 2 rejected
 
-- The 89 shadow-dev drafts (formerly `qa-heldout-*`, reclassified Phase 1) are
-  **authored but unverified**. No independent reader has applied the
-  leave-one-out test to them. They are dev-visible, exposed in git history,
-  and must NEVER be sealed in this state or called a sealed/secret held-out set.
-- Shadow-dev is 89 of a 90-slot id range with id 60 genuinely ABSENT
-  (recorded, not fabricated): ids 01–59 and 61–90 exist as
-  `staging/qa-shadow-dev-{01..59,61..90}.json` (count == 89). Do NOT author a
-  replacement id 60 in Phase 1; Phase 2 audit owns sufficiency repair, Phase 5
-  owns private-test authoring.
-  tightening: rich paragraphs are now self-sufficient and natural cross-article
-  chains are nearly exhausted. **A documented shortfall is preferred over weak items.**
-- `qa-shadow-dev-60` (formerly `qa-heldout-60.json`) was accidentally deleted by
-  an author and re-authored; the second attempt produced garbled output and did
-  **not** create the file. It is genuinely missing and is NOT fabricated in
-  Phase 1. Ids 01–59 and 61–90 exist (89 files).
-- Scale tier 1 is 940 articles, not the ~1000 target. `revid` is null in all 940
-  snapshots (fetcher omitted `ids` from `rvprop`), so attribution rests on
-  `source_url` + timestamp + content hash.
-- Test counts prove **structure only**. They cannot establish semantic QA correctness.
+The independent freeze review found `qa-shadow-dev-84` and `qa-shadow-dev-86`
+unsound: both questions pre-stated the years they were comparing (1991/2012 and
+1790/1889), so the recorded evidence was not required. Both were **rejected**,
+moved to `staging/rejected/`, and kept rather than deleted
+(`docs/qa-shadow-dev-84-86-repair-ledger.md`). The usable shadow-dev set is
+therefore **87**, and no count anywhere claims 89 usable.
 
-## My own process failures (recorded, not hidden)
+## Issue 2 — sufficient-set semantics audited and repaired
 
-1. **Shadow-dev drafts were committed to git only from batch 3 on.** When an author
-   deleted `qa-heldout-60.json` (now recorded absent as `qa-shadow-dev-60`) it
-   was unrecoverable. Now tracked as dev-visible shadow-dev; only the future
-   *private-test labels file* stays out of the repo (Phase 5).
-2. **Commit `814dcc1` overstated the scale layer** — its message said the fetcher was
-   not written, when both scripts existed and 940 snapshots had been fetched.
-3. **The dev repair ledger was self-contradictory** for `qa-dev-40`: it said drop a
-   redundant atom *and* record the minimal set as an alternative, which duplicated one
-   route. Collapsed by ruling.
-4. **`scripts/parse_semantic_audit.py` first over-reported** 61 drafts needing repair
-   because it missed a decision format; corrected to the true 11.
+The error pattern was real: conjunctive hops encoded as alternative singleton
+sets (`[[A],[B]]` for a question needing both). Full audit of all 89, in three
+independent batches plus a fresh re-approval pass.
 
-## Every recorded failure and overturned claim
+| Outcome | Count |
+|---|---|
+| unchanged / approved as-is | 88 |
+| hard negative that contained the answer, replaced (`qa-shadow-dev-36`) | 1 |
+| sufficient sets merged (conjunctive singletons → one set) | 45, 46, 48, 61, 63, 84 and others |
+| relabelled multihop → factoid (single atom determines the answer) | 24, 49, 53, 64, 67 |
+| non-breaking-space atom text corruption, restored to corpus bytes | 48 |
 
-- Nemotron 3.5 Lightning reference-audit worker completed silently with no artifact → substituted.
-- Reviewer Q9 rejection claimed nonexistent node ids → **overturned** by direct corpus check; the claimed "correct" ids did not exist.
-- Mis-serialized `draft_content_hash` (reviewers reimplemented it) → fail-closed binding stopped it; root cause was that `hard_negatives[*].reviewed` sits inside the semantic hash.
-- Verifier worker found a real `UnboundLocalError` (`groups_raw`) in `manifest.py` → confirmed and fixed.
-- Binding worker **refused** 4 reviewer-proposed "alternative sets" that were only ancestor/descendant or granularity variants → correct, preserved.
-- `test_measure_storage_missing_path_is_zero` enshrined the BLOCKER 10 bug → rewritten.
-- Worker failures this session: three 504/503/502 upstream timeouts, one `Nemotron 3.5 Lightning` garbled-output failure.
-- Batch-3 author deleted `qa-heldout-60.json` (recorded absent as `qa-shadow-dev-60`) via an over-broad glob.
+Ledgers: `docs/qa-shadow-dev-audit-ledger-BATCH-{A,B,C}.md`,
+`docs/qa-shadow-dev-reapproval-ledger.md`.
 
-## Code verification
+Verified after repair: every evidence atom is byte-equal to its corpus node;
+**all 31 multi-atom sets across 25 items are single conjunctive sets** — no
+conjunctive `[[A],[B]]` split remains anywhere; the 13 multi-singleton items
+are genuinely independent routes.
 
-```
-python3 -m unittest discover -s tests              → 321 OK
-python3 -m unittest discover -s data_tools/tests   →  77 OK
-python3 -m unittest discover -s corpus/tests       →  17 OK
-python3 -m unittest discover -s corpus/scale/tests →  38 OK
-./scripts/verify_round0                            → exit 1 (freeze artifacts absent: questions.json, sealed labels, regime_b_excluded_articles.json)
-```
+## Issue 3 — Regime A / B are now PAILED conditions
 
-`verify_round0` exits 1 with 6 stages PASS and 3 FAIL. The failures are missing
-artifacts (`questions.json`, sealed labels, `regime_b_excluded_articles.json`), not
-defects. It prints, by design, that no pass it emits implies semantic QA correctness.
+`substrate/regime_metadata.py` derives Regime B as a tagged paired condition
+over the same questions, not a disjoint population.
 
-## Next required steps to reach a freeze candidate
+- `corpus/split_map.json` migrated `heldout` → `shadow_dev`
+  (`b80a774d…` → `d0879ac4…`, 25219 → 25315 bytes)
+- 56 shadow-dev questions form the paired subset across 5 groups
+  (cambridge, corona, jaguar, lincoln, washington)
+- `corpus/regime_b_paired.json`, `corpus/regime_b_excluded_articles.json`
+  (21 articles excluded from **adaptation** only; the query-time corpus is
+  unchanged — asserted against the real corpus, 0 violations)
+- report A-on-paired, B-on-same-paired, and the delta. `aggregate_across_regimes`
+  still refuses to pool unpaired metrics; `aggregate_paired_delta` computes the
+  paired delta; a masquerade (mismatched id sets) is refused.
 
-1. Phase 2: independently audit all 89 shadow-dev drafts (leave-one-out + single-atom test). Do NOT seal them; they are dev-visible.
-2. Repair and re-approve shadow-dev, as with the other sets (Phase 2; sufficiency semantics out of scope for Phase 1).
-3. Do NOT fabricate `qa-shadow-dev-60` in Phase 1; absence is recorded (89, not 90). Phase 2/5 own any replacement vs. documented-shortfall decision.
-4. Decide whether to top up shadow-dev toward 120 or hold at 89 with the shortfall documented (Phase 2/4).
-5. Emit `corpus/regime_b_excluded_articles.json`.
-6. Phase 5: author the private test set OUTSIDE the repo (`LMR_PRIVATE_EVAL_DIR`), seal via the custodian path; run `validate_freeze` against real artifacts. Phase 3 reworks regimes to paired conditions first.
-7. Independent final freeze review by a reviewer who implemented none of this.
+Design: `docs/regime-pairing.md`.
+
+## Issue 4 — scale tier is not purely irrelevant
+
+The 940 scale articles include deliberate confusables (Roman Empire, Nile, WWI,
+WWII, Lion, Tiger, …), so "carries no evidence" was not defensible.
+
+- `corpus/scale/scale_classification.json`: 815 background, 15
+  confusable_adversarial, 110 redirect_stub, 0 unknown
+- retrieved scale passages do **not** auto-count as false positives; top
+  confusable retrievals are adjudicated (`docs/scale-evaluation-rule.md`)
+- **provenance timeline corrected**: the 960-title candidate list was added in
+  `814dcc1` (2026-10-01), *after* question work began in `4d924c5` (2026-09-29).
+  Selection independence is procedural curation, **not** pre-question
+  independence. Recorded in `corpus/scale/PROVENANCE-CORRECTION.md`; the pinned
+  JSON was not rewritten.
+- scale provenance was re-pinned by regenerating from existing snapshots after
+  the split-map change rotated the core build manifest hash
+
+## Private test boundary (new)
+
+| Property | Value |
+|---|---|
+| Location | outside the repository, `LMR_PRIVATE_EVAL_DIR` |
+| Items | **116** |
+| Type mix | factoid 59, multihop 19, comparison 15, unanswerable 12, ambiguous 11 |
+| Ambiguous + unanswerable | 19.8% (target ≥ 10%) |
+| Paired Regime B items | 15 (13 excluded adaptation articles) |
+| Distinct corpus groups | 62 |
+| Seal | `c6e1e98d843eaf1eb962a9ec2f89026af2d532f9b963c5d0a78d45056293c54c` |
+| In-repo artifact | `corpus/private_test_manifest.json` (counts + hashes + custody only) |
+| Authored | 5 free-model batches, 4 replacements, 1 paired batch |
+| Reviewed | 5 independent free-model reviewers, none an author |
+| Repairs applied | 64 |
+| Rejected | 3 (unsound premises, no conforming repair) |
+| Removed | 1 (exact duplicate of public `qa-train-38`) |
+
+`corpus/questions.json` is the **worker-visible** partition: 209 in-repo items
+with `question_id`, `text`, `split`, `meta` only — no atoms, no answers, no hard
+negatives, no private ids.
+
+The boundary is **procedural and workspace-based, not a kernel security
+boundary**: all processes share one OS user, so no permission or encryption
+theater is implemented. Round 1 workers get a sanitized worktree that excludes
+the private directory. `tests/test_private_eval_tripwire.py` (10 tests) fails if
+private filenames, content, or labels appear under the repository path, and it
+asserts the in-repo manifest is content-free.
+
+The leakage gate returns **PASS or REJECT + the synthetic training ids to
+remove**, never the matched private id, text, answer, or evidence. It fails
+closed: with no seal it is REJECT, never PASS.
+
+## Honest limitations
+
+1. **The 89 shadow-dev items were seen by every worker that touched them.** They
+   are dev data. Any threshold tuned on them is not a held-out claim.
+2. **The private test was authored and reviewed by free LLMs**, not humans. The
+   independent review caught real defects — 64 repairs, 3 rejections, 1 exact
+   duplicate — which is evidence the process works, and also evidence that
+   unreviewed LLM-authored data is not trustworthy.
+3. **The leakage gate's hash-only comparison is not yet bound to the seal.** It
+   correctly refuses to issue PASS, but a real sealed comparison must be
+   implemented before Round 1 teams can receive a meaningful verdict.
+4. **Six ambiguous shadow-dev items put a prose disjunction in `answer_text`.**
+   Any scorer comparing `answer_text` to model output will score all six wrong.
+   The orchestrator must decide how ambiguity is scored before that split is
+   used for anything quantitative.
+5. **Calibration thresholds are declared, not fitted.** The freeze manifest
+   records the policy; Round 1 must select thresholds on dev/shadow-dev and
+   freeze them before its own private run.
+6. **Everything here is a desktop measurement.** No Android or on-device
+   performance claim may be derived from any of it.
+7. **All scale and corpus results are single-tier.** One scale point does not
+   produce a scaling curve.
+
+## Preserved process failures (recorded, not hidden)
+
+- `nemotron-3.5-lightning-free` produced garbled output on the private-author
+  batch-B assignment and wrote zero files; substituted `longcat-2.5-preview-free`
+  then `fledge-alpha-free`. No paid fallback.
+- `gemma-4-31b-it:free` returned a provider error on two review assignments;
+  substituted `space-bunny-free`. No paid fallback.
+- Batch-B's ledger claimed provenance fields were added to items 31–59 when
+  none were. The repairs landed; only the record was missing. Caught by the
+  re-approval pass.
+- `apply_repairs.py` initially resolved backup files as live items after the
+  first repair pass, so provenance was written to `_pre_repair/`. Fixed by
+  excluding `_`-prefixed directories; the affected items were re-recorded.
+- A hard negative in `qa-shadow-dev-36` contained the answer in a **one-letter
+  spelling variant** (`urbs Gyddannyzc` vs gold `urbs Gyddanyzc`). A lexical
+  answer-string check can never catch this. Only reading the paragraph did.
+
+## Round 1 entry conditions
+
+Not yet met. Before the tournament starts, the independent freeze review must
+return PASS. Round 1 workers must receive a sanitized worktree excluding the
+private directory, and must not receive private results until every frozen
+system has completed the private run.

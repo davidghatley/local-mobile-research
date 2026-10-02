@@ -344,3 +344,29 @@ that matter most:
 `docs/STATUS.md` is now the single authoritative current-status file. Where any other doc disagrees
 with it, that doc is stale — and where this log's earlier 2026-09-28/29 sections disagree, the later
 dated sections win.
+
+---
+
+## 2026-10-01 → 2026-10-02 — benchmark-boundary repair run
+
+Orchestrator run. Premium orchestrator model only; every worker explicitly
+selected a verified zero-cost endpoint, and nested spawning was disabled
+throughout.
+
+| Phase | Worker endpoint(s) |
+|---|---|
+| 1 reclassify | `muse-spark-1.3-contributor-free` |
+| 2 audit batches A/B/C | `muse-spark-1.3-contributor-free`, `nemotron-3.5-lightning-free`, `qwen3.8-27b:free` |
+| 3 paired regimes | `muse-spark-1.3-contributor-free` |
+| 4 scale semantics | `nemotron-3.5-lightning-free` |
+| 5 private custody | `nemotron-3-ultra-free` (aborted twice; implemented by orchestrator) |
+| 6 private authors | `muse-spark-1.3-contributor-free` (batches a, e, f), `nemotron-3.5-lightning-free` (batch b — garbled, 0 files), `qwen3.8-27b:free` (batch c), `space-bunny-free` (batch d) |
+| 6 private reviews | `nemotron-3-ultra-free` (1–34, 101–104), `gemma-4-31b-it:free` (35–67, 105–120 — provider error both times), `qwen3.8-27b:free` (68–100), `space-bunny-free` (35–67 and 105–120 substitutes) |
+| 6 re-approval | `space-bunny-free` |
+| 7 freeze gate | `nemotron-3-ultra-free` |
+| 7 84/86 repair | `nemotron-3-ultra-free` |
+| 8 independent review | `qwen3.8-27b:free` (substitute for the failed gemma) — verdict REPAIR REQUIRED |
+| 8 freeze-review repairs | orchestrator |
+
+Substitutions were recorded at the point they happened. No paid endpoint was
+used at any point, and no worker inherited the orchestrator model.

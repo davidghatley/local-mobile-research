@@ -58,7 +58,10 @@ class TestShadowDevReclassification(unittest.TestCase):
 
   def test_shadow_dev_records_carry_provenance(self):
     files = sorted(glob.glob(os.path.join(STAGING, "qa-shadow-dev-*.json")))
-    self.assertEqual(len(files), 89, f"expected 89 shadow-dev files, found {len(files)}")
+    # 89 were reclassified in Phase 1. Two (qa-shadow-dev-84, -86) were
+    # independently REJECTED during the freeze review and quarantined under
+    # staging/rejected/, so the usable shadow-dev set is honestly 87.
+    self.assertEqual(len(files), 87, f"expected 87 shadow-dev files, found {len(files)}")
     for path in files:
       rec = _load(path)
       base = os.path.basename(path)
@@ -83,18 +86,35 @@ class TestShadowDevReclassification(unittest.TestCase):
       )
       self.assertIn("reclassification", prov, f"{base}: reclassification entry missing")
 
-  def test_count_89_and_id_60_absent_recorded(self):
+  def test_count_is_honest_and_id_60_absent(self):
     files = sorted(glob.glob(os.path.join(STAGING, "qa-shadow-dev-*.json")))
     nums = sorted(p[len(os.path.join(STAGING, "qa-shadow-dev-")):-len(".json")] for p in files)
-    self.assertEqual(len(nums), 89)
-    self.assertNotIn("60", nums)
-    self.assertEqual(nums, [f"{i:02d}" for i in list(range(1, 60)) + list(range(61, 91))])
-    # The absence is recorded in docs (not silently dropped, never fabricated).
-    status_path = os.path.join(REPO_ROOT, "docs", "STATUS.md")
-    with open(status_path, "r", encoding="utf-8") as fh:
+    self.assertEqual(len(nums), 87)
+    self.assertNotIn("60", nums, "qa-shadow-dev-60 was never authored and must stay absent")
+    # 89 = 87 usable + 2 rejected-and-quarantined. The rejected ids are named
+    # in staging/rejected/ and must not reappear as usable items.
+    rejected_dir = os.path.join(STAGING, "rejected")
+    rejected = sorted(os.path.basename(p) for p in
+                      glob.glob(os.path.join(rejected_dir, "qa-shadow-dev-*.json")))
+    self.assertEqual(rejected, ["qa-shadow-dev-84.json", "qa-shadow-dev-86.json"])
+    self.assertNotIn("84", nums)
+    self.assertNotIn("86", nums)
+    self.assertEqual(
+      len(nums) + len(rejected), 89,
+      "89 reclassified items must all be accounted for: usable or rejected",
+    )
+    # The absence of 60 and the rejection of 84/86 are recorded in docs, not
+    # silently dropped and never fabricated. STATUS.md must name both facts.
+    with open(os.path.join(REPO_ROOT, "docs", "STATUS.md"), "r", encoding="utf-8") as fh:
       status = fh.read()
     self.assertIn("60", status)
     self.assertIn("89", status)
+    self.assertIn("87", status, "STATUS.md must state the usable count is 87")
+    # The quarantine README must account for all 89.
+    with open(os.path.join(rejected_dir, "README.md"), "r", encoding="utf-8") as fh:
+      readme = fh.read()
+    self.assertIn("89", readme)
+    self.assertIn("87", readme)
 
   def test_no_in_repo_private_test_questions(self):
     offenders = []

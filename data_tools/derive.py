@@ -62,14 +62,21 @@ def article_nodes_by_title(nodes: list[dict]) -> dict[str, dict]:
 
 
 def group_articles(split_map: dict, group: str) -> tuple[list[str], str]:
-  """Return (articles, split) for a group. Raises on unknown/mixed groups."""
+  """Return (articles, split) for a group. Raises on unknown/mixed groups.
+
+  Accepts every split in ``substrate.splits.SPLITS`` that can own articles:
+  ``train``, ``dev``, ``shadow_dev``, plus the retired legacy ``heldout``
+  name for backward compatibility with pre-Phase-1 split maps. ``private_test``
+  is refused on purpose: private items live outside the repository and have no
+  group-map entry here.
+  """
   groups = split_map.get("groups", {})
   if group not in groups:
     raise ValueError(f"unknown group (id only, no content): {group[:60]}")
   rec = groups[group]
   split = rec.get("split")
   articles = rec.get("articles", [])
-  if split not in ("train", "dev", "heldout"):
+  if split not in ("train", "dev", "shadow_dev", "heldout"):
     raise ValueError(f"group has invalid split: {split!r}")
   if not articles:
     raise ValueError("group has no articles")
