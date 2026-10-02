@@ -37,6 +37,11 @@ class TestStage6NonVacuity(unittest.TestCase):
   def setUp(self):
     if not os.path.isfile(os.path.join(REPO_ROOT, PARTITION_REL)):
       self.skipTest("corpus/questions.json absent")
+    if not os.path.isfile(os.path.join(REPO_ROOT, "corpus", "corpus.jsonl")):
+      # The verifier runs the suite against a git-less sandbox copy where the
+      # 42 MB corpus artifact is absent by design; stage 6 then cannot bind the
+      # partition to it. Skipping is correct, not a pass.
+      self.skipTest("corpus/corpus.jsonl absent (sandboxed copy)")
     self.tmp = tempfile.mkdtemp()
     self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
     self.repo = os.path.join(self.tmp, "repo")
@@ -68,7 +73,10 @@ class TestStage6NonVacuity(unittest.TestCase):
     self._write(self._read()[:3])
     rc, out = run_stage6(self.repo)
     self.assertNotEqual(rc, 0, f"a truncated partition must fail:\n{out}")
-    self.assertIn("truncated", out.lower())
+    # The census pin is what catches this; assert on its message, not on a
+    # wording that a later edit could change.
+    self.assertIn("census", out.lower())
+    self.assertIn("truncation must not pass", out.lower())
 
   # ---- leak detection ---------------------------------------------------
   def test_answer_location_leak_fails(self):

@@ -1222,6 +1222,9 @@ def stage_freeze_manifest():
     "public_reference_pins_sha256": sha_or_tbd(pins_rel),
     "regime_a_heldout_groups": regime_a_groups,
     "regime_b_document_heldout_groups": regime_b_groups,
+    # The census pin is mandatory for the real freeze: it is the only external
+    # check that survives a consistent truncation of drafts + partition together.
+    "require_partition_census": True,
   }
   # Tolerate fields added by the owning worker without guessing their names.
   known = {f.name for f in dataclasses.fields(RunManifest)}

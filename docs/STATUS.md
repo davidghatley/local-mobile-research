@@ -40,22 +40,33 @@ LMR_PRIVATE_EVAL_DIR=/home/davidhatley/Projects/testing/local_mobile_research-pr
 
 | Stage | What it proves | Result |
 |---|---|---|
-| 1 | shared substrate tests (389) | PASS |
+| 1 | shared substrate tests (411) | PASS |
 | 2 | data-tools tests (77) | PASS |
 | 3 | corpus converter tests (17) | PASS |
 | 4 | corpus structure + hash | PASS |
-| 5 | QA validation (`validate_qa`: 0 errors, 206 approved) | PASS |
+| 5 | QA validation (`validate_qa`: 0 errors, 206 approved, census-matched) | PASS |
 | 6 | question/label partition: public-only file + out-of-repo opaque seal | PASS |
 | 7 | generator pin | PASS |
 | 8 | freeze manifest incl. paired regime fields | PASS |
 | 9 | leakage-control artifacts (paired Regime A/B, exclusions) | PASS |
 | 10 | private test exists outside repo, seal matches, labels stay outside | PASS |
 
-Three further independent-review repairs are recorded in
-`docs/round0-independent-freeze-review-v3.md` and `docs/progress-ledger.md` §8.8:
-the opaque private manifest was **git-ignored and never committed** (so a fresh
-clone could not verify the private boundary at all); stage 6 **passed on an
-empty partition**; and stage 9 passed while cross-checking **zero** pins.
+Three independent review rounds have each returned `REPAIR REQUIRED`, and each
+found something the others missed:
+
+| round | what only that round found |
+|---|---|
+| v1 | two items whose questions pre-stated their own comparison; a functional regression; a stage that printed MATCHES while comparing nothing |
+| v2 | a **third** such item in the dev split, found only by sweeping the whole set instead of sampling |
+| v3 | the opaque private manifest was **git-ignored and never committed**; stage 6 **passed on an empty partition**; stage 9 passed while cross-checking **zero** pins |
+| v4 | a **consistent truncation** — deleting staging drafts and the matching partition entries *together* — passed stages 5, 6 **and** 8, because every internal cross-check stayed self-consistent |
+
+All are repaired. The truncation hole is closed by `corpus/partition_census.json`,
+a pin held outside the artifacts it checks; stages 5, 6 and `validate_freeze` now
+require it, and `tests/test_partition_census.py` rebuilds the truncation on a
+throwaway copy and asserts each stage catches it. See
+`docs/round0-independent-freeze-review-v{,2,3,4}.md` and `docs/progress-ledger.md`
+§8.5–§8.10.
 
 A PASS here proves **structure, hashes, splits, provenance, custody and pins**.
 It does not prove semantic QA correctness, and the verifier says so on every run.

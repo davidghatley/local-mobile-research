@@ -155,6 +155,14 @@ class RunManifest:
   # Regime metadata (Round 0 additions)
   regime_a_heldout_groups: list[str] = field(default_factory=list)
   regime_b_document_heldout_groups: list[str] = field(default_factory=list)
+  # When true, validate_freeze REQUIRES corpus/partition_census.json and checks
+  # the published and approved counts against it. A consistent truncation
+  # (staging drafts and partition entries deleted together) leaves every
+  # internal cross-check self-satisfied, so this external pin is the only
+  # thing that detects it. Synthetic freeze fixtures construct their own root
+  # and do not carry a census, so the requirement is opt-in and must be
+  # declared by the caller. The real verifier declares it.
+  require_partition_census: bool = False
   public_reference_pins_sha256: str = "TBD"
 
   def to_dict(self) -> dict:
@@ -219,6 +227,7 @@ class RunManifest:
       argv=list(d.get("argv", [])),
       regime_a_heldout_groups=list(d.get("regime_a_heldout_groups", [])),
       regime_b_document_heldout_groups=list(d.get("regime_b_document_heldout_groups", [])),
+      require_partition_census=bool(d.get("require_partition_census", False)),
       public_reference_pins_sha256=d.get("public_reference_pins_sha256", "TBD"),
     )
 
@@ -540,8 +549,10 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
     # entries deleted together) leaves the drift check self-satisfied, so the
     # only thing that detects it is a pin held outside the artifacts it checks.
     census_path = os.path.join(root, PARTITION_CENSUS_FILE)
-    if not os.path.isfile(census_path):
+    if manifest.require_partition_census and not os.path.isfile(census_path):
       gaps.append(f"missing census artifact: {PARTITION_CENSUS_FILE}")
+    elif not os.path.isfile(census_path):
+      gaps = gaps  # census not required by this manifest (synthetic fixture)
     else:
       try:
         with open(census_path, "r", encoding="utf-8") as fh:

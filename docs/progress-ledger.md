@@ -349,11 +349,14 @@ was reset.
 
 ### 8.2 Measured (orchestrator rerun, this run)
 
-- `tests` 343 OK → 372 OK after the freeze-review repairs → **389 OK** after the
-  pre-stated-premise sweep and the public-partition leak fix
+- `tests` 343 OK → 372 OK after the freeze-review repairs → 389 OK after the
+  pre-stated-premise sweep and the public-partition leak fix → 401 OK after
+  review v3 → **411 OK** after the census pin
 - `data_tools/tests` 77 OK; `corpus/tests` 17 OK; `corpus/scale/tests` 38 OK
 - `validate_qa`: 311 → 91 → **0 errors**; 209 drafts, **206 approved**
   (60 train, 59 dev, 87 shadow_dev) — 3 rejected and quarantined
+- partition census: 209 authored = 206 published + 3 rejected, pinned in
+  `corpus/partition_census.json` and enforced by stages 5, 6 and 8
 - `./scripts/verify_round0 --code-only` → exit 0, 8/8
 - `./scripts/verify_round0` → exit 0, **10/10**
 - core corpus 297 articles / 113,951 nodes; corpus hash `08aa2c53…089d1` unchanged
@@ -518,3 +521,59 @@ project's own numbers demonstrate it: the pre-stated-premise class was 3 of 209
 items, and three different reviewers needed three different methods to find it.
 No reviewer returned PASS, so **the Round 0 freeze gate remains unsatisfied** and
 no freeze tag exists.
+
+### 8.10 Fourth freeze review: the consistent truncation
+
+A fourth reviewer (`opencode/muse-spark-1.3-contributor-free`) used a method the
+first three had not: instead of sampling the data, it asked *under what artifact
+condition would each stage still print PASS?* It found the worst class of freeze
+hole in the project.
+
+**A consistent truncation passed three stages.** Delete 106 staging drafts **and**
+the matching 106 entries in `corpus/questions.json` **together**, and:
+
+- stage 5 saw 100 clean drafts → PASS
+- stage 6 saw a self-consistent partition → PASS
+- stage 8's partition/draft drift check compared the two sides against each
+  other, found no disagreement → PASS
+
+Every check inside the system agreed with every other check inside the system.
+Nothing was left to disagree. The gap was that no check compared the system to
+anything *outside* it.
+
+This is worth stating plainly, because it is the general failure mode and not a
+detail of this project: **a set of internal consistency checks cannot detect a
+consistent corruption.** Every check the project had was of that kind — partition
+vs drafts, drafts vs split map, manifest vs artifacts. All of them are necessary.
+None of them is sufficient.
+
+#### The fix is an external pin
+
+`corpus/partition_census.json` holds the expected counts per split, the
+quarantined ids, and the accounting identity `authored_total = published +
+rejected`. It is a file that is not part of what it checks. Stages 5, 6 and
+`validate_freeze` now require it and compare exactly — not "at least", because a
+floor also passes a truncation that stops short of it.
+
+`RunManifest.require_partition_census` makes the requirement explicit and
+opt-in, so the synthetic freeze fixtures (which build their own root and carry no
+census) keep working without the check silently applying to real freezes and not
+applying to fixtures.
+
+`tests/test_partition_census.py` builds the exact truncation on a throwaway copy
+and asserts stages 5, 6 and 8 each catch it, plus the missing-pin, wrong-pin and
+quarantined-id-reappearing cases. The truncated tree that previously reported
+9/10 now fails.
+
+#### Other v4 findings
+
+- The sweep-ledger census correction was incomplete: the headline count was fixed
+  but the per-type breakdown still read 121 factoid / 26 comparison against a
+  measured 128 / 28. Corrected.
+- Stale counts again: `STATUS.md` and the ledger said 389 tests where the measured
+  figure was 401, and one commit was unnamed in the ledger.
+- Custody was re-checked by blob scan including dangling pre-private stash
+  commits: only guard prose and one synthetic `qa-private-01` fixture. Clean.
+- `check_training_overlap` can never return PASS by construction. That is
+  disclosed and deliberate — but it means Round 1 training clearance is
+  unimplemented, and it is recorded as such rather than presented as working.
