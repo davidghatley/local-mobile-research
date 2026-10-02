@@ -606,11 +606,12 @@ data did.
 
 Two things were wrong beyond the missing defence:
 
-1. **Six documents called the in-repo census an "external pin"**, including
-   §8.10 of this ledger — whose own text states the correct principle
-   ("no check compared the system to anything *outside* it") and then contradicts
-   it two paragraphs later. The file is external to the *artifacts* it checks.
-   It is not external to the repository. A test now fails if our own documents
+1. **Six documents described the in-repo census as if it sat outside the
+   repository**, including §8.10 of this ledger — whose own text states the
+   correct principle ("no check compared the system to anything *outside* it")
+   and then contradicts it two paragraphs later. It is external to the
+   *artifacts* it checks; it is not external to the repository. A test now
+   fails if our own documents
    overstate it. The review documents are excluded from that test: rewriting a
    reviewer's words to match ours would be the same sin as rewriting a historical
    error, which this project has now been caught at three times.

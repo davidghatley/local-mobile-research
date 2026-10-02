@@ -173,6 +173,12 @@ class TestWordingIsAccurate(unittest.TestCase):
            "docs/verify-round0.md", "docs/private-eval-custody.md",
            "corpus/partition_census.json")
 
+  # Markers that make a mention of "external pin" honest: either it states the
+  # digest is recorded outside the repository, or it is quoting the phrase in
+  # order to correct it.
+  HONEST_MARKERS = ("recorded outside", "outside git", "out-of-repo",
+                    "outside the repo", "not external to the repository")
+
   def test_our_documents_do_not_overstate_the_census_pin(self):
     offenders = []
     for rel in self.FILES:
@@ -180,16 +186,17 @@ class TestWordingIsAccurate(unittest.TestCase):
       if not os.path.isfile(path):
         continue
       with open(path, "r", encoding="utf-8") as fh:
-        for lineno, line in enumerate(fh, 1):
-          low = line.lower()
-          if "external pin" not in low:
-            continue
-          # Acceptable only when the same sentence establishes that the digest
-          # is recorded outside the repository.
-          if any(marker in low for marker in
-                 ("recorded outside", "outside git", "out-of-repo", "outside the repo")):
-            continue
-          offenders.append(f"{rel}:{lineno}: {line.strip()[:110]}")
+        lines = fh.readlines()
+      for i, line in enumerate(lines):
+        if "external pin" not in line.lower():
+          continue
+        # Score the containing PARAGRAPH, not the line: prose wraps, and a
+        # correction usually lands a few lines from the phrase it corrects.
+        lo, hi = max(0, i - 3), min(len(lines), i + 4)
+        window = "".join(lines[lo:hi]).lower()
+        if any(marker in window for marker in self.HONEST_MARKERS):
+          continue
+        offenders.append(f"{rel}:{i + 1}: {line.strip()[:110]}")
     self.assertEqual(
       offenders, [],
       "corpus/partition_census.json lives INSIDE the repository; it is external "
