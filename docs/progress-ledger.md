@@ -660,3 +660,31 @@ luck. A sixth bounded method will also find something.
 
 No reviewer has returned PASS. **The Round 0 freeze gate remains unsatisfied and
 no freeze tag exists.**
+
+### 8.12 The durable freeze record
+
+One of v5's blocking findings was structural rather than semantic:
+`RunManifest.write()` was implemented and **never called**. A passing freeze
+printed a verdict and left behind nothing to re-read, hash, or compare against a
+later run. A verdict that cannot be re-read is not a record.
+
+Stage 8 now writes the freeze manifest on success to
+`<LMR_PRIVATE_EVAL_DIR>/freeze_manifest.json` — outside the repository, beside
+the census trust root and the private seal, so the record itself can never join a
+future co-edit of the data it describes. The record carries the corpus hash, the
+generator config digest, the questions digest, the split-map digest, the sealed
+labels digest, the partition census digest, the code hashes, the inventory pins,
+the threshold declarations, and both regime group lists.
+
+Conditions pinned by `tests/test_freeze_manifest_durability.py` (4 tests):
+
+- a passing stage 8 writes it, and never into the repository;
+- it binds the census digest it verified, so a later census edit is detectable
+  against the record alone;
+- a **failing** stage 8 writes nothing, so a stale record can never be mistaken
+  for a current pass;
+- `RunManifest.write` is not dead code.
+
+Not yet done, and named here rather than implied: there is still **no freeze
+tag**. A tag is the natural next artifact, and it belongs to whoever signs the
+freeze, not to a verification run.

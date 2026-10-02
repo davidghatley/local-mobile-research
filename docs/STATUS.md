@@ -12,6 +12,7 @@ produced the previous `NOT FROZEN` verdict.
 
 **Five independent reviews have run. All five returned `REPAIR REQUIRED`. No
 reviewer has returned PASS, so no freeze tag exists and Round 1 must not begin.**
+A sixth review is required to confirm the v5 repairs landed.
 
 The four load-bearing issues from the external review of `f819d9b` are
 repaired, and the private test boundary exists outside git and is sealed.
@@ -43,14 +44,14 @@ LMR_PRIVATE_EVAL_DIR=/home/davidhatley/Projects/testing/local_mobile_research-pr
 
 | Stage | What it proves | Result |
 |---|---|---|
-| 1 | shared substrate tests (418) | PASS |
+| 1 | shared substrate tests (422) | PASS |
 | 2 | data-tools tests (77) | PASS |
 | 3 | corpus converter tests (17) | PASS |
 | 4 | corpus structure + hash | PASS |
 | 5 | QA validation (`validate_qa`: 0 errors, 206 approved, census-matched) | PASS |
 | 6 | question/label partition: public-only file + out-of-repo opaque seal | PASS |
 | 7 | generator pin | PASS |
-| 8 | freeze manifest incl. paired regime fields | PASS |
+| 8 | freeze manifest incl. paired regime fields, census digest, and a durable out-of-repo freeze record | PASS |
 | 9 | leakage-control artifacts (paired Regime A/B, exclusions) | PASS |
 | 10 | private test exists outside repo, seal matches, labels stay outside | PASS |
 

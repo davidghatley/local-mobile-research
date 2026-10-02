@@ -188,6 +188,8 @@ WORK=$(mktemp -d "${TMPDIR:-/tmp}/verify_round0.XXXXXX") || {
   echo "verify_round0: cannot create scratch directory" >&2
   exit 2
 }
+WORK="$WORK"
+export VERIFY_ROUND0_SCRATCH="$WORK"
 RESULTS="$WORK/results.tsv"
 : >"$RESULTS"
 cleanup() { rm -rf -- "$WORK"; }
@@ -1250,6 +1252,12 @@ def stage_freeze_manifest():
   freeze_pin = os.path.join(os.environ.get("LMR_PRIVATE_EVAL_DIR", ""),
                             "freeze_census_pin.json") if os.environ.get(
                               "LMR_PRIVATE_EVAL_DIR") else ""
+  # WORK is a shell variable and is not visible inside this heredoc, so the
+  # fallback scratch path is recomputed here rather than threaded through.
+  _work = os.environ.get("VERIFY_ROUND0_SCRATCH") or os.path.join(
+    os.environ.get("TMPDIR", "/tmp"), "verify_round0.freeze")
+  freeze_manifest_path = os.path.join(
+    os.environ.get("LMR_PRIVATE_EVAL_DIR", _work), "freeze_manifest.json")
   census_digest = sha_or_tbd(CENSUS_REL)
   if freeze_pin and os.path.isfile(freeze_pin):
     try:
@@ -1282,6 +1290,23 @@ def stage_freeze_manifest():
       detail("... %d further gap(s) not shown" % (len(check.gaps) - 40))
     mark_fail()
   else:
+    # A freeze must leave a DURABLE artifact, not only a terminal verdict.
+    # RunManifest.write() exists and was never called, which an independent
+    # review (v5) flagged: the freeze produced an answer nobody could re-read.
+    # The manifest is written OUTSIDE the repository, beside the census pin and
+    # the private seal, so it carries no risk of joining a future co-edit.
+    if check.passed and freeze_pin:
+      try:
+        manifest.write(freeze_manifest_path)
+        detail("freeze manifest written: %s (%d bytes)"
+               % (freeze_manifest_path, os.path.getsize(freeze_manifest_path)))
+      except OSError as exc:
+        detail("freeze manifest NOT written: %s" % str(exc)[:160])
+        mark_fail()
+    elif check.passed:
+      detail("no out-of-repo directory configured: freeze manifest not written "
+             "(a verdict with no durable artifact is not a freeze record)")
+      mark_fail()
     mark_pass()
   finish()
 

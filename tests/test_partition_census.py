@@ -42,9 +42,20 @@ def _require_corpus():
     raise unittest.SkipTest("corpus/corpus.jsonl absent (sandboxed copy)")
 
 
-def _run(root, *stages):
+PRIVATE_DIR = os.environ.get(
+  "LMR_PRIVATE_EVAL_DIR",
+  "/home/davidhatley/Projects/testing/local_mobile_research-private-eval",
+)
+
+
+def _run(root, *stages, env_extra=None):
   env = dict(os.environ)
   env.setdefault("VERIFY_ROUND0_PYTHON", "python3")
+  # Stage 8 requires the out-of-repo census trust root, so every invocation
+  # here must be configured the way a real freeze run is.
+  env.setdefault("LMR_PRIVATE_EVAL_DIR", PRIVATE_DIR)
+  if env_extra:
+    env.update(env_extra)
   proc = subprocess.run(
     [VERIFIER, "--only", ",".join(stages), "--root", root],
     capture_output=True, text=True, env=env, timeout=600,
