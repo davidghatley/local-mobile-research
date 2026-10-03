@@ -13,6 +13,7 @@ import hashlib
 import json
 import os
 import tempfile
+import uuid
 import unittest
 from contextlib import contextmanager
 
@@ -82,9 +83,18 @@ class TestLeakageGate(unittest.TestCase):
   def tearDown(self):
     self.tmp.cleanup()
 
-  def _check(self, records):
+  def _check(self, records, session=None):
+    """One fresh session per call.
+
+    The gate is a ONE-SHOT clearance decision (see the module docstring and
+    docs/private-eval-custody.md): repeated queries in one session let an
+    adaptive caller localise private content, so the second call is refused.
+    Each test therefore needs its own session id.
+    """
+    if session is None:
+      session = "test-" + uuid.uuid4().hex
     with _point_at(self.tmp.name):
-      return private_eval.check_training_overlap(records)
+      return private_eval.check_training_overlap(records, session=session)
 
   def test_exact_duplicate_rejects_and_flags_id(self):
     verdict = self._check([
@@ -203,7 +213,8 @@ class TestLeakageGate(unittest.TestCase):
         {"synthetic_id": "syn-2", "text": UNRELATED_TEXT},
       ], fh)
     with _point_at(self.tmp.name):
-      verdict = private_eval.check_training_file(path)
+      verdict = private_eval.check_training_file(
+        path, session="test-" + uuid.uuid4().hex)
     self.assertEqual(verdict.verdict, "REJECT")
     self.assertEqual(verdict.flagged_ids, ["syn-1"])
 
@@ -214,7 +225,8 @@ class TestLeakageGate(unittest.TestCase):
       fh.write(json.dumps({"synthetic_id": "syn-2",
                            "text": "What river flows through the Grand Canyon?"}) + "\n")
     with _point_at(self.tmp.name):
-      verdict = private_eval.check_training_file(path)
+      verdict = private_eval.check_training_file(
+        path, session="test-" + uuid.uuid4().hex)
     self.assertEqual(verdict.verdict, "REJECT")
     self.assertEqual(verdict.flagged_ids, ["syn-2"])
 
@@ -223,7 +235,8 @@ class TestLeakageGate(unittest.TestCase):
     with open(path, "w", encoding="utf-8") as fh:
       fh.write("{bad json")
     with _point_at(self.tmp.name):
-      verdict = private_eval.check_training_file(path)
+      verdict = private_eval.check_training_file(
+        path, session="test-" + uuid.uuid4().hex)
     self.assertEqual(verdict.verdict, "REJECT")
     with _point_at(self.tmp.name):
       missing = private_eval.check_training_file(
@@ -277,9 +290,18 @@ class TestNearDuplicateInsertion(unittest.TestCase):
   def tearDown(self):
     self.tmp.cleanup()
 
-  def _check(self, records):
+  def _check(self, records, session=None):
+    """One fresh session per call.
+
+    The gate is a ONE-SHOT clearance decision (see the module docstring and
+    docs/private-eval-custody.md): repeated queries in one session let an
+    adaptive caller localise private content, so the second call is refused.
+    Each test therefore needs its own session id.
+    """
+    if session is None:
+      session = "test-" + uuid.uuid4().hex
     with _point_at(self.tmp.name):
-      return private_eval.check_training_overlap(records)
+      return private_eval.check_training_overlap(records, session=session)
 
   def test_light_insertion_is_rejected(self):
     verdict = self._check([
@@ -302,6 +324,19 @@ class TestNearDuplicateInsertion(unittest.TestCase):
                      f"unrelated questions must not be flagged: {verdict.flagged_ids}")
 
 
+
+
+  def test_assert_private_dir_outside_repo_resolves_symlinks(self):
+    """N-8: assert_private_dir_outside_repo must refuse a symlink into the repo."""
+    import tempfile, os
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    inside_dir = os.path.join(repo_root, "substrate")
+    tmp = tempfile.mkdtemp()
+    outside_sym = os.path.join(tmp, "fake-private")
+    os.symlink(inside_dir, outside_sym)
+    with _point_at(outside_sym):
+      with self.assertRaises(private_eval.PrivateEvalError):
+        private_eval.assert_private_dir_outside_repo()
 
 if __name__ == "__main__":
   unittest.main()

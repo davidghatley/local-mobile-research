@@ -762,10 +762,18 @@ def validate_freeze(root: str, manifest: RunManifest) -> FreezeCheck:
       gaps.append(f"verifier_mode is {manifest.verifier_mode!r}: a durable freeze record requires mode 'full'")
     if not manifest.verified_at_utc:
       gaps.append("verified_at_utc unrecorded: the freeze record must carry its verification timestamp")
-    # working_tree_dirty is RECORDED, never a gap: the binding is the flag in
-    # the record itself, so a later reader can tell whether the revision was
-    # clean. Failing on a dirty tree would make the verifier unusable on any
-    # uncommitted checkout, including the one that produces the record.
+    # working_tree_dirty is RECORDED as provenance AND is a gap when set: on
+    # a dirty tree the recorded code_hashes hash the files on disk while
+    # commit_sha names HEAD, so the two disagree and the record would not
+    # re-verify at its own commit. Synthetic freeze fixtures never claim a
+    # durable record, so the requirement is opt-in via
+    # require_partition_census, exactly like the census requirement above.
+    if manifest.working_tree_dirty:
+      if manifest.require_partition_census:
+        gaps.append(
+          "working_tree_dirty: the tree was dirty, so the recorded "
+          "code_hashes do not match the recorded commit (not re-verifiable)"
+        )
 
   # --- Regime metadata validations (Round 0 additions) ---
   # PAIRED DESIGN (Issue 3, Phase 3): Regime B is a TAGGED PAIRED CONDITION

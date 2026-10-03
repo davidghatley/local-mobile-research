@@ -100,10 +100,20 @@ question:
    vocabulary. Deliberately conservative: a false positive costs the team
    only a rewrite; a false negative leaks a held-out question into training.
 3. `difflib.SequenceMatcher` ratio on normalized strings >=
-   `OVERLAP_CHAR_RATIO_THRESHOLD = 0.85`. Order-sensitive second signal for
+   `OVERLAP_CHAR_RATIO_THRESHOLD = 0.80`. Order-sensitive second signal for
    lightly edited copies. Set higher than the Jaccard threshold because
-   character ratio is the noisier signal; 0.85 still requires a
-   near-identical character sequence.
+   character ratio is the noisier signal; 0.80 was verified against a measured
+   separation (see table below). The old 0.85 threshold missed the 0.838
+   insertion case; 0.80 catches it while sitting well clear of the unrelated
+   cluster.
+
+Measured separation (preregistered, fixed before Round 1 training data):
+  exact duplicate ................................. 1.000   flagged
+  case/punctuation/whitespace variant ........... 1.000   flagged
+  "Which river flows through the city of Cairo?"
+      vs "Which river flows through Cairo?" ...... 0.838   flagged
+  unrelated ("How many legs does a spider have?") . 0.222   clean
+  unrelated ("When was the Berlin Wall built?") .. 0.361   clean
 
 Deterministic, stdlib only, no network. Reasons are generic
 ("no question-level overlap detected" / "N record(s) flagged by
@@ -116,3 +126,63 @@ sufficient-set semantics are corrected. The seal is an opaque digest of
 private bytes, readable by the main repository as a hash and never as
 content. `substrate.private_eval.verify_seal()` raises (does not return
 `False`) when no seal exists: absent is not a pass.
+
+
+---
+
+## The leakage gate is a ONE-SHOT clearance decision
+
+Review v6 demonstrated that this gate is a **boolean near-duplicate membership
+oracle** against an adaptive caller. The returned object has only three fields,
+so it cannot *carry* private content — but an architecture team permitted to
+call it repeatedly can binary-search the private set: REJECT on one candidate
+and PASS on a mutated candidate localises private content to the flag boundary.
+Wall-clock cost also scales with the size of the private set (review v6
+measured 77.5x for 116x items).
+
+So the asymmetry claim in the section above is only true under a one-shot
+regime. That regime is now **enforced**, not merely asserted:
+
+- `check_training_overlap(records, session=<id>)` requires a session id. A call
+  without one is REJECTed, because an untrackable session cannot be one-shot.
+- The first clearance in a session is consumed. A second call with the same id
+  is REJECTed without running the comparison at all.
+- The session ledger lives in the **private directory**, so an architecture
+  worker can neither read nor reset it.
+- A fresh session is opened by the **custodian**, deliberately and on the
+  record. It is not the caller retrying.
+
+### Authorising a second clearance
+
+An architecture team that needs a re-clearance after editing flagged records
+asks the custodian for a new session id. The custodian records who asked, for
+which team, and why. Repeated requests are a signal to investigate whether the
+team is probing rather than iterating, and are grounds to deny.
+
+### Measured separation, and what the thresholds do NOT catch
+
+The character-ratio threshold was corrected from 0.85 to **0.80** after review v6
+showed a lightly edited copy slipping through. The separation is measured, not
+guessed (`max(jaccard, char_ratio)` on normalized text):
+
+| case | score | flagged |
+|---|---|---|
+| exact duplicate | 1.000 | yes |
+| case / punctuation / whitespace variant | 1.000 | yes |
+| "…through the city of Cairo?" vs "…through Cairo?" | 0.838 | yes |
+| unrelated ("How many legs does a spider have?") | 0.222 | no |
+| unrelated ("When was the Berlin Wall built?") | 0.361 | no |
+
+**A genuine semantic paraphrase is NOT caught.** "Cairo does the Nile flow
+through?" scores 0.508 and "The Nile flows through which city?" scores 0.625 —
+both below every threshold, because token and character similarity do not
+measure meaning. The threshold is set deliberately above that band so it cannot
+fire on unrelated vocabulary.
+
+This is a scope decision, not an oversight. The gate targets **near-exact
+leakage**: a copied or lightly edited private question, which is the realistic
+failure mode, since no team would knowingly paraphrase a sealed question into
+its training data. Catching deliberate paraphrase would require an embedding
+model, which would make the threshold un-auditable and un-reproducible. **If a
+future threat model includes paraphrase leakage, this gate must be replaced, not
+re-tuned, and the replacement must be preregistered before use.**

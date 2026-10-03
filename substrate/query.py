@@ -273,13 +273,29 @@ def worker_regime_b_exclusions(
   """
   root = Path(repo_root) if repo_root is not None else Path(__file__).resolve().parent.parent
   path = root / REGIME_B_EXCLUSION_ARTIFACT
-  lowered = str(path).lower()
-  if any(token in lowered for token in _PRIVATE_PATH_TOKENS):
+
+  # Check the RESOLVED path, not the literal one. Checking the literal path
+  # accepted a symlink placed at the expected location pointing at a decoy
+  # artifact: the name looked public while the bytes came from elsewhere.
+  resolved = path.resolve()
+  lowered_resolved = str(resolved).lower()
+  if any(token in lowered_resolved for token in _PRIVATE_PATH_TOKENS):
     raise ValueError(
-      f"refusing Regime B exclusion source that looks private: {path} "
-      "(the worker list comes from the public artifact only)"
+      f"refusing Regime B exclusion source that resolves to a private path: "
+      f"{resolved} (the worker list comes from the public artifact only)"
     )
-  with open(path, "rb") as fh:
+  if resolved != path:
+    raise ValueError(
+      f"refusing Regime B exclusion source that is a symlink or indirect path: "
+      f"{path} -> {resolved}. The worker exclusion list must be read from the "
+      f"committed artifact itself, not through a link to something else."
+    )
+  if not resolved.is_file():
+    raise ValueError(
+      f"refusing Regime B exclusion source that is not a regular file: {resolved}"
+    )
+
+  with open(resolved, "rb") as fh:
     raw = fh.read()
   try:
     doc = json.loads(raw.decode("utf-8"))

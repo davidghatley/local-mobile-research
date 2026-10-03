@@ -1242,6 +1242,13 @@ def stage_freeze_manifest():
     detail("revision: commit %s%s" % (commit_sha[:16], " (DIRTY)" if working_tree_dirty else " (clean)"))
   else:
     detail("revision: git HEAD unresolvable (fail closed: not a freezable revision)")
+  # A dirty tree must FAIL stage 8. The record's code_hashes hash the files on
+  # disk, but the record's commit_sha names HEAD; on a dirty tree those two
+  # disagree, so the record is not re-verifiable at its own commit. The flag
+  # working_tree_dirty is still RECORDED in the candidate (useful provenance),
+  # but a dirty run never stages a candidate. Promotion (shell, below) refuses
+  # a dirty tree independently, so a record can never be promoted from one.
+  _dirty_fail = bool(working_tree_dirty)
   verifier_script = os.path.join(ROOT, "scripts", "verify_round0")
   verifier_sha256 = sha256_file(verifier_script) if os.path.isfile(verifier_script) else "TBD"
   detail("verifier: scripts/verify_round0 sha256=%s..." % verifier_sha256[:16])
@@ -1319,7 +1326,27 @@ def stage_freeze_manifest():
       with open(freeze_pin, "r", encoding="utf-8") as pf:
         pin = json.load(pf)
       pinned = pin.get("partition_census_sha256")
-      if pinned and pinned != census_digest:
+      # The pin MUST carry a 64-hex census digest. An absent, empty, or
+      # malformed digest compared nothing at all, and an earlier revision
+      # printed "MATCHES" for that empty comparison (the last open member of
+      # the "prints MATCHES while comparing nothing" family). Never print
+      # MATCHES for a comparison that did not happen: every one of these is
+      # a FAIL with a distinct reason.
+      import re as _re
+      _hex64 = _re.compile(r"^[0-9a-f]{64}$")
+      if not isinstance(pinned, str) or not pinned:
+        detail("out-of-repo freeze pin carries NO partition_census_sha256: "
+               "no comparison happened, so there is nothing to MATCH (FAIL)")
+        mark_fail()
+      elif len(pinned) != 64:
+        detail("out-of-repo freeze pin partition_census_sha256 has wrong "
+               "length (%d, want 64): malformed pin (FAIL)" % len(pinned))
+        mark_fail()
+      elif not _hex64.match(pinned):
+        detail("out-of-repo freeze pin partition_census_sha256 is not 64-hex: "
+               "malformed pin (FAIL)")
+        mark_fail()
+      elif pinned != census_digest:
         detail("census digest MISMATCH vs out-of-repo freeze pin: the census "
                "changed after the pin was recorded (data+census co-edit)")
         mark_fail()
@@ -1337,6 +1364,10 @@ def stage_freeze_manifest():
   else:
     detail("LMR_PRIVATE_EVAL_DIR unset: no out-of-repo census pin can be "
            "checked (UNVERIFIED, not satisfied)")
+  if _dirty_fail:
+    detail("working tree is DIRTY: recorded code hashes do not match the "
+           "recorded commit, so the record would not re-verify (FAIL)")
+    mark_fail()
   if check.gaps:
     # Gaps carry ids / counts / hashes only, by construction of validate_freeze.
     for gap in check.gaps[:40]:
@@ -1824,11 +1855,21 @@ fi
 # here, and only here, when ALL of the following hold:
 #   * full mode with no --only filter,
 #   * zero failures and zero skips,
-#   * every stage in STAGE_IDS executed (executed count == stage total).
+#   * every stage in STAGE_IDS executed (executed count == stage total),
+#   * the working tree is CLEAN at promotion time AND the candidate records
+#     working_tree_dirty == false (a dirty tree means the recorded
+#     code_hashes do not match the recorded commit, so the record would not
+#     re-verify; stage 8 already fails dirty runs, and this is the
+#     independent second refusal).
 # The versioned record freeze_manifest_<commit>.json is installed with an
 # atomic mv (same filesystem), and only then is the stable pointer
-# freeze_manifest.json swung to it via temp file + mv. A half-written
-# durable file is never left behind: any promotion failure exits non-zero.
+# freeze_manifest.json swung to it via temp file + mv. The rename itself is
+# atomic: readers never observe a half-written durable record under either
+# path. A crash (SIGKILL) between the temp write and the rename MAY leave a
+# fully-written hidden temp file (name starts with .tmp-promote-, never
+# freeze_manifest_*.json, so it cannot be mistaken for a record); it is not
+# the durable record. Stale temp files are removed after a successful
+# promotion. Any promotion failure exits non-zero.
 # A full run that cannot produce its record is not a successful freeze, so a
 # missing private dir or a missing scratch candidate FAILS LOUDLY here
 # instead of silently skipping. Partial runs, code-only runs, and failed
@@ -1910,11 +1951,36 @@ PYPROMOTE
     echo " RESULT: FAIL (durable freeze record could not be promoted)."
     exit 1
   fi
+  # Independent dirty-tree refusal (stage 8 already fails dirty runs; this is
+  # the second gate so promotion can never succeed on a dirty tree even if
+  # stage 8 were bypassed). The record's code_hashes hash the files on disk
+  # while commit_sha names HEAD; on a dirty tree they disagree, so the record
+  # is not re-verifiable. working_tree_dirty stays in the record as provenance.
+  if [ -n "$(git -C "$ROOT" status --porcelain 2>/dev/null)" ]; then
+    echo
+    echo " FREEZE RECORD: FAIL -- working tree is dirty at promotion time."
+    echo " A record whose code hashes do not match its commit is not"
+    echo " re-verifiable, so promotion is refused."
+    echo
+    echo " RESULT: FAIL (durable freeze record could not be promoted)."
+    exit 1
+  fi
+  CANDIDATE_DIRTY=$("$PY" -c 'import json,sys; print(json.load(open(sys.argv[1])).get("working_tree_dirty", True))' "$CANDIDATE")
+  if [ "$CANDIDATE_DIRTY" != "False" ]; then
+    echo
+    echo " FREEZE RECORD: FAIL -- candidate records working_tree_dirty=$CANDIDATE_DIRTY."
+    echo " Promotion requires a clean-tree candidate."
+    echo
+    echo " RESULT: FAIL (durable freeze record could not be promoted)."
+    exit 1
+  fi
   DEST_DIR="$LMR_PRIVATE_EVAL_DIR"
   VERSIONED="$DEST_DIR/freeze_manifest_${COMMIT_SHA}.json"
   POINTER="$DEST_DIR/freeze_manifest.json"
-  TMP_REC="$DEST_DIR/.freeze_manifest_${COMMIT_SHA}.tmp.$$"
-  TMP_PTR="$DEST_DIR/.freeze_manifest_pointer.tmp.$$"
+  # Temp names deliberately do NOT start with freeze_manifest and do NOT match
+  # freeze_manifest_*.json: a crash leftover can never be mistaken for a record.
+  TMP_REC="$DEST_DIR/.tmp-promote-versioned-${COMMIT_SHA}.$$.tmp"
+  TMP_PTR="$DEST_DIR/.tmp-promote-pointer.$$.tmp"
   if ! cp "$CANDIDATE" "$TMP_REC"; then
     echo
     echo " FREEZE RECORD: FAIL -- cannot stage the versioned record in $DEST_DIR."
@@ -1941,6 +2007,10 @@ PYPROMOTE
     echo " RESULT: FAIL (durable freeze record could not be promoted)."
     exit 1
   fi
+  # Best-effort cleanup of stale promotion temp files from crashed runs. These
+  # were never durable records (wrong name prefix, hidden), but do not leave
+  # them accumulating next to the record.
+  rm -f "$DEST_DIR"/.tmp-promote-*.tmp 2>/dev/null || true
   echo
   echo " FREEZE RECORD: promoted durable record $VERSIONED"
   echo " (stable pointer: $POINTER)"

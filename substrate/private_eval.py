@@ -156,8 +156,9 @@ def assert_private_dir_outside_repo() -> None:
   root = repo_root()
   if root is None:
     return
-  pd = private_dir()
-  if pd == root or pd.startswith(root + os.sep):
+  pd = os.path.realpath(private_dir())
+  root_real = os.path.realpath(root)
+  if pd == root_real or pd.startswith(root_real + os.sep):
     raise PrivateEvalError(
       f"{PRIVATE_EVAL_DIR_ENV} resolves inside the repository ({pd}); "
       "private evaluation data must live outside the repo"
@@ -371,7 +372,51 @@ def _load_private_question_texts() -> list[tuple[str, set[str]]]:
   return out
 
 
-def check_training_overlap(records: list[Any]) -> LeakageVerdict:
+CLEARANCE_LOG = "clearance_sessions.json"
+
+
+def _consume_clearance_session(session: str | None) -> str | None:
+  """Consume one clearance for ``session``. Returns the session id consumed.
+
+  Returns None when ``session`` is None (the caller turns that into REJECT).
+  Raises PrivateEvalError when the session has already been used.
+
+  The session ledger lives in the PRIVATE directory, so an architecture worker
+  cannot read it, delete it, or reset it. That is the whole enforcement point,
+  and it is procedural rather than a security boundary: the worker and the
+  custodian share one OS account.
+  """
+  if session is None:
+    return None
+  if not isinstance(session, str) or not session.strip():
+    raise PrivateEvalError("clearance session id must be a nonempty string")
+
+  path = os.path.join(private_dir(), CLEARANCE_LOG)
+  used: list[str] = []
+  if os.path.isfile(path):
+    try:
+      with open(path, "r", encoding="utf-8") as fh:
+        used = list(json.load(fh))
+    except (ValueError, OSError) as exc:
+      raise PrivateEvalError(
+        f"clearance session ledger unreadable at {path}: {exc}"
+      ) from exc
+  if session in used:
+    raise PrivateEvalError(
+      f"clearance session {session!r} has already been used. The leakage gate "
+      "is one-shot: repeated queries let an adaptive caller localise private "
+      "content. Request a new session from the custodian, deliberately and on "
+      "the record."
+    )
+  used.append(session)
+  tmp = path + ".tmp"
+  with open(tmp, "w", encoding="utf-8") as fh:
+    json.dump(used, fh)
+  os.replace(tmp, path)
+  return session
+
+
+def check_training_overlap(records: list[Any], *, session: str | None = None) -> LeakageVerdict:
   """Custodian-side leakage check for architecture-generated training data.
 
   ``records`` is a list of ``{"synthetic_id": str, "text": str}`` dicts.
@@ -382,16 +427,31 @@ def check_training_overlap(records: list[Any]) -> LeakageVerdict:
   Document-level overlap is LEGAL (Regime A explicitly allows corpus-known
   specialization). Exact or near-exact private QUESTION leakage is not.
 
-  Information asymmetry is preserved by design: this function returns only
-  PASS or REJECT, a generic non-revealing reason, and the SYNTHETIC training
-  ids that must be removed. It never returns the matched private question
-  id, private text, private answer, or private evidence.
+  INFORMATION BOUNDARY -- read this before assuming the gate is a black box.
+
+  The caller-visible result carries only PASS or REJECT, a generic reason, and
+  the SYNTHETIC ids to remove. It never returns the matched private id, text,
+  answer, or evidence. That much is structural: ``LeakageVerdict`` is a frozen
+  three-field dataclass with no channel for private content.
+
+  But the result is NOT a black box against an ADAPTIVE adversary. An
+  architecture team that can call this repeatedly can binary-search the private
+  set: a REJECT on one candidate and a PASS on a mutated candidate localises
+  private content to the flag boundary, and the wall-clock cost scales with the
+  size of the private set. Review v6 demonstrated both.
+
+  Therefore this gate is a ONE-SHOT clearance decision, and that regime is
+  ENFORCED rather than merely documented. The first clearance in a session
+  consumes it; a second call with the same session id is refused with REJECT.
+  A fresh session is opened by the custodian, deliberately and on the record.
+  See ``docs/private-eval-custody.md`` for the authorisation procedure.
 
   FAIL CLOSED: REJECT (never PASS) when the private dir resolves inside the
   repo, the seal is absent/invalid, the private questions are
-  unreadable/malformed, the training input is malformed or empty, or the
-  comparison could not be executed. Every PASS return below has executed the
-  full text comparison over all records; there is no PASS path that skips it.
+  unreadable/malformed, the training input is malformed or empty, the session
+  has already been consumed, or the comparison could not be executed. Every PASS
+  return below has executed the full text comparison over all records; there is
+  no PASS path that skips it.
   """
   try:
     assert_private_dir_outside_repo()
@@ -407,6 +467,28 @@ def check_training_overlap(records: list[Any]) -> LeakageVerdict:
     return LeakageVerdict(
       verdict="REJECT",
       reason=f"cannot evaluate leakage: {exc}",
+      flagged_ids=[],
+    )
+
+  # One-shot consumption. See the docstring: repeated clearance in one session
+  # is what turns a verdict into an oracle.
+  try:
+    consumed = _consume_clearance_session(session)
+  except PrivateEvalError as exc:
+    return LeakageVerdict(
+      verdict="REJECT",
+      reason=f"cannot evaluate leakage: {exc}",
+      flagged_ids=[],
+    )
+  if session is None:
+    # No session id supplied: refuse rather than silently grant an unlimited
+    # oracle. An unnamed session cannot be tracked, so it cannot be one-shot.
+    return LeakageVerdict(
+      verdict="REJECT",
+      reason=(
+        "cannot evaluate leakage: a clearance session id is required, because "
+        "an unlimited-query gate leaks private content to an adaptive caller"
+      ),
       flagged_ids=[],
     )
 
@@ -464,13 +546,16 @@ def check_training_overlap(records: list[Any]) -> LeakageVerdict:
   )
 
 
-def check_training_file(path: str) -> LeakageVerdict:
+def check_training_file(path: str, *, session: str | None = None) -> LeakageVerdict:
   """Leakage check over a training file: a JSON list or a JSONL file.
 
   Each element/line must be a ``{"synthetic_id": str, "text": str}``
   record. Malformed files (missing file, invalid JSON, a top-level JSON
   object instead of a list, an unparsable JSONL line, an empty file)
   yield REJECT, never PASS.
+
+  ``session`` carries the same ONE-SHOT meaning as in
+  :func:`check_training_overlap`; see that docstring.
   """
   try:
     with open(path, "r", encoding="utf-8") as fh:
@@ -515,7 +600,7 @@ def check_training_file(path: str) -> LeakageVerdict:
       reason="cannot evaluate leakage: malformed training input",
       flagged_ids=[],
     )
-  return check_training_overlap(records)
+  return check_training_overlap(records, session=session)
 
 
 def load_schema() -> dict[str, Any] | None:

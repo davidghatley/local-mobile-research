@@ -189,6 +189,81 @@ class TestOutOfRepoTrustRoot(unittest.TestCase):
     self.assertIn("freeze pin ABSENT", out)
 
 
+class TestMalformedPinFailsClosed(unittest.TestCase):
+  """A pin that carries no usable digest must FAIL, never print MATCHES.
+
+  Regression for review v6 N-1 (BLOCKING): with an out-of-repo pin file that
+  EXISTS but has no ``partition_census_sha256`` key, stage 8 printed
+  "census digest MATCHES out-of-repo freeze pin" and returned rc=0, because
+  the code only compared when a digest was found. That is the last open
+  member of the "prints MATCHES while comparing nothing" family.
+
+  Old behaviour would have PASSED every case below except "wrong value"
+  (absent/empty/malformed digests skipped the comparison and fell into the
+  MATCHES branch). Each test asserts the run fails AND that no MATCHES line
+  is printed, since printing MATCHES for a comparison that did not happen is
+  the defect.
+  """
+
+  def _run_with_pin(self, mutate):
+    if not os.path.isfile(FREEZE_PIN):
+      self.skipTest("no out-of-repo census trust root on this host (CI)")
+    if not os.path.isfile(os.path.join(REPO_ROOT, "corpus", "corpus.jsonl")):
+      self.skipTest("corpus/corpus.jsonl absent (sandboxed copy)")
+    tmp = tempfile.mkdtemp()
+    self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+    root = os.path.join(tmp, "repo")
+    shutil.copytree(REPO_ROOT, root,
+                    ignore=shutil.ignore_patterns(".git", "__pycache__"))
+    _init_git(root)
+    priv = os.path.join(tmp, "private")
+    os.makedirs(priv, exist_ok=True)
+    with open(FREEZE_PIN, "r", encoding="utf-8") as fh:
+      pin = json.load(fh)
+    mutate(pin)
+    with open(os.path.join(priv, "freeze_census_pin.json"), "w",
+              encoding="utf-8") as fh:
+      json.dump(pin, fh, indent=2, sort_keys=True)
+      fh.write("\n")
+    return _run(root, "8", env_extra={"LMR_PRIVATE_EVAL_DIR": priv})
+
+  def test_pin_key_absent_fails(self):
+    rc, out = self._run_with_pin(
+      lambda pin: pin.pop("partition_census_sha256", None))
+    self.assertNotEqual(rc, 0, f"a pin with no digest key must fail:\n{out}")
+    self.assertNotIn("MATCHES out-of-repo freeze pin", out)
+
+  def test_pin_key_empty_fails(self):
+    rc, out = self._run_with_pin(
+      lambda pin: pin.update({"partition_census_sha256": ""}))
+    self.assertNotEqual(rc, 0, f"a pin with an empty digest must fail:\n{out}")
+    self.assertNotIn("MATCHES out-of-repo freeze pin", out)
+
+  def test_pin_key_non_hex_fails(self):
+    rc, out = self._run_with_pin(
+      lambda pin: pin.update({"partition_census_sha256": "z" * 64}))
+    self.assertNotEqual(rc, 0,
+                        f"a pin with a non-hex digest must fail:\n{out}")
+    self.assertNotIn("MATCHES out-of-repo freeze pin", out)
+
+  def test_pin_key_wrong_length_fails(self):
+    rc, out = self._run_with_pin(
+      lambda pin: pin.update({"partition_census_sha256": "ab" * 20}))
+    self.assertNotEqual(rc, 0,
+                        f"a pin with a wrong-length digest must fail:\n{out}")
+    self.assertNotIn("MATCHES out-of-repo freeze pin", out)
+
+  def test_pin_key_wrong_value_fails(self):
+    def flip(pin):
+      digest = pin["partition_census_sha256"]
+      pin["partition_census_sha256"] = (
+        ("0" if digest[0] != "0" else "1") + digest[1:])
+    rc, out = self._run_with_pin(flip)
+    self.assertNotEqual(rc, 0,
+                        f"a pin with a wrong digest value must fail:\n{out}")
+    self.assertNotIn("MATCHES out-of-repo freeze pin", out)
+
+
 class TestWordingIsAccurate(unittest.TestCase):
   """An in-repo pin is external to the ARTIFACTS, not to the REPOSITORY.
 

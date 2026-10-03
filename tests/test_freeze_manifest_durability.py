@@ -146,6 +146,29 @@ def _slim_copy(src, dst):
     os.symlink(os.path.join(src, rel_dir), os.path.join(dst, rel_dir))
 
 
+def _commit_copy(repo):
+  """Commit the slim copy so it is a CLEAN checkout.
+
+  _slim_copy materialises the source working tree, which carries uncommitted
+  edits relative to HEAD; without this step every copy would be dirty and, now
+  that dirty trees fail closed (stage 8 + promotion both refuse), no copy
+  could ever produce a full pass. Committing snapshots the copy at its own
+  HEAD; the dirty-tree regression test then dirties it deliberately.
+  """
+  import subprocess
+  env = dict(os.environ)
+  env.update({
+    "GIT_AUTHOR_NAME": "test", "GIT_AUTHOR_EMAIL": "t@example.invalid",
+    "GIT_COMMITTER_NAME": "test", "GIT_COMMITTER_EMAIL": "t@example.invalid",
+    "GIT_AUTHOR_DATE": "2026-01-01T00:00:00+00:00",
+    "GIT_COMMITTER_DATE": "2026-01-01T00:00:00+00:00",
+  })
+  subprocess.run(["git", "-C", repo, "add", "-A"],
+                 capture_output=True, check=False, env=env)
+  subprocess.run(["git", "-C", repo, "commit", "-q", "-m", "test snapshot"],
+                 capture_output=True, check=False, env=env)
+
+
 def _stage_private(dst):
   """Stage opaque private bytes into a throwaway dir. Returns False when the
   real private directory lacks the required files (caller must skip)."""
@@ -181,6 +204,7 @@ class FreezePromotionBase(unittest.TestCase):
     self.addCleanup(shutil.rmtree, self.work, ignore_errors=True)
     self.repo = os.path.join(self.work, "repo")
     _slim_copy(REPO_ROOT, self.repo)
+    _commit_copy(self.repo)
     self.priv = os.path.join(self.work, "private")
     # Quota-capped /tmp breaks nested throwaway copies; keep them here.
     self.env_tmp = os.path.join(self.work, "tmp")
@@ -271,14 +295,61 @@ class TestPartialRunsNeverPromote(FreezePromotionBase):
 
 
 class TestFailedFullRunsNeverPromote(FreezePromotionBase):
-  def test_stage9_failure_blocks_promotion(self):
-    pins = os.path.join(self.repo, "references", "public_eval_pins.json")
-    with open(pins, "r", encoding="utf-8") as fh:
+  def _sabotage_and_commit(self, relpath, mutate):
+    """Break a tracked file and COMMIT the breakage.
+
+    Stage 8 and promotion both refuse dirty trees, so sabotage left
+    uncommitted would fail at stage 8 (dirty) instead of exercising the
+    intended later-stage failure. Committing keeps the tree clean while the
+    content stays broken.
+    """
+    import subprocess
+    path = os.path.join(self.repo, relpath)
+    with open(path, "r", encoding="utf-8") as fh:
       data = json.load(fh)
-    data["total_bytes"] = int(data.get("total_bytes", 0)) + 1
-    with open(pins, "w", encoding="utf-8") as fh:
+    mutate(data)
+    with open(path, "w", encoding="utf-8") as fh:
       json.dump(data, fh, indent=2, sort_keys=True)
       fh.write("\n")
+    env = dict(os.environ)
+    env.update({
+      "GIT_AUTHOR_NAME": "test", "GIT_AUTHOR_EMAIL": "t@example.invalid",
+      "GIT_COMMITTER_NAME": "test", "GIT_COMMITTER_EMAIL": "t@example.invalid",
+      "GIT_AUTHOR_DATE": "2026-01-01T00:00:00+00:00",
+      "GIT_COMMITTER_DATE": "2026-01-01T00:00:00+00:00",
+    })
+    subprocess.run(["git", "-C", self.repo, "add", "-A"],
+                   capture_output=True, check=False, env=env)
+    subprocess.run(["git", "-C", self.repo, "commit", "-q", "-m", "sabotage"],
+                   capture_output=True, check=False, env=env)
+
+  def test_dirty_tree_fails_and_promotes_nothing(self):
+    """A dirty working tree must FAIL with NO durable record.
+
+    The record's code_hashes hash the files on disk while commit_sha names
+    HEAD; on a dirty tree the two disagree, so the record would not
+    re-verify at its own commit. Stage 8 fails the run AND promotion
+    independently refuses, so neither path can produce a record. The
+    working_tree_dirty flag is still recorded as provenance (asserted via
+    the stage-8 diagnostic, since no record exists to carry it).
+    """
+    tracked = os.path.join(self.repo, "README.md")
+    if not os.path.isfile(tracked):
+      tracked = os.path.join(self.repo, "AGENTS.md")
+    with open(tracked, "a", encoding="utf-8") as fh:
+      fh.write("\n<!-- dirty-tree regression probe -->\n")
+    rc, out = self.full_run()
+    self.assertNotEqual(rc, 0,
+                        "a full run on a dirty tree must fail:\n%s" % out[-4000:])
+    self.assertIn("DIRTY", out,
+                  "the failure reason must name the dirty tree:\n%s" % out[-4000:])
+    self.assertNoDurableRecord("after a full run on a dirty tree")
+
+  def test_stage9_failure_blocks_promotion(self):
+    self._sabotage_and_commit(
+      "references/public_eval_pins.json",
+      lambda data: data.update(
+        {"total_bytes": int(data.get("total_bytes", 0)) + 1}))
     rc, out = self.full_run()
     self.assertNotEqual(rc, 0,
                         "a full run with broken stage 9 must fail:\n%s" % out[-4000:])
@@ -328,13 +399,10 @@ class TestFailedFullRunsNeverPromote(FreezePromotionBase):
       with open(path, "wb") as fh:
         fh.write(old_bytes)
     # Break stage 9 so the full run fails after stage 8 passed.
-    pins = os.path.join(self.repo, "references", "public_eval_pins.json")
-    with open(pins, "r", encoding="utf-8") as fh:
-      data = json.load(fh)
-    data["total_bytes"] = int(data.get("total_bytes", 0)) + 1
-    with open(pins, "w", encoding="utf-8") as fh:
-      json.dump(data, fh, indent=2, sort_keys=True)
-      fh.write("\n")
+    self._sabotage_and_commit(
+      "references/public_eval_pins.json",
+      lambda data: data.update(
+        {"total_bytes": int(data.get("total_bytes", 0)) + 1}))
     rc, out = self.full_run()
     self.assertNotEqual(rc, 0, "the broken full run must fail:\n%s" % out[-4000:])
     for path in (pointer, versioned):
@@ -384,6 +452,8 @@ class TestSuccessfulFullRunPromotes(FreezePromotionBase):
                     "verified_at_utc must be UTC ISO-8601: %r"
                     % data["verified_at_utc"])
     self.assertIsInstance(data["working_tree_dirty"], bool)
+    self.assertFalse(data["working_tree_dirty"],
+                     "a promoted record must come from a clean tree")
 
     # The record must bind what the freeze is about.
     for field in ("corpus_hash", "sealed_labels_sha256", "questions_sha256",

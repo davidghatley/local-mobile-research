@@ -66,7 +66,7 @@ fair comparison. **Checklist completion is not freeze.**
 | 5 | `qa-validation` | Runs `python3 -m data_tools.validate_qa --staging staging --corpus corpus/corpus.jsonl --split-map corpus/split_map.json`, requires exit 0 and `errors == 0`, and reports draft/approved/split/type counts. Approved counts are content-hash bookkeeping, **not** a semantic verdict. |
 | 6 | `question-label-partition` | Requires `corpus/questions.json` (public-only partition: 60 train, 59 dev, 87 shadow_dev) and `corpus/private_test_manifest.json` (in-repo opaque manifest carrying private seal digest). Verifies: the partition matches the **external census pin** in `corpus/partition_census.json` — exact total, exact per-split counts, no undeclared splits, no quarantined id reappearing, and `authored_total == published + rejected` (an empty, truncated, or consistently-truncated partition is a failure, not a pass); public questions carry NO evidence atoms, NO hard negatives, NO answer text, NO `split=heldout` (retired), NO `split=private_test` (out-of-repo); **no answer LOCATION** (`meta.group` / `meta.evidence_groups` / `meta.source_articles` / `meta.paired_regime`) and **no answer text in prose** (`provenance.rationale`); private seal digest recorded in manifest is verified against the out-of-repo private eval dir via `substrate.private_eval.verify_seal` (opaque bytes only, never parsed); ID namespace separation — no `qa-private-` prefix appears in the public partition. `shadow_dev` is dev-visible and never sealed. |
 | 7 | `generator-pin` | Requires `corpus/generator_config.json` to be fully pinned: no `TBD`/`unspecified` fields, `is_pinned()` true, not an infrastructure stub, prompt hash equal to `substrate.generator.PROMPT_HASH`, tokenizer and chat-template hashes present as 64-hex, model artifact byte count and SHA-256 verified against the file on disk, and every declared runtime binary/library SHA-256 verified. |
-| 8 | `freeze-manifest` | Builds a freeze **candidate** from the **real** on-disk artifact set (recomputed corpus hash, real generator config, real code hashes, real inventory pins, real split map, derived seed log, **calibration policy declarations**, **regime A/B group metadata derived from split map**, **partition census digest**, plus the **commit SHA + dirty flag** from git and the **verifier script hash**). Runs `substrate.manifest.validate_freeze` against it and cross-checks the census digest against the **out-of-repo trust root** at `<LMR_PRIVATE_EVAL_DIR>/freeze_census_pin.json` (**fails closed** when that pin is absent or disagrees). On success the candidate is staged as `freeze_manifest_candidate.json` in the verifier's **scratch dir only** — never into the repo, never to the durable path. A failing stage stages nothing. The **durable** record is promoted by the shell only after the stage loop (see §4). |
+| 8 | `freeze-manifest` | Builds a freeze **candidate** from the **real** on-disk artifact set (recomputed corpus hash, real generator config, real code hashes, real inventory pins, real split map, derived seed log, **calibration policy declarations**, **regime A/B group metadata derived from split map**, **partition census digest**, plus the **commit SHA + dirty flag** from git and the **verifier script hash**). Runs `substrate.manifest.validate_freeze` against it and cross-checks the census digest against the **out-of-repo trust root** at `<LMR_PRIVATE_EVAL_DIR>/freeze_census_pin.json` (**fails closed** when that pin is absent, malformed — missing, empty, non-64-hex, or wrong-length digest — or disagrees; MATCHES is printed only for a real 64-hex comparison that agreed). **Fails on a dirty tree** (recorded hashes would not match the recorded commit, so the record would not re-verify). On success the candidate is staged as `freeze_manifest_candidate.json` in the verifier's **scratch dir only** — never into the repo, never to the durable path. A failing stage stages nothing. The **durable** record is promoted by the shell only after the stage loop (see §4), which independently refuses dirty trees. |
 | 9 | `leakage-control-artifacts` | Requires `references/public_eval_pins.json` to be present and well formed (64-hex SHA-256, 40-hex revision, positive byte counts, matching `total_bytes`, empty `pin_mismatches`), cross-checks pin hashes byte-for-byte against `references/pins.json`, derives regime metadata from `corpus/split_map.json` via `substrate.regime_metadata`, verifies regime B paired-condition groups key on shadow_dev groups (legacy "heldout" accepted; B overlaps A by design — same questions, two conditions, never a disjoint population; see `docs/regime-pairing.md`), verifies the regime B excluded-article artifact is consistent with the split map when regime B is non-empty, and reports the paired-condition artifact (`corpus/regime_b_paired.json`) informationally. |
 | 10 | `private-eval-custody` | **Full mode only.** Requires `corpus/private_test_manifest.json` to be present, content-free (no `qa-private-` id, no `answer_text`, no `sufficient_sets`), and to carry non-zero counts plus a `seal_sha256`. Then requires the private artifacts to exist **outside** the repository at `LMR_PRIVATE_EVAL_DIR` (`questions.json`, `labels.json`, `counts.json`), and **fails closed**: an *absent recorded digest* is a gap, not a match. Only opaque bytes are hashed; content is never parsed or printed. |
 
@@ -112,18 +112,29 @@ reports `SKIP`, and **in full mode a SKIP is a failure** — unverified is not
 frozen.
 
 Only a full run promotes the durable freeze record, and only when **all** of
-these hold: full mode, no `--only` filter, zero failures, zero skips, and
-every one of the 10 stages executed. The shell then finalises the stage-8
-candidate (attaching all per-stage results and the promotion timestamp) and
-installs it atomically — first the versioned record
-`<LMR_PRIVATE_EVAL_DIR>/freeze_manifest_<commit>.json` via `mv` on the same
-filesystem, then the stable pointer `<LMR_PRIVATE_EVAL_DIR>/freeze_manifest.json`
-carrying the identical bytes, also via temp file + `mv`. A half-written
-durable file is never left behind. If promotion is impossible (no
-`LMR_PRIVATE_EVAL_DIR`, no scratch candidate, a mid-run revision change),
-the run **fails loudly** at the end instead of silently skipping: a full pass
-with no durable record is not a freeze. Partial runs, `--code-only` runs, and
-failed runs never touch any pre-existing durable record.
+these hold: full mode, no `--only` filter, zero failures, zero skips,
+every one of the 10 stages executed, **and the working tree is clean** —
+both at stage 8 (which fails a dirty tree outright) and independently at
+promotion time (which re-checks `git status --porcelain` and the
+candidate's `working_tree_dirty` flag). A record whose recorded code hashes
+do not match its recorded commit is not re-verifiable, so a dirty tree can
+never promote. `working_tree_dirty` stays in the record as provenance either
+way. The shell then finalises the stage-8 candidate (attaching all
+per-stage results and the promotion timestamp) and installs it — first the
+versioned record `<LMR_PRIVATE_EVAL_DIR>/freeze_manifest_<commit>.json` via
+`mv` on the same filesystem, then the stable pointer
+`<LMR_PRIVATE_EVAL_DIR>/freeze_manifest.json` carrying the identical bytes,
+also via temp file + `mv`. The rename itself is atomic: readers never observe
+a half-written durable record under either path. A crash (SIGKILL) between
+the temp write and the rename may still leave a fully-written hidden temp
+file (named `.tmp-promote-*`, never `freeze_manifest_*.json`, so it cannot
+be mistaken for a record); it is not the durable record. Stale temp files
+are removed after a successful promotion. If promotion is impossible (no
+`LMR_PRIVATE_EVAL_DIR`, no scratch candidate, a mid-run revision change, a
+dirty tree), the run **fails loudly** at the end instead of silently
+skipping: a full pass with no durable record is not a freeze. Partial runs,
+`--code-only` runs, and failed runs never touch any pre-existing durable
+record.
 
 ### `--code-only`
 
@@ -254,3 +265,40 @@ python3 -m unittest discover -s corpus/tests
 
 `tests/test_verify_round0_entrypoint.py` never mutates the real repository: it
 copies the tree to a temp directory and corrupts only the copy.
+
+## 9. Freeze tag ↔ record binding protocol
+
+At freeze time the custodian binds the git tag to the durable record with
+exactly this two-step protocol, in this order:
+
+1. Run the full verifier: `./scripts/verify_round0` with
+   `LMR_PRIVATE_EVAL_DIR` set. On a full clean pass it promotes the durable
+   record `<priv>/freeze_manifest_<commit_sha>.json` (plus the stable pointer
+   `<priv>/freeze_manifest.json` carrying identical bytes).
+2. Compute its SHA-256: `sha256sum
+   <priv>/freeze_manifest_<commit_sha>.json`.
+3. Create an annotated git tag pointing at that exact commit:
+   `git tag -a <tag> <commit_sha> -m "..."`.
+4. Write an out-of-repo tag-binding record (next to the freeze manifest in
+   the private directory, e.g.
+   `<priv>/freeze_tag_binding_<tag>.json`) containing exactly:
+   `tag`, `commit_sha`, `freeze_manifest_sha256`, `partition_census_sha256`,
+   `private_seal_sha256`, and `verification_timestamp`
+   (the record's `verified_at_utc`).
+5. Verify the tag target: `git rev-parse <tag>^{commit}` must equal the
+   record's `commit_sha`. If it does not, the binding is void — re-do the
+   protocol from step 3.
+
+HONEST LIMIT: this is a procedural attestation by the custodian, not a
+signature. A custodian who controls the private directory can forge their
+own record and binding file. This protocol proves nothing against a
+dishonest custodian; it exists so an honest custodian's freeze is
+unambiguously identified and any later tampering or confusion between
+commits is detectable by re-running the verifier at the tagged commit and
+comparing digests.
+
+Stale records from earlier commits are never automatically deleted. Each
+full pass adds one versioned file and swings the stable pointer; older
+`freeze_manifest_<sha>.json` files remain. A consumer must select the record
+whose `commit_sha` it wants (normally the one named by the tag binding) and
+must never assume the pointer or the newest file is the freeze it means.
