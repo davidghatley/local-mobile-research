@@ -42,10 +42,11 @@ import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VERIFIER = os.path.join(REPO_ROOT, "scripts", "verify_round0")
-REAL_PRIVATE = os.environ.get(
-  "LMR_PRIVATE_EVAL_DIR",
-  "/home/davidhatley/Projects/testing/local_mobile_research-private-eval",
-)
+# Reached ONLY through the environment, with no hardcoded developer path: a
+# test that falls back to /home/<someone>/... passes on that machine and fails
+# everywhere else, which is exactly the bug that left GitHub Actions red.
+# Unset (clean clone, CI runner) means these tests skip.
+REAL_PRIVATE = os.environ.get("LMR_PRIVATE_EVAL_DIR", "")
 STAGE_IDS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 
 # Sibling workspace on the /home filesystem (room for copies). Never inside

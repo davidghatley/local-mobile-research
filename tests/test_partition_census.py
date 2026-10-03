@@ -58,6 +58,30 @@ def _copy_repo(tmp, name="repo"):
   return dest
 
 
+# The out-of-repo census trust root is reached ONLY through the environment.
+#
+# There is deliberately NO hardcoded developer path fallback here. A test that
+# quietly falls back to /home/<someone>/... passes on that machine and fails on
+# every other host, which is exactly the class of bug that left GitHub Actions
+# red. If the variable is unset - as on a clean clone and a CI runner - the
+# test SKIPS, because the trust root's entire purpose is to live outside the
+# repository.
+PRIVATE_DIR = os.environ.get("LMR_PRIVATE_EVAL_DIR", "")
+CENSUS_PIN = os.path.join(PRIVATE_DIR, "freeze_census_pin.json")
+
+
+def _require_census_pin():
+  """Stage 8 requires the out-of-repo census trust root.
+
+  A clean clone and a CI runner have no private evaluation directory, so these
+  tests cannot run there. Skipping is the honest outcome: the census pin's
+  whole purpose is to live outside the repository, so its absence off the
+  freeze host is expected, not a defect.
+  """
+  if not os.path.isfile(CENSUS_PIN):
+    raise unittest.SkipTest("no out-of-repo census trust root on this host (CI)")
+
+
 def _require_corpus():
   """Stages 5 and 8 need the git-ignored 42 MB corpus artifact.
 
@@ -69,10 +93,15 @@ def _require_corpus():
     raise unittest.SkipTest("corpus/corpus.jsonl absent (sandboxed copy)")
 
 
-PRIVATE_DIR = os.environ.get(
-  "LMR_PRIVATE_EVAL_DIR",
-  "/home/davidhatley/Projects/testing/local_mobile_research-private-eval",
-)
+# The out-of-repo census trust root is reached ONLY through the environment.
+#
+# There is deliberately NO hardcoded developer path fallback here. A test that
+# quietly falls back to /home/<someone>/... passes on that machine and fails on
+# every other host, which is exactly the class of bug that left GitHub Actions
+# red. If the variable is unset - as on a clean clone and a CI runner - the
+# test SKIPS, because the trust root's entire purpose is to live outside the
+# repository.
+PRIVATE_DIR = os.environ.get("LMR_PRIVATE_EVAL_DIR", "")
 
 
 def _run(root, *stages, env_extra=None):
@@ -154,6 +183,7 @@ class TestCensusArtifact(unittest.TestCase):
 class TestConsistentTruncationIsCaught(unittest.TestCase):
   def setUp(self):
     _require_corpus()
+    _require_census_pin()
     self.tmp = tempfile.mkdtemp()
     self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
     self.repo = _copy_repo(self.tmp)

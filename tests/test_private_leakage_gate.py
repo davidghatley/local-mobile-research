@@ -233,3 +233,75 @@ class TestLeakageGate(unittest.TestCase):
 
 if __name__ == "__main__":
   unittest.main()
+
+
+class TestNearDuplicateInsertion(unittest.TestCase):
+  """A lightly edited copy must be caught, not just an exact one.
+
+  The orchestrator's adversarial probe found a real gap: inserting three tokens
+  into a copied question ("...through the city of Cairo?" vs "...through
+  Cairo?") scored 0.838 and slipped under the old 0.85 character threshold. The
+  threshold was lowered to 0.80 against a measured separation; this test pins
+  the case that motivated it, and pins that the fix does not start manufacturing
+  false positives.
+  """
+
+  def setUp(self):
+    self.tmp = tempfile.TemporaryDirectory()
+    self.tmp.__enter__()
+    qpath = os.path.join(self.tmp.name, "questions.json")
+    lpath = os.path.join(self.tmp.name, "labels.json")
+    items = [{
+      "question_id": "qa-private-001",
+      "text": "Which river flows through Cairo?",
+      "labels": {"answer_text": "the Nile"},
+    }]
+    with open(qpath, "wb") as fh:
+      fh.write(_canon(items))
+    with open(lpath, "wb") as fh:
+      fh.write(_canon({"qa-private-001": {"answerability": "answerable"}}))
+    per_item = {it["question_id"]: hashlib.sha256(_canon(it)).hexdigest()
+                for it in items}
+    aggregate = hashlib.sha256(
+      "".join(f"{k}:{v}\\n" for k, v in sorted(per_item.items())).encode()
+    ).hexdigest()
+    seal = hashlib.sha256(_canon([
+      private_eval.sha256_file(qpath),
+      private_eval.sha256_file(lpath),
+      aggregate,
+    ])).hexdigest()
+    with open(os.path.join(self.tmp.name, "seal.sha256"), "w",
+              encoding="utf-8") as fh:
+      fh.write(seal + "\n")
+
+  def tearDown(self):
+    self.tmp.cleanup()
+
+  def _check(self, records):
+    with _point_at(self.tmp.name):
+      return private_eval.check_training_overlap(records)
+
+  def test_light_insertion_is_rejected(self):
+    verdict = self._check([
+      {"synthetic_id": "s1",
+       "text": "Which river flows through the city of Cairo?"},
+    ])
+    self.assertEqual(verdict.verdict, "REJECT",
+                     "an inserted-phrase copy is a near duplicate and must "
+                     "be rejected")
+    self.assertEqual(verdict.flagged_ids, ["s1"])
+
+  def test_unrelated_still_passes_at_the_lowered_threshold(self):
+    """Lowering the threshold must not manufacture false positives."""
+    verdict = self._check([
+      {"synthetic_id": "s1", "text": "How many legs does a spider have?"},
+      {"synthetic_id": "s2", "text": "When was the Berlin Wall built?"},
+      {"synthetic_id": "s3", "text": "What is the capital of Peru?"},
+    ])
+    self.assertEqual(verdict.verdict, "PASS",
+                     f"unrelated questions must not be flagged: {verdict.flagged_ids}")
+
+
+
+if __name__ == "__main__":
+  unittest.main()

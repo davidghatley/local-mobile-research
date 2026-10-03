@@ -23,10 +23,15 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VERIFIER = os.path.join(REPO_ROOT, "scripts", "verify_round0")
 CENSUS_REL = "corpus/partition_census.json"
 PARTITION_REL = "corpus/questions.json"
-PRIVATE_DIR = os.environ.get(
-  "LMR_PRIVATE_EVAL_DIR",
-  "/home/davidhatley/Projects/testing/local_mobile_research-private-eval",
-)
+# The out-of-repo census trust root is reached ONLY through the environment.
+#
+# There is deliberately NO hardcoded developer path fallback here. A test that
+# quietly falls back to /home/<someone>/... passes on that machine and fails on
+# every other host, which is exactly the class of bug that left GitHub Actions
+# red. If the variable is unset - as on a clean clone and a CI runner - the
+# test SKIPS, because the trust root's entire purpose is to live outside the
+# repository.
+PRIVATE_DIR = os.environ.get("LMR_PRIVATE_EVAL_DIR", "")
 FREEZE_PIN = os.path.join(PRIVATE_DIR, "freeze_census_pin.json")
 
 
@@ -130,7 +135,7 @@ class TestOutOfRepoTrustRoot(unittest.TestCase):
 
   def test_baseline_passes_with_the_pin(self):
     if not os.path.isfile(FREEZE_PIN):
-      self.skipTest("no private eval dir")
+      self.skipTest("no out-of-repo census trust root on this host (CI)")
     if not os.path.isfile(os.path.join(REPO_ROOT, "corpus", "corpus.jsonl")):
       self.skipTest("corpus/corpus.jsonl absent (sandboxed copy)")
     tmp = tempfile.mkdtemp()
@@ -145,7 +150,7 @@ class TestOutOfRepoTrustRoot(unittest.TestCase):
 
   def test_coedit_is_caught_by_the_trust_root(self):
     if not os.path.isfile(FREEZE_PIN):
-      self.skipTest("no private eval dir")
+      self.skipTest("no out-of-repo census trust root on this host (CI)")
     if not os.path.isfile(os.path.join(REPO_ROOT, "corpus", "corpus.jsonl")):
       self.skipTest("corpus/corpus.jsonl absent (sandboxed copy)")
     tmp = tempfile.mkdtemp()

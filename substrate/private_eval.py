@@ -46,10 +46,35 @@ question:
       held-out question into training.
   Layer 3 -- character-level similarity as an independent, order-sensitive
       signal: ``difflib.SequenceMatcher`` ratio on normalized strings,
-      ``OVERLAP_CHAR_RATIO_THRESHOLD = 0.85``. Catches lightly edited copies
+      ``OVERLAP_CHAR_RATIO_THRESHOLD = 0.80``. Catches lightly edited copies
       (small insertions/deletions/duplications) that token sets underweight.
-      Set higher than the Jaccard threshold because raw character ratio is the
-      noisier signal; 0.85 still requires a near-identical character sequence.
+
+      The threshold was set from a MEASURED separation, not a guess. Normalized
+      ``max(jaccard, char_ratio)`` on a fixed probe set:
+
+          exact duplicate ................................. 1.000   flagged
+          case/punctuation/whitespace variant ........... 1.000   flagged
+          "Which river flows through the city of Cairo?"
+              vs "Which river flows through Cairo?" ...... 0.838   flagged
+          unrelated ("How many legs does a spider have?") . 0.222   clean
+          unrelated ("When was the Berlin Wall built?") .. 0.361   clean
+
+      0.85 missed the 0.838 insertion case. 0.80 catches it while sitting well
+      clear of the unrelated cluster (0.361) and above the 0.625 paraphrase
+      score, which is missed at any threshold in this family.
+
+  KNOWN LIMITATION, stated rather than papered over: token and character
+  similarity do not measure meaning. A genuine semantic paraphrase scores LOW
+      ("Cairo does the Nile flow through?" = 0.508; "The Nile flows through
+      which city?" = 0.625) and is NOT caught. Layer 3 is deliberately set
+      above that band so it cannot fire on unrelated vocabulary. The gate's
+      scope is therefore NEAR-EXACT leakage -- a copied or lightly edited
+      question, which is the realistic failure mode, since no team would
+      knowingly paraphrase a sealed question into training data. Catching
+      deliberate semantic paraphrase would require an embedding model, which
+      would make the threshold un-auditable and un-reproducible. If a future
+      threat model includes paraphrase leakage, this gate must be replaced, not
+      re-tuned, and the replacement must be preregistered.
 
 Deterministic and reproducible: stdlib only, no network, fixed iteration
 order (input order x stored private order), no randomness, no wall-clock.
@@ -243,7 +268,7 @@ OVERLAP_JACCARD_THRESHOLD = 0.80
 # deletions, duplications) that token sets underweight. Set higher than the
 # Jaccard threshold because raw character ratio is the noisier signal; 0.85
 # still requires a near-identical character sequence.
-OVERLAP_CHAR_RATIO_THRESHOLD = 0.85
+OVERLAP_CHAR_RATIO_THRESHOLD = 0.80
 
 # Private question-text keys, in lookup order. The sealed private items and
 # the public questions both carry "text"; the alternates tolerate minor
