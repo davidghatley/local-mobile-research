@@ -220,7 +220,13 @@ This document defines the concrete, independently verifiable criteria that the R
 ### 9.3 Hashes & Freeze Validation
 - **Criterion**: Every artifact has a content-addressable hash. The freeze manifest records all hashes. Any post-freeze change to any artifact is detectable.
 - **Invalidates**: Silent corruption or "tweaking" after freeze invalidates the entire tournament.
-- **Verification**: `freeze_manifest.json` with `artifact_path`, `sha256`, `size_bytes`, `timestamp`, `git_commit`. Validation script `verify_freeze.py` compares current filesystem to manifest.
+- **Verification (as IMPLEMENTED, not as originally specified)**: `scripts/verify_round0` stage 8 calls `substrate.manifest.validate_freeze`, which recomputes the corpus hash, checks every artifact against `corpus/build_manifest.json`, verifies the out-of-repo private seal as opaque bytes, validates QA provenance from the staging drafts, and cross-checks the partition census against the out-of-repo trust root. The durable record is `substrate.manifest.RunManifest`, written to `<LMR_PRIVATE_EVAL_DIR>/freeze_manifest_<commit_sha>.json` and promoted atomically **only** after a complete, unfiltered, zero-failure, zero-skip full run.
+
+  This section originally specified a `verify_freeze.py` script and a
+  `freeze_manifest.json` schema with fields (`artifact_path`, `size_bytes`,
+  `timestamp`, `git_commit`) that never existed. Review v7 caught the divergence.
+  The criterion stands; the description now matches what exists. There is no
+  standalone `verify_freeze.py` and there never was — do not go looking for one.
 
 ---
 

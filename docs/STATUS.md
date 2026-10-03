@@ -8,6 +8,24 @@ Supersedes the pre-repair status claims. See `docs/progress-ledger.md` and
 `docs/orchestration-log.md` for the full history including the mistakes that
 produced the previous `NOT FROZEN` verdict.
 
+## ACCEPTED RISKS — recorded, not resolved
+
+Seven independent reviews have run. A green verifier is **necessary and not
+sufficient**: it proves structure, hashes, splits, provenance, custody and pins,
+and it says so on every run. It cannot prove semantic QA correctness. The
+following are accepted, dated risks of freezing anyway. Each was raised by an
+independent reviewer and none is hidden by the PASS.
+
+| # | Risk | Consequence | Owner |
+|---|---|---|---|
+| 1 | **Semantic QA rests on LLM reviewers.** 206 approved items carry reviewer-asserted labels. No unit test can establish answerability, atom minimality, multi-hop genuineness or label correctness. | Round 1 measures retrieval against a benchmark whose labels are judgments, not facts. | review ledgers |
+| 2 | **Private test power is unquantified.** 116 items, 62 groups, 15 paired Regime-B items, against a 297-article corpus and an ~83% recall target. No power calculation exists, so the smallest detectable architecture difference is unknown. | Round 1 may be unable to separate close architectures. Treat null results as underpowered, not as equivalence. | Round 1 leads, before the tournament |
+| 3 | **The fixed generator may floor.** Qwen2.5-1.5B-Instruct at Q4_K_M is weak enough that it might not express differences between good and poor evidence packets. | If generation floors, the retrieval tournament measures nothing above the floor. Check the floor explicitly on the first dev run. | Round 1 baseline worker |
+| 4 | **The answer judge is not digest-pinned.** `google/flan-t5-large` is a floating tag. Judge metrics are ABSENT until a digest is resolved. | Secondary generated-answer metrics unavailable until pinned. Deterministic primary metrics are unaffected. | custodian, BLOCKING-FOR-ROUND-1 |
+| 5 | **The leakage gate is procedural, not a security boundary.** One-shot sessions are enforced by a ledger in the private directory; all processes share one OS user. | A worker who reached the private directory could reset the ledger. The gate stops mistakes, not a determined adversary. | custody rules |
+| 6 | **Scale adjudication is specified but only lightly wired.** `eval/scale_analysis.py` consumes it; the metrics layer does not yet. | Scale-tier precision figures must be read with their `unjudged_top_k` and `limitations`. | Round 1 scale worker |
+| 7 | **The freeze tag and durable record are a custodian attestation, not a signature.** A custodian who controls the private directory can forge both. | The freeze proves procedural discipline, not authorship. | — |
+
 ## Verdict: code-level verification PASSES (10/10); freeze gate NOT satisfied
 
 **Five independent reviews have run. All five returned `REPAIR REQUIRED`. No

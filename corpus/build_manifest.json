@@ -6,21 +6,27 @@
       "sha256": "98e1237e74a40574ed9a41104bc7ae9612cfbed656e2240cea6ee9d5e98d5f64"
     },
     {
+      "bytes": 94270,
+      "path": "corpus/input_manifest.json",
+      "sha256": "685ca5c02c4869ae22d84dd5039c84e3b35e097bc5754ee15ec904cf60b141b4"
+    },
+    {
       "bytes": 341364,
       "path": "corpus/provenance.json",
       "sha256": "e6e33910491e9ea86f5e8e5067ba45baee22c89efbad72bd59343d1ebf89761e"
     },
     {
+      "bytes": 836,
+      "path": "corpus/regime_b_excluded_articles.json",
+      "sha256": "0173a9268546d1a2fd31aed6a996a08bf300bc4d99c57365c4f7b77753dfed65"
+    },
+    {
       "bytes": 25315,
       "path": "corpus/split_map.json",
       "sha256": "d0879ac4801cd09c162761d1502376804ea6ad7efb4fce435f4feb44a2e1f7ff"
-    },
-    {
-      "bytes": 94270,
-      "path": "corpus/input_manifest.json",
-      "sha256": "685ca5c02c4869ae22d84dd5039c84e3b35e097bc5754ee15ec904cf60b141b4"
     }
   ],
   "input_manifest_sha256": "685ca5c02c4869ae22d84dd5039c84e3b35e097bc5754ee15ec904cf60b141b4",
-  "revision": "pilot-297-r1"
+  "revision": "pilot-297-r1",
+  "revision_note": "pilot-297-r1 corpus plus the PREREGISTERED public Regime B adaptation-exclusion superset. The exclusion list is byte-pinned because it is what architecture teams are told to exclude; an unpinned list could be swapped between authoring and evaluation."
 }

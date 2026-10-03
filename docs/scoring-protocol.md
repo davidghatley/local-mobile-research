@@ -6,7 +6,15 @@ and frozen BEFORE any architecture produced private outputs, and MUST NEVER
 be modified after private results are visible. Any later change is a protocol
 violation and invalidates comparability.
 
-**FROZEN AT:** commit `88aa1776eda01b87d014d235bbc84004d8dc7b78`
+**FROZEN AT:** commit `75884b52efb7ce5694f3e2afaf7097b28d0697e2`
+
+That is the commit at which this document, `eval/answer_scoring.py`,
+`eval/scale_analysis.py` and their tests were first committed together — the
+real origin of the policy. An earlier version of this line cited `88aa177`,
+where these files did not exist; review v7 caught it, which is exactly what a
+fictionally-anchored preregistration looks like. `tests/test_preregistration_anchor.py`
+now asserts mechanically that the cited commit exists, is an ancestor of HEAD,
+and that every file this policy depends on was present at it.
 (Round 0 closure run; this doc + `eval/answer_scoring.py` are frozen at this
 commit — a later diff to either file after private outputs exist is
 detectable via `git log` / `git diff` and must be treated as a freeze break).
@@ -69,6 +77,18 @@ Those cases use ONE fixed preregistered judge. The judge model is IDENTICAL
 across all architectures.
 
 - **Judge model id:** `google/flan-t5-large`
+- **Judge model digest: NOT YET PINNED — HARD PRECONDITION BEFORE FIRST USE.**
+  `google/flan-t5-large` is a *floating* identifier: the hub can move that tag.
+  Review v7 is right that a model id without a digest is not preregistration.
+  Before any private output is scored, the custodian MUST replace this line with
+  the resolved revision commit SHA and the weight-file sha256, and MUST record
+  both in the freeze inventory. Until that is done:
+    * primary metrics are the deterministic ones (they need no judge);
+    * judge-based secondary metrics are simply ABSENT, never silently computed
+      against a moving tag;
+    * no private result may be reported using judge metrics.
+  This is a BLOCKING-FOR-ROUND-1 precondition, not a freeze blocker: Round 0 is
+  frozen on deterministic primary metrics.
 - **Temperature:** `0.0` (greedy decoding; `do_sample=false`)
 - **Decoding (fixed):** greedy, `max_new_tokens=64`, `num_beams=1`,
   `early_stopping=true`. No sampling, no top-k/top-p, no system-prompt
