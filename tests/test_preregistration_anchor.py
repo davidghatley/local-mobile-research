@@ -35,6 +35,28 @@ def _git(*args):
                         capture_output=True, text=True)
 
 
+def _require_history():
+  """Skip when the checkout is shallow.
+
+  `git cat-file -e <sha>:<path>` cannot see a commit the clone does not have, so
+  a shallow clone would report every dependency as "missing" - a false failure
+  that says nothing about the preregistration. Skipping is the honest outcome:
+  the check is unverified here, not violated. The workflow sets
+  fetch-depth: 0 so the check actually RUNS in CI rather than always skipping.
+  """
+  if not os.path.isdir(os.path.join(REPO_ROOT, ".git")):
+    raise unittest.SkipTest("not a git checkout")
+  r = _git("rev-parse", "--is-shallow-repository")
+  if r.returncode == 0 and r.stdout.strip() == "true":
+    raise unittest.SkipTest(
+      "shallow clone: history needed to verify the preregistration anchor is "
+      "not present (use fetch-depth: 0)")
+
+
+def _commit_present(sha):
+  return _git("cat-file", "-e", f"{sha}^{{commit}}").returncode == 0
+
+
 def _anchor_from(doc_rel):
   path = os.path.join(REPO_ROOT, doc_rel)
   if not os.path.isfile(path):
@@ -46,10 +68,9 @@ def _anchor_from(doc_rel):
 
 class TestScoringPreregistrationAnchor(unittest.TestCase):
   def setUp(self):
-    if not os.path.isdir(os.path.join(REPO_ROOT, ".git")):
-      self.skipTest("not a git checkout")
     if not os.path.isfile(os.path.join(REPO_ROOT, SCORING_DOC)):
       self.skipTest("scoring protocol absent")
+    _require_history()
 
   def test_scoring_policy_carries_an_anchor(self):
     self.assertIsNotNone(_anchor_from(SCORING_DOC),
@@ -57,9 +78,8 @@ class TestScoringPreregistrationAnchor(unittest.TestCase):
 
   def test_anchor_commit_exists(self):
     sha = _anchor_from(SCORING_DOC)
-    r = _git("cat-file", "-e", f"{sha}^{{commit}}")
-    self.assertEqual(r.returncode, 0,
-                     f"the FROZEN AT commit {sha} does not exist")
+    self.assertTrue(_commit_present(sha),
+                    f"the FROZEN AT commit {sha} does not exist")
 
   def test_anchor_is_an_ancestor_of_head(self):
     sha = _anchor_from(SCORING_DOC)

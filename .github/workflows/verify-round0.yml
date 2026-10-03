@@ -54,6 +54,13 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
+        with:
+          # Full history, not a shallow clone. The preregistration-anchor tests
+          # verify that docs/scoring-protocol.md's "FROZEN AT" commit exists,
+          # is an ancestor of HEAD, and contains every artifact the policy
+          # depends on. All three need history; with the default fetch-depth: 1
+          # they can only skip, and a check that can only skip is not a check.
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
