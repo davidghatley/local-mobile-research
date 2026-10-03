@@ -46,7 +46,7 @@ small-model cost, which is precisely the System-1 constraint.
 Any one of these is a refutation; this kill condition is stated IN ADVANCE and
 recorded in the run manifest as `kill_condition` per
 `experiments/comparability/CONTRACT.md` §6. A null result *inside* overlapping
-Wilson intervals at n=59/87 is UNDERPOWERED, not equivalence (STATUS.md risk 2).
+Wilson intervals at n=59/87 is UNDERPOWERED, not equivalence. Risk 2 is now QUANTIFIED (2026-10-03): only ~22 pp separable on dev, ~12 pp on dev+shadow-dev, ~10 pp across all 206 items. Report as a null, not a win.
 
 The cascade-family kill condition also binds us: if BM25 + one small reranker
 matches a full cascade (or our adapted small base) within the minimum

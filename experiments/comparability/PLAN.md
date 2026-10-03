@@ -187,8 +187,12 @@ Each team evaluates their system on the **dev** (59 items) and **shadow_dev** (8
    - Let `O` = answers produced by the custodian oracle packet.
    - Compute the answer-quality delta: proportion of dev items where `O` is CORRECT and `A` is INCORRECT (or vice versa), using deterministic answer-matching rules (normalize_answer, exact_match from `eval/answer_scoring.py`).
 4. **Decision rule:**
-   - If delta ≤ 5% (within Wilson CI), the generator **FLOORS**. Report: "generator-floored: retrieval differences do not manifest in answer quality." **STOP** and do not proceed to private evaluation.
-   - If delta > 5% with non-overlapping Wilson CI, the generator does not floor; the tournament proceeds.
+   - The comparison is **PAIRED** (same items, different packet), so it needs McNemar's exact test, not an unpaired Wilson. Discordance needed for 80% power at n=146 is 23% at a 3:1 split favouring the oracle, 16% at 4:1, 9% at 9:1.
+  Three-way decision rule — let `I` be the McNemar interval for the oracle's advantage:
+  - `I` excludes 0 → generator does **not** floor; proceed.
+  - `I` includes 0 and its upper bound is below the minimum meaningful difference → generator **FLOORS**; report and stop before private evaluation.
+  - `I` includes 0 and its upper bound exceeds the minimum meaningful difference → **INCONCLUSIVE / UNDERPOWERED**, which is its own outcome and must NOT be recorded as "no floor".
+  (The original "delta ≤ 5% ⇒ floor" rule was superseded: 5% is below what this probe can measure, so it would have called a floor what was really an underpowered test.)
 
 ### 3.2 Custodian legitimacy
 - The **custodian** may use an oracle packet because they have access to ground-truth required evidence sets. This is legitimate under the custody rules.

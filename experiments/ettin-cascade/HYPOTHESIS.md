@@ -31,7 +31,7 @@ than the Wilson-interval overlap — i.e. the cascade's completion is lower and 
 (latency × parameter-candidates, `substrate.telemetry.timed_phase` per stage) is
 not lower than the baseline's. Either outcome refutes the hypothesis as stated.
 A null result inside overlapping intervals is UNDERPOWERED, not equivalence
-(STATUS.md accepted risk 2: no power calculation exists for 59/87 items).
+(STATUS.md accepted risk 2: a power calculation now exists (STATUS.md risk 2, quantified 2026-10-03) and it is worse than feared: only ~22 pp on dev, ~12 pp on dev+shadow-dev, ~10 pp across all 206 worker-visible items).
 
 Sizes 17M/32M/68M are NOT assumed optimal. §12 makes the BM25+17M-only
 configuration a first-class ablation: if it nearly matches the full cascade,

@@ -65,7 +65,7 @@ preregistered `eval/` harness with custodian-held labels:
 
 The hypothesis is REFUTED if either:
 1. The fused system's sufficient-set completion on dev+shadow-dev is **within
-   Wilson-CI overlap** of B1's (gap < ~14/146 ≈ 9.6% at 95% confidence), OR
+   Wilson-CI overlap** of B1's (gap < **18 items = 12.3 pp** on dev+shadow-dev (n=146), Wilson 95% non-overlap, stronger system at a 90% operating point), OR
 2. The packet-level disjoint recall of the fused system over B1 is **< 5%** of
    required paragraphs (the baseline lead's own arbiter, adopted here), OR
 3. The disjoint recall is > 0 at the candidate-set level but **does not survive
@@ -73,7 +73,8 @@ The hypothesis is REFUTED if either:
    evidence budget) — i.e. fusion changes the candidate set but not the answer.
 
 A null result inside overlapping intervals is UNDERPOWERED, not equivalence
-(STATUS.md accepted risk 2: no power calculation exists).
+(STATUS.md accepted risk 2, now QUANTIFIED 2026-10-03: only ~22 pp separable
+on dev, ~12 pp on dev+shadow-dev, ~10 pp across all 206 worker-visible items).
 
 ### 1.3 Preregistered kill condition
 
@@ -447,8 +448,14 @@ harness, generator fixed):
 
 1. **Generator floor check FIRST** (STATUS.md accepted risk 3): run B4
    (BM25 + fixed generator + `decide_default`) end-to-end on dev. If the
-   answer-quality delta (oracle packet vs B4 packet) is ≤ 5% within Wilson CI,
-   the generator FLOORS — STOP and report before burning any fusion effort.
+   answer-quality delta (oracle packet vs B4 packet) is tested **paired** with
+   McNemar's exact test, the comparison is three-way — `I` excludes 0 (no floor,
+   proceed) / `I` includes 0 with upper bound below the minimum meaningful
+   difference (floor, STOP) / `I` includes 0 with upper bound above it
+   (INCONCLUSIVE, underpowered, its own outcome) — and only the middle case stops
+   the run. The original "≤ 5% ⇒ floor" rule was superseded: 5% is below what
+   this probe can measure, so it would have called a floor what was really an
+   underpowered test.
 2. **Channel-alone baselines**: BM25 alone, learned sparse alone, static dense
    alone. Record stage-0 recall, disjoint recall vs each other, per-channel
    survival. This is where the baseline lead's 5% arbiter is applied to EACH
@@ -517,7 +524,7 @@ prompt, seeds, primary metrics) is identical across all:
 
 1. **B1 (BM25 alone)** — the lexical floor. The headline must beat B1 on
    sufficient-set completion by more than the Wilson-CI minimum meaningful
-   difference (~14/146 on dev+shadow-dev). **This is the primary kill
+   difference (**18 items = 12.3 pp** on dev+shadow-dev (n=146), Wilson 95% non-overlap, stronger system at a 90% operating point). **This is the primary kill
    condition** (§1.3).
 2. **B4 (BM25 + fixed generator, no reranker)** — the true floor. If B4 matches
    the hybrid within Wilson-CI overlap, the hybrid is unnecessary.

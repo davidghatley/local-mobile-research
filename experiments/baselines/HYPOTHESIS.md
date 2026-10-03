@@ -345,7 +345,7 @@ plus 125 MB–165 MB resident.
 
 **PREDICTION: the static stage adds little to nothing over well-specified
 BM25 on this corpus.** Expected B2−B1 delta in final completion: 0–2 points,
-probably inside the Wilson CIs at n = 59/87 (accepted risk 2: no power
+probably inside the Wilson CIs at n = 59/87 (accepted risk 2: a power
 calculation exists). Reasons, in order of weight:
 
 1. **Question–corpus lexical overlap is high.** The 206 worker-visible

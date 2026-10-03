@@ -83,8 +83,13 @@ Companion: `experiments/adapter-peft/HYPOTHESIS.md`.
 ## Phase 5 — Dev + shadow-dev confirmation
 
 1. Generator floor check first (orchestration contract): oracle-packet vs
-   B4-packet answer quality on dev; ≤5% delta ⇒ generator floors ⇒ STOP and
-   report.
+   B4-packet answer quality on dev, tested **paired** with McNemar's exact test.
+   Three-way outcome — `I` excludes 0 (no floor, proceed) / `I` includes 0 with
+   its upper bound below the minimum meaningful difference (floor, STOP and
+   report) / `I` includes 0 with its upper bound above it (INCONCLUSIVE,
+   underpowered — its own outcome, not "no floor"). The original "≤5% delta ⇒
+   floor" rule was superseded: 5% is below what the probe can measure, so it
+   would have called a floor what was really an underpowered test.
 2. Per-stage survival metrics (HYPOTHESIS §7), false-negative kill
    attribution, conditioning caveats (denominator=0 ⇒ None, not 0).
 3. Generalisation battery G1–G4 (HYPOTHESIS §5) recorded with verdicts.

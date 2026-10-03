@@ -65,6 +65,65 @@ behaviour is testable, so a reader can check §5 against
 
 ---
 
+## E-1b. THE THRESHOLD REGISTER — one number, one place
+
+Teams must not each pick their own "meaningful difference". There is exactly one
+authoritative source, and it is `experiments/comparability/CONTRACT.md` §4,
+mirrored in `docs/STATUS.md` accepted risk #2. Computed 2026-10-03, Wilson 95%
+non-overlap, stronger system at a 90% operating point, independently cross-checked
+by a two-proportion z-test at α=0.05 / 80% power:
+
+| split | n | **minimum meaningful difference** |
+| --- | --- | --- |
+| dev | 59 | **13 items = 22.0 pp** |
+| shadow_dev | 87 | **15 items = 17.2 pp** |
+| dev + shadow_dev | 146 | **18 items = 12.3 pp** |
+| private (sealed) | 116 | **16 items = 13.8 pp** |
+| all worker-visible | 206 | **21 items = 10.2 pp** |
+
+**Any gap below the applicable row is a NULL RESULT, never a win.**
+
+Where each team's report stands as of this erratum:
+
+| team | states a number? | value |
+| --- | --- | --- |
+| comparability | yes — owns it | 18 items / 12.3 pp on n=146 |
+| hybrid-fusion | yes | 18 items / 12.3 pp on n=146 |
+| adapter-peft | via STATUS risk 2 | ~22 / ~12 / ~10 pp |
+| baselines | via STATUS risk 2 | ~22 / ~12 / ~10 pp |
+| ettin-cascade | via STATUS risk 2 | ~22 / ~12 / ~10 pp |
+| kalm-cascade | via STATUS risk 2 | ~22 / ~12 / ~10 pp |
+
+Three teams defer rather than restate. That is the correct arrangement — a
+restated number is a second number that can drift — but it means the register has
+to be checked whenever a team writes a kill condition, or a team will quietly
+gate on a threshold it invented.
+
+### The generator-floor rule, which four teams originally got wrong
+
+Four of the six reports carried a "≤ 5% oracle delta ⇒ generator has floored"
+rule. 5% is *below what the probe can measure*, so that rule declares a floor on
+the basis of a difference it cannot detect — it would have reported "floored"
+when the truth was "underpowered", and stopped a tournament that was fine.
+
+The comparison is **paired** (both arms answer the same items; only the packet
+differs), so it needs McNemar's exact test, not an unpaired Wilson comparison.
+Discordance needed for 80% power at n=146: **23%** at a 3:1 split favouring the
+oracle packet, **16%** at 4:1, **9%** at 9:1.
+
+The rule is three-way. Let `I` be the McNemar interval for the oracle's advantage:
+
+- `I` excludes 0 → **no floor**, proceed.
+- `I` includes 0 and its upper bound is below the MMD → **floor**. You have bounded
+  the benefit of perfect evidence below anything this corpus could call real.
+  Stop and report.
+- `I` includes 0 and its upper bound exceeds the MMD → **INCONCLUSIVE /
+  UNDERPOWERED**. This is the case the old rule silently collapsed into "floor".
+  It is its own outcome and must be recorded as such. The remedy is more items or
+  a more sensitive probe, not a verdict.
+
+---
+
 ## E-2. §0 evidence-budget row — the enforcement is real, and here is the proof
 
 The comparability lead cited `substrate/evidence.py` for the rule that empirical
