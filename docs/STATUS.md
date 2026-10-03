@@ -26,7 +26,44 @@ independent reviewer and none is hidden by the PASS.
 | 6 | **Scale adjudication is specified but only lightly wired.** `eval/scale_analysis.py` consumes it; the metrics layer does not yet. | Scale-tier precision figures must be read with their `unjudged_top_k` and `limitations`. | Round 1 scale worker |
 | 7 | **The freeze tag and durable record are a custodian attestation, not a signature.** A custodian who controls the private directory can forge both. | The freeze proves procedural discipline, not authorship. | — |
 
-## Verdict: code-level verification PASSES (10/10); freeze gate NOT satisfied
+## ROUND 0 FROZEN
+
+```
+Tag             round0-freeze-r1
+Frozen commit   (git rev-parse round0-freeze-r1^{commit})
+
+Durable record  <LMR_PRIVATE_EVAL_DIR>/freeze_manifest_<frozen-commit-sha>.json
+Tag binding     <LMR_PRIVATE_EVAL_DIR>/freeze_tag_binding.json
+Stable digests  census   4925d84a40c8416f4188c8ad48a4109866b263542b60db6f8af939b7691587fa
+                private seal  c6e1e98d843eaf1eb962a9ec2f89026af2d532f9b963c5d0a78d45056293c54c
+
+Verification    ./scripts/verify_round0 -> 10/10 PASS, exit 0, on a CLEAN tree
+Probes          ./docs/probes_round0.sh -> 11 probes, 18/18 checks PASS
+CI              GitHub Actions GREEN
+```
+
+The manifest digest is deliberately NOT quoted here. It embeds the commit SHA,
+the verifier hash and the verification timestamp, so any commit that changes
+this line changes the digest — a self-referential figure that can never be
+correct. The authoritative digest set lives in the tag-binding record; a
+consumer selects the record whose `commit_sha` matches the tag, and verifies it
+against the manifest it names.
+
+The manifest is named for the commit it binds, so there is nothing to keep in
+sync here. `git rev-parse round0-freeze-r1^{commit}` gives the frozen commit, and
+`<LMR_PRIVATE_EVAL_DIR>/freeze_manifest_<that-sha>.json` is its record. Every
+exact SHA is in `<LMR_PRIVATE_EVAL_DIR>/freeze_tag_binding.json`.
+
+Eight independent reviews ran. Seven returned REPAIR REQUIRED, each finding a
+real defect the previous rounds missed. The eighth
+(`docs/round0-independent-freeze-review-v8.md`) returned **PASS**.
+
+**A freeze is not a claim of scientific validity.** It records that the
+substrate is structurally sound, the custody boundary holds, and the accepted
+risks below are owned and dated. Read those risks before trusting any Round 1
+result.
+
+## Verdict (superseded by the freeze above)
 
 **Five independent reviews have run. All five returned `REPAIR REQUIRED`. No
 reviewer has returned PASS, so no freeze tag exists and Round 1 must not begin.**
@@ -273,7 +310,6 @@ closed: with no seal it is REJECT, never PASS.
 
 ## Round 1 entry conditions
 
-Not yet met. Before the tournament starts, the independent freeze review must
-return PASS. Round 1 workers must receive a sanitized worktree excluding the
+MET as of tag `round0-freeze-r1`. Round 1 may begin at MISE-EN-PLACE only. Round 1 workers must receive a sanitized worktree excluding the
 private directory, and must not receive private results until every frozen
 system has completed the private run.
