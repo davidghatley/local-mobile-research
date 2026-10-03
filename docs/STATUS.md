@@ -313,3 +313,46 @@ closed: with no seal it is REJECT, never PASS.
 MET as of tag `round0-freeze-r1`. Round 1 may begin at MISE-EN-PLACE only. Round 1 workers must receive a sanitized worktree excluding the
 private directory, and must not receive private results until every frozen
 system has completed the private run.
+
+---
+
+## ROUND 1 — MISE-EN-PLACE (reports only; no implementation, no private run)
+
+Six readiness reports exist. Each states a falsifiable hypothesis, its kill
+condition, model identities with revision commits, and what is MEASURED versus
+ASSUMED. None has implemented anything. None has touched private data.
+
+| Team | Report | Headline finding |
+| --- | --- | --- |
+| Baselines | `experiments/baselines/` | BM25 pinned to implementation level (k1=1.2, b=0.75, no stemming, no stopwords, paragraph-node index, top-K=500, ties by `(score, node_id)`). Argues a genuinely static semantic stage adds **0–2 points**, inside noise, and says so *before* a neural team is finished. |
+| Ettin cascade | `experiments/ettin-cascade/` | 17M/32M/68M recall-first cascade. Biggest risk is compound evidence loss: 0.97 per-stage retention over four stages ≈ 0.885. |
+| KaLM cascade | `experiments/kalm-cascade/` | **Runtime does not survive export.** The model card supports only the PyTorch backend; no R2 GGUF exists. Also: "progressive decompression" is a misnomer — mean-pooling is lossy, so fine states cannot be derived from cached coarse states. |
+| Adapter / PEFT | `experiments/adapter-peft/` | Adapters **must be merged** to be exportable; llama.cpp LoRA is llama-decoder-only and BERT/ModernBERT retrievers have no llama.cpp path at all. The advantage survives only as "small-model runtime at large-model quality", never as shipping the adapter. |
+| Hybrid fusion | `experiments/hybrid-fusion/` | *(pending)* |
+| Comparability | `experiments/comparability/` | Shared Stage 0 recommended; token-budget enforcement verified real; kill-condition recording protocol preregistered. |
+
+### Two findings from mise-en-place that outrank any architecture result
+
+**1. The corpus can only separate architectures that differ by about 10
+percentage points.** Computed 2026-10-03 and now cross-checked two ways
+(`experiments/comparability/CONTRACT.md` §4): 13 items / 22.0 pp on dev, 18 items
+/ 12.3 pp on dev+shadow_dev, 21 items / 10.2 pp across all 206 worker-visible
+items, 16 items / 13.8 pp on the sealed private set. Accepted risk #2 is no
+longer "unquantified" — it is quantified, and it is worse than "underpowered for
+close architectures". It is underpowered for **most** architecture pairs. Any
+reported gap below the threshold is noise and must be recorded as a **null
+result, never as a win**.
+
+**2. Two of five architecture families may be blocked at the runtime layer, not
+the quality layer.** KaLM's does not export to any mobile-viable backend;
+adapters cannot be applied at runtime to a quantised base and must be merged,
+which removes the storage argument. Neither is a retrieval-result finding. Both
+are findings about whether the family can exist on a phone at all.
+
+### Not yet done
+
+No architecture is implemented. No synthetic training data has been cleared. No
+dev run has happened. The generator floor has **not** been probed — and per
+§4 of the comparability contract it must be probed before the tournament, because
+if the fixed 1.5B Q4 generator floors, the whole retrieval tournament measures
+nothing above the floor.
