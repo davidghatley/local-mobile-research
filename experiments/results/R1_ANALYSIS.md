@@ -81,10 +81,37 @@ decides the outcome.
 
 | system | n | stage-0 survival | completion | item-level | leaf precision | mean tokens | median latency | weights |
 |---|---|---|---|---|---|---|---|---|
+| **`B3_bm25_plus_68m_rerank`** | 59 | 0.9589 | **0.8904** | 0.8909 | 0.1961 | 754 | 77,369 ms | 276,173,159 B |
 | **`C_shared_heads_17m`** | 59 | 0.9589 | **0.8767** | **0.8909** | **0.1923** | 759 | 39,636 ms | 70,777,255 B |
 | `B1_bm25` | 59 | 0.9589 | 0.7397 | 0.7636 | 0.1181 | 781 | 36.3 ms | none |
 | `B4_bm25_fixed_generator` | 59 | 0.9589 | 0.7397 | 0.7636 | 0.1181 | 781 | 38.4 ms | none |
-| `B2_bm25_static_union` | 59 | 0.9589 | 0.7260 | 0.7455 | — | 746 | 217.1 ms | 125,729,604 B |
+| `B2_bm25_static_union` | 59 | 0.9589 | 0.7260 | 0.7455 | — | 746 | 119.0 ms | 125,729,604 B |
+
+### 2.0 The 68M ceiling is not worth its cost — the kill condition, met
+
+| | B3 (68M single reranker) | C (17M shared encoder + heads) |
+|---|---|---|
+| completion | **65/73 = 0.8904** | **64/73 = 0.8767** |
+| delta vs B1 | +11 paragraphs | +10 paragraphs |
+| weights | 276,173,159 B | **70,777,255 B** |
+| median latency | 77,369 ms | **39,636 ms** |
+| latency multiple vs BM25 | 2,134× | 1,093× |
+| peak RSS | 1,945 MB | 1,466 MB |
+
+**B3 beats C by exactly ONE paragraph** (65 vs 64 of 73) while carrying **3.9× the
+weights** and **2.0× the latency**. The gap is far below every registered
+threshold, so under the brief's own vocabulary this is **PRACTICALLY TIED /
+UNRESOLVED**, and the kill condition in `experiments/baselines/HYPOTHESIS.md` §0
+is met:
+
+> If baseline B4 matches the full cascade on required-evidence completion and
+> final evidence recall within Wilson-CI overlap, at a tiny fraction of its
+> storage and latency, **the cascade is unnecessary on this corpus and that is the
+> headline result.**
+
+Stated precisely, and not reframed: **a single 17M encoder with three cheap
+readouts captures essentially the entire benefit of the 68M ceiling at a quarter
+of the storage.** The expensive ceiling is unnecessary.
 
 All five rows are the **same 59 dev items, the same 73 required paragraphs, the
 same 1000-token exact-token budget, the same shared BM25 stage-0.** The
@@ -212,11 +239,31 @@ CPU; **no Android, GrapheneOS or on-device number is claimed anywhere.**
 | B1/B4 BM25 | measured; the reference | **DEPLOYABLE NOW** | stdlib-only, **10,666,728 B** index payload, no weights, **36.3 ms** median / 125.4 ms p95 |
 | B2 static | measured **null-to-negative** (−1 paragraph) | **NOT WORTH IT** | 125,729,604 B weights + 40,873,912 B cache = 166.6 MB, 217.1 ms median, for −1 paragraph |
 | **C shared heads** | **measured: +13.70 pp completion, UNRESOLVED on dev, pending the single shadow run** | **UNVERIFIED** | 70,777,255 B weights; **1,093× BM25's latency**; ONNX/int8 export **not attempted**; no parity gate run |
-| B3 68M reranker | run in flight at time of writing | **storage/runtime blocked on desktop** | ~273 MB fp32 weights; an `onnx/model_qint8_arm64.onnx` **file exists** in the snapshot — a file-presence check, **not** a measured runtime or parity result |
+| B3 68M reranker | **measured: +11 paragraphs / +15.07 pp, UNRESOLVED on dev** | **DEPLOYABLE-ISH, NOT WORTH IT** | 276,173,159 B weights MEASURED; 77,369 ms median MEASURED (2,134× BM25); 1,945 MB peak RSS MEASURED. Hub `onnx/model_qint8_arm64.onnx` verified present (68m: 69,276,379 B) — **file presence only, no parity gate, no runtime measurement** |
 | Ettin cascade | **NOT RUN** | unknown | implementation written, never executed |
-| KaLM | **NOT IMPLEMENTED** | **UNKNOWN — unmeasured** | the prior team's export concern is neither confirmed nor refuted here |
-| adapter/PEFT | **NOT IMPLEMENTED** | **UNKNOWN — unmeasured** | the prior team's merging concern is neither confirmed nor refuted |
+| **KaLM** | **NOT IMPLEMENTED** | **BLOCKED — CONFIRMED** | Hub listing for `KaLM-Reranker-V1-Nano-R2` @ `32b242bb` (1,572,182,264 B) contains **zero non-PyTorch artifacts**: no onnx/, no gguf, no ExecuTorch/TFLite. The blocker is the **artifact layer**, not rate-switching machinery — there is nothing to export at any ratio. |
+| **adapter/PEFT** | **NOT IMPLEMENTED** | **NEUTRALISED at mobile deploy** | Sharing wins only while `Σ|adapters| < (A−1)×|base|`. Merging exceeds C's measured 70.8 MB at just **A=2** on the 17M base (~134.9 MB). No checked runtime preserves dynamic swapping for these encoders: llama.cpp `--lora` is generative-path only; ORT LoRA is GenAI-only. |
 | hybrid-fusion | **NOT IMPLEMENTED** | unknown | correctly not optimised first; also has no measured components to fuse |
+
+Full evidence in `experiments/kalm_cascade/DEPLOYABILITY_FEASIBILITY.md` and
+`experiments/reviews/MOBILE_FEASIBILITY_REVIEW.md`. Both prior teams' concerns
+were **CONFIRMED with evidence**, not merely repeated.
+
+C's deployability is the open question that matters. A 70.8 MB encoder and a
+1,093× latency penalty are both plausibly *survivable* on a phone for a 297-
+article corpus and 500 candidates per query — but "plausibly survivable" is a
+hypothesis, and this run deliberately does not convert it into a number. What
+would settle it: an ONNX export, an int8 parity gate against the fp32 reference
+(Spearman ≥ 0.99 on top-100 and ≤ 1 item final-completion delta on 10 dev items,
+per `HYPOTHESIS.md` §5.4), and a real on-device measurement. None of that was
+done.
+
+The adapter arithmetic deserves emphasis because it inverts the usual expectation.
+The LoRA storage argument is **real at training time and gone at deploy time**, and
+the crossover arrives almost immediately: on the 17M base, merging a second task's
+adapter already costs more than Family C's entire single encoder. So "tiny
+adapters" cannot be a mobile benefit in this family — it would be a mobile *cost*,
+paid before any quality comparison is settled.
 
 C's deployability is the open question that matters. A 70.8 MB encoder and a
 1,093× latency penalty are both plausibly *survivable* on a phone for a 297-
@@ -250,15 +297,18 @@ done.
 
 | comparison | outcome |
 |---|---|
-| **C shared heads vs B1 BM25, dev** | **LARGE EFFECT, UNRESOLVED AT CURRENT POWER.** +10 paragraphs / +13.70 pp completion, but the dev MMD is 22.0 pp. Not a win on dev. Sent once to shadow_dev after a written freeze to settle it. |
-| B2 static union vs B1 BM25 | **PRACTICALLY TIED / UNRESOLVED** (−1 paragraph; far below the 13-item dev MMD), and negative in sign. Preregistered prediction confirmed: the cheap semantic channel adds nothing measurable. |
+| **B3 (68M) vs C (17M shared heads), dev** | **PRACTICALLY TIED / UNRESOLVED.** One paragraph apart (65 vs 64 of 73) at 3.9× the weights and 2.0× the latency. **The 68M ceiling is unnecessary.** |
+| **C shared heads vs B1 BM25, dev** | **LARGE EFFECT, UNRESOLVED ON DEV.** +10 paragraphs / +13.70 pp, but the dev MMD is 22.0 pp. Frozen and sent once to shadow_dev to settle it. |
+| **B3 68M vs B1 BM25, dev** | **LARGE EFFECT, UNRESOLVED ON DEV.** +11 paragraphs / +15.07 pp, same threshold situation. |
+| B2 static union vs B1 BM25 | **PRACTICALLY TIED / UNRESOLVED**, and negative in sign (−1 paragraph). Preregistered prediction confirmed: the cheap semantic channel adds nothing measurable, for 166.6 MB. |
 | B4 vs B1 | **IDENTICAL BY CONSTRUCTION** — same retriever; the difference is generation, measured separately in the floor probe. |
-| per-article cap 3 vs no cap | **+2 paragraphs** for removing it (0.7397 → 0.7671) — below the dev MMD, so unresolved as a *quality* claim, but mechanistically the largest single *policy* lever. |
-| all neural heads vs BM25, **stage-0 survival** | **IDENTICAL (70/73).** Reordering cannot add candidates. Null by construction, and worth stating because it is the metric most likely to be misread as "the model did nothing". |
-| B3 68M reranker vs BM25 | **NOT MEASURED** — run in flight. Do not assume a direction. |
-| cascade vs C | **NOT MEASURED** — the cascade was never run. |
-| oracle evidence vs BM25 evidence (answers) | **UNRESOLVED AND PROVABLY SO** — a 4-item ceiling against an 18-item floor. |
-| oracle evidence vs degraded evidence (answers) | **CLEARLY BETTER** — p = 3.8 × 10⁻⁶, 19/19 discordant. The generator discriminates; it is the resolution that fails. |
+| per-article cap 3 vs no cap | **+2 paragraphs** for removing it (0.7397 → 0.7671) — below the dev MMD, so unresolved as a *quality* claim, but mechanistically a real *policy* lever. |
+| **every neural stage vs BM25, stage-0 survival** | **IDENTICAL (70/73) for all of C's four stages and both of B3's.** Reordering cannot add candidates. Null by construction, and worth stating because it is the metric most likely to be misread as "the model did nothing". |
+| cascade vs C | **NOT MEASURED** — the cascade was never run. Its own kill rules are unapplied. |
+| KaLM | **NOT IMPLEMENTED; MOBILE DEPLOYABILITY = BLOCKED** (confirmed with evidence: no exportable artifact at any compression ratio). |
+| adapter/PEFT | **NOT IMPLEMENTED; storage advantage NEUTRALISED at mobile deploy** (confirmed: merging exceeds C's whole encoder at A=2). |
+| oracle vs BM25 evidence (answers) | **UNRESOLVED AND PROVABLY SO** — a 4-item ceiling against an 18-item floor. |
+| oracle vs degraded evidence (answers) | **CLEARLY BETTER** — p = 3.8 × 10⁻⁶, 19/19 discordant. The generator discriminates; it is the resolution that fails. |
 
 **The headline is a mechanism, not a winner.** Retrieval is saturated at 0.96–0.98
 and cannot be improved by reordering. What remains is a ~3-paragraph, 1000-token
