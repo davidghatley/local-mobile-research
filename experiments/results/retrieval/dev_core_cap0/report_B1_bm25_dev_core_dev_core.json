@@ -1,0 +1,101 @@
+{
+  "evidence_tokens": {
+    "max": 1000,
+    "mean": 758.9818181818182,
+    "median": 797,
+    "min": 300,
+    "n": 55,
+    "n_empty_packets": 0,
+    "n_over_hard_cap_1000": 0,
+    "n_over_target_band_800": 27,
+    "n_truncated": 55,
+    "p95": 975,
+    "target_band": "300-800 typical, <=1000 hard cap (frozen comparability contract \u00a72)"
+  },
+  "final_packet": {
+    "completed": 56,
+    "completion": 0.7671232876712328,
+    "context_precision_leaf": {
+      "exact_leaf_hits": 29,
+      "leaf_precision": 0.12719298245614036,
+      "note": "exact leaf-node hits over retrieved leaf nodes. Ancestry-expanded paragraph ids are NOT in the denominator: a paragraph that contains a required sentence is not itself a retrieved leaf.",
+      "retrieved_leaf_nodes": 228
+    },
+    "item_level_completion": 0.8,
+    "n_items": 55,
+    "n_items_fully_complete": 44,
+    "required_paragraphs": 73,
+    "wilson_ci": {
+      "lower": 0.6583251745764003,
+      "upper": 0.8492124092323698
+    }
+  },
+  "generator_used": false,
+  "interpretation_rule": "A gap below the registered MMD is a NULL RESULT and must never be reported as a win. MMD is a property of the split, not a tunable.",
+  "judge_used": false,
+  "latency": {
+    "caveat": "DESKTOP CPU measurements, threads=1 for the model path, on a shared host. Not an Android or on-device figure. Contention noise is present when concurrent jobs were running; compare systems only under equal load.",
+    "end_to_end_retrieval": {
+      "max_ms": 141.91058790311217,
+      "mean_ms": 43.193190666389164,
+      "median_ms": 36.71774291433394,
+      "min_ms": 15.617946162819862,
+      "n": 59,
+      "p95_ms": 128.8667619228363,
+      "stdev_ms": 28.526899792464906
+    },
+    "per_stage": {
+      "bm25": {
+        "max_ms": 141.74408908002079,
+        "mean_ms": 43.0471451037516,
+        "median_ms": 36.5966169629246,
+        "min_ms": 15.488103032112122,
+        "n": 59,
+        "p95_ms": 128.73638700693846,
+        "stdev_ms": 28.5227151482128
+      }
+    }
+  },
+  "n_analysable": 55,
+  "n_traces": 59,
+  "notes": [
+    "4 of 59 items were EXCLUDED from the survival denominators because no required atom had a retrievable host paragraph in this tier. They are listed in per_item with excluded=..., not silently counted as misses."
+  ],
+  "registered_mmd": {
+    "mmd_items": 13,
+    "mmd_pp": 22.0,
+    "n": 59
+  },
+  "stage_names": [
+    "bm25"
+  ],
+  "stage_survival": {
+    "bm25": {
+      "mean_required_per_item": 1.3272727272727274,
+      "n_items": 55,
+      "required_paragraphs": 73,
+      "survival": 0.958904109589041,
+      "survived": 70,
+      "wilson_ci": {
+        "lower": 0.8859972266493555,
+        "upper": 0.9859263147657112
+      }
+    }
+  },
+  "storage": {
+    "index_files": [
+      "artifacts/b2_static_embeddings.npy"
+    ],
+    "index_payload_basis": "MEASURED buffer sizes of the packed postings arrays, plus any on-disk .npy embedding caches. Excludes Python object overhead; peak RSS is the process-level figure and is reported separately.",
+    "index_payload_bytes": 51540840,
+    "never_summed": "index_payload_bytes and weights_bytes are reported separately and MUST NOT be added into a single 'size' figure: the index ships beside the app, the weights ARE the app, and a mobile claim needs them apart.",
+    "shared_generator_artifact_bytes": 986048768,
+    "shared_generator_note": "IDENTICAL for every architecture and therefore EXCLUDED from per-system cost, per experiments/baselines/HYPOTHESIS.md section 9. Listed so a reader can add it back deliberately rather than by accident.",
+    "weight_files": [],
+    "weights_basis": "MEASURED os.path.getsize of cached safetensors + tokenizer",
+    "weights_bytes": null,
+    "weights_per_repo": {}
+  },
+  "system_id": "B1_bm25",
+  "trace_file": "experiments/results/retrieval/dev_core_cap0/traces_B1_bm25_dev_core.jsonl"
+}

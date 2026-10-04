@@ -1,0 +1,34 @@
+{
+  "registered_mmd": {
+    "mmd_items": 13,
+    "mmd_pp": 22.0,
+    "n": 59
+  },
+  "split": "dev",
+  "systems": [
+    {
+      "completion": 0.7671232876712328,
+      "completion_hits": 56,
+      "completion_required": 73,
+      "item_level_completion": 0.8,
+      "max_tokens": 1000,
+      "mean_tokens": 758.9818181818182,
+      "median_tokens": 797,
+      "n": 59,
+      "n_analysable": 55,
+      "report": "experiments/results/retrieval/dev_core_cap0/report_B1_bm25_dev_core_dev_core.json",
+      "stage0": "bm25",
+      "stage0_hits": 70,
+      "stage0_required": 73,
+      "stage0_survival": 0.958904109589041,
+      "status": "SCORED",
+      "system": "B1_bm25"
+    }
+  ],
+  "systems_expected_but_absent": [
+    "B2_bm25_static_union",
+    "B3_bm25_plus_68m_rerank",
+    "B4_bm25_fixed_generator"
+  ],
+  "tier": "core"
+}

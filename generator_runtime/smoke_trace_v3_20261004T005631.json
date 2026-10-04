@@ -1,0 +1,90 @@
+{
+  "abstention_answer_text": "The synthetic widget tolerance threshold is 0.5.",
+  "abstention_audit": {
+    "available_not_cited": [],
+    "cited_unknown": [],
+    "cited_valid": []
+  },
+  "abstention_citations_empty": true,
+  "abstention_packet_empty_truncated": true,
+  "answer_citations_mapping_correct": true,
+  "answer_citations_parsed_only": [],
+  "answer_completion_tokens_match_usage": true,
+  "answer_estimate_is_whitespace": true,
+  "answer_exact_matches_packet": true,
+  "answer_prompt_tokens_match_usage": true,
+  "answer_text": "The synthetic widget tolerance threshold is 5 units. This information is provided in paragraph two of the synthetic fixture paragraph, which states \"the tolerance threshold is 5 units.\"",
+  "citation_audit": {
+    "available_not_cited": [
+      "synth-para-001",
+      "synth-para-002"
+    ],
+    "cited_unknown": [],
+    "cited_valid": []
+  },
+  "citations_subset_of_packet": true,
+  "client_peak_rss_mb": 30.16015625,
+  "completion_within_max_tokens": true,
+  "config_pinned_compat": true,
+  "deterministic_repeat_identical": true,
+  "evidence_cap": 1000,
+  "evidence_text_matches_render_prompt": true,
+  "evidence_within_cap": true,
+  "finish_reason_run1": "stop",
+  "generator_id": "qwen25-1.5b-q4km-fixed-v1",
+  "generator_id_pinned": true,
+  "label": "SYNTHETIC-INFRA-ONLY v3: not a benchmark or architecture result",
+  "load_note": "fresh process; OS page cache state not controlled, so this is NOT a true cold-cache measurement",
+  "no_unknown_cited_ids_OBSERVATION_ONLY": true,
+  "packet_exact_matches_adapter": true,
+  "packet_method_is_exact_tokenizer": true,
+  "packet_token_count_method": "tokenizer:gguf-embedded:gpt2-bpe:vocab151936:bos151643:eos151645:addbos0:tplsha-cd8e9439",
+  "parser_complete_all_emitted_ids_classified": true,
+  "prepare_report": {
+    "binary": {
+      "path": "/home/davidhatley/Work/tools/llama.cpp/build/bin/llama-server",
+      "sha256": "5a5aa40edb8d5aee3638ff292c1e676b934fdb48a9b50029338e2600da4b128f"
+    },
+    "libs_checked": 8,
+    "model": {
+      "bytes": 986048768,
+      "sha256": "1adf0b11065d8ad2e8123ea110d1ec956dab4ab038eab665614adba04b6c3370"
+    }
+  },
+  "prepare_verify_ms": 2124.4381638243794,
+  "prompt_hash": "d858050940fa5a0a9656fb2b853b7433d9eda7294dc15f47942d666a0d8bfc63",
+  "prompt_hash_matches_substrate": true,
+  "question_id": "synth-infra-001",
+  "run1_timings_ms": {
+    "http_generate_ms": 16494.64020319283,
+    "predicted_ms": 3232.539,
+    "predicted_n": 35.0,
+    "prompt_ms": 13257.381,
+    "prompt_n": 156.0,
+    "server_load_ms": 1510.5126998387277
+  },
+  "run2_warm_timings_ms": {
+    "http_generate_ms": 3910.5504809413105,
+    "predicted_ms": 3236.826,
+    "predicted_n": 35.0,
+    "prompt_ms": 669.293,
+    "prompt_n": 156.0,
+    "server_load_ms": 1510.5126998387277
+  },
+  "server_process_gone": true,
+  "session_close_report": {
+    "port_closed": true,
+    "reaped": true,
+    "returncode": 0,
+    "terminated_cleanly": true
+  },
+  "session_load_ms_fresh_process": 1510.5126998387277,
+  "token_accounting_run1": {
+    "evidence_tokens": 41,
+    "templated_input_tokens": 156,
+    "usage_completion_tokens": 35,
+    "usage_prompt_tokens": 156,
+    "user_prompt_tokens": 127
+  },
+  "usage_matches_templated": true
+}

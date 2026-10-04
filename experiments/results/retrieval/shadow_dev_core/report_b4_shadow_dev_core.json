@@ -1,0 +1,92 @@
+{
+  "generator_used": false,
+  "judge_used": false,
+  "preregistered_threshold_register": {
+    "dev": {
+      "mmd_items": 13,
+      "mmd_pp": 22.0
+    },
+    "dev+shadow_dev": {
+      "mmd_items": 18,
+      "mmd_pp": 12.3
+    },
+    "source": "experiments/comparability/CONTRACT.md \u00a74 via R1_CONTRACT_ERRATUM.md E-1b"
+  },
+  "primary_metrics": {
+    "evidence_tokens": {
+      "max": 998,
+      "mean": 797.8658536585366,
+      "median": 858,
+      "min": 315,
+      "n": 82,
+      "n_empty_packets": 0,
+      "n_over_hard_cap_1000": 0,
+      "n_over_target_band_800": 48,
+      "n_truncated": 82,
+      "p95": 987,
+      "target_band": "300-800 typical, <=1000 hard cap (frozen comparability contract \u00a72)"
+    },
+    "final_packet": {
+      "completed": 80,
+      "completion": 0.6557377049180327,
+      "context_precision_leaf": {
+        "exact_leaf_hits": 79,
+        "leaf_precision": 0.2958801498127341,
+        "note": "exact leaf-node hits over retrieved leaf nodes. Ancestry-expanded paragraph ids are NOT in the denominator: a paragraph that contains a required sentence is not itself a retrieved leaf.",
+        "retrieved_leaf_nodes": 267
+      },
+      "item_level_completion": 0.5975609756097561,
+      "n_items": 82,
+      "n_items_fully_complete": 49,
+      "required_paragraphs": 122,
+      "wilson_ci": {
+        "lower": 0.5678329687980992,
+        "upper": 0.7341339483421787
+      }
+    },
+    "n_items": 87,
+    "n_items_with_required_evidence": 82,
+    "notes": [
+      "5 of 87 items were EXCLUDED from the survival denominators because no required atom had a retrievable host paragraph in this tier. They are listed in per_item with excluded=..., not silently counted as misses."
+    ],
+    "split": "shadow_dev",
+    "stage_survival": {
+      "bm25": {
+        "mean_required_per_item": 1.4878048780487805,
+        "n_items": 82,
+        "required_paragraphs": 122,
+        "survival": 0.9836065573770492,
+        "survived": 120,
+        "wilson_ci": {
+          "lower": 0.9421938948674934,
+          "upper": 0.9954928478312645
+        }
+      }
+    },
+    "system_id": "B4_bm25_fixed_generator",
+    "tier": "core"
+  },
+  "run": {
+    "index_stats": {
+      "avgdl": 220.51247620002005,
+      "build_ms": 3572.869020048529,
+      "n_docs": 9979,
+      "n_postings": 1253346,
+      "n_terms": 79995,
+      "posting_array_bytes": 10666728
+    },
+    "model_identity": {
+      "per_article_cap": 3,
+      "policy": "PREREGISTERED baseline cap=3",
+      "stage0_k": 500,
+      "system_id": "B4_bm25_fixed_generator"
+    },
+    "n_failed": 0,
+    "n_ok": 87,
+    "n_questions": 87,
+    "split": "shadow_dev",
+    "system_id": "B4_bm25_fixed_generator",
+    "tier": "core",
+    "wall_ms": 8309.95657411404
+  }
+}

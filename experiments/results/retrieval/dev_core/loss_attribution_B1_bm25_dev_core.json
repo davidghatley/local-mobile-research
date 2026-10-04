@@ -1,0 +1,210 @@
+{
+  "attribution": {
+    "per_article_cap": 10,
+    "stage0_rank_below_top500": 3,
+    "survived": 54,
+    "token_budget_1000": 6
+  },
+  "detail": [
+    {
+      "article": "a:orange_fruit",
+      "attribution": "per_article_cap",
+      "bm25_rank": 8,
+      "exact_evidence_tokens_full_packet": 945,
+      "n_admitted_uncapped": 6,
+      "node_id": "p:orange_fruit:00:000",
+      "question_id": "qa-dev-11",
+      "spans_in_article_before_it": null
+    },
+    {
+      "article": "a:napoleon",
+      "attribution": "per_article_cap",
+      "bm25_rank": 10,
+      "exact_evidence_tokens_full_packet": 959,
+      "n_admitted_uncapped": 8,
+      "node_id": "p:napoleon:00:000",
+      "question_id": "qa-dev-13",
+      "spans_in_article_before_it": null
+    },
+    {
+      "article": "a:russian_revolution",
+      "attribution": "token_budget_1000",
+      "bm25_rank": 14,
+      "exact_evidence_tokens_full_packet": 959,
+      "n_admitted_uncapped": 8,
+      "node_id": "p:russian_revolution:00:000",
+      "question_id": "qa-dev-13",
+      "spans_in_article_before_it": 1
+    },
+    {
+      "article": "a:aristotle",
+      "attribution": "per_article_cap",
+      "bm25_rank": 6,
+      "exact_evidence_tokens_full_packet": 956,
+      "n_admitted_uncapped": 6,
+      "node_id": "p:aristotle:07:002",
+      "question_id": "qa-dev-15",
+      "spans_in_article_before_it": null
+    },
+    {
+      "article": "a:bald_eagle",
+      "attribution": "per_article_cap",
+      "bm25_rank": 10,
+      "exact_evidence_tokens_full_packet": 410,
+      "n_admitted_uncapped": 3,
+      "node_id": "p:bald_eagle:00:000",
+      "question_id": "qa-dev-17",
+      "spans_in_article_before_it": null
+    },
+    {
+      "article": "a:immune_system",
+      "attribution": "per_article_cap",
+      "bm25_rank": 4,
+      "exact_evidence_tokens_full_packet": 972,
+      "n_admitted_uncapped": 5,
+      "node_id": "p:immune_system:11:000",
+      "question_id": "qa-dev-35",
+      "spans_in_article_before_it": null
+    },
+    {
+      "article": "a:nanotechnology",
+      "attribution": "token_budget_1000",
+      "bm25_rank": 8,
+      "exact_evidence_tokens_full_packet": 855,
+      "n_admitted_uncapped": 4,
+      "node_id": "p:nanotechnology:00:000",
+      "question_id": "qa-dev-41",
+      "spans_in_article_before_it": 2
+    },
+    {
+      "article": "a:platypus",
+      "attribution": "token_budget_1000",
+      "bm25_rank": 2,
+      "exact_evidence_tokens_full_packet": 422,
+      "n_admitted_uncapped": 1,
+      "node_id": "p:platypus:03:000",
+      "question_id": "qa-dev-45",
+      "spans_in_article_before_it": 1
+    },
+    {
+      "article": "a:semiconductor",
+      "attribution": "token_budget_1000",
+      "bm25_rank": 2,
+      "exact_evidence_tokens_full_packet": 580,
+      "n_admitted_uncapped": 1,
+      "node_id": "p:semiconductor:00:000",
+      "question_id": "qa-dev-49",
+      "spans_in_article_before_it": 1
+    },
+    {
+      "article": "a:solar_power",
+      "attribution": "per_article_cap",
+      "bm25_rank": 5,
+      "exact_evidence_tokens_full_packet": 589,
+      "n_admitted_uncapped": 2,
+      "node_id": "p:solar_power:04:000",
+      "question_id": "qa-dev-52",
+      "spans_in_article_before_it": null
+    },
+    {
+      "article": "a:south_africa",
+      "attribution": "token_budget_1000",
+      "bm25_rank": 25,
+      "exact_evidence_tokens_full_packet": 855,
+      "n_admitted_uncapped": 5,
+      "node_id": "p:south_africa:00:000",
+      "question_id": "qa-dev-54",
+      "spans_in_article_before_it": 0
+    },
+    {
+      "article": "a:south_africa",
+      "attribution": "per_article_cap",
+      "bm25_rank": 34,
+      "exact_evidence_tokens_full_packet": 855,
+      "n_admitted_uncapped": 5,
+      "node_id": "p:south_africa:13:000",
+      "question_id": "qa-dev-54",
+      "spans_in_article_before_it": null
+    },
+    {
+      "article": "a:napoleon",
+      "attribution": "per_article_cap",
+      "bm25_rank": 479,
+      "exact_evidence_tokens_full_packet": 918,
+      "n_admitted_uncapped": 5,
+      "node_id": "p:napoleon:00:000",
+      "question_id": "qa-dev-60",
+      "spans_in_article_before_it": null
+    },
+    {
+      "article": "a:russian_revolution",
+      "attribution": "per_article_cap",
+      "bm25_rank": 17,
+      "exact_evidence_tokens_full_packet": 918,
+      "n_admitted_uncapped": 5,
+      "node_id": "p:russian_revolution:00:000",
+      "question_id": "qa-dev-60",
+      "spans_in_article_before_it": null
+    },
+    {
+      "article": "a:borneo",
+      "attribution": "token_budget_1000",
+      "bm25_rank": 28,
+      "exact_evidence_tokens_full_packet": 970,
+      "n_admitted_uncapped": 3,
+      "node_id": "p:borneo:00:000",
+      "question_id": "qa-pilot-dev-05",
+      "spans_in_article_before_it": 0
+    },
+    {
+      "article": "a:gorilla",
+      "attribution": "stage0_rank_below_top500",
+      "bm25_rank": null,
+      "exact_evidence_tokens_full_packet": 527,
+      "n_admitted_uncapped": 5,
+      "node_id": "p:gorilla:00:000",
+      "question_id": "qa-pilot-dev-09",
+      "spans_in_article_before_it": null
+    },
+    {
+      "article": "a:chimpanzee",
+      "attribution": "per_article_cap",
+      "bm25_rank": 88,
+      "exact_evidence_tokens_full_packet": 527,
+      "n_admitted_uncapped": 5,
+      "node_id": "p:chimpanzee:00:000",
+      "question_id": "qa-pilot-dev-09",
+      "spans_in_article_before_it": null
+    },
+    {
+      "article": "a:gorilla",
+      "attribution": "stage0_rank_below_top500",
+      "bm25_rank": null,
+      "exact_evidence_tokens_full_packet": 527,
+      "n_admitted_uncapped": 5,
+      "node_id": "p:gorilla:08:000",
+      "question_id": "qa-pilot-dev-09",
+      "spans_in_article_before_it": null
+    },
+    {
+      "article": "a:chimpanzee",
+      "attribution": "stage0_rank_below_top500",
+      "bm25_rank": null,
+      "exact_evidence_tokens_full_packet": 527,
+      "n_admitted_uncapped": 5,
+      "node_id": "p:chimpanzee:10:000",
+      "question_id": "qa-pilot-dev-09",
+      "spans_in_article_before_it": null
+    }
+  ],
+  "hard_token_cap": 1000,
+  "loss_rate": 0.26027397260273977,
+  "n_required_paragraphs": 73,
+  "per_article_cap_replayed": 3,
+  "reading": {
+    "note": "per_article_cap_changed_what_fitted means the cap did not remove this paragraph directly, but it removed an EARLIER span from the same article, which freed budget for a lower-ranked span and pushed this one past the token cutoff. That is still the cap's doing, and it is the case a smarter ranker cannot fix."
+  },
+  "split": "dev",
+  "system": "B1_bm25",
+  "tier": "core"
+}

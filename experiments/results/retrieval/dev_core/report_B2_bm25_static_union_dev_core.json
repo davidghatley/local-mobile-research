@@ -1,0 +1,142 @@
+{
+  "evidence_tokens": {
+    "max": 996,
+    "mean": 746.3454545454546,
+    "median": 773,
+    "min": 215,
+    "n": 55,
+    "n_empty_packets": 0,
+    "n_over_hard_cap_1000": 0,
+    "n_over_target_band_800": 26,
+    "n_truncated": 55,
+    "p95": 994,
+    "target_band": "300-800 typical, <=1000 hard cap (frozen comparability contract \u00a72)"
+  },
+  "final_packet": {
+    "completed": 53,
+    "completion": 0.726027397260274,
+    "context_precision_leaf": {
+      "exact_leaf_hits": 28,
+      "leaf_precision": 0.15555555555555556,
+      "note": "exact leaf-node hits over retrieved leaf nodes. Ancestry-expanded paragraph ids are NOT in the denominator: a paragraph that contains a required sentence is not itself a retrieved leaf.",
+      "retrieved_leaf_nodes": 180
+    },
+    "item_level_completion": 0.7454545454545455,
+    "n_items": 55,
+    "n_items_fully_complete": 41,
+    "required_paragraphs": 73,
+    "wilson_ci": {
+      "lower": 0.6143679489221651,
+      "upper": 0.815086929685256
+    }
+  },
+  "generator_used": false,
+  "interpretation_rule": "A gap below the registered MMD is a NULL RESULT and must never be reported as a win. MMD is a property of the split, not a tunable.",
+  "judge_used": false,
+  "latency": {
+    "caveat": "DESKTOP CPU measurements, threads=1 for the model path, on a shared host. Not an Android or on-device figure. Contention noise is present when concurrent jobs were running; compare systems only under equal load.",
+    "end_to_end_retrieval": {
+      "max_ms": 7943.960777949542,
+      "mean_ms": 376.07297390083767,
+      "median_ms": 217.0966579578817,
+      "min_ms": 122.4110689945519,
+      "n": 59,
+      "p95_ms": 553.5711571574211,
+      "stdev_ms": 1007.3612293154632
+    },
+    "per_stage": {
+      "bm25": {
+        "max_ms": 0.0,
+        "mean_ms": 0.0,
+        "median_ms": 0.0,
+        "min_ms": 0.0,
+        "n": 59,
+        "p95_ms": 0.0,
+        "stdev_ms": 0.0
+      },
+      "static_union": {
+        "max_ms": 0.0,
+        "mean_ms": 0.0,
+        "median_ms": 0.0,
+        "min_ms": 0.0,
+        "n": 59,
+        "p95_ms": 0.0,
+        "stdev_ms": 0.0
+      }
+    }
+  },
+  "n_analysable": 55,
+  "n_traces": 59,
+  "notes": [
+    "4 of 59 items were EXCLUDED from the survival denominators because no required atom had a retrievable host paragraph in this tier. They are listed in per_item with excluded=..., not silently counted as misses."
+  ],
+  "registered_mmd": {
+    "mmd_items": 13,
+    "mmd_pp": 22.0,
+    "n": 59
+  },
+  "stage_names": [
+    "bm25",
+    "static_union"
+  ],
+  "stage_survival": {
+    "bm25": {
+      "mean_required_per_item": 1.3272727272727274,
+      "n_items": 55,
+      "required_paragraphs": 73,
+      "survival": 0.958904109589041,
+      "survived": 70,
+      "wilson_ci": {
+        "lower": 0.8859972266493555,
+        "upper": 0.9859263147657112
+      }
+    },
+    "static_union": {
+      "mean_required_per_item": 1.3272727272727274,
+      "n_items": 55,
+      "required_paragraphs": 73,
+      "survival": 1.0,
+      "survived": 73,
+      "wilson_ci": {
+        "lower": 0.950006246616416,
+        "upper": 0.9999999999999999
+      }
+    }
+  },
+  "storage": {
+    "index_files": [
+      "artifacts/b2_static_embeddings.npy"
+    ],
+    "index_payload_basis": "MEASURED buffer sizes of the packed postings arrays, plus any on-disk .npy embedding caches. Excludes Python object overhead; peak RSS is the process-level figure and is reported separately.",
+    "index_payload_bytes": 51540840,
+    "never_summed": "index_payload_bytes and weights_bytes are reported separately and MUST NOT be added into a single 'size' figure: the index ships beside the app, the weights ARE the app, and a mobile claim needs them apart.",
+    "shared_generator_artifact_bytes": 986048768,
+    "shared_generator_note": "IDENTICAL for every architecture and therefore EXCLUDED from per-system cost, per experiments/baselines/HYPOTHESIS.md section 9. Listed so a reader can add it back deliberately rather than by accident.",
+    "weight_artifacts": [
+      "sentence-transformers/static-retrieval-mrl-en-v1@f60985c706f192d45d218078e49e5a8b6f15283a"
+    ],
+    "weights_basis": "MEASURED os.path.getsize + sha256 of cached model.safetensors and tokenizer.json at the PINNED revision. Config/README bytes excluded: they are not shipped to a device.",
+    "weights_bytes": 125729604,
+    "weights_per_repo": {
+      "sentence-transformers/static-retrieval-mrl-en-v1": {
+        "bytes": 125729604,
+        "files": [
+          {
+            "bytes": 125018208,
+            "name": "0_StaticEmbedding/model.safetensors",
+            "sha256": "164fc63ee9f9267be7378fcbd7df99d09788a2f45244c92aa99ae5a574925716"
+          },
+          {
+            "bytes": 711396,
+            "name": "0_StaticEmbedding/tokenizer.json",
+            "sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66"
+          }
+        ],
+        "revision": "f60985c706f192d45d218078e49e5a8b6f15283a",
+        "status": "MEASURED"
+      }
+    }
+  },
+  "system_id": "B2_bm25_static_union",
+  "trace_file": "experiments/results/retrieval/dev_core/traces_B2_bm25_static_union_dev_core.jsonl"
+}

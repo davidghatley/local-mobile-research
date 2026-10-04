@@ -1,0 +1,51 @@
+{
+  "registered_mmd": {
+    "mmd_items": 15,
+    "mmd_pp": 17.2,
+    "n": 87
+  },
+  "split": "shadow_dev",
+  "systems": [
+    {
+      "completion": 0.6557377049180327,
+      "completion_hits": 80,
+      "completion_required": 122,
+      "item_level_completion": 0.5975609756097561,
+      "max_tokens": 998,
+      "mean_tokens": 797.8658536585366,
+      "median_tokens": 858,
+      "n": 87,
+      "n_analysable": 82,
+      "report": "experiments/results/retrieval/shadow_dev_core/report_B1_bm25_shadow_dev_core_shadow_dev_core.json",
+      "stage0": "bm25",
+      "stage0_hits": 120,
+      "stage0_required": 122,
+      "stage0_survival": 0.9836065573770492,
+      "status": "SCORED",
+      "system": "B1_bm25"
+    },
+    {
+      "completion": 0.6557377049180327,
+      "completion_hits": 80,
+      "completion_required": 122,
+      "item_level_completion": 0.5975609756097561,
+      "max_tokens": 998,
+      "mean_tokens": 797.8658536585366,
+      "median_tokens": 858,
+      "n": 87,
+      "n_analysable": 82,
+      "report": "experiments/results/retrieval/shadow_dev_core/report_B4_bm25_fixed_generator_shadow_dev_core_shadow_dev_core.json",
+      "stage0": "bm25",
+      "stage0_hits": 120,
+      "stage0_required": 122,
+      "stage0_survival": 0.9836065573770492,
+      "status": "SCORED",
+      "system": "B4_bm25_fixed_generator"
+    }
+  ],
+  "systems_expected_but_absent": [
+    "B2_bm25_static_union",
+    "B3_bm25_plus_68m_rerank"
+  ],
+  "tier": "core"
+}

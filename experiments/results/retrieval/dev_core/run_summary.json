@@ -1,0 +1,57 @@
+{
+  "index_stats": {
+    "avgdl": 220.51247620002005,
+    "build_ms": 2754.740661010146,
+    "n_docs": 9979,
+    "n_postings": 1253346,
+    "n_terms": 79995,
+    "posting_array_bytes": 10666728
+  },
+  "model_identity": {
+    "backbone_batch": 32,
+    "heads": [
+      "coarse",
+      "fine",
+      "sufficiency"
+    ],
+    "model_id": "cross-encoder/ettin-reranker-17m-v1",
+    "model_load_ms_measured": 916.570272995159,
+    "preregistered_threshold_register": {
+      "dev": {
+        "mmd_items": 13,
+        "mmd_pp": 22.0
+      },
+      "dev+shadow_dev": {
+        "mmd_items": 18,
+        "mmd_pp": 12.3
+      },
+      "source": "experiments/comparability/CONTRACT.md \u00a74 via R1_CONTRACT_ERRATUM.md E-1b"
+    },
+    "revision": "9e4aa35321a6dd1a43ca313f500c4b4f7cfb5cc6",
+    "sentence_transformers": "6.1.0",
+    "stage0_k": 500,
+    "system_id": "C_shared_heads_17m",
+    "torch": "2.14.1+cpu",
+    "torch_interop_threads": 1,
+    "torch_threads": 1,
+    "transformers": "5.18.0",
+    "weight_accounting_measured": {
+      "backbone_params": 16797440,
+      "native_head_params": 66305,
+      "total_params": 16863745
+    }
+  },
+  "model_load_ms_measured": 916.570272995159,
+  "n_failed": 0,
+  "n_ok": 59,
+  "n_questions": 59,
+  "split": "dev",
+  "system_id": "C_shared_heads_17m",
+  "tier": "core",
+  "wall_ms": 2385286.000499036,
+  "weight_accounting_measured": {
+    "backbone_params": 16797440,
+    "native_head_params": 66305,
+    "total_params": 16863745
+  }
+}

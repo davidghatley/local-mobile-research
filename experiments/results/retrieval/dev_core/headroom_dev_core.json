@@ -1,0 +1,997 @@
+{
+  "bm25_rank_buckets_LOST": {
+    "16-31": 3,
+    "2-3": 2,
+    "256-500": 1,
+    "32-63": 1,
+    "4-7": 3,
+    "64-127": 1,
+    "8-15": 5,
+    "not_in_top500": 3
+  },
+  "bm25_rank_buckets_all_required": {
+    "1": 43,
+    "16-31": 3,
+    "2-3": 13,
+    "256-500": 1,
+    "32-63": 1,
+    "4-7": 3,
+    "64-127": 1,
+    "8-15": 5,
+    "not_in_top500": 3
+  },
+  "headroom_reading": {
+    "note": "A reranker reorders WITHIN the stage-0 set. So only lost paragraphs whose BM25 rank is <= stage0_k can be recovered by reranking at all. Those ranked outside top-500 need a better STAGE 0, which is a different intervention (B2's static channel, or a denser lexical index).",
+    "recoverable_by_any_reranker": 16,
+    "requires_stage0_recall_improvement": 3
+  },
+  "loss_rate": 0.2602739726027397,
+  "lost_detail": [
+    {
+      "bm25_rank": 8,
+      "bucket": "8-15",
+      "exact_evidence_tokens": 945,
+      "in_top500": true,
+      "n_packet_spans": 6,
+      "node_id": "p:orange_fruit:00:000",
+      "question_id": "qa-dev-11",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 10,
+      "bucket": "8-15",
+      "exact_evidence_tokens": 693,
+      "in_top500": true,
+      "n_packet_spans": 9,
+      "node_id": "p:napoleon:00:000",
+      "question_id": "qa-dev-13",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 14,
+      "bucket": "8-15",
+      "exact_evidence_tokens": 693,
+      "in_top500": true,
+      "n_packet_spans": 9,
+      "node_id": "p:russian_revolution:00:000",
+      "question_id": "qa-dev-13",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 6,
+      "bucket": "4-7",
+      "exact_evidence_tokens": 974,
+      "in_top500": true,
+      "n_packet_spans": 5,
+      "node_id": "p:aristotle:07:002",
+      "question_id": "qa-dev-15",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 10,
+      "bucket": "8-15",
+      "exact_evidence_tokens": 926,
+      "in_top500": true,
+      "n_packet_spans": 5,
+      "node_id": "p:bald_eagle:00:000",
+      "question_id": "qa-dev-17",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 4,
+      "bucket": "4-7",
+      "exact_evidence_tokens": 675,
+      "in_top500": true,
+      "n_packet_spans": 3,
+      "node_id": "p:immune_system:11:000",
+      "question_id": "qa-dev-35",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 8,
+      "bucket": "8-15",
+      "exact_evidence_tokens": 855,
+      "in_top500": true,
+      "n_packet_spans": 4,
+      "node_id": "p:nanotechnology:00:000",
+      "question_id": "qa-dev-41",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 2,
+      "bucket": "2-3",
+      "exact_evidence_tokens": 422,
+      "in_top500": true,
+      "n_packet_spans": 1,
+      "node_id": "p:platypus:03:000",
+      "question_id": "qa-dev-45",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 2,
+      "bucket": "2-3",
+      "exact_evidence_tokens": 580,
+      "in_top500": true,
+      "n_packet_spans": 1,
+      "node_id": "p:semiconductor:00:000",
+      "question_id": "qa-dev-49",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 5,
+      "bucket": "4-7",
+      "exact_evidence_tokens": 589,
+      "in_top500": true,
+      "n_packet_spans": 2,
+      "node_id": "p:solar_power:04:000",
+      "question_id": "qa-dev-52",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 25,
+      "bucket": "16-31",
+      "exact_evidence_tokens": 855,
+      "in_top500": true,
+      "n_packet_spans": 5,
+      "node_id": "p:south_africa:00:000",
+      "question_id": "qa-dev-54",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 34,
+      "bucket": "32-63",
+      "exact_evidence_tokens": 855,
+      "in_top500": true,
+      "n_packet_spans": 5,
+      "node_id": "p:south_africa:13:000",
+      "question_id": "qa-dev-54",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 479,
+      "bucket": "256-500",
+      "exact_evidence_tokens": 918,
+      "in_top500": true,
+      "n_packet_spans": 5,
+      "node_id": "p:napoleon:00:000",
+      "question_id": "qa-dev-60",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 17,
+      "bucket": "16-31",
+      "exact_evidence_tokens": 918,
+      "in_top500": true,
+      "n_packet_spans": 5,
+      "node_id": "p:russian_revolution:00:000",
+      "question_id": "qa-dev-60",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 28,
+      "bucket": "16-31",
+      "exact_evidence_tokens": 970,
+      "in_top500": true,
+      "n_packet_spans": 3,
+      "node_id": "p:borneo:00:000",
+      "question_id": "qa-pilot-dev-05",
+      "truncated": true
+    },
+    {
+      "bm25_rank": null,
+      "bucket": "not_in_top500",
+      "exact_evidence_tokens": 527,
+      "in_top500": false,
+      "n_packet_spans": 5,
+      "node_id": "p:gorilla:00:000",
+      "question_id": "qa-pilot-dev-09",
+      "truncated": true
+    },
+    {
+      "bm25_rank": 88,
+      "bucket": "64-127",
+      "exact_evidence_tokens": 527,
+      "in_top500": true,
+      "n_packet_spans": 5,
+      "node_id": "p:chimpanzee:00:000",
+      "question_id": "qa-pilot-dev-09",
+      "truncated": true
+    },
+    {
+      "bm25_rank": null,
+      "bucket": "not_in_top500",
+      "exact_evidence_tokens": 527,
+      "in_top500": false,
+      "n_packet_spans": 5,
+      "node_id": "p:gorilla:08:000",
+      "question_id": "qa-pilot-dev-09",
+      "truncated": true
+    },
+    {
+      "bm25_rank": null,
+      "bucket": "not_in_top500",
+      "exact_evidence_tokens": 527,
+      "in_top500": false,
+      "n_packet_spans": 5,
+      "node_id": "p:chimpanzee:10:000",
+      "question_id": "qa-pilot-dev-09",
+      "truncated": true
+    }
+  ],
+  "n_lost_before_generator": 19,
+  "n_required_outside_top500": 3,
+  "n_required_paragraphs_total": 73,
+  "per_item": [
+    {
+      "hosts": [
+        {
+          "article": "a:orange_colour",
+          "bm25_rank": 2,
+          "bucket": "2-3",
+          "node_id": "p:orange_colour:01:000"
+        },
+        {
+          "article": "a:orange_fruit",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:orange_fruit:23:000"
+        },
+        {
+          "article": "a:orange_fruit",
+          "bm25_rank": 8,
+          "bucket": "8-15",
+          "node_id": "p:orange_fruit:00:000"
+        }
+      ],
+      "n_required": 3,
+      "question_id": "qa-dev-11"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:orange_group",
+          "bm25_rank": 2,
+          "bucket": "2-3",
+          "node_id": "p:orange_group:27:000"
+        },
+        {
+          "article": "a:orange_group",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:orange_group:28:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-dev-12"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:napoleon",
+          "bm25_rank": 10,
+          "bucket": "8-15",
+          "node_id": "p:napoleon:00:000"
+        },
+        {
+          "article": "a:russian_revolution",
+          "bm25_rank": 14,
+          "bucket": "8-15",
+          "node_id": "p:russian_revolution:00:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-dev-13"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:napoleon",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:napoleon:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-14"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:aristotle",
+          "bm25_rank": 6,
+          "bucket": "4-7",
+          "node_id": "p:aristotle:07:002"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-15"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:aristotle",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:aristotle:02:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-16"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:bald_eagle",
+          "bm25_rank": 10,
+          "bucket": "8-15",
+          "node_id": "p:bald_eagle:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-17"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:bald_eagle",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:bald_eagle:19:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-18"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:buford_wyoming",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:buford_wyoming:01:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-19"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:colombo",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:colombo:07:000"
+        },
+        {
+          "article": "a:colombo",
+          "bm25_rank": 2,
+          "bucket": "2-3",
+          "node_id": "p:colombo:22:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-dev-21"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:colombo",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:colombo:02:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-22"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:congo_basin",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:congo_basin:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-23"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:darvaza_gas_crater",
+          "bm25_rank": 2,
+          "bucket": "2-3",
+          "node_id": "p:darvaza_gas_crater:00:000"
+        },
+        {
+          "article": "a:darvaza_gas_crater",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:darvaza_gas_crater:04:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-dev-25"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:delhi",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:delhi:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-27"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:delhi",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:delhi:21:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-28"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:game_theory",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:game_theory:16:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-29"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:game_theory",
+          "bm25_rank": 2,
+          "bucket": "2-3",
+          "node_id": "p:game_theory:10:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-30"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:heart",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:heart:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-31"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:heart",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:heart:00:001"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-32"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:human_genome",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:human_genome:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-33"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:human_genome",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:human_genome:16:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-34"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:immune_system",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:immune_system:10:000"
+        },
+        {
+          "article": "a:immune_system",
+          "bm25_rank": 4,
+          "bucket": "4-7",
+          "node_id": "p:immune_system:11:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-dev-35"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:immune_system",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:immune_system:24:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-36"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:lake_baikal",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:lake_baikal:07:001"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-37"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:lake_baikal",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:lake_baikal:22:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-38"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:manatee",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:manatee:02:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-39"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:manatee",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:manatee:16:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-40"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:nanotechnology",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:nanotechnology:01:000"
+        },
+        {
+          "article": "a:nanotechnology",
+          "bm25_rank": 8,
+          "bucket": "8-15",
+          "node_id": "p:nanotechnology:00:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-dev-41"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:nanotechnology",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:nanotechnology:12:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-42"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:nuclear_fusion",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:nuclear_fusion:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-43"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:nuclear_fusion",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:nuclear_fusion:17:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-44"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:platypus",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:platypus:00:000"
+        },
+        {
+          "article": "a:platypus",
+          "bm25_rank": 2,
+          "bucket": "2-3",
+          "node_id": "p:platypus:03:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-dev-45"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:platypus",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:platypus:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-46"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:printing_press",
+          "bm25_rank": 3,
+          "bucket": "2-3",
+          "node_id": "p:printing_press:01:000"
+        },
+        {
+          "article": "a:printing_press",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:printing_press:00:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-dev-47"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:printing_press",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:printing_press:11:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-48"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:semiconductor",
+          "bm25_rank": 2,
+          "bucket": "2-3",
+          "node_id": "p:semiconductor:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-49"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:semiconductor",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:semiconductor:01:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-50"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:solar_power",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:solar_power:10:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-51"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:solar_power",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:solar_power:02:000"
+        },
+        {
+          "article": "a:solar_power",
+          "bm25_rank": 5,
+          "bucket": "4-7",
+          "node_id": "p:solar_power:04:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-dev-52"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:south_africa",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:south_africa:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-53"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:south_africa",
+          "bm25_rank": 25,
+          "bucket": "16-31",
+          "node_id": "p:south_africa:00:000"
+        },
+        {
+          "article": "a:south_africa",
+          "bm25_rank": 34,
+          "bucket": "32-63",
+          "node_id": "p:south_africa:13:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-dev-54"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:vienna",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:vienna:15:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-55"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:vienna",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:vienna:02:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-56"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:x_ray",
+          "bm25_rank": 3,
+          "bucket": "2-3",
+          "node_id": "p:x_ray:00:000"
+        },
+        {
+          "article": "a:x_ray",
+          "bm25_rank": 2,
+          "bucket": "2-3",
+          "node_id": "p:x_ray:13:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-dev-57"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:orange_county_california",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:orange_county_california:17:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-dev-59"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:napoleon",
+          "bm25_rank": 479,
+          "bucket": "256-500",
+          "node_id": "p:napoleon:00:000"
+        },
+        {
+          "article": "a:russian_revolution",
+          "bm25_rank": 17,
+          "bucket": "16-31",
+          "node_id": "p:russian_revolution:00:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-dev-60"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:mercury_planet",
+          "bm25_rank": 2,
+          "bucket": "2-3",
+          "node_id": "p:mercury_planet:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-pilot-dev-01"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:freddie_mercury",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:freddie_mercury:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-pilot-dev-02"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:mercury_automobile",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:mercury_automobile:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-pilot-dev-03"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:java",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:java:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-pilot-dev-04"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:borneo",
+          "bm25_rank": 28,
+          "bucket": "16-31",
+          "node_id": "p:borneo:00:000"
+        },
+        {
+          "article": "a:java",
+          "bm25_rank": 2,
+          "bucket": "2-3",
+          "node_id": "p:java:00:000"
+        }
+      ],
+      "n_required": 2,
+      "question_id": "qa-pilot-dev-05"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:berlin_wall",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:berlin_wall:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-pilot-dev-06"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:orangutan",
+          "bm25_rank": 2,
+          "bucket": "2-3",
+          "node_id": "p:orangutan:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-pilot-dev-08"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:gorilla",
+          "bm25_rank": null,
+          "bucket": "not_in_top500",
+          "node_id": "p:gorilla:00:000"
+        },
+        {
+          "article": "a:chimpanzee",
+          "bm25_rank": 88,
+          "bucket": "64-127",
+          "node_id": "p:chimpanzee:00:000"
+        },
+        {
+          "article": "a:gorilla",
+          "bm25_rank": null,
+          "bucket": "not_in_top500",
+          "node_id": "p:gorilla:08:000"
+        },
+        {
+          "article": "a:chimpanzee",
+          "bm25_rank": null,
+          "bucket": "not_in_top500",
+          "node_id": "p:chimpanzee:10:000"
+        }
+      ],
+      "n_required": 4,
+      "question_id": "qa-pilot-dev-09"
+    },
+    {
+      "hosts": [
+        {
+          "article": "a:orange_colour",
+          "bm25_rank": 1,
+          "bucket": "1",
+          "node_id": "p:orange_colour:00:000"
+        }
+      ],
+      "n_required": 1,
+      "question_id": "qa-pilot-dev-10"
+    }
+  ],
+  "split": "dev",
+  "stage0_k": 500,
+  "tier": "core"
+}

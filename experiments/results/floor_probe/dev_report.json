@@ -1,0 +1,228 @@
+{
+  "arm_summaries": {
+    "B4": {
+      "abstentions": 0,
+      "accuracy": 0.07272727272727272,
+      "max_exact_evidence_tokens": 993,
+      "mean_exact_evidence_tokens": 785.4745762711865,
+      "mean_latency_ms": 4583.736840027811,
+      "n_correct": 4,
+      "n_items": 59,
+      "n_scored": 55,
+      "n_unscored": 4
+    },
+    "degraded": {
+      "abstentions": 0,
+      "accuracy": 0.01818181818181818,
+      "max_exact_evidence_tokens": 994,
+      "mean_exact_evidence_tokens": 792.9491525423729,
+      "mean_latency_ms": 5507.622912080201,
+      "n_correct": 1,
+      "n_items": 59,
+      "n_scored": 55,
+      "n_unscored": 4
+    },
+    "oracle": {
+      "abstentions": 4,
+      "accuracy": 0.12727272727272726,
+      "max_exact_evidence_tokens": 907,
+      "mean_exact_evidence_tokens": 295.96610169491527,
+      "mean_latency_ms": 2825.539814702914,
+      "n_correct": 7,
+      "n_items": 59,
+      "n_scored": 55,
+      "n_unscored": 4
+    },
+    "oracle_size_matched": {
+      "abstentions": 4,
+      "accuracy": 0.09090909090909091,
+      "max_exact_evidence_tokens": 938,
+      "mean_exact_evidence_tokens": 257.49152542372883,
+      "mean_latency_ms": 3412.2921480221075,
+      "n_correct": 5,
+      "n_items": 59,
+      "n_scored": 55,
+      "n_unscored": 4
+    }
+  },
+  "bm25": {
+    "avgdl": 220.51247620002005,
+    "build_ms": 1569.6171920280904,
+    "n_docs": 9979,
+    "n_postings": 1253346,
+    "n_terms": 79995,
+    "posting_array_bytes": 10666728
+  },
+  "corpus": {
+    "ancestry_complete": true,
+    "doc_string_rule": "article_title + ' ' + section_heading + ' ' + paragraph_text, heading omitted when the section text is exactly '(lead)'",
+    "doc_strings_sha256": "93e6b7f1aeb4d92a202da067aa13bb4273554cbf74f55a07c43136deb6e0ec81",
+    "first_doc_id": "p:abraham_lincoln:00:000",
+    "last_doc_id": "p:zurich:54:000",
+    "lead_placeholder_docs": 332,
+    "lead_placeholder_sections": 297,
+    "n_docs": 9979,
+    "n_nodes": 113951,
+    "retrieval_unit": "paragraph",
+    "tier": "core"
+  },
+  "exploratory_containment": {
+    "paired_oracle_vs_B4": {
+      "B4_better": 1,
+      "both": 37,
+      "neither": 14,
+      "note": "EXPLORATORY / NOT PREREGISTERED -- see generator_floor.containment()",
+      "oracle_better": 7
+    },
+    "per_arm": {
+      "B4": {
+        "n": 55,
+        "n_contains": 38,
+        "rate": 0.6909090909090909
+      },
+      "degraded": {
+        "n": 55,
+        "n_contains": 5,
+        "rate": 0.09090909090909091
+      },
+      "oracle": {
+        "n": 55,
+        "n_contains": 44,
+        "rate": 0.8
+      },
+      "oracle_size_matched": {
+        "n": 55,
+        "n_contains": 40,
+        "rate": 0.7272727272727273
+      }
+    },
+    "why": "the fixed prompt makes answer verbosity grow with packet size, so exact_match under-credits verbose-but-correct answers. A smaller packet can raise the answer score with no relevance gain. Both numbers are reported; the preregistered exact_match stays primary."
+  },
+  "generator": {
+    "generator_id": "qwen25-1.5b-q4km-fixed-v1",
+    "prompt_hash": "d858050940fa5a0a9656fb2b853b7433d9eda7294dc15f47942d666a0d8bfc63",
+    "settings": {
+      "cache_prompt": false,
+      "max_tokens": 256,
+      "n_ctx": 4096,
+      "n_gpu_layers": 0,
+      "seed": 1234,
+      "temperature": 0.0,
+      "threads": 1,
+      "top_k": 1,
+      "top_p": 1.0
+    }
+  },
+  "judge_used": false,
+  "mmd_source": "experiments/comparability/CONTRACT.md \u00a74 via R1_CONTRACT_ERRATUM.md E-1b",
+  "n_items_run": 59,
+  "paired_B4_vs_degraded": {
+    "advantage_interval_basis": "wilson_on_discordant",
+    "advantage_interval_lower": 0.43849391955098227,
+    "advantage_interval_upper": 1.0,
+    "advantage_items_at_observed_n": {
+      "lower": 24.117165575304025,
+      "upper": 55.0
+    },
+    "arm_a": "B4",
+    "arm_b": "degraded",
+    "concordant_both_correct": 1,
+    "concordant_both_wrong": 51,
+    "discordance_rate": 0.05454545454545454,
+    "discordant": 3,
+    "discordant_a_better": 3,
+    "discordant_b_better": 0,
+    "exact_mcnemar_p_two_sided": 0.25,
+    "favour_a_share_of_discordant": 1.0,
+    "n_paired_scored": 55
+  },
+  "paired_oracle_vs_B4": {
+    "advantage_interval_basis": "wilson_on_discordant",
+    "advantage_interval_lower": 0.3755282641185388,
+    "advantage_interval_upper": 0.9637768390302125,
+    "advantage_items_at_observed_n": {
+      "lower": 20.654054526519634,
+      "upper": 53.00772614666169
+    },
+    "arm_a": "oracle",
+    "arm_b": "B4",
+    "concordant_both_correct": 3,
+    "concordant_both_wrong": 47,
+    "discordance_rate": 0.09090909090909091,
+    "discordant": 5,
+    "discordant_a_better": 4,
+    "discordant_b_better": 1,
+    "exact_mcnemar_p_two_sided": 0.375,
+    "favour_a_share_of_discordant": 0.8,
+    "n_paired_scored": 55
+  },
+  "paired_oracle_vs_degraded": {
+    "advantage_interval_basis": "wilson_on_discordant",
+    "advantage_interval_lower": 0.6096569663469354,
+    "advantage_interval_upper": 0.9999999999999999,
+    "advantage_items_at_observed_n": {
+      "lower": 33.53113314908145,
+      "upper": 54.99999999999999
+    },
+    "arm_a": "oracle",
+    "arm_b": "degraded",
+    "concordant_both_correct": 1,
+    "concordant_both_wrong": 48,
+    "discordance_rate": 0.10909090909090909,
+    "discordant": 6,
+    "discordant_a_better": 6,
+    "discordant_b_better": 0,
+    "exact_mcnemar_p_two_sided": 0.03125,
+    "favour_a_share_of_discordant": 1.0,
+    "n_paired_scored": 55
+  },
+  "paired_oracle_vs_oracle_size_matched": {
+    "advantage_interval_basis": "wilson_on_discordant",
+    "advantage_interval_lower": 0.34237195288961925,
+    "advantage_interval_upper": 1.0,
+    "advantage_items_at_observed_n": {
+      "lower": 18.830457408929057,
+      "upper": 55.0
+    },
+    "arm_a": "oracle",
+    "arm_b": "oracle_size_matched",
+    "concordant_both_correct": 5,
+    "concordant_both_wrong": 48,
+    "discordance_rate": 0.03636363636363636,
+    "discordant": 2,
+    "discordant_a_better": 2,
+    "discordant_b_better": 0,
+    "exact_mcnemar_p_two_sided": 0.5,
+    "favour_a_share_of_discordant": 1.0,
+    "n_paired_scored": 55
+  },
+  "probe": "generator-floor",
+  "registered_mmd": {
+    "mmd_items": 13,
+    "mmd_pp": 22.0,
+    "n": 59
+  },
+  "scoring": "eval/answer_scoring.exact_match (deterministic, stdlib, no judge)",
+  "sessions": {
+    "generator_close": {
+      "port_closed": true,
+      "reaped": true,
+      "returncode": 0,
+      "terminated_cleanly": true
+    },
+    "tokenizer_close": {
+      "port_closed": true,
+      "reaped": true,
+      "returncode": 0,
+      "terminated_cleanly": true
+    }
+  },
+  "split_set": "dev",
+  "tokenizer_id": "gguf-embedded:gpt2-bpe:vocab151936:bos151643:eos151645:addbos0:tplsha-cd8e9439",
+  "verdict": {
+    "may_proceed": false,
+    "reason": "only 55 paired scorable items were run but the registered MMD (13 items) is defined over n=59. A partial run cannot bound an effect against a threshold defined on the whole split.",
+    "verdict": "INCONCLUSIVE"
+  },
+  "wall_seconds": 967.8332364931703
+}

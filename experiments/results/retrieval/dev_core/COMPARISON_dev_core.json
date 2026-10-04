@@ -1,0 +1,86 @@
+{
+  "registered_mmd": {
+    "mmd_items": 13,
+    "mmd_pp": 22.0,
+    "n": 59
+  },
+  "split": "dev",
+  "systems": [
+    {
+      "completion": 0.7397260273972602,
+      "completion_hits": 54,
+      "completion_required": 73,
+      "item_level_completion": 0.7636363636363637,
+      "max_tokens": 993,
+      "mean_tokens": 780.8727272727273,
+      "median_tokens": 837,
+      "n": 59,
+      "n_analysable": 55,
+      "report": "experiments/results/retrieval/dev_core/report_B1_bm25_dev_core.json",
+      "stage0": "bm25",
+      "stage0_hits": 70,
+      "stage0_required": 73,
+      "stage0_survival": 0.958904109589041,
+      "status": "SCORED",
+      "system": "B1_bm25"
+    },
+    {
+      "completion": 0.726027397260274,
+      "completion_hits": 53,
+      "completion_required": 73,
+      "item_level_completion": 0.7454545454545455,
+      "max_tokens": 996,
+      "mean_tokens": 746.3454545454546,
+      "median_tokens": 773,
+      "n": 59,
+      "n_analysable": 55,
+      "report": "experiments/results/retrieval/dev_core/report_B2_bm25_static_union_dev_core.json",
+      "stage0": "bm25",
+      "stage0_hits": 70,
+      "stage0_required": 73,
+      "stage0_survival": 0.958904109589041,
+      "status": "SCORED",
+      "system": "B2_bm25_static_union"
+    },
+    {
+      "completion": 0.7397260273972602,
+      "completion_hits": 54,
+      "completion_required": 73,
+      "item_level_completion": 0.7636363636363637,
+      "max_tokens": 993,
+      "mean_tokens": 780.8727272727273,
+      "median_tokens": 837,
+      "n": 59,
+      "n_analysable": 55,
+      "report": "experiments/results/retrieval/dev_core/report_B4_bm25_fixed_generator_dev_core.json",
+      "stage0": "bm25",
+      "stage0_hits": 70,
+      "stage0_required": 73,
+      "stage0_survival": 0.958904109589041,
+      "status": "SCORED",
+      "system": "B4_bm25_fixed_generator"
+    },
+    {
+      "completion": 0.9375,
+      "completion_hits": 15,
+      "completion_required": 16,
+      "item_level_completion": 0.9090909090909091,
+      "max_tokens": 905,
+      "mean_tokens": 722.7272727272727,
+      "median_tokens": 723,
+      "n": 12,
+      "n_analysable": 11,
+      "report": "experiments/results/retrieval/dev_core/report_C_shared_heads_17m_dev_core.json",
+      "stage0": "bm25",
+      "stage0_hits": 16,
+      "stage0_required": 16,
+      "stage0_survival": 1.0,
+      "status": "SCORED",
+      "system": "C_shared_heads_17m"
+    }
+  ],
+  "systems_expected_but_absent": [
+    "B3_bm25_plus_68m_rerank"
+  ],
+  "tier": "core"
+}

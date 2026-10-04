@@ -1,6 +1,16 @@
 # Large binary/data artifacts — preserved on disk, pinned by hash in manifests.
 # Generator weights (986 MB): pinned in corpus/generator_config.json
 generator_runtime/artifacts/
+
+# Round 1 derived caches and bulky raw dumps. Same convention as the rule above:
+# preserved on disk, pinned by sha256 in
+# experiments/results/ARTIFACT_MANIFEST.sha256, not committed as blobs.
+# The BM25 index needs no file (packed in-memory arrays). The B2 static-embedding
+# document cache is 40,873,912 B and is fully reconstructible from the pinned
+# corpus + pinned revision, so it is a derived artefact, not a source one.
+artifacts/
+experiments/artifacts/
+experiments/results/floor_probe/*_packets/
 # Corpus canonical JSONL (42 MB): pinned in corpus/build_manifest.json + provenance.json
 corpus/corpus.jsonl
 # Raw Wikipedia snapshots (41 MB) and the superseded pilot archive (39 MB)
