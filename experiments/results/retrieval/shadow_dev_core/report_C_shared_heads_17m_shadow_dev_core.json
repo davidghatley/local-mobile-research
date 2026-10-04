@@ -1,0 +1,182 @@
+{
+  "evidence_tokens": {
+    "max": 992,
+    "mean": 740.0121951219512,
+    "median": 785,
+    "min": 262,
+    "n": 82,
+    "n_empty_packets": 0,
+    "n_over_hard_cap_1000": 0,
+    "n_over_target_band_800": 35,
+    "n_truncated": 82,
+    "p95": 977,
+    "target_band": "300-800 typical, <=1000 hard cap (frozen comparability contract \u00a72)"
+  },
+  "final_packet": {
+    "completed": 96,
+    "completion": 0.7868852459016393,
+    "context_precision_leaf": {
+      "exact_leaf_hits": 95,
+      "leaf_precision": 0.5654761904761905,
+      "note": "exact leaf-node hits over retrieved leaf nodes. Ancestry-expanded paragraph ids are NOT in the denominator: a paragraph that contains a required sentence is not itself a retrieved leaf.",
+      "retrieved_leaf_nodes": 168
+    },
+    "item_level_completion": 0.7317073170731707,
+    "n_items": 82,
+    "n_items_fully_complete": 60,
+    "required_paragraphs": 122,
+    "wilson_ci": {
+      "lower": 0.7060439583463517,
+      "upper": 0.8502108890173182
+    }
+  },
+  "generator_used": false,
+  "interpretation_rule": "A gap below the registered MMD is a NULL RESULT and must never be reported as a win. MMD is a property of the split, not a tunable.",
+  "judge_used": false,
+  "latency": {
+    "caveat": "DESKTOP CPU measurements, threads=1 for the model path, on a shared host. Not an Android or on-device figure. Contention noise is present when concurrent jobs were running; compare systems only under equal load.",
+    "end_to_end_retrieval": {
+      "max_ms": 49365.36756390706,
+      "mean_ms": 26926.975931760844,
+      "median_ms": 26161.036815028638,
+      "min_ms": 12810.529143782333,
+      "n": 87,
+      "p95_ms": 45900.70231305435,
+      "stdev_ms": 7829.566685305614
+    },
+    "per_stage": {
+      "bm25": {
+        "max_ms": 215.76303406618536,
+        "mean_ms": 45.286161134597556,
+        "median_ms": 37.227774038910866,
+        "min_ms": 5.565369036048651,
+        "n": 87,
+        "p95_ms": 90.0556470733136,
+        "stdev_ms": 34.63677972196464
+      },
+      "heads_coarse": {
+        "max_ms": 49305.70140387863,
+        "mean_ms": 26871.545405715875,
+        "median_ms": 26107.280829921365,
+        "min_ms": 12772.316802060232,
+        "n": 87,
+        "p95_ms": 45822.28636788204,
+        "stdev_ms": 7823.152850176655
+      },
+      "heads_fine": {
+        "max_ms": 5.459815030917525,
+        "mean_ms": 2.508148347594957,
+        "median_ms": 2.177699003368616,
+        "min_ms": 2.0584489684551954,
+        "n": 87,
+        "p95_ms": 4.755320027470589,
+        "stdev_ms": 0.8141765668160237
+      },
+      "heads_sufficiency": {
+        "max_ms": 14.05612495727837,
+        "mean_ms": 5.365535742656767,
+        "median_ms": 5.134897073730826,
+        "min_ms": 2.489732811227441,
+        "n": 87,
+        "p95_ms": 8.60653817653656,
+        "stdev_ms": 1.904313633522696
+      }
+    }
+  },
+  "n_analysable": 82,
+  "n_traces": 87,
+  "notes": [
+    "5 of 87 items were EXCLUDED from the survival denominators because no required atom had a retrievable host paragraph in this tier. They are listed in per_item with excluded=..., not silently counted as misses."
+  ],
+  "registered_mmd": {
+    "mmd_items": 15,
+    "mmd_pp": 17.2,
+    "n": 87
+  },
+  "stage_names": [
+    "bm25",
+    "heads_coarse",
+    "heads_fine",
+    "heads_sufficiency"
+  ],
+  "stage_survival": {
+    "bm25": {
+      "mean_required_per_item": 1.4878048780487805,
+      "n_items": 82,
+      "required_paragraphs": 122,
+      "survival": 0.9836065573770492,
+      "survived": 120,
+      "wilson_ci": {
+        "lower": 0.9421938948674934,
+        "upper": 0.9954928478312645
+      }
+    },
+    "heads_coarse": {
+      "mean_required_per_item": 1.4878048780487805,
+      "n_items": 82,
+      "required_paragraphs": 122,
+      "survival": 0.9836065573770492,
+      "survived": 120,
+      "wilson_ci": {
+        "lower": 0.9421938948674934,
+        "upper": 0.9954928478312645
+      }
+    },
+    "heads_fine": {
+      "mean_required_per_item": 1.4878048780487805,
+      "n_items": 82,
+      "required_paragraphs": 122,
+      "survival": 0.9836065573770492,
+      "survived": 120,
+      "wilson_ci": {
+        "lower": 0.9421938948674934,
+        "upper": 0.9954928478312645
+      }
+    },
+    "heads_sufficiency": {
+      "mean_required_per_item": 1.4878048780487805,
+      "n_items": 82,
+      "required_paragraphs": 122,
+      "survival": 0.9836065573770492,
+      "survived": 120,
+      "wilson_ci": {
+        "lower": 0.9421938948674934,
+        "upper": 0.9954928478312645
+      }
+    }
+  },
+  "storage": {
+    "index_files": [],
+    "index_payload_basis": "MEASURED buffer sizes of the packed postings arrays, plus any on-disk .npy embedding caches. Excludes Python object overhead; peak RSS is the process-level figure and is reported separately.",
+    "index_payload_bytes": 10666728,
+    "never_summed": "index_payload_bytes and weights_bytes are reported separately and MUST NOT be added into a single 'size' figure: the index ships beside the app, the weights ARE the app, and a mobile claim needs them apart.",
+    "shared_generator_artifact_bytes": 986048768,
+    "shared_generator_note": "IDENTICAL for every architecture and therefore EXCLUDED from per-system cost, per experiments/baselines/HYPOTHESIS.md section 9. Listed so a reader can add it back deliberately rather than by accident.",
+    "weight_artifacts": [
+      "cross-encoder/ettin-reranker-17m-v1@9e4aa35321a6dd1a43ca313f500c4b4f7cfb5cc6"
+    ],
+    "weights_basis": "MEASURED os.path.getsize + sha256 of cached model.safetensors and tokenizer.json at the PINNED revision. Config/README bytes excluded: they are not shipped to a device.",
+    "weights_bytes": 70777255,
+    "weights_per_repo": {
+      "cross-encoder/ettin-reranker-17m-v1": {
+        "bytes": 70777255,
+        "files": [
+          {
+            "bytes": 67193928,
+            "name": "model.safetensors",
+            "sha256": "f970cbb7ae7f14082852ca6fb91a3171b346bdd9c78e871e1e8a0fdbde98ceb3"
+          },
+          {
+            "bytes": 3583327,
+            "name": "tokenizer.json",
+            "sha256": "28c5e078e4c52aa37cf0e6de1a212878f3dbd58dd1c70466298efe0b6b86db35"
+          }
+        ],
+        "revision": "9e4aa35321a6dd1a43ca313f500c4b4f7cfb5cc6",
+        "status": "MEASURED"
+      }
+    }
+  },
+  "system_id": "C_shared_heads_17m",
+  "trace_file": "experiments/results/retrieval/shadow_dev_core/traces_C_shared_heads_17m_shadow_dev_core.jsonl"
+}

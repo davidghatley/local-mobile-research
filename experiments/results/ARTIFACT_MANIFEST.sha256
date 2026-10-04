@@ -1,12 +1,19 @@
 # sha256  bytes  path
-# Round 1 raw traces, reports and producing code, pinned by content.
-# Derived caches (artifacts/*.npy) and packet text dumps are NOT
-# committed; both are reconstructible from the pinned corpus, the pinned
+# Round 1 raw traces, reports, reviews and producing code, pinned by content.
+# Derived caches (artifacts/*.npy, 40.9 MB) and per-item packet text dumps are
+# NOT committed; both are reconstructible from the pinned corpus, the pinned
 # model revisions and the probe driver.
+# The frozen generator artifact is excluded from per-system cost and is pinned by
+# corpus/generator_config.json instead.
+c6706f6f6b0e6fe1669ceac6c603402b84da0a247d5d7d12cc2f35f2a111cc0f       11512  experiments/baselines/BASELINE_IMPLEMENTATION_REPORT.md
+46e20ebbfc66b17ab47b6b4d3b054c67e26750bfd9eb939c44815a7ea18a9325       10400  experiments/baselines/GENERATOR_FLOOR_REPORT.md
+5a2c55fb06ae4ff942e41a3021bbe26157dabb6ce3fc8e215983f88b129ffa1e       40979  experiments/baselines/HYPOTHESIS.md
+6760d67019ba4c1c29072b29c0476c9aaf152264105e9888c8296f4a4105a93d       15926  experiments/baselines/PLAN.md
 2f02c86a9c6499a279c936e1477bf5436f3d0546b01980938e927d4fc2aab7fd        4223  experiments/baselines/b1_lexical.py
-e5b3a679b0ac2e54d0360f871944b67b2c329d4473babf90916d4701126a97ea       12007  experiments/baselines/b2_static.py
-bc18f7cd03317e46c8a21727b2eac301823314d3fe480ad97f3afd7c47b90794        9552  experiments/baselines/b3_reranker.py
+f0588d9c77b3e87414d6667dcfd353a2352b1662b3df3aadbb66ae328da1d919       12691  experiments/baselines/b2_static.py
+d6a2fd23f7181ef68609f4b9f8a10212a73b358c267cb404e995387d23748177       11050  experiments/baselines/b3_reranker.py
 8e2c94f61cabf7d6a9802d9e29e04679189439cbed88183736420ad68b67ca4b       16073  experiments/baselines/generator_floor.py
+7f6f9d38fcc3f0bb8c89df1517c46d08b1f2896b3304120f3b866dd793b873bb        6387  experiments/baselines/run_baseline_sweep.py
 e475a02a35d8a233c281427cd4fdc59f0787c2d3a0a46c9998147ec77989a6ff       13039  experiments/baselines/run_floor_probe.py
 e6247821ea1682d689c7fb86e3fefa27e95abfbe999a48b1155e937ea0a71db7        2143  experiments/common/__init__.py
 7e276c4e1fb4c8e9585ded17b607e2a146aa97deea5b80934d85365e8df893cb        8199  experiments/common/bm25.py
@@ -23,9 +30,11 @@ b86e9d2f93167b8c481985c61be1f81da31f99ce3c475b099847fbeef8d5d5d7        8324  ex
 cedfc3b730327abafe82a1c61b328003af032460d694984387a384fb88d83ab7        9132  experiments/common/storage_accounting.py
 9feec71b584b62c322a6351ab0dc658b59c44c24ee37d7044bab3a0b2ca503b8        5985  experiments/common/tokenizer.py
 eb8fab2cf61b70f61453bd07a857fa4bf2c7ffc06cb4a3b1e868a1616db2f897        7844  experiments/common/trace.py
-e3583e1157dd94c197e1079c31a58fb68bcbdff9315559b3dfcdaddc4937aaae       11602  experiments/ettin_cascade/cascade.py
-5f29f58fc582abc7a81c15f106ea55b05421ea141cdf1c8d0f946462ab5ba82b       11141  experiments/results/R1_ANALYSIS.md
-fe65851ab73fedbcc9cf96a438e06fb3339d35d06085fc80c8c87a9e346701e6        9114  experiments/results/R1_SHORTLIST_AND_PRIVATE_PROTOCOL.md
+be9d20ba4e5bef2ad6853557c31d6e32d1f65cafea41d2fde8943b61f4089438       12663  experiments/ettin_cascade/cascade.py
+df483e16ec67ccadba31618381f2007af991a618d589a5603bec128bf8c847b2        7055  experiments/ettin_cascade/run_cascade.py
+b17fd865ec2a115e9237d07e4068ef3c798ee4318ed976befd29abf78404a0e9       21285  experiments/kalm_cascade/DEPLOYABILITY_FEASIBILITY.md
+2a10366fbe2917046d7df81e01040aabbb52c582d14ece241df53e6224db4fd3       21680  experiments/results/R1_ANALYSIS.md
+e926506d7da94ffd21b283dbae5b604bc4ce870c527ee714ffcfcfd5f2ac52b7       12359  experiments/results/R1_SHORTLIST_AND_PRIVATE_PROTOCOL.md
 b3ba707c3e168745eae58bc4a2eb1467fce499c47b460b72e067f61bb994c620      811837  experiments/results/floor_probe/all_arms.json
 0197d5bb1d10a3131fed1eeac3d30120ebe450260550f311830fb2cdff08c884        3747  experiments/results/floor_probe/all_packets/qa-dev-11__B4.txt
 86142c305ff93d31c3c4938efc4b1b565eec21079244b936c2f277097852c184        3358  experiments/results/floor_probe/all_packets/qa-dev-11__degraded.txt
@@ -850,36 +859,53 @@ db85f125ffe0c368ff70a0abd8d473ba271cbb177272bc0dcc43406e71c6f591        3244  ex
 620b3b7322c4c1e2a15198ac7c88bc548ee1e5f60dc70817b2ebb09b7223f018        1324  experiments/results/floor_probe/dev_packets/qa-pilot-dev-10__oracle.txt
 620b3b7322c4c1e2a15198ac7c88bc548ee1e5f60dc70817b2ebb09b7223f018        1324  experiments/results/floor_probe/dev_packets/qa-pilot-dev-10__oracle_size_matched.txt
 809e97829b8581e4f717798b9b869966a7725fed132503f60e51683b255a3a75        7012  experiments/results/floor_probe/dev_report.json
-a888a884cc042da825d4aef99b51428caf5b3b12f5974fe027eef2f86e6159fe        2504  experiments/results/retrieval/dev_core/COMPARISON_dev_core.json
+c7b99f6e4380f4028afab3e29fa00e79bd6b319dd3e6109b04c16f057a38dc4b        3090  experiments/results/retrieval/dev_core/COMPARISON_dev_core.json
 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945           2  experiments/results/retrieval/dev_core/failures_B1_bm25_dev_core.json
 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945           2  experiments/results/retrieval/dev_core/failures_B2_bm25_static_union_dev_core.json
+4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945           2  experiments/results/retrieval/dev_core/failures_B3_bm25_plus_68m_rerank_dev_core.json
 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945           2  experiments/results/retrieval/dev_core/failures_B4_bm25_fixed_generator_dev_core.json
 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945           2  experiments/results/retrieval/dev_core/failures_C_shared_heads_17m_dev_core.json
 7b045d66263ef74d3a096a53c91595ab55d001a45b1760272c1f1f3898335038       22314  experiments/results/retrieval/dev_core/headroom_dev_core.json
 903db1c44f481bb285c90a7789d92c07d8d00cdcd4a79fefb55960f853f31a72        6540  experiments/results/retrieval/dev_core/loss_attribution_B1_bm25_dev_core.json
 3067c2a3ff8a6022cf4b70ebba39000201fc61550998ac751b2d2298d1efac9f        3941  experiments/results/retrieval/dev_core/report_B1_bm25_dev_core.json
-8b97e3702f4fd2571660f23b97390819de7fea52f0e8a9454f0645bb7d7918fd        5155  experiments/results/retrieval/dev_core/report_B2_bm25_static_union_dev_core.json
+4da7610fd697f3439380f8f42ce87f87f8fe891f4dc39e6158ff213601fc3057        5328  experiments/results/retrieval/dev_core/report_B2_bm25_static_union_dev_core.json
+b5c1324f0a779ec0ed846a33d997ecfed5cb32fa55fa997cb45fd5eaa71271d8        5064  experiments/results/retrieval/dev_core/report_B3_bm25_plus_68m_rerank_dev_core.json
 6f8c0cc58d578af13ab31d1837f46e022c889d76e4ba5253de81b169edd8e5b3        3977  experiments/results/retrieval/dev_core/report_B4_bm25_fixed_generator_dev_core.json
-ddc8966f163b2ea6629492cec32f427a80fe222da4e5feac10ad3e42fbdaee0a        6298  experiments/results/retrieval/dev_core/report_C_shared_heads_17m_dev_core.json
+813df6e6ad4212150ffd75a2489169efd6e282ef0296d57d0f76bbcd014a069d        6430  experiments/results/retrieval/dev_core/report_C_shared_heads_17m_dev_core.json
 7a508ca933d61e87444ea91f20f469b9d82dfb960d993cc5cb7569b6bae465f7        2608  experiments/results/retrieval/dev_core/report_b1_dev_core.json
 11832bfd361987022d965c0930e0bd7c2535b3127b7bedae0c4c9822eb48ca78        2657  experiments/results/retrieval/dev_core/report_b4_dev_core.json
-9502d3a6d260f3471681355ce2f7e4c422454d3e8d3f2ab6b003ace39ed4314f         427  experiments/results/retrieval/dev_core/run_summary.json
+bdf4762c7fa7a4ac8277c4147e3165052ffce684cb383f6036fed9b419b6d1dd         427  experiments/results/retrieval/dev_core/run_summary.json
 3eda65ec905b1a81332d86166809db6a19be82519b9f9263c307c07c52f19176     1844557  experiments/results/retrieval/dev_core/traces_B1_bm25_dev_core.jsonl
-f94bb0b31aa604b7f46dfdad3ffd8e513a1a541b21fc5829c5f95827a0481d71     2912914  experiments/results/retrieval/dev_core/traces_B2_bm25_static_union_dev_core.jsonl
+731c0a3336e15dea547a48109f8574a4e2eff17be32f3f751109deaefe1c171b     2914377  experiments/results/retrieval/dev_core/traces_B2_bm25_static_union_dev_core.jsonl
+16ead2698df3291035fcd32f45d2461ffa40c146b8373b1fd9f73e6fb0eb7095     3376074  experiments/results/retrieval/dev_core/traces_B3_bm25_plus_68m_rerank_dev_core.jsonl
 23e39910b0bdaf541278223ee911308c74af2e2de36537375e1d2fa6987c9577     1845500  experiments/results/retrieval/dev_core/traces_B4_bm25_fixed_generator_dev_core.jsonl
-6425c2b43f8b3b5ec7820cee5fdd09dd29e6a9b575b15c1c9d8790d69be13509     1228561  experiments/results/retrieval/dev_core/traces_C_shared_heads_17m_dev_core.jsonl
+83421a796447e31fb252575e2eaa7a5befcbacc5faa8e5cb9d8fe1d260998134     6035161  experiments/results/retrieval/dev_core/traces_C_shared_heads_17m_dev_core.jsonl
 6500ce317ce5b5bd8ea6dcd050242a81092f1d7b8a9b43ebd9bee4ce9792ce37         827  experiments/results/retrieval/dev_core_cap0/COMPARISON_dev_core.json
 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945           2  experiments/results/retrieval/dev_core_cap0/failures_B1_bm25_dev_core.json
 ac50c5c7929e2b18c7fdad0fa60ea0f1ef66c18da41c17c854d071f91f3ae748        3865  experiments/results/retrieval/dev_core_cap0/report_B1_bm25_dev_core_dev_core.json
 1e9a73ae090d01c39de5940e6aa09a2d68d0653e5ceba9c15d629de15924e35c        2666  experiments/results/retrieval/dev_core_cap0/report_b1_dev_core.json
 9187a81c5e04429b3eec747d3ea95cf167d14a03c8583ad0901fcad5efff7dc1     1842026  experiments/results/retrieval/dev_core_cap0/traces_B1_bm25_dev_core.jsonl
-37832e1e69d3118928333b51c1467a075074360578f8634828b4e698690f6a1b        1464  experiments/results/retrieval/shadow_dev_core/COMPARISON_shadow_dev_core.json
+57878315db0b1509100420ad3f2bab466edbe7b9200112364e3abf1332209c55        2033  experiments/results/retrieval/shadow_dev_core/COMPARISON_shadow_dev_core.json
 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945           2  experiments/results/retrieval/shadow_dev_core/failures_B1_bm25_shadow_dev_core.json
 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945           2  experiments/results/retrieval/shadow_dev_core/failures_B4_bm25_fixed_generator_shadow_dev_core.json
+4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945           2  experiments/results/retrieval/shadow_dev_core/failures_C_shared_heads_17m_shadow_dev_core.json
+c104e40272baf695864cb6088b15af1428bb426e217cf68a3d824345917fe5b5        3958  experiments/results/retrieval/shadow_dev_core/report_B1_bm25_shadow_dev_core.json
 4297358bf6aac98504ae77c6d4d72a5eacba71f9483c3f20203fbfddca83486f        2054  experiments/results/retrieval/shadow_dev_core/report_B1_bm25_shadow_dev_core_shadow_dev_core.json
+6e6149573f7df57e2dfc1d16656659639f1d543063956164c5b88f4de1269081        3987  experiments/results/retrieval/shadow_dev_core/report_B4_bm25_fixed_generator_shadow_dev_core.json
 d8ae53ccb957616a6196a628338fd49fa6a35b0fca3fd1105705a78dabd8ae65        2086  experiments/results/retrieval/shadow_dev_core/report_B4_bm25_fixed_generator_shadow_dev_core_shadow_dev_core.json
+5f9f75ff922d82ba6ca4584d8e926ec54b32dd54f023a09ed84a4c75dfe9798f        6452  experiments/results/retrieval/shadow_dev_core/report_C_shared_heads_17m_shadow_dev_core.json
 b0ec976145f5f8b5e2e322cce70867d6c699c1723a76abdee8962e915e82dd75        2701  experiments/results/retrieval/shadow_dev_core/report_b1_shadow_dev_core.json
 4793944538a2f61bd3bc4cc4827fbb5fc88fcf1b74cbfb208e35daaa432b6569        2747  experiments/results/retrieval/shadow_dev_core/report_b4_shadow_dev_core.json
+4c96d5e8781a87bb0a2c7f211777493ab55b5fc97dad23cfc02cffe129844409        1488  experiments/results/retrieval/shadow_dev_core/run_summary.json
 b2d2a5dfe358fd173b472774d59b78838a26baf140cbd205fb1376c6354be56c     2765285  experiments/results/retrieval/shadow_dev_core/traces_B1_bm25_shadow_dev_core.jsonl
 bbf10bf5a28484623728c5b558aec863ec20af5c6c9d95d31ef74f74f0151e54     2766678  experiments/results/retrieval/shadow_dev_core/traces_B4_bm25_fixed_generator_shadow_dev_core.jsonl
+8a11a1e1b1014a37ae4cf958e14aace4a38d4ad3fa15a6807fff379d154dd8ad     9028809  experiments/results/retrieval/shadow_dev_core/traces_C_shared_heads_17m_shadow_dev_core.jsonl
+99fee6448cd0363b304e6b9d43e403255e4af3edcaf0fcfe342644c52b533455        2782  experiments/reviews/MOBILE_FEASIBILITY_REVIEW.md
+ef05b4b548b15b1291d82ed64f99c505783a9adf69d45e0b4d41537e61b041e5       17766  experiments/reviews/R1_INDEPENDENT_READINESS_REVIEW.md
+b04fbc3e624454190fe8c22a3dbbc84b84aa3228024ff0f25ca0203dbf4124ac        5347  experiments/shared_heads/FREEZE_RECORD.md
+925c9ac7f0ed156faf5bbe6bf1a70c9709f9e5138ae218a6e0dcf9732103d6d1       14354  experiments/shared_heads/HYPOTHESIS.md
+9265b20282284002d829184a18b79febe7308c96738dcd49b078b64c98cc0189        7377  experiments/shared_heads/PLAN.md
+68a10b551de69a6ebe50064ba8105078ff9d1c38208e320ed5458409a54565eb        6445  experiments/shared_heads/SHARED_HEADS_REPORT.md
+dbd3df73ff493c002bb21fe9eada193afcaca5f482ee9e152e8f18f86afdbba8          65  experiments/shared_heads/__init__.py
+d42dd150a228e0a2b062ebe62383514105a6e742b3dc57d4a256eb5f05c9f3c6        5169  experiments/shared_heads/run_shared_heads.py
 5d200555ee5c41fd61c03c8063c8dccebb32d47005827e63db7eb94e5e6160db       14455  experiments/shared_heads/shared_heads.py

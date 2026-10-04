@@ -41,6 +41,24 @@
       "stage0_survival": 0.9836065573770492,
       "status": "SCORED",
       "system": "B4_bm25_fixed_generator"
+    },
+    {
+      "completion": 0.7868852459016393,
+      "completion_hits": 96,
+      "completion_required": 122,
+      "item_level_completion": 0.7317073170731707,
+      "max_tokens": 992,
+      "mean_tokens": 740.0121951219512,
+      "median_tokens": 785,
+      "n": 87,
+      "n_analysable": 82,
+      "report": "experiments/results/retrieval/shadow_dev_core/report_C_shared_heads_17m_shadow_dev_core.json",
+      "stage0": "bm25",
+      "stage0_hits": 120,
+      "stage0_required": 122,
+      "stage0_survival": 0.9836065573770492,
+      "status": "SCORED",
+      "system": "C_shared_heads_17m"
     }
   ],
   "systems_expected_but_absent": [

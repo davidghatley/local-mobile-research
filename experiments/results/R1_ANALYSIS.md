@@ -169,16 +169,61 @@ loses the cost metrics decisively.
 
 ### 2.3 Registered-threshold reading of C vs B1
 
-| split set | registered MMD | measured delta | outcome |
-|---|---|---|---|
-| dev (n=59) | 13 items / 22.0 pp | 10 items / 13.70 pp | **UNRESOLVED at current power** — below the dev threshold |
-| dev + shadow_dev (n=146) | 18 items / 12.3 pp | 13.70 pp in percentage terms exceeds 12.3 pp | **the powered split set decides** |
+### 2.4 SHADOW_DEV — the one frozen confirmation run, and the result
 
-So the dev result alone is *not* a win, and this document does not call it one. It
-is a large effect that the dev split cannot resolve, which is precisely the
-situation the single shadow_dev confirmation run exists to settle. C's
-configuration was frozen in `experiments/shared_heads/FREEZE_RECORD.md` **before**
-that run was launched.
+C's configuration was frozen in `experiments/shared_heads/FREEZE_RECORD.md`
+**before** this run was launched, with no threshold, breadth, cap or budget
+adjustable afterwards. 87 items, 82 analysable, 122 required paragraphs, 0
+failures.
+
+| | B1 BM25 | **C shared heads (17M)** |
+|---|---|---|
+| stage-0 survival | 120/122 = 0.9836 | **120/122 = 0.9836 — identical** |
+| all three head stages | — | 0.9836 each — **all unchanged** |
+| **final packet completion** | 80/122 = **0.6557** | **96/122 = 0.7869** |
+| item-level completion | 0.5976 | **0.7317** |
+| leaf context precision | 0.2959 | **0.5655** |
+| mean exact evidence tokens | 798 | **740** (fewer) |
+| median latency | 87.2 ms | 26,161 ms (**300×**) |
+| weights | none | 70,777,255 B |
+
+**Delta = +16 paragraphs = +13.11 pp. Registered shadow_dev MMD = 15 items /
+17.2 pp. → RESOLVED.** Wilson 95% intervals: B1 [0.5678, 0.7341], C
+[0.7060, 0.8502].
+
+### 2.5 The pooled, powered comparison — dev + shadow_dev, n=195 required
+
+Pooling both splits is the comparison the register's `dev + shadow_dev` row
+(18 items / 12.3 pp) is defined for.
+
+| | B1 BM25 | C shared heads | delta |
+|---|---|---|---|
+| final packet completion | 134/195 = 0.6872 | **160/195 = 0.8205** | **+26 paragraphs = +13.33 pp** |
+| Wilson 95% | [0.6190, 0.7481] | **[0.7606, 0.8680]** | **intervals do NOT overlap** |
+
+**Gap = 26 items against a registered MMD of 18 items. → RESOLVED, and the
+confidence intervals are disjoint.**
+
+This is the first and only architecture result in Round 1 that clears the
+registered threshold, and it is worth being precise about what it does and does not
+say:
+
+* **It IS a real effect on evidence completion.** C's packets carry 13.33 pp more
+  required evidence than BM25's, using 58 *fewer* mean tokens, with disjoint
+  confidence intervals, on 195 required paragraphs across both splits.
+* **It is NOT a retrieval improvement.** Every stage of every system reads the
+  same stage-0 survival. Nothing was found that BM25 had missed; the gain is
+  entirely allocation.
+* **It is NOT an answer-quality result.** The floor probe established that final
+  answers cannot resolve anything on this corpus, and that remains true.
+* **It costs 300× the latency and 70.8 MB.** Whether that trade is worth making on
+  a phone is a deployability question this run did not answer, and §4 explains
+  why it cannot be answered from desktop numbers.
+
+The dev split alone (n=59) could **not** resolve this effect: +10 paragraphs
+against a 13-item MMD. It took the powered split set to separate 0.6872 from
+0.8205. That is the registered power analysis being correct about its own limits,
+and it is why dev-only iteration would have thrown this result away.
 
 ### B2 — a preregistered prediction that came true
 
@@ -298,8 +343,10 @@ done.
 | comparison | outcome |
 |---|---|
 | **B3 (68M) vs C (17M shared heads), dev** | **PRACTICALLY TIED / UNRESOLVED.** One paragraph apart (65 vs 64 of 73) at 3.9× the weights and 2.0× the latency. **The 68M ceiling is unnecessary.** |
-| **C shared heads vs B1 BM25, dev** | **LARGE EFFECT, UNRESOLVED ON DEV.** +10 paragraphs / +13.70 pp, but the dev MMD is 22.0 pp. Frozen and sent once to shadow_dev to settle it. |
-| **B3 68M vs B1 BM25, dev** | **LARGE EFFECT, UNRESOLVED ON DEV.** +11 paragraphs / +15.07 pp, same threshold situation. |
+| **C shared heads vs B1 BM25, shadow_dev** | **RESOLVED.** +16 paragraphs / +13.11 pp, MMD 15 items. One frozen run, no tuning. |
+| **C shared heads vs B1 BM25, dev+shadow_dev (powered)** | **RESOLVED.** +26 paragraphs / +13.33 pp vs an 18-item MMD, **disjoint Wilson CIs** [0.6190, 0.7481] vs [0.7606, 0.8680] over 195 required paragraphs. **The only threshold-clearing architecture result in Round 1.** |
+| **C shared heads vs B1 BM25, dev alone** | **UNRESOLVED.** +10 paragraphs vs a 13-item MMD. The dev split alone would have discarded this result. |
+| **B3 68M vs B1 BM25, dev** | **LARGE EFFECT, UNRESOLVED ON DEV.** +11 paragraphs / +15.07 pp, same threshold situation. Not sent to shadow_dev — see §2.0, it was already outmatched on cost by C. |
 | B2 static union vs B1 BM25 | **PRACTICALLY TIED / UNRESOLVED**, and negative in sign (−1 paragraph). Preregistered prediction confirmed: the cheap semantic channel adds nothing measurable, for 166.6 MB. |
 | B4 vs B1 | **IDENTICAL BY CONSTRUCTION** — same retriever; the difference is generation, measured separately in the floor probe. |
 | per-article cap 3 vs no cap | **+2 paragraphs** for removing it (0.7397 → 0.7671) — below the dev MMD, so unresolved as a *quality* claim, but mechanistically a real *policy* lever. |
