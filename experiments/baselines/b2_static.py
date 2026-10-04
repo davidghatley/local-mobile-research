@@ -281,15 +281,27 @@ class B2Static:
         query_text = query.text
 
         # BM25 top-500
+        t_bm25 = time.perf_counter()
         bm25_rank = _compute_bm25_rank(self.view, self.bm25_index, query_text)
 
         # Static top-500 (lazily embeds documents on first use)
+        t_static = time.perf_counter()
         static_rank = self._get_static_rank(query_text)
+        static_latency_ms = (time.perf_counter() - t_static) * 1000.0
 
         # Borda fusion
+        t_fuse = time.perf_counter()
         fused_list = _borda_fuse(bm25_rank, static_rank)
+        fuse_latency_ms = (time.perf_counter() - t_fuse) * 1000.0
         final_k = min(STAGE0_K, len(fused_list))
         final_ids = fused_list[:final_k]
+
+        # The bm25 stage latency covers lexical scoring AND fusion, because the
+        # fused order is what the bm25 stage hands onward. Reporting 0.0 here (as
+        # this file did until 2026-10-04) asserted a measured zero for a stage that
+        # really consumed milliseconds; the substrate reserves None for "not
+        # measured" and treats 0 as a real measurement.
+        bm25_latency_ms = (time.perf_counter() - t_bm25) * 1000.0
 
         # --- Stage entries ---
 
@@ -306,7 +318,7 @@ class B2Static:
             model_identity="bm25-okapi-stdlib:k1=1.2,b=0.75,tokenizer=NFKC-casefold-[a-z0-9]+",
             threshold_policy=topk_policy(STAGE0_K, "similarity"),
             kept=[True] * len(bm25_ids),
-            latency_ms=0.0,
+            latency_ms=bm25_latency_ms,
             model_loading_latency_ms=None,
             inference_latency_ms=None,
             peak_rss_mb=peak_rss_mb(),
@@ -321,7 +333,7 @@ class B2Static:
             model_identity=B2_MODEL_IDENTITY,
             threshold_policy=topk_policy(STAGE0_K, "similarity"),
             kept=[True] * len(final_ids),
-            latency_ms=0.0,  # query latency measured separately
+            latency_ms=static_latency_ms,
             model_loading_latency_ms=None,
             inference_latency_ms=None,
             peak_rss_mb=peak_rss_mb(),

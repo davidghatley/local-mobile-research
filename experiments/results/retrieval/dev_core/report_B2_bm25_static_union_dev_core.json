@@ -36,32 +36,32 @@
   "latency": {
     "caveat": "DESKTOP CPU measurements, threads=1 for the model path, on a shared host. Not an Android or on-device figure. Contention noise is present when concurrent jobs were running; compare systems only under equal load.",
     "end_to_end_retrieval": {
-      "max_ms": 7943.960777949542,
-      "mean_ms": 376.07297390083767,
-      "median_ms": 217.0966579578817,
-      "min_ms": 122.4110689945519,
+      "max_ms": 4459.7247240599245,
+      "mean_ms": 203.90294689953453,
+      "median_ms": 119.00006188079715,
+      "min_ms": 69.60552209056914,
       "n": 59,
-      "p95_ms": 553.5711571574211,
-      "stdev_ms": 1007.3612293154632
+      "p95_ms": 309.1527698561549,
+      "stdev_ms": 566.5316417735273
     },
     "per_stage": {
       "bm25": {
-        "max_ms": 0.0,
-        "mean_ms": 0.0,
-        "median_ms": 0.0,
-        "min_ms": 0.0,
+        "max_ms": 4405.379439005628,
+        "mean_ms": 155.7953508286658,
+        "median_ms": 76.73080521635711,
+        "min_ms": 53.048242814838886,
         "n": 59,
-        "p95_ms": 0.0,
-        "stdev_ms": 0.0
+        "p95_ms": 273.2746950350702,
+        "stdev_ms": 564.1003020514358
       },
       "static_union": {
-        "max_ms": 0.0,
-        "mean_ms": 0.0,
-        "median_ms": 0.0,
-        "min_ms": 0.0,
+        "max_ms": 4342.520786914974,
+        "mean_ms": 99.73762191090165,
+        "median_ms": 26.170392986387014,
+        "min_ms": 24.964405922219157,
         "n": 59,
-        "p95_ms": 0.0,
-        "stdev_ms": 0.0
+        "p95_ms": 29.962504049763083,
+        "stdev_ms": 561.8882833505199
       }
     }
   },

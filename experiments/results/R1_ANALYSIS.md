@@ -79,20 +79,79 @@ decides the outcome.
 
 ## 2. System comparison (dev, core tier)
 
-| system | n | stage-0 survival | completion | item-level | mean tokens |
-|---|---|---|---|---|---|
-| `B1_bm25` | 59 | 0.9589 | **0.7397** | 0.7636 | 781 |
-| `B4_bm25_fixed_generator` | 59 | 0.9589 | 0.7397 | 0.7636 | 781 |
-| `B2_bm25_static_union` | 59 | 0.9589 | **0.7260** | 0.7455 | 746 |
-| `C_shared_heads_17m` (n=12 subset) | 12 | 1.0000 | 0.9375 | 0.9091 | 723 |
-| `B3_bm25_plus_68m_rerank` | — | not yet scored | — | — | — |
+| system | n | stage-0 survival | completion | item-level | leaf precision | mean tokens | median latency | weights |
+|---|---|---|---|---|---|---|---|---|
+| **`C_shared_heads_17m`** | 59 | 0.9589 | **0.8767** | **0.8909** | **0.1923** | 759 | 39,636 ms | 70,777,255 B |
+| `B1_bm25` | 59 | 0.9589 | 0.7397 | 0.7636 | 0.1181 | 781 | 36.3 ms | none |
+| `B4_bm25_fixed_generator` | 59 | 0.9589 | 0.7397 | 0.7636 | 0.1181 | 781 | 38.4 ms | none |
+| `B2_bm25_static_union` | 59 | 0.9589 | 0.7260 | 0.7455 | — | 746 | 217.1 ms | 125,729,604 B |
 
-**Do not read the `C_shared_heads_17m` row as a win.** It is n=12 over 16 required
-paragraphs, versus n=59 over 73 for the others. Its stage-0 survival of 1.0000
-simply means the first 12 dev items are easy (all 16 required paragraphs were
-inside BM25's top-500), which is exactly why its completion looks high. Comparing
-it to the n=59 rows would be an invalid comparison and the independent review
-flagged exactly this risk.
+All five rows are the **same 59 dev items, the same 73 required paragraphs, the
+same 1000-token exact-token budget, the same shared BM25 stage-0.** The
+`C_shared_heads_17m` row is a full n=59 run; an earlier n=12 subset of the same
+system showed completion 0.9375 and was correctly NOT comparable — it is
+superseded.
+
+### 2.1 The one real effect in this round — and it is an allocation effect
+
+`C_shared_heads_17m` beats BM25 by **+10 paragraphs, 54/73 → 64/73 = +13.70 pp**
+of final packet completion. Item-level completion rises 0.7636 → 0.8909; leaf
+context precision rises 0.1181 → 0.1923; and it does so while using **fewer**
+mean evidence tokens (759 vs 781) — more required evidence inside the same cap.
+
+The mechanism is exactly what §1.2 predicts, and the per-stage survival numbers
+prove it:
+
+```
+bm25              70/73 = 0.9589
+heads_coarse      70/73 = 0.9589   <- unchanged
+heads_fine        70/73 = 0.9589   <- unchanged
+heads_sufficiency 70/73 = 0.9589   <- unchanged
+```
+
+**Not one required paragraph was added by any head.** All 500 candidates were
+already there; the heads only reordered them so that more required paragraphs
+landed inside the ~3 available slots. The entire gain is budget allocation.
+
+This is the strongest confirmation of this run's central claim: **on this corpus
+the architecture's job is allocation, not retrieval.** A family that had improved
+stage-0 recall would have been solving a problem that does not exist here.
+
+### 2.2 The multi-head hypothesis is confirmed — on the cost side
+
+Per-stage median latency for C:
+
+| stage | median | share of total |
+|---|---|---|
+| `bm25` | 70.8 ms | 0.2% |
+| `heads_coarse` (the single shared encode) | 39,538 ms | **99.8%** |
+| `heads_fine` (readout) | 3.8 ms | 0.0% |
+| `heads_sufficiency` (readout) | 7.1 ms | 0.0% |
+
+Three heads cost **10.9 ms combined against a 39.5 s encode**. Head-switching is
+free relative to encoding, which is the whole multi-head argument: one shared
+representation replaces three separate models. The 3.00× parameter and compute
+ratios remain **DERIVED** from measured components rather than measured against a
+separately-run 3-checkpoint baseline — that baseline was not run, and the
+distinction is preserved.
+
+**But the cost is brutal and must be stated plainly: 39,636 ms median vs BM25's
+36.3 ms is 1,093×.** Under the preregistered tie-break chain, which prefers lower
+evidence-token cost and then lower latency, C wins the primary quality metric and
+loses the cost metrics decisively.
+
+### 2.3 Registered-threshold reading of C vs B1
+
+| split set | registered MMD | measured delta | outcome |
+|---|---|---|---|
+| dev (n=59) | 13 items / 22.0 pp | 10 items / 13.70 pp | **UNRESOLVED at current power** — below the dev threshold |
+| dev + shadow_dev (n=146) | 18 items / 12.3 pp | 13.70 pp in percentage terms exceeds 12.3 pp | **the powered split set decides** |
+
+So the dev result alone is *not* a win, and this document does not call it one. It
+is a large effect that the dev split cannot resolve, which is precisely the
+situation the single shadow_dev confirmation run exists to settle. C's
+configuration was frozen in `experiments/shared_heads/FREEZE_RECORD.md` **before**
+that run was launched.
 
 ### B2 — a preregistered prediction that came true
 
@@ -110,55 +169,63 @@ required paragraphs. That measurement needs custodian labels and is reported in
 `BASELINE_IMPLEMENTATION_REPORT.md` as a label-free proxy only. The arbiter
 therefore fired on the directly measured outcome: **it did not fire.**
 
-Cost paid for nothing: a second runtime, a 125,018,208 B fp32 weight table, and a
-40.9 MiB document-vector cache, to buy −1 paragraph.
+Cost paid for nothing: 125,729,604 B of weights, a 40,873,912 B document-vector
+cache, and 6× the latency — for −1 paragraph.
 
 ## 3. What the neural families can and cannot do here
 
-This is the uncomfortable part, and it follows from §1.2 rather than from any
-model's quality.
+This follows from §1.2 rather than from any model's quality, and Family C is the
+proof of it.
 
-* **Survival metrics are saturated.** BM25 keeps 95.9% (dev) / 98.4% (shadow_dev)
-  of required evidence at stage 0. A reranker reorders *within* the stage-0 set,
-  so its maximum possible contribution to survival is the 4.1% that sits outside
-  top-500 — and most of that is multi-hop second atoms that no cross-encoder
-  reliably promotes.
-* **Reordering only pays if the packet can hold the result.** And the packet holds
-  ~3 paragraphs out of 500 candidates. The measured first-12 dev items show every
-  head at survival 1.0000: the heads reordered a set that already contained
-  everything, and completion moved only through allocation.
-* **Therefore the neural families are competing for ~4 points of stage-0 headroom
-  and ~22 points of budget-allocation headroom, and the latter is not theirs.**
-  A compound cascade spends latency to chase the former while a one-line change to
-  the packing policy moves the latter.
+* **Survival metrics are saturated and cannot be improved by reordering.** BM25
+  keeps 95.9% (dev) / 98.4% (shadow_dev) of required evidence at stage 0. Family
+  C's four stages all read 70/73 — identical — because a head reorders *within* the
+  stage-0 set and cannot add to it.
+* **The movable metric is final packet completion, and it is worth 13.70 pp.** C
+  captured most of it. That is the entire measured opportunity in this corpus
+  short of a better stage 0.
+* **What remains unclaimed by anyone:** the 3 required paragraphs outside BM25's
+  top-500 (4.1%). No implemented system retrieved them.
+* **Therefore the tournament is a budget-allocation contest with a 4.1%
+  retrieval contest attached**, and the brief's kill rule fires on the retrieval
+  half: *if BM25 + one small reranker matches the full cascade within the
+  minimum meaningful difference, the correct scientific output is "the cascade is
+  unnecessary."*
 
-This is a **kill-condition result**, not a null result about model quality. The
-brief's own rule applies:
+What C does **not** establish, and this is important:
 
-> If BM25 + one small reranker matches the full cascade within the minimum
-> meaningful difference, the correct scientific output is "the cascade is
-> unnecessary."
-
-On the evidence available at the time of writing, BM25 + zero rerankers is within
-the registered MMD of every variant measured, and the remaining measurable gap is
-attributable to a **packing policy**, not to a ranker.
+* it does not show the cascade is unnecessary — it shows a single 17M encoder with
+  cheap readouts captures the allocation gain. A cascade's *additional* stages were
+  never run, so the cascade-vs-C comparison is **UNMEASURED**;
+* it does not show which head produced the gain — all three share one encode, and
+  the run cannot attribute it;
+* it does not show the gain survives on shadow_dev. That run was launched once,
+  after the freeze, and its result is not in this document.
 
 ## 4. Mobile feasibility
 
-Strictly separated from quality, per the brief.
+Strictly separated from quality, per the brief. All figures MEASURED on desktop
+CPU; **no Android, GrapheneOS or on-device number is claimed anywhere.**
 
 | family | quality status | deployability status | evidence |
 |---|---|---|---|
-| B1/B4 BM25 | **measured, the strongest measured system** | **DEPLOYABLE NOW** | stdlib-only index, 10,666,728 B posting payload MEASURED, 25–80 MB RSS class, millisecond latency. No weights at all. |
-| B2 static | measured, **null / slightly negative** | not worth it | 125 MB fp32 weights + 40.9 MiB vector cache for −1 paragraph. |
-| B3 68M reranker | pending | **RUNTIME-BLOCKED-ish, storage-blocked on desktop** | ~273 MB fp32 weights; ~77 s/query MEASURED at threads=1. An `onnx/model_qint8_arm64.onnx` **file exists** in the snapshot — that is a file-presence check, **not** a measured runtime or parity result. |
-| C shared heads | subset only | promising on paper, **unverified** | 16,863,745 params resident, head-switch 0.2–7.6 ms MEASURED, shared-vs-separate ratio 3.00× **DERIVED from parameter arithmetic, not from a measured 3-checkpoint baseline**. |
-| KaLM | **not implemented** | **UNKNOWN — unmeasured** | No code, no measurement. The prior team's export concern is neither confirmed nor refuted by this run. |
-| adapter/PEFT | **not implemented** | **UNKNOWN — unmeasured** | The prior team's merging concern is neither confirmed nor refuted. |
-| hybrid-fusion | **not implemented** | UNKNOWN | Correctly NOT optimised first, per the brief. |
+| B1/B4 BM25 | measured; the reference | **DEPLOYABLE NOW** | stdlib-only, **10,666,728 B** index payload, no weights, **36.3 ms** median / 125.4 ms p95 |
+| B2 static | measured **null-to-negative** (−1 paragraph) | **NOT WORTH IT** | 125,729,604 B weights + 40,873,912 B cache = 166.6 MB, 217.1 ms median, for −1 paragraph |
+| **C shared heads** | **measured: +13.70 pp completion, UNRESOLVED on dev, pending the single shadow run** | **UNVERIFIED** | 70,777,255 B weights; **1,093× BM25's latency**; ONNX/int8 export **not attempted**; no parity gate run |
+| B3 68M reranker | run in flight at time of writing | **storage/runtime blocked on desktop** | ~273 MB fp32 weights; an `onnx/model_qint8_arm64.onnx` **file exists** in the snapshot — a file-presence check, **not** a measured runtime or parity result |
+| Ettin cascade | **NOT RUN** | unknown | implementation written, never executed |
+| KaLM | **NOT IMPLEMENTED** | **UNKNOWN — unmeasured** | the prior team's export concern is neither confirmed nor refuted here |
+| adapter/PEFT | **NOT IMPLEMENTED** | **UNKNOWN — unmeasured** | the prior team's merging concern is neither confirmed nor refuted |
+| hybrid-fusion | **NOT IMPLEMENTED** | unknown | correctly not optimised first; also has no measured components to fuse |
 
-**No Android, GrapheneOS or on-device number is claimed anywhere in this run.**
-Everything above is desktop CPU on an i7-8700-class host with no CUDA.
+C's deployability is the open question that matters. A 70.8 MB encoder and a
+1,093× latency penalty are both plausibly *survivable* on a phone for a 297-
+article corpus and 500 candidates per query — but "plausibly survivable" is a
+hypothesis, and this run deliberately does not convert it into a number. What
+would settle it: an ONNX export, an int8 parity gate against the fp32 reference
+(Spearman ≥ 0.99 on top-100 and ≤ 1 item final-completion delta on 10 dev items,
+per `HYPOTHESIS.md` §5.4), and a real on-device measurement. None of that was
+done.
 
 ## 5. Data quality and label caveats affecting every number
 
@@ -183,13 +250,20 @@ Everything above is desktop CPU on an i7-8700-class host with no CUDA.
 
 | comparison | outcome |
 |---|---|
-| B2 static union vs B1 BM25 | **PRACTICALLY TIED / UNRESOLVED** (−1 paragraph; far below the 13-item dev MMD). Prediction confirmed: the cheap semantic channel adds nothing measurable. |
-| B4 vs B1 | **IDENTICAL BY CONSTRUCTION** — same retriever; the difference is generation, which this run measures separately. |
-| per-article cap 3 vs no cap | **+2 paragraphs** for removing it — below the dev MMD, therefore unresolved as a *quality* claim, but mechanistically the largest single lever and the clearest *policy* finding. |
-| any neural reranker vs BM25 | **NOT YET MEASURED** (B3 and C incomplete at time of writing). Do not assume a direction. |
-| oracle evidence vs BM25 evidence (answers) | **UNRESOLVED AT CURRENT POWER**, and *provably* so: 4-item ceiling against an 18-item floor. |
+| **C shared heads vs B1 BM25, dev** | **LARGE EFFECT, UNRESOLVED AT CURRENT POWER.** +10 paragraphs / +13.70 pp completion, but the dev MMD is 22.0 pp. Not a win on dev. Sent once to shadow_dev after a written freeze to settle it. |
+| B2 static union vs B1 BM25 | **PRACTICALLY TIED / UNRESOLVED** (−1 paragraph; far below the 13-item dev MMD), and negative in sign. Preregistered prediction confirmed: the cheap semantic channel adds nothing measurable. |
+| B4 vs B1 | **IDENTICAL BY CONSTRUCTION** — same retriever; the difference is generation, measured separately in the floor probe. |
+| per-article cap 3 vs no cap | **+2 paragraphs** for removing it (0.7397 → 0.7671) — below the dev MMD, so unresolved as a *quality* claim, but mechanistically the largest single *policy* lever. |
+| all neural heads vs BM25, **stage-0 survival** | **IDENTICAL (70/73).** Reordering cannot add candidates. Null by construction, and worth stating because it is the metric most likely to be misread as "the model did nothing". |
+| B3 68M reranker vs BM25 | **NOT MEASURED** — run in flight. Do not assume a direction. |
+| cascade vs C | **NOT MEASURED** — the cascade was never run. |
+| oracle evidence vs BM25 evidence (answers) | **UNRESOLVED AND PROVABLY SO** — a 4-item ceiling against an 18-item floor. |
 | oracle evidence vs degraded evidence (answers) | **CLEARLY BETTER** — p = 3.8 × 10⁻⁶, 19/19 discordant. The generator discriminates; it is the resolution that fails. |
 
-**The headline is not an architecture. It is that the experiment's binding
-constraint is the evidence token budget, and the round should be re-specified
-around allocation before more rerankers are built.**
+**The headline is a mechanism, not a winner.** Retrieval is saturated at 0.96–0.98
+and cannot be improved by reordering. What remains is a ~3-paragraph, 1000-token
+allocation problem, and the single 17M shared-encoder system that attacked *that*
+is the only architecture to produce a large measured effect in this round — at
+1,093× the latency. Whether 70.8 MB and 1,093× is a defensible mobile trade for
++13.70 pp of evidence completion is the real question, and this run deliberately
+leaves it open rather than answering it with a desktop number.

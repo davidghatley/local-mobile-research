@@ -90,10 +90,18 @@ class B3Reranker:
         self.view = view
         self.bm25_index = bm25_index
         self._reranker: "sentence_transformers.CrossEncoder | None" = None
+        # Model-load time is measured ONCE, on first materialisation, and then
+        # reported on every query's stage record. It is deliberately NOT folded
+        # into per-query latency: a resident server pays it once, and a per-query
+        # cost that silently includes a one-time load is how a 68M model ends up
+        # looking 500x more expensive than it is.
+        self._model_load_ms: float | None = None
 
     def _get_reranker(self) -> "sentence_transformers.CrossEncoder":
         if self._reranker is None:
+            t0 = time.perf_counter()
             self._reranker = _get_reranker()
+            self._model_load_ms = (time.perf_counter() - t0) * 1000.0
         return self._reranker
 
     def _get_bm25_top500(self, query_text: str) -> list[str]:
@@ -170,11 +178,13 @@ class B3Reranker:
         query_text = query.text
 
         # Stage 0: BM25 top-500 in BM25 rank order
+        t_bm25 = time.perf_counter()
         bm25_node_ids = self._get_bm25_top500(query_text)
 
         # BM25 stage entry
         bm25_hits = self.bm25_index.search(query_text, k=STAGE0_K)
         bm25_scores = [h.score for h in bm25_hits]
+        bm25_latency_ms = (time.perf_counter() - t_bm25) * 1000.0
 
         bm25_stage = stage_entry(
             stage="bm25",
@@ -184,14 +194,16 @@ class B3Reranker:
             model_identity="bm25-okapi-stdlib:k1=1.2,b=0.75,tokenizer=NFKC-casefold-[a-z0-9]+",
             threshold_policy=topk_policy(STAGE0_K, "similarity"),
             kept=[True] * len(bm25_node_ids),
-            latency_ms=0.0,
+            latency_ms=bm25_latency_ms,
             model_loading_latency_ms=None,
             inference_latency_ms=None,
             peak_rss_mb=peak_rss_mb(),
         )
 
         # Compute rerank scores (cross-encoder logits)
+        t_rr = time.perf_counter()
         logit_node_pairs = self._compute_rerank_scores(query_text, bm25_node_ids)
+        rerank_latency_ms = (time.perf_counter() - t_rr) * 1000.0
 
         # Unzip: sorted node IDs and their logit scores
         reranked_node_ids: list[str] = [nid for _, nid in logit_node_pairs]
@@ -205,6 +217,16 @@ class B3Reranker:
         # Reranker stage entry
         # score_kind = "logit"
         # threshold_policy: top_k=50, interpretation="raw_score_absolute", calibration_method="none_ranking_only"
+        #
+        # DEFECT REPAIRD (2026-10-04, found by the orchestrator after the first dev
+        # run). BOTH stages previously hardcoded latency_ms=0.0 while the stage
+        # actually consumed up to 113 s. Zero is a MEASUREMENT of zero; the frozen
+        # substrate reserves None for "not measured" and forbids passing a real
+        # duration off as 0. The end-to-end retrieval_latency_ms was always
+        # correct, which is why the error was invisible in the headline numbers and
+        # only surfaced when the per-stage distribution was read. `inference_
+        # latency_ms` now carries the whole-stage inference time; the per-CARD
+        # latency remains available separately as `_get_per_card_latency_ms()`.
         reranker_stage = stage_entry(
             stage="rerank_68m",
             candidate_ids=reranked_node_ids,
@@ -215,9 +237,9 @@ class B3Reranker:
                 50, "logit"
             ),
             kept=[True] * len(reranked_node_ids),
-            latency_ms=0.0,
-            model_loading_latency_ms=None,
-            inference_latency_ms=_get_per_card_latency_ms(),
+            latency_ms=rerank_latency_ms,
+            model_loading_latency_ms=self._model_load_ms,
+            inference_latency_ms=rerank_latency_ms,
             peak_rss_mb=_get_peak_rss_mb(),
         )
 

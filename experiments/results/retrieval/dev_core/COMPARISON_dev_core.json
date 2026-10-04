@@ -43,6 +43,24 @@
       "system": "B2_bm25_static_union"
     },
     {
+      "completion": 0.8904109589041096,
+      "completion_hits": 65,
+      "completion_required": 73,
+      "item_level_completion": 0.8909090909090909,
+      "max_tokens": 984,
+      "mean_tokens": 754.1090909090909,
+      "median_tokens": 794,
+      "n": 59,
+      "n_analysable": 55,
+      "report": "experiments/results/retrieval/dev_core/report_B3_bm25_plus_68m_rerank_dev_core.json",
+      "stage0": "bm25",
+      "stage0_hits": 70,
+      "stage0_required": 73,
+      "stage0_survival": 0.958904109589041,
+      "status": "SCORED",
+      "system": "B3_bm25_plus_68m_rerank"
+    },
+    {
       "completion": 0.7397260273972602,
       "completion_hits": 54,
       "completion_required": 73,
@@ -61,26 +79,24 @@
       "system": "B4_bm25_fixed_generator"
     },
     {
-      "completion": 0.9375,
-      "completion_hits": 15,
-      "completion_required": 16,
-      "item_level_completion": 0.9090909090909091,
-      "max_tokens": 905,
-      "mean_tokens": 722.7272727272727,
-      "median_tokens": 723,
-      "n": 12,
-      "n_analysable": 11,
+      "completion": 0.8767123287671232,
+      "completion_hits": 64,
+      "completion_required": 73,
+      "item_level_completion": 0.8909090909090909,
+      "max_tokens": 994,
+      "mean_tokens": 759.1818181818181,
+      "median_tokens": 825,
+      "n": 59,
+      "n_analysable": 55,
       "report": "experiments/results/retrieval/dev_core/report_C_shared_heads_17m_dev_core.json",
       "stage0": "bm25",
-      "stage0_hits": 16,
-      "stage0_required": 16,
-      "stage0_survival": 1.0,
+      "stage0_hits": 70,
+      "stage0_required": 73,
+      "stage0_survival": 0.958904109589041,
       "status": "SCORED",
       "system": "C_shared_heads_17m"
     }
   ],
-  "systems_expected_but_absent": [
-    "B3_bm25_plus_68m_rerank"
-  ],
+  "systems_expected_but_absent": [],
   "tier": "core"
 }

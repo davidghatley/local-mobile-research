@@ -1,33 +1,33 @@
 {
   "evidence_tokens": {
-    "max": 905,
-    "mean": 722.7272727272727,
-    "median": 723,
-    "min": 452,
-    "n": 11,
+    "max": 994,
+    "mean": 759.1818181818181,
+    "median": 825,
+    "min": 181,
+    "n": 55,
     "n_empty_packets": 0,
     "n_over_hard_cap_1000": 0,
-    "n_over_target_band_800": 4,
-    "n_truncated": 11,
-    "p95": 905,
+    "n_over_target_band_800": 29,
+    "n_truncated": 55,
+    "p95": 970,
     "target_band": "300-800 typical, <=1000 hard cap (frozen comparability contract \u00a72)"
   },
   "final_packet": {
-    "completed": 15,
-    "completion": 0.9375,
+    "completed": 64,
+    "completion": 0.8767123287671232,
     "context_precision_leaf": {
-      "exact_leaf_hits": 8,
-      "leaf_precision": 0.22857142857142856,
+      "exact_leaf_hits": 30,
+      "leaf_precision": 0.19230769230769232,
       "note": "exact leaf-node hits over retrieved leaf nodes. Ancestry-expanded paragraph ids are NOT in the denominator: a paragraph that contains a required sentence is not itself a retrieved leaf.",
-      "retrieved_leaf_nodes": 35
+      "retrieved_leaf_nodes": 156
     },
-    "item_level_completion": 0.9090909090909091,
-    "n_items": 11,
-    "n_items_fully_complete": 10,
-    "required_paragraphs": 16,
+    "item_level_completion": 0.8909090909090909,
+    "n_items": 55,
+    "n_items_fully_complete": 49,
+    "required_paragraphs": 73,
     "wilson_ci": {
-      "lower": 0.7167073163197013,
-      "upper": 0.9888809426916687
+      "lower": 0.7819948926528207,
+      "upper": 0.9337632383595474
     }
   },
   "generator_used": false,
@@ -36,57 +36,57 @@
   "latency": {
     "caveat": "DESKTOP CPU measurements, threads=1 for the model path, on a shared host. Not an Android or on-device figure. Contention noise is present when concurrent jobs were running; compare systems only under equal load.",
     "end_to_end_retrieval": {
-      "max_ms": 49706.20404090732,
-      "mean_ms": 34881.62448342579,
-      "median_ms": 32589.351624948904,
-      "min_ms": 21514.513917965814,
-      "n": 12,
-      "p95_ms": 49706.20404090732,
-      "stdev_ms": 10082.879680658647
+      "max_ms": 84687.43622116745,
+      "mean_ms": 40408.41655130104,
+      "median_ms": 39636.14672003314,
+      "min_ms": 19681.09565298073,
+      "n": 59,
+      "p95_ms": 58302.87199909799,
+      "stdev_ms": 11944.11910567076
     },
     "per_stage": {
       "bm25": {
-        "max_ms": 124.21799288131297,
-        "mean_ms": 62.41435786553969,
-        "median_ms": 55.38013996556401,
-        "min_ms": 21.04569599032402,
-        "n": 12,
-        "p95_ms": 124.21799288131297,
-        "stdev_ms": 28.334405561206175
+        "max_ms": 391.9157062191516,
+        "mean_ms": 82.09139681657997,
+        "median_ms": 70.7704471424222,
+        "min_ms": 22.40296290256083,
+        "n": 59,
+        "p95_ms": 143.60505202785134,
+        "stdev_ms": 63.585839606254204
       },
       "heads_coarse": {
-        "max_ms": 49623.10274899937,
-        "mean_ms": 34803.269285145994,
-        "median_ms": 32488.781742053106,
-        "min_ms": 21452.78674783185,
-        "n": 12,
-        "p95_ms": 49623.10274899937,
-        "stdev_ms": 10084.622396255647
+        "max_ms": 84637.8731650766,
+        "mean_ms": 40311.168381151096,
+        "median_ms": 39537.962252041325,
+        "min_ms": 19600.99769732915,
+        "n": 59,
+        "p95_ms": 57890.700382879004,
+        "stdev_ms": 11944.497833877544
       },
       "heads_fine": {
-        "max_ms": 7.111059967428446,
-        "mean_ms": 4.3773899669758976,
-        "median_ms": 4.4109714217484,
-        "min_ms": 2.2364507894963026,
-        "n": 12,
-        "p95_ms": 7.111059967428446,
-        "stdev_ms": 1.433298912216009
+        "max_ms": 6.181165110319853,
+        "mean_ms": 3.8124222971372683,
+        "median_ms": 3.7677069194614887,
+        "min_ms": 2.1545730996876955,
+        "n": 59,
+        "p95_ms": 5.307534011080861,
+        "stdev_ms": 0.8878606827478536
       },
       "heads_sufficiency": {
-        "max_ms": 14.161630067974329,
-        "mean_ms": 7.8914764647682505,
-        "median_ms": 6.852461956441402,
-        "min_ms": 3.844509134069085,
-        "n": 12,
-        "p95_ms": 14.161630067974329,
-        "stdev_ms": 3.515523401471971
+        "max_ms": 14.591972110792994,
+        "mean_ms": 7.616156562215696,
+        "median_ms": 7.1116669569164515,
+        "min_ms": 2.3763368371874094,
+        "n": 59,
+        "p95_ms": 13.629165943711996,
+        "stdev_ms": 3.1210105594851427
       }
     }
   },
-  "n_analysable": 11,
-  "n_traces": 12,
+  "n_analysable": 55,
+  "n_traces": 59,
   "notes": [
-    "1 of 12 items were EXCLUDED from the survival denominators because no required atom had a retrievable host paragraph in this tier. They are listed in per_item with excluded=..., not silently counted as misses."
+    "4 of 59 items were EXCLUDED from the survival denominators because no required atom had a retrievable host paragraph in this tier. They are listed in per_item with excluded=..., not silently counted as misses."
   ],
   "registered_mmd": {
     "mmd_items": 13,
@@ -101,47 +101,47 @@
   ],
   "stage_survival": {
     "bm25": {
-      "mean_required_per_item": 1.4545454545454546,
-      "n_items": 11,
-      "required_paragraphs": 16,
-      "survival": 1.0,
-      "survived": 16,
+      "mean_required_per_item": 1.3272727272727274,
+      "n_items": 55,
+      "required_paragraphs": 73,
+      "survival": 0.958904109589041,
+      "survived": 70,
       "wilson_ci": {
-        "lower": 0.8063865817272802,
-        "upper": 1.0
+        "lower": 0.8859972266493555,
+        "upper": 0.9859263147657112
       }
     },
     "heads_coarse": {
-      "mean_required_per_item": 1.4545454545454546,
-      "n_items": 11,
-      "required_paragraphs": 16,
-      "survival": 1.0,
-      "survived": 16,
+      "mean_required_per_item": 1.3272727272727274,
+      "n_items": 55,
+      "required_paragraphs": 73,
+      "survival": 0.958904109589041,
+      "survived": 70,
       "wilson_ci": {
-        "lower": 0.8063865817272802,
-        "upper": 1.0
+        "lower": 0.8859972266493555,
+        "upper": 0.9859263147657112
       }
     },
     "heads_fine": {
-      "mean_required_per_item": 1.4545454545454546,
-      "n_items": 11,
-      "required_paragraphs": 16,
-      "survival": 1.0,
-      "survived": 16,
+      "mean_required_per_item": 1.3272727272727274,
+      "n_items": 55,
+      "required_paragraphs": 73,
+      "survival": 0.958904109589041,
+      "survived": 70,
       "wilson_ci": {
-        "lower": 0.8063865817272802,
-        "upper": 1.0
+        "lower": 0.8859972266493555,
+        "upper": 0.9859263147657112
       }
     },
     "heads_sufficiency": {
-      "mean_required_per_item": 1.4545454545454546,
-      "n_items": 11,
-      "required_paragraphs": 16,
-      "survival": 1.0,
-      "survived": 16,
+      "mean_required_per_item": 1.3272727272727274,
+      "n_items": 55,
+      "required_paragraphs": 73,
+      "survival": 0.958904109589041,
+      "survived": 70,
       "wilson_ci": {
-        "lower": 0.8063865817272802,
-        "upper": 1.0
+        "lower": 0.8859972266493555,
+        "upper": 0.9859263147657112
       }
     }
   },

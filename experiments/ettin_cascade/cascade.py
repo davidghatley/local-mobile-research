@@ -85,6 +85,11 @@ class EttinCascade:
         self.breadths = breadths or [500, 200, 50]
         assert len(self.breadths) == 3, "breadths must have 3 entries [stage0_K, stage1_K, stage2_K]"
         self._rerankers: dict[str, "sentence_transformers.CrossEncoder | None"] = {}
+        # Model key -> measured load time in ms, populated on first materialisation.
+        # Reported per stage and deliberately NOT folded into per-query latency: a
+        # resident cascade pays each load once, and a per-query cost that silently
+        # includes a one-time load overstates the marginal cost of a query.
+        self._model_load_ms: dict[str, float] = {}
 
         # Model key -> (repo_id, revision) mapping for CrossEncoder loader
         self._model_repo_map = {
@@ -102,10 +107,12 @@ class EttinCascade:
         if self._rerankers.get(model_key) is None:
             import sentence_transformers
 
+            t0 = time.perf_counter()
             repo_id, revision = self._model_repo_map[model_key]
             self._rerankers[model_key] = sentence_transformers.CrossEncoder(
                 repo_id, revision=revision
             )
+            self._model_load_ms[model_key] = (time.perf_counter() - t0) * 1000.0
         return self._rerankers[model_key]
 
     def _rerank(
@@ -158,9 +165,11 @@ class EttinCascade:
         query_text = query.text
 
         # ── Stage 0: BM25 top-500 ────────────────────────────────────────
+        t_bm25 = time.perf_counter()
         bm25_hits = self.bm25_index.search(query_text, k=STAGE0_K)
         bm25_node_ids: list[str] = [h.node_id for h in bm25_hits]
         bm25_scores: list[float] = [h.score for h in bm25_hits]
+        bm25_latency_ms = (time.perf_counter() - t_bm25) * 1000.0
 
         bm25_stage = stage_entry(
             stage="bm25",
@@ -170,7 +179,7 @@ class EttinCascade:
             model_identity="bm25-okapi-stdlib:k1=1.2,b=0.75,tokenizer=NFKC-casefold-[a-z0-9]+",
             threshold_policy=topk_policy(STAGE0_K, "similarity"),
             kept=[True] * len(bm25_node_ids),
-            latency_ms=0.0,
+            latency_ms=bm25_latency_ms,
             model_loading_latency_ms=None,
             inference_latency_ms=None,
             peak_rss_mb=peak_rss_mb(),
@@ -180,7 +189,9 @@ class EttinCascade:
         # breadths = [stage0_K, stage1_output_K, stage2/final_K] = [500, 200, 50]
         # Stage 1 prunes the 500 BM25 candidates to top-k1 where k1 = breadths[1] = 200
         k1 = self.breadths[1]
+        t1 = time.perf_counter()
         logit_pairs_17m = self._rerank(query_text, bm25_node_ids, "17m")
+        stage1_latency_ms = (time.perf_counter() - t1) * 1000.0
         top_k1_pairs = logit_pairs_17m[:k1]
         stage1_node_ids: list[str] = [nid for _, nid in top_k1_pairs]
         stage1_scores: list[float] = [logit for logit, _ in top_k1_pairs]
@@ -196,16 +207,18 @@ class EttinCascade:
             model_identity=MODEL_17M_IDENTITY,
             threshold_policy=topk_policy(k1, "logit"),
             kept=[True] * len(stage1_node_ids),  # all kept (top-K by definition)
-            latency_ms=0.0,
-            model_loading_latency_ms=None,
-            inference_latency_ms=None,
+            latency_ms=stage1_latency_ms,
+            model_loading_latency_ms=self._model_load_ms.get("17m"),
+            inference_latency_ms=stage1_latency_ms,
             peak_rss_mb=rss_17m,
         )
 
         # ── Stage 2: 32M cross-encoder, prune to K2 ──────────────────────
         # Stage 2 prunes the k1 survivors to top-k2 where k2 = breadths[2] = 50
         k2 = self.breadths[2]
+        t2 = time.perf_counter()
         logit_pairs_32m = self._rerank(query_text, stage1_node_ids, "32m")
+        stage2_latency_ms = (time.perf_counter() - t2) * 1000.0
         top_k2_pairs = logit_pairs_32m[:k2]
         stage2_node_ids: list[str] = [nid for _, nid in top_k2_pairs]
         stage2_scores: list[float] = [logit for logit, _ in top_k2_pairs]
@@ -220,16 +233,18 @@ class EttinCascade:
             model_identity=MODEL_32M_IDENTITY,
             threshold_policy=topk_policy(k2, "logit"),
             kept=[True] * len(stage2_node_ids),
-            latency_ms=0.0,
-            model_loading_latency_ms=None,
-            inference_latency_ms=None,
+            latency_ms=stage2_latency_ms,
+            model_loading_latency_ms=self._model_load_ms.get("32m"),
+            inference_latency_ms=stage2_latency_ms,
             peak_rss_mb=rss_32m,
         )
 
         # ── Stage 3: 68M cross-encoder, final ranking to K3 ──────────────
         # Stage 3 takes the k2 survivors and keeps top-k3 for the final list
         k3 = self.breadths[2]
+        t3 = time.perf_counter()
         logit_pairs_68m = self._rerank(query_text, stage2_node_ids, "68m")
+        stage3_latency_ms = (time.perf_counter() - t3) * 1000.0
         # Take top-k3 for the final ranked list
         top_k3_pairs = logit_pairs_68m[:k3]
         final_node_ids: list[str] = [nid for _, nid in top_k3_pairs]
@@ -245,9 +260,9 @@ class EttinCascade:
             model_identity=MODEL_68M_IDENTITY,
             threshold_policy=topk_policy(k3, "logit"),
             kept=[True] * len(final_node_ids),
-            latency_ms=0.0,
-            model_loading_latency_ms=None,
-            inference_latency_ms=None,
+            latency_ms=stage3_latency_ms,
+            model_loading_latency_ms=self._model_load_ms.get("68m"),
+            inference_latency_ms=stage3_latency_ms,
             peak_rss_mb=rss_68m,
         )
 
