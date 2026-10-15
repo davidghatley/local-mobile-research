@@ -33,7 +33,7 @@ def _print_answer(a) -> None:
   w = min(100, os.get_terminal_size().columns if sys.stdout.isatty() else 100)
   print(f"\n{BOLD}{textwrap.fill(a.text, w)}{RESET}\n")
   print(f"{DIM}evidence ({a.budget['used']}/{a.budget['cap']} tokens, "
-        f"{len(a.packet)} paragraphs):{RESET}")
+        f"{len(a.packet)} paragraph{'' if len(a.packet) == 1 else 's'}):{RESET}")
   for s in a.packet:
     mark = f"{CYAN}●{RESET}" if s["cited"] else f"{DIM}○{RESET}"
     print(f" {mark} [{s['id']}] {s['title']} — {s['heading']}")
