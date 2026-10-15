@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mise en Place · offline research</title>
+<style>
+:root{
+  --paper:#f6f3ec; --panel:#fffdf8; --ink:#1c1b19; --muted:#6c675d; --faint:#e6e0d3; --rule:#cfc7b6;
+  --accent:#c2410c; --blue:#1d4ed8; --ok:#15803d; --warn:#b45309;
+  --a1:#1d4ed8; --a2:#c2410c; --a3:#0f766e; --a4:#7c3aed; --a5:#a16207; --a6:#be185d;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#171614; --panel:#1f1d1a; --ink:#ece8df; --muted:#a39d90; --faint:#2c2925; --rule:#3d3933;
+  --accent:#fb923c; --blue:#93b4ff; --ok:#4ade80; --warn:#fbbf24;
+  --a1:#93b4ff; --a2:#fb923c; --a3:#5eead4; --a4:#c4b5fd; --a5:#facc15; --a6:#f9a8d4; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 var(--sans)}
+header{max-width:1240px;margin:0 auto;padding:28px 20px 8px;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+header h1{font:600 22px var(--sans);margin:0;letter-spacing:-.01em}
+header span{font:12px var(--mono);color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.badge{margin-left:auto;font:12px var(--mono);border:1px solid var(--rule);border-radius:999px;padding:3px 10px;color:var(--ok)}
+form{max-width:1240px;margin:0 auto;padding:8px 20px 16px;display:flex;gap:8px}
+input{flex:1;min-width:0;font:16px var(--sans);padding:12px 14px;border:1px solid var(--rule);border-radius:8px;background:var(--panel);color:var(--ink)}
+input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button{font:600 14px var(--mono);padding:0 18px;border-radius:8px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer}
+button[disabled]{opacity:.5;cursor:wait}
+.examples{max-width:1240px;margin:0 auto;padding:0 20px 18px;display:flex;flex-wrap:wrap;gap:6px}
+.examples button{font:12px var(--mono);background:transparent;color:var(--muted);border:1px dashed var(--rule);padding:4px 10px}
+main{max-width:1240px;margin:0 auto;padding:0 20px 40px;display:grid;gap:16px;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+@media (max-width:900px){main{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.panel>h2{margin:0;padding:10px 14px;border-bottom:1px solid var(--faint);font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.panel>h2 b{color:var(--ink);font-weight:600}
+.body{padding:14px}
+#answer{font-size:17px;line-height:1.6;white-space:pre-wrap}
+#answer .cite{font:12px var(--mono);background:var(--faint);border-radius:4px;padding:1px 5px;cursor:default}
+.empty{color:var(--muted);font:13px var(--mono)}
+/* stage strip */
+.stages{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--faint)}
+.stages div{padding:10px 14px;border-right:1px solid var(--faint)}
+.stages div:last-child{border-right:0}
+.stages b{display:block;font:600 18px var(--mono)}
+.stages small{font:11px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+/* budget bar */
+.budget{display:flex;height:34px;border:1px solid var(--rule);border-radius:6px;overflow:hidden;background:repeating-linear-gradient(135deg,transparent 0 6px,var(--faint) 6px 7px)}
+.budget i{display:block;height:100%;border-right:2px solid var(--panel);opacity:.85;transition:opacity .15s}
+.scale{display:flex;justify-content:space-between;font:11px var(--mono);color:var(--muted);margin-top:4px}
+.packet{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px}
+.packet li{display:grid;grid-template-columns:10px 1fr auto;gap:10px;align-items:start;padding:8px;border-radius:6px;border:1px solid transparent}
+.packet li .sw{width:10px;height:10px;border-radius:2px;margin-top:6px}
+.packet li b{font-weight:600}
+.packet li p{margin:2px 0 0;color:var(--muted);font-size:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.packet li small{font:11px var(--mono);color:var(--muted);white-space:nowrap}
+.packet li.cited small::before{content:"cited · ";color:var(--ok)}
+/* slope chart */
+#slope svg{display:block;width:100%;height:auto}
+#slope text{font:11px var(--mono);fill:var(--muted)}
+#slope .lbl{fill:var(--ink);font:12px var(--sans)}
+.hot{background:var(--faint)!important;border-color:var(--rule)!important}
+svg .dim{opacity:.18}
+.legend{font:11px var(--mono);color:var(--muted);padding:0 14px 12px}
+footer{max-width:1240px;margin:0 auto;padding:0 20px 40px;font:12px var(--mono);color:var(--muted)}
+.spin{display:inline-block;width:10px;height:10px;border:2px solid var(--muted);border-top-color:transparent;border-radius:50%;animation:s 1s linear infinite;vertical-align:-1px}
+@keyframes s{to{transform:rotate(1turn)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Mise en Place</h1><span>offline research assistant · 297 Wikipedia articles</span>
+  <span class="badge" title="No network requests leave this machine">● offline</span>
+</header>
+<form id="f"><input id="q" autocomplete="off" placeholder="Ask about anything in the corpus…" aria-label="Question"><button id="go">Ask</button></form>
+<div class="examples" id="ex"></div>
+<main>
+  <section class="panel" style="grid-column:1/-1">
+    <h2><span>Answer</span><span id="meta"></span></h2>
+    <div class="body"><div id="answer" class="empty">Ask a question. Every stage between the corpus and the answer is shown below.</div></div>
+    <div class="stages" id="stages" hidden></div>
+  </section>
+  <section class="panel" id="slope">
+    <h2><span>1 · Found → reordered</span><b id="slopeNote"></b></h2>
+    <div class="body" id="slopeBody"><p class="empty">BM25 finds candidates; a 17M cross-encoder reorders the top 100.</p></div>
+    <div class="legend">left: BM25 order (numbers are BM25 ranks) · right: reranked · coloured lines made it into the packet</div>
+  </section>
+  <section class="panel">
+    <h2><span>2 · Reordered → shown</span><b id="budgetNote"></b></h2>
+    <div class="body" id="packetBody"><p class="empty">Paragraphs are packed in rank order into a 1,000-token budget, at most 3 per article.</p></div>
+  </section>
+</main>
+<footer>Retrieval: BM25 (stdlib) → ettin-reranker-17m · Generator: Qwen2.5-1.5B-Instruct Q4_K_M via llama.cpp, CPU · All local.</footer>
+<script>
+const EX=["Which planet is closest to the Sun, and how long is its year?","Who created Python and when was it first released?","What is the boiling point of mercury?","Why is the apple associated with the Garden of Eden?"];
+const $=s=>document.querySelector(s);
+const ex=$("#ex");EX.forEach(t=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.onclick=()=>{$("#q").value=t;ask()};ex.appendChild(b)});
+$("#f").onsubmit=e=>{e.preventDefault();ask()};
+const initial=new URLSearchParams(location.search).get("q");
+if(initial){$("#q").value=initial;ask()}
+const PAL=["--a1","--a2","--a3","--a4","--a5","--a6"];
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let colorOf={};
+function articleColor(title){if(!(title in colorOf))colorOf[title]=`var(${PAL[Object.keys(colorOf).length%PAL.length]})`;return colorOf[title]}
+async function ask(){
+  const q=$("#q").value.trim();if(!q)return;
+  $("#go").disabled=true;$("#answer").className="empty";$("#answer").innerHTML='<span class="spin"></span> retrieving, packing, generating on CPU…';
+  try{
+    const r=await fetch("/api/ask",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:q})});
+    if(!r.ok)throw new Error(await r.text());
+    render(await r.json());
+    history.replaceState(null,"","?q="+encodeURIComponent(q));
+  }catch(err){$("#answer").textContent="Error: "+err.message}
+  finally{$("#go").disabled=false}
+}
+function hl(id,on){document.querySelectorAll(`[data-id="${CSS.escape(id)}"]`).forEach(el=>el.classList.toggle(el.tagName==="LI"||el.tagName==="SPAN"?"hot":"x",on));
+  document.querySelectorAll("#slope [data-line]").forEach(l=>l.classList.toggle("dim",on&&l.dataset.line!==id))}
+function render(a){
+  colorOf={};
+  const packed=new Set(a.packet.map(p=>p.id));
+  a.packet.forEach(p=>articleColor(p.title));
+  // answer with citation chips
+  const ans=esc(a.text).replace(/\[([^\]\s]+)\]/g,(m,id)=>`<span class="cite" data-id="${id}">${id.split(":")[1]||id}</span>`);
+  $("#answer").className="";$("#answer").innerHTML=ans;
+  $("#answer").querySelectorAll(".cite").forEach(c=>{c.onmouseenter=()=>hl(c.dataset.id,true);c.onmouseleave=()=>hl(c.dataset.id,false)});
+  const t=a.timings_ms,total=Object.values(t).reduce((x,y)=>x+y,0);
+  $("#meta").textContent=`${(total/1000).toFixed(1)} s · ${a.citations.length} citation${a.citations.length==1?"":"s"}${a.unknown_citations.length?` · ${a.unknown_citations.length} unknown`:""}`;
+  const st=$("#stages");st.hidden=false;
+  st.innerHTML=[["BM25",t.bm25,"500 found"],["Rerank",t.rerank||0,"top 100 reordered"],["Pack",t.pack,`${a.packet.length} shown`],["Generate",t.generate,`${a.usage.completion_tokens||"?"} tokens`]]
+    .map(([n,ms,s])=>`<div><small>${n}</small><b>${ms<1000?ms.toFixed(0)+" ms":(ms/1000).toFixed(1)+" s"}</b><small>${s}</small></div>`).join("");
+  // slope chart
+  const c=a.candidates.slice(0,15),W=560,H=40+c.length*24,L=40,R=W-250;
+  const leftOrder=[...c].sort((p,q)=>p.bm25_rank-q.bm25_rank).map(x=>x.id);
+  const yR=i=>28+i*24, yL=r=>yR(leftOrder.indexOf(c.find(x=>x.bm25_rank===r).id));
+  let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Rank movement from BM25 to reranker"><text x="${L}" y="14" text-anchor="middle">BM25</text><text x="${R}" y="14" text-anchor="middle">reranked</text>`;
+  c.forEach((x,i)=>{const inP=packed.has(x.id),col=inP?articleColor(x.title):"var(--rule)";
+    svg+=`<g data-line="${esc(x.id)}" data-id="${esc(x.id)}"><line x1="${L}" y1="${yL(x.bm25_rank)}" x2="${R}" y2="${yR(i)}" stroke="${col}" stroke-width="${inP?2.5:1.2}"/>
+    <circle cx="${L}" cy="${yL(x.bm25_rank)}" r="3.5" fill="${col}"/><circle cx="${R}" cy="${yR(i)}" r="3.5" fill="${col}"/>
+    <text x="${L-8}" y="${yL(x.bm25_rank)+4}" text-anchor="end">${x.bm25_rank+1}</text>
+    <text class="lbl" x="${R+10}" y="${yR(i)+4}">${esc((x.title+" · "+x.heading).slice(0,34))}</text></g>`});
+  svg+="</svg>";
+  $("#slopeBody").innerHTML=svg;
+  $("#slopeBody").querySelectorAll("[data-line]").forEach(g=>{g.onmouseenter=()=>hl(g.dataset.line,true);g.onmouseleave=()=>hl(g.dataset.line,false)});
+  const lifted=c.filter((x,i)=>packed.has(x.id)&&x.bm25_rank>i+2).length;
+  $("#slopeNote").textContent=lifted?`${lifted} lifted into view`:"";
+  // budget bar + packet
+  const b=a.budget;
+  $("#budgetNote").textContent=`${b.used} / ${b.cap} tokens`;
+  let bar=`<div class="budget" role="img" aria-label="Token budget ${b.used} of ${b.cap}">`+a.packet.map(p=>`<i data-id="${esc(p.id)}" title="${esc(p.title)} · ${p.tokens} tokens" style="width:${p.tokens/b.cap*100}%;background:${articleColor(p.title)}"></i>`).join("")+`</div><div class="scale"><span>0</span><span>${b.skipped_per_article_cap} skipped by the 3-per-article cap</span><span>${b.cap}</span></div>`;
+  bar+=`<ul class="packet">`+a.packet.map(p=>`<li data-id="${esc(p.id)}" class="${p.cited?"cited":""}"><span class="sw" style="background:${articleColor(p.title)}"></span><div><b>${esc(p.title)}</b> <span style="color:var(--muted)">· ${esc(p.heading)}</span><p>${esc(p.text)}</p></div><small>${p.tokens} tok</small></li>`).join("")+`</ul>`;
+  $("#packetBody").innerHTML=bar;
+  $("#packetBody").querySelectorAll("[data-id]").forEach(el=>{el.onmouseenter=()=>hl(el.dataset.id,true);el.onmouseleave=()=>hl(el.dataset.id,false)});
+}
+</script>
+</body>
+</html>

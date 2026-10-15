@@ -1,0 +1,41 @@
+{
+  "split": "dev",
+  "rows": [
+    {
+      "rerank_k": 0,
+      "completion": 0.7397260273972602,
+      "found": 54,
+      "required": 73,
+      "median_retrieval_ms": 16.964551992714405
+    },
+    {
+      "rerank_k": 20,
+      "completion": 0.863013698630137,
+      "found": 63,
+      "required": 73,
+      "median_retrieval_ms": 562.2611719882116
+    },
+    {
+      "rerank_k": 50,
+      "completion": 0.8767123287671232,
+      "found": 64,
+      "required": 73,
+      "median_retrieval_ms": 1077.873244008515
+    },
+    {
+      "rerank_k": 100,
+      "completion": 0.8904109589041096,
+      "found": 65,
+      "required": 73,
+      "median_retrieval_ms": 1532.5077180168591
+    },
+    {
+      "rerank_k": 500,
+      "completion": 0.8767123287671232,
+      "found": 64,
+      "required": 73,
+      "median_retrieval_ms": 5391.039840003941
+    }
+  ],
+  "threads": 6
+}

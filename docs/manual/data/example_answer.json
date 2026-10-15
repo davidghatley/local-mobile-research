@@ -1,0 +1,239 @@
+{
+  "question": "Which planet is closest to the Sun, and how long is its year?",
+  "text": "Mercury is the closest planet to the Sun, and its sidereal year is 88 Earth days.",
+  "citations": [],
+  "unknown_citations": [],
+  "candidates": [
+    {
+      "id": "p:mercury_planet:00:000",
+      "title": "Mercury (planet)",
+      "heading": "(lead)",
+      "text": "Mercury is the first planet from the Sun and the smallest in the Solar System. It is a rocky planet with a trace atmosphere and a surface gravity slightly lower than that of Mars. The surface of Mercury is similar to Earth's Moon, being cratered, with an expansive rupes system generated from thrust faults, and bright ray systems, formed by ejecta. Its largest crater, Caloris Planitia, has a diameter of 1,550 km, which is about one-third the diameter of the planet (). Being the most inferior orbiting planet, it always appears close to the Sun in Earth's sky, as either a \"morning star\" or an \"evening star\". It is the planet with the highest delta-v required for travel from Earth, as well as to and from the other planets in the Solar System.\nMercury's sidereal year (88.0 Earth days) and sidereal day (58.65 Earth days) are in a 3:2 ratio, in a spin\u2013orbit resonance. Consequently, one solar day (sunrise to sunrise) on Mercury lasts for around 176 Earth days, or twice Mercury's sidereal year. This means that one side of Mercury will remain in sunlight for one Mercurian year of 88 Earth days; while during the next orbit, that side will be in darkness all the time until the next sunrise after another 88 Earth days. Above the planet's surface is an extremely tenuous exosphere and a faint magnetic field just strong enough to deflect solar winds. Combined with its high orbital eccentricity, the planet's surface has widely varying sunlight intensity and temperature, with the equatorial regions ranging from -170 C at night to 420 C during sunlight. Despite being the closest planet to the sun, it is the second hottest after Venus, lacking an atmosphere to trap heat. Due to its very small axial tilt, the planet's poles are permanently shadowed. This strongly suggests that water ice could be present in the craters.\nLike the other planets in the Solar System, Mercury formed approximately 4.5 billion years ago. There are competing hypotheses about Mercury's origins and development, some of which incorporate collision with planetesimals and rock vaporization; as of the early 2020s, many broad details of Mercury's geological history are still under investigation or pending data from space probes. Its mantle is highly homogeneous, which suggests that Mercury had a magma ocean early in its history, like the Moon. According to current models, Mercury may have a solid silicate crust and mantle overlaying a solid outer core, a deeper liquid core layer, and a solid inner core. Mercury is expected to be destroyed, along with Venus, and possibly the Earth and the Moon, when the Sun becomes a red giant in approximately seven or eight billion years.\nMercury is a classical planet that has been observed and recognized throughout history as a planet (or wandering star). In English, it is named after the ancient Roman god (Mercury), god of commerce and communication, and the messenger of the gods. The first successful flyby of Mercury was conducted by Mariner 10 in 1974, and it has since been visited and explored by the MESSENGER and BepiColombo orbiters.",
+      "url": "https://en.wikipedia.org/wiki/Mercury_(planet)",
+      "rank": 0,
+      "bm25_rank": 6,
+      "score": 8.665799140930176
+    },
+    {
+      "id": "p:venus:00:000",
+      "title": "Venus",
+      "heading": "(lead)",
+      "text": "Venus is the second planet from the Sun. Similar in size and mass to Earth, Venus has no liquid water, and its atmosphere is far thicker and denser than that of any other rocky body in the Solar System. The atmosphere is composed mostly of carbon dioxide and has a thick cloud layer of sulfuric acid that spans the whole planet. At the mean surface level, the atmosphere reaches a temperature of 737 K, making it the hottest planet in the solar system and also a pressure 92 times greater than Earth's at sea level, turning the lowest layer of the atmosphere into a supercritical fluid. From Earth, Venus is visible as a star-like point of light, appearing brighter than any other natural point of light in the sky, as either the brightest \"morning star\" or \"evening star\". It was also given the poetic name \u0112arendel in Old English, meaning \"ray of light\" along with the two previous epithets.\nVenus orbits closer to the Sun than the Earth does. The orbits of Venus and Earth make the two planets approach each other in synodic periods of 1.6 years. In the course of this, Venus comes closer to Earth than any other planet. In interplanetary spaceflight from Earth, Venus is frequently used as a waypoint for gravity assists, offering a more economical route allowing spacecraft to save fuel. Venus has no moons and a very slow retrograde rotation about its axis, a result of competing forces of solar tidal locking and differential heating of Venus's massive atmosphere. As a result, a Venusian day is 116.75 Earth days long, about half a Venusian solar year, which is 224.7 Earth days long.\nVenus has a weak magnetosphere; lacking an internal dynamo, it is induced by the solar wind interacting with the atmosphere. Internally, Venus has a core, a mantle, and a crust. Internal heat escapes through active volcanism, resulting in resurfacing, instead of plate tectonics. Venus may have had liquid surface water early in its history with a habitable environment, before a runaway greenhouse effect evaporated any water and turned Venus into its present state. There are atmospheric conditions at cloud layer altitudes that are the most similar ones to Earth in the Solar System and have been identified as possibly favourable for life on Venus, with potential biomarkers found in 2020, spurring new research and missions to Venus.\nThroughout history humans across the globe have observed Venus and it has acquired particular importance in many cultures. With telescopes, the phases of Venus became discernible and, by 1613, were presented as decisive evidence disproving the then-dominant geocentric model and supporting the heliocentric model. Venus was visited for the first time in 1961 by Venera 1, which flew past the planet, achieving the first interplanetary spaceflight. The first data from Venus were returned during the second interplanetary mission, Mariner 2, in 1962. In 1967, the first interplanetary impactor, Venera 4, reached Venus, followed by the lander Venera 7 in 1970, with the first images captured by Mariner 10 during its 1974 gravity assist en route to Mercury. , Solar Orbiter is on its way to fly by Venus in 2026, and the next mission planned to launch to Venus is the Venus Life Finder, scheduled for 2026 as well.",
+      "url": "https://en.wikipedia.org/wiki/Venus",
+      "rank": 1,
+      "bm25_rank": 58,
+      "score": 8.458806991577148
+    },
+    {
+      "id": "p:venus:18:000",
+      "title": "Venus",
+      "heading": "Venus and early modern astronomy",
+      "text": "When the planet was first observed with a telescope in December 1610, by the Italian physicist Galileo Galilei, he found it showed phases like the Moon, varying from crescent to gibbous to full and vice versa. When Venus is furthest from the Sun in the sky, it shows a half-lit phase, and when it is closest to the Sun in the sky, it shows as a crescent or full phase. This could be possible only if Venus orbited the Sun, reported by Galileo in his 1613 Letters on Sunspots, becoming one of the first observations to clearly contradict the Ptolemaic geocentric model that the Solar System was concentric and centred on Earth.\nThe 1631 transit of Venus, while not recorded, was the first one successfully predicted, by Johannes Kepler and his calculations, which he published in 1629. The following 1639 transit of Venus was accurately predicted by Jeremiah Horrocks and observed by him and his friend, William Crabtree, at each of their respective homes, on 4December 1639 (24 November under the Julian calendar in use at that time).",
+      "url": "https://en.wikipedia.org/wiki/Venus",
+      "rank": 2,
+      "bm25_rank": 23,
+      "score": 8.409789085388184
+    },
+    {
+      "id": "p:mercury_planet:11:001",
+      "title": "Mercury (planet)",
+      "heading": "Orbit, rotation, and longitude",
+      "text": "For the same reason, there are two points on Mercury's equator, 180 degrees apart in longitude, at either of which, around perihelion in alternate Mercurian years (once a Mercurian day), the Sun passes overhead, then reverses its apparent motion and passes overhead again, then reverses a second time and passes overhead a third time, taking a total of about 16 Earth-days for this entire process. In the other alternate Mercurian years, the same thing happens at the other of these two points. The amplitude of the retrograde motion is small, so the overall effect is that, for two or three weeks, the Sun is almost stationary overhead, and is at its most brilliant because Mercury is at perihelion, its closest to the Sun. This prolonged exposure to the Sun at its brightest makes these two points the hottest places on Mercury. Maximum temperature occurs when the Sun is at an angle of about 25 degrees past noon due to diurnal temperature lag, at 0.4 Mercury days and 0.8 Mercury years past sunrise. Conversely, there are two other points on the equator, 90 degrees of longitude apart from the first ones, where the Sun passes overhead only when the planet is at aphelion in alternate years, when the apparent motion of the Sun in Mercury's sky is relatively rapid. These points, which are the ones on the equator where the apparent retrograde motion of the Sun happens when it is crossing the horizon as described in the preceding paragraph, receive much less solar heat than the first ones described above. Mercury attains an inferior conjunction (nearest approach to Earth) every 116 Earth days on average, but this interval can range from 105 days to 129 days due to the planet's eccentric orbit. Mercury can come as near as to Earth, and that is slowly declining: The next approach to within is in 2679, and to within in 4487, but it will not be closer to Earth than until 28,622. Its period of retrograde motion as seen from Earth can vary from 8 to 15 days on either side of an inferior conjunction. This large range arises from the planet's high orbital eccentricity. Essentially, because Mercury is closest to the Sun, when taking an average over time, Mercury is most often the closest planet to the Earth, and\u2014in that measure\u2014it is the closest planet to each of the other planets in the Solar System.",
+      "url": "https://en.wikipedia.org/wiki/Mercury_(planet)",
+      "rank": 3,
+      "bm25_rank": 0,
+      "score": 8.382633209228516
+    },
+    {
+      "id": "p:venus:11:000",
+      "title": "Venus",
+      "heading": "Orbit in respect to Earth",
+      "text": "Earth and Venus have a near orbital resonance of 13:8 (Earth orbits eight times for every 13 orbits of Venus).\nTherefore, they approach each other and reach inferior conjunction in synodic periods of 584 days, on average. The path that Venus makes in relation to Earth viewed geocentrically draws a pentagram over five synodic periods, shifting every period by 144\u00b0. This pentagram of Venus is sometimes referred to as the petals of Venus due to the path's visual similarity to a flower.\nWhen Venus lies between Earth and the Sun in inferior conjunction, it makes the closest approach to Earth of any planet, at an average distance of 41 e6km.\nBecause of the decreasing eccentricity of Earth's orbit, the minimum distances will become greater over tens of thousands of years. From the year1 to 5383, there are 526 approaches less than 40 e6km; then, there are none for about 60,158 years.\nWhile Venus approaches Earth the closest, Mercury is more often the closest to Earth of all planets and to any other planet. Venus has been used as a waypoint for gravity assist manoeuvres, which has been identified as a more economic way to travel to Mercury, the Sun, asteroids, Mars, Jupiter and beyond.\nTidally Venus exerts the third strongest tidal force on Earth, after the Moon and the Sun, though significantly less.",
+      "url": "https://en.wikipedia.org/wiki/Venus",
+      "rank": 4,
+      "bm25_rank": 5,
+      "score": 8.27326488494873
+    },
+    {
+      "id": "p:mercury_planet:15:000",
+      "title": "Mercury (planet)",
+      "heading": "Observation",
+      "text": "Mercury's apparent magnitude is calculated to vary between \u22122.48 (brighter than Sirius) around superior conjunction and +7.25 (below the limit of naked-eye visibility) around inferior conjunction. The mean apparent magnitude is 0.23 while the standard deviation of 1.78 is the largest of any planet. The mean apparent magnitude at superior conjunction is \u22121.89 while that at inferior conjunction is +5.93. Observation of Mercury is complicated by its proximity to the Sun, as it is lost in the Sun's glare for much of the time. Mercury can be observed for only a brief period during either morning or evening twilight.\nGround-based telescope observations of Mercury reveal only an illuminated partial disk with limited detail. The Hubble Space Telescope cannot observe Mercury at all, due to safety procedures that prevent its pointing too close to the Sun. Because the shift of 0.15 revolutions of Earth in a Mercurian year makes up a seven-Mercurian-year cycle (0.15 \u00d7 7 \u2248 1.0), in the seventh Mercurian year, Mercury follows almost exactly (earlier by 7 days) the sequence of phenomena it showed seven Mercurian years before.\nLike the Moon and Venus, Mercury exhibits phases as seen from Earth. It is \"new\" at inferior conjunction and \"full\" at superior conjunction. The planet is rendered invisible from Earth on both of these occasions because of its being obscured by the Sun, except at its new phase during a transit. Mercury is technically brightest as seen from Earth when it is at a full phase. Although Mercury is farthest from Earth when it is full, the greater illuminated area that is visible and the opposition brightness surge more than compensates for the distance. The opposite is true for Venus, which appears brightest when it is a crescent, because it is much closer to Earth than when gibbous.",
+      "url": "https://en.wikipedia.org/wiki/Mercury_(planet)",
+      "rank": 5,
+      "bm25_rank": 19,
+      "score": 8.257753372192383
+    },
+    {
+      "id": "p:solar_eclipse:23:000",
+      "title": "Solar eclipse",
+      "heading": "Eclipses and transits",
+      "text": "The simultaneous occurrence of a solar eclipse and a transit of a planet is extremely rare because of their short durations. The next anticipated simultaneous occurrence of a solar eclipse and a transit of Mercury will be on July 5, 6757, and a solar eclipse and a transit of Venus is expected on April 5, 15232.\nMore common, but still infrequent, is a conjunction of a planet (especially, but not only, Mercury or Venus) at the time of a total solar eclipse, in which event the planet will be visible very near the eclipsed Sun, when without the eclipse it would have been lost in the Sun's glare. At one time, some scientists hypothesized that there may be a planet (often given the name Vulcan) even closer to the Sun than Mercury; the only way to confirm its existence would have been to observe it in transit or during a total solar eclipse. No such planet was ever found, and general relativity has since explained the observations that led astronomers to suggest that Vulcan might exist.",
+      "url": "https://en.wikipedia.org/wiki/Solar_eclipse",
+      "rank": 6,
+      "bm25_rank": 35,
+      "score": 8.232168197631836
+    },
+    {
+      "id": "p:mars:19:001",
+      "title": "Mars",
+      "heading": "Orbital motion",
+      "text": "The mean apparent magnitude of Mars is +0.71 with a standard deviation of 1.05. Because the orbit of Mars is eccentric, the magnitude at opposition from the Sun can range from about \u22123.0 to \u22121.4. The minimum brightness is magnitude +1.86 when the planet is near aphelion and in conjunction with the Sun. At its brightest, Mars (along with Jupiter) is second only to Venus in apparent brightness. Mars usually appears distinctly yellow, orange, or red. When farthest away from Earth, it is more than seven times farther away than when it is closest. Mars is usually close enough for particularly good viewing once or twice at 15-year or 17-year intervals. Optical ground-based telescopes are typically limited to resolving features about 300 km across when Earth and Mars are closest because of Earth's atmosphere.\nAs Mars approaches opposition, it begins a period of retrograde motion, which means it will appear to move backwards in a looping curve with respect to the background stars. This retrograde motion lasts for about 72 days, and Mars reaches its peak apparent brightness in the middle of this interval.",
+      "url": "https://en.wikipedia.org/wiki/Mars",
+      "rank": 7,
+      "bm25_rank": 1,
+      "score": 7.82220458984375
+    },
+    {
+      "id": "p:saturn:00:000",
+      "title": "Saturn",
+      "heading": "(lead)",
+      "text": "Saturn is the sixth planet from the Sun, and is the second largest planet in the Solar System, after Jupiter. It is a gas giant, with an average radius of about 9 times that of Earth. It has an eighth of the average density of Earth, but is over 95 times more massive. Even though Saturn is almost as big as Jupiter, it has less than a third of its mass. Saturn orbits the Sun at a distance of 1434 e6km, with an orbital period of 29.45 years.\nSaturn's interior is thought to be composed of a rocky core, surrounded by a deep layer of metallic hydrogen, an intermediate layer of liquid hydrogen and liquid helium, and an outer layer of gas. Saturn has a pale yellow hue, due to ammonia crystals in its upper atmosphere. An electrical current in the metallic hydrogen layer is thought to give rise to Saturn's planetary magnetic field, which is weaker than Earth's, but has a magnetic moment 580 times that of Earth because of Saturn's greater size. Saturn's magnetic field strength is about a twentieth that of Jupiter. The outer atmosphere is generally bland and lacking in contrast, although long-lived features can appear. Wind speeds on Saturn can reach 1800 km/h.\nThe planet has a bright and extensive system of rings, composed mainly of ice particles, with a smaller amount of rocky debris and dust. At least 293 moons orbit the planet, of which 63 are officially named; these do not include the hundreds of moonlets in the rings. Titan, Saturn's largest moon and the second largest in the Solar System, is larger (but less massive) than the planet Mercury and is the only moon in the Solar System that has a substantial atmosphere.",
+      "url": "https://en.wikipedia.org/wiki/Saturn",
+      "rank": 8,
+      "bm25_rank": 31,
+      "score": 7.755194187164307
+    },
+    {
+      "id": "p:mars:19:000",
+      "title": "Mars",
+      "heading": "Orbital motion",
+      "text": "Mars's average distance from the Sun is roughly 143 e6mi, and its orbital period is 687 (Earth) days. The solar day (or sol) on Mars is only slightly longer than an Earth day: 24 hours, 39 minutes, and 35.244 seconds. A Martian year is equal to 1.8809 Earth years, or 1 year, 320 days, and 18.2 hours. The gravitational potential difference and thus the delta-v needed to transfer between Mars and Earth is the second lowest for Earth.\nThe axial tilt of Mars is 25.19\u00b0 relative to its orbital plane, which is similar to the axial tilt of Earth. As a result, Mars has seasons like Earth, though on Mars they are nearly twice as long because its orbital period is that much longer. In the present day, the orientation of the north pole of Mars is close to the star Deneb.\nMars has a relatively pronounced orbital eccentricity of about 0.09; of the seven other planets in the Solar System, only Mercury has a larger orbital eccentricity. It is known that in the past, Mars has had a much more circular orbit. At one point, 1.35\u00a0million Earth years ago, Mars had an eccentricity of roughly 0.002, much less than that of Earth today. Mars's cycle of eccentricity is 96,000 Earth years compared to Earth's cycle of 100,000 years.\nMars has its closest approach to Earth (opposition) in a synodic period of 779.94 days. It should not be confused with Mars conjunction, where the Earth and Mars are at opposite sides of the Solar System and form a straight line crossing the Sun. The average time between the successive oppositions of Mars, its synodic period, is 780 days; but the number of days between successive oppositions can range from 764 to 812. The distance at close approach varies between about 54 and due to the planets' elliptical orbits, which causes comparable variation in angular size. At their furthest Mars and Earth can be as far as 401 e6km apart. Mars comes into opposition from Earth every 2.1 years. The planets come into opposition near Mars's perihelion in 2003, 2018 and 2035, with the 2020 and 2033 events being particularly close to perihelic opposition.",
+      "url": "https://en.wikipedia.org/wiki/Mars",
+      "rank": 9,
+      "bm25_rank": 79,
+      "score": 7.7365803718566895
+    },
+    {
+      "id": "p:saturn:12:000",
+      "title": "Saturn",
+      "heading": "Observation",
+      "text": "Saturn is the most distant of the five planets which are easily visible to the unaided eye from Earth, the other four being Mercury, Venus, Mars, and Jupiter. (Uranus, and occasionally 4 Vesta, are visible to the unaided eye in dark skies.) Saturn appears to the unaided eye in the night sky as a bright, yellowish point of light. The mean apparent magnitude of Saturn is 0.46, with a standard deviation of 0.34. Most of the magnitude variation is due to the inclination of the ring system relative to the Sun and Earth. The brightest magnitude, \u22120.55, occurs near the time when the plane of the rings is inclined most highly, and the faintest magnitude, 1.17, occurs around the time when they are least inclined.\nIt takes approximately 29.4\u00a0years for the planet to complete an entire circuit of the ecliptic against the background constellations of the zodiac. Most people will require an optical aid (very large binoculars or a small telescope) that magnifies at least 30 times to achieve an image of Saturn's rings in which a clear resolution is present.\nWhen Earth passes through the ring-plane, which occurs twice every Saturnian year (roughly every 15 Earth-years), the rings briefly disappear from view because they are so thin. Such a \"disappearance\" most recently occurred in 2025, but Saturn was too close to the Sun for observations.\nSaturn and its rings are best seen when the planet is at, or near, opposition, the configuration of a planet when it is at an elongation of 180\u00b0, and thus appears opposite the Sun in the sky. A Saturnian opposition occurs every year\u2014 approximately every 378 days, and results in the planet appearing at its brightest. Both Earth and Saturn orbit the Sun on eccentric orbits, which means that their distances from the Sun vary over time, and therefore so do their distances from each other, hence varying the brightness of Saturn from one opposition to the next. Saturn also appears brighter when the rings are angled such that they are more visible. For example, during the opposition of 17 December 2002, Saturn appeared at its brightest due to the favorable orientation of its rings relative to Earth, even though Saturn was closer to Earth and the Sun in late 2003.\nFrom time to time, Saturn is occulted by the Moon (that is, the Moon covers up Saturn in the sky). As with all the planets in the Solar System, occultations of Saturn occur in \"seasons\". Saturnian occultations will take place monthly for about a 12-month period, followed by about a five-year period in which no such activity is registered. The Moon's orbit is inclined by several degrees relative to Saturn's, so occultations will only occur when Saturn is near one of the points in the sky where the two planes intersect (both the length of Saturn's year and the 18.6-Earth-year nodal precession period of the Moon's orbit influence the periodicity).",
+      "url": "https://en.wikipedia.org/wiki/Saturn",
+      "rank": 10,
+      "bm25_rank": 27,
+      "score": 7.696946620941162
+    },
+    {
+      "id": "p:mars:00:000",
+      "title": "Mars",
+      "heading": "(lead)",
+      "text": "Mars is the fourth planet from the Sun. It is also known as the \"Red Planet\", for its orange-red appearance. Mars is a desert-like rocky planet with a tenuous atmosphere that is primarily carbon dioxide (). At the average surface level the atmospheric pressure is a few thousandths of Earth's, atmospheric temperature ranges from , and cosmic radiation is high. Mars retains some water, in the ground as well as thinly in the atmosphere, forming cirrus clouds, fog, frost, larger polar regions of permafrost and ice caps (with seasonal snow), but no bodies of liquid surface water. Its surface gravity is roughly a third of Earth's or double that of the Moon. Its mean diameter, , is about half the Earth's, or twice the Moon's, and its surface area is around the size of all the dry land of Earth.\nFine dust is prevalent across the surface and the atmosphere, being picked up and spread at the low Martian gravity even by the weak wind of the tenuous atmosphere.\nThe terrain of Mars roughly follows a north\u2013south divide, the Martian dichotomy, with the northern hemisphere mainly consisting of relatively flat, low lying plains, and the southern hemisphere of cratered highlands. Geologically, the planet is fairly active with marsquakes trembling underneath the ground, but also hosts many enormous volcanoes that are extinct (the tallest is Olympus Mons, tall), as well as one of the largest canyons in the Solar System (Valles Marineris, long). Mars has two natural satellites that are small and irregular in shape: Phobos and Deimos. With a significant axial tilt of 25\u00a0degrees, Mars experiences seasons, like Earth (which has an axial tilt of 23.5\u00a0degrees). A Martian solar year is equal to 1.88\u00a0Earth years (687\u00a0Earth days), a Martian solar day (sol) is equal to 24.6\u00a0hours.\nMars formed along with the other planets approximately 4.5\u00a0billion years ago. During the martian Noachian period (4.5 to 3.5\u00a0billion years ago), its surface was marked by meteor impacts, valley formation, erosion, the possible presence of water oceans and the loss of its magnetosphere. The Hesperian period (beginning 3.5\u00a0billion years ago and ending 3.3\u20132.9\u00a0billion years ago) was dominated by widespread volcanic activity and flooding that carved immense outflow channels. The Amazonian period, which continues to the present, is the currently dominating and remaining influence on geological processes. Because of Mars's geological history, the possibility of past or present life on Mars remains an area of active scientific investigation, with some possible traces needing further examination.\nBeing visible with the naked eye in Earth's sky as a red wandering star, Mars has been observed throughout history, acquiring diverse associations in different cultures. In 1963 the first flight to Mars took place with Mars 1, but communication was lost en route. The first successful flyby exploration of Mars was conducted in 1965 with Mariner 4. In 1971 Mariner 9 entered orbit around Mars, being the first spacecraft to orbit any body other than the Moon, Sun or Earth; following in the same year were the first uncontrolled impact (Mars 2) and first successful landing (Mars 3) on Mars. Probes have been active on Mars continuously since 1997. At times, more than ten probes have simultaneously operated in orbit or on the surface, more than at any other planet beyond Earth. Mars is an often proposed target for future crewed exploration missions, though no such mission is currently planned.",
+      "url": "https://en.wikipedia.org/wiki/Mars",
+      "rank": 11,
+      "bm25_rank": 57,
+      "score": 7.457926273345947
+    },
+    {
+      "id": "p:venus:10:001",
+      "title": "Venus",
+      "heading": "Orbit and rotation",
+      "text": "Venus has retrograde rotation, meaning that unlike most planets, including Earth, it rotates clockwise around its own axis, opposite to its anticlockwise rotation around the Sun.\nTherefore, Venusian sidereal day, 243 Earth days, lasts longer than a Venusian year, 224.7 Earth days.\nIf Venus were tidally locked to the Sun, it would always have the same face pointed to the Sun and its sidereal day would be 224.7 days. However, Venus's atmosphere is massive and it is close to the Sun, so differential heating of the atmosphere gives Venus a small retrograde rotation. The day length also fluctuates by up to 20 minutes for the same reason. Venus's rotation period measured with Magellan spacecraft data over a 500-day period is smaller than the rotation period measured during the 16-year period between the Magellan spacecraft and Venus Express visits, with a difference of about 6.5minutes. Because of the retrograde rotation, the length of a solar day on Venus is significantly shorter than the sidereal day, at 116.75 Earth days.\nOne Venusian year is about 1.92Venusian solar days. To an observer on the surface of Venus, the Sun would rise in the west and set in the east, although Venus's opaque clouds prevent observing the Sun from the planet's surface.\nVenus may have formed from the solar nebula with a different rotation period and obliquity, reaching its current state because of chaotic spin changes caused by planetary perturbations and tidal effects on its dense atmosphere, a change that would have occurred over the course of billions of years. The rotation period of Venus may represent an equilibrium state between tidal locking to the Sun's gravitation, which tends to slow rotation, and an atmospheric tide created by solar heating of the thick Venusian atmosphere. The 584-day average interval between successive close approaches to Earth is almost exactly equal to 5Venusian solar days (5.001444 to be precise), but the hypothesis of a spin-orbit resonance with Earth has been discounted.\nVenus has no natural satellites. It has several trojan asteroids: the quasi-satellite and two other temporary trojans, and . In the 17th century, Giovanni Cassini reported a moon orbiting Venus, which was named Neith and numerous sightings were reported over the following 200, but most were determined to be stars in the vicinity. Alex Alemi's and David Stevenson's 2006 study of models of the early Solar System at the California Institute of Technology shows Venus likely had at least one moon created by a huge impact event billions of years ago. About 10millionyears later, according to the study, another impact reversed the planet's spin direction and the resulting tidal deceleration caused the Venusian moon gradually to spiral inward until it collided with Venus. If later impacts created moons, these were removed in the same way. An alternative explanation for the lack of satellites is the effect of strong solar tides, which can destabilize large satellites orbiting the inner terrestrial planets.\nThe orbital space of Venus has a dust ring-cloud, with a suspected origin either from Venus\u2013trailing asteroids, interplanetary dust migrating in waves, or the remains of the Solar System's original circumstellar disc that formed the planetary system.",
+      "url": "https://en.wikipedia.org/wiki/Venus",
+      "rank": 12,
+      "bm25_rank": 71,
+      "score": 7.285810947418213
+    },
+    {
+      "id": "p:venus:10:000",
+      "title": "Venus",
+      "heading": "Orbit and rotation",
+      "text": "Venus orbits the Sun at an average distance of about 0.72 AU, and completes an orbit every 224.7 days. It completes 13 orbits in 7.998 years, so its position in our sky almost repeats every eight years. Although all planetary orbits are elliptical, Venus's orbit is currently the closest to circular, with an eccentricity of less than 0.01. Simulations of the early solar system orbital dynamics have shown that the eccentricity of the Venus orbit may have been substantially larger in the past, reaching values as high as 0.31 and possibly impacting early climate evolution.",
+      "url": "https://en.wikipedia.org/wiki/Venus",
+      "rank": 13,
+      "bm25_rank": 68,
+      "score": 7.235332489013672
+    },
+    {
+      "id": "p:mars:21:000",
+      "title": "Mars",
+      "heading": "Human observations and exploration",
+      "text": "The history of observations of Mars is marked by oppositions of Mars when the planet is closest to Earth and hence is most easily visible, which occur every couple of years. Even more notable are the perihelic oppositions of Mars, which are distinguished because Mars is close to perihelion, making it even closer to Earth.",
+      "url": "https://en.wikipedia.org/wiki/Mars",
+      "rank": 14,
+      "bm25_rank": 60,
+      "score": 7.1754326820373535
+    },
+    {
+      "id": "p:solar_eclipse:03:000",
+      "title": "Solar eclipse",
+      "heading": "Duration",
+      "text": "The following factors determine the duration of a total solar eclipse (in order of decreasing importance):\nThe Moon being almost exactly at perigee (making its angular diameter as large as possible).\nEarth being very near aphelion (furthest away from the Sun in its elliptical orbit, making its angular diameter nearly as small as possible).\nThe midpoint of the eclipse being very close to Earth's equator, where the rotational velocity is greatest and is closest to the speed of the lunar shadow moving over Earth's surface.\nThe vector of the eclipse path at the midpoint of the eclipse aligning with the vector of Earth's rotation (i.e. not diagonal but due east).\nThe midpoint of the eclipse being near the subsolar point (the part of Earth closest to the Sun).\nThe longest eclipse that has been calculated thus far is the eclipse of July 16, 2186 (with a maximum duration of 7 minutes 29 seconds over northern Guyana).",
+      "url": "https://en.wikipedia.org/wiki/Solar_eclipse",
+      "rank": 15,
+      "bm25_rank": 24,
+      "score": 7.120763301849365
+    },
+    {
+      "id": "p:saturn:11:000",
+      "title": "Saturn",
+      "heading": "Orbit and observation",
+      "text": "The average distance between Saturn and the Sun is over 1.4\u00a0billion kilometers (9\u00a0AU). With an average orbital speed of 9.68\u00a0km/s, it takes Saturn 10,759 Earth days (or about 29/1\u00a0years) to finish one revolution around the Sun. As a consequence, it forms a near 5:2 mean-motion resonance with Jupiter. The elliptical orbit of Saturn is inclined 2.48\u00b0 relative to the orbital plane of Earth. The perihelion and aphelion distances are, respectively, 9.195 and 9.957\u00a0AU, on average.\nSaturn has only one known trojan asteroid, designated , whose trojan configuration was announced in September 2024, orbiting the Sun at the stable L4 Lagrange point 60\u00b0 ahead of the planet along its orbit. This discovery leaves only Mercury without any known trojans at all. Orbital resonance mechanisms, including secular resonance, are believed to be the cause of the low number of known Saturnian trojans.",
+      "url": "https://en.wikipedia.org/wiki/Saturn",
+      "rank": 16,
+      "bm25_rank": 94,
+      "score": 7.096937656402588
+    },
+    {
+      "id": "p:mars:15:000",
+      "title": "Mars",
+      "heading": "Climate",
+      "text": "Mars has seasons, alternating between its northern and southern hemispheres, similar to on Earth. Additionally the orbit of Mars has, compared to Earth's, a large eccentricity and approaches perihelion when it is summer in its southern hemisphere and winter in its northern, and aphelion when it is winter in its southern hemisphere and summer in its northern. As a result, the seasons in its southern hemisphere are more extreme and the seasons in its northern are milder than would otherwise be the case. The summer temperatures in the south can be warmer than the equivalent summer temperatures in the north by up to 30 C-change.\nMartian surface temperatures vary from lows of about -110 C to highs of up to 35 C in equatorial summer. The wide range in temperatures is due to the thin atmosphere which cannot store much solar heat, the low atmospheric pressure (about 1% that of the atmosphere of Earth), and the low thermal inertia of Martian soil. The planet is 1.52 times as far from the Sun as Earth, resulting in just 43% of the amount of sunlight.\nMars has the largest dust storms in the Solar System, reaching speeds of over 100 mph. These can vary from a storm over a small area, to gigantic storms that cover the entire planet. They tend to occur when Mars is closest to the Sun, and have been shown to increase global temperature. Seasons also produce dry ice covering polar ice caps.",
+      "url": "https://en.wikipedia.org/wiki/Mars",
+      "rank": 17,
+      "bm25_rank": 22,
+      "score": 7.004130840301514
+    },
+    {
+      "id": "p:venus:12:000",
+      "title": "Venus",
+      "heading": "Observability",
+      "text": "To the naked eye, Venus appears as a white point of light with a maximum apparent magnitude of \u22124.92, brighter than any other planet or star apart from the Sun, even when faintest during its transit with an apparent magnitude of \u22122.98. The planet's mean apparent magnitude is \u22124.14 with a standard deviation of 0.31. The brightest magnitude occurs during the crescent phase about one month before or after an inferior conjunction. Venus fades to about magnitude \u22123 when it is backlit by the Sun, although the exact value depends on the phase angle. The planet is bright enough to be seen in broad daylight, but is more easily visible when the Sun is low on the horizon or setting. As an inferior planet, it always lies within about 47\u00b0 of the Sun.\nVenus \"overtakes\" Earth every 584 days as it orbits the Sun. As it does so, it changes from the \"Evening Star\", visible after sunset, to the \"Morning Star\", visible before sunrise. Although Mercury, the other inferior planet, reaches a maximum elongation of only 28\u00b0 and is often difficult to discern in twilight, Venus is hard to miss when it is at its brightest. Its greater maximum elongation means it is visible in dark skies long after sunset. As the brightest point-like object in the sky, Venus is a commonly misreported \"unidentified flying object\".\nBecause Venus comes close to the earth at inferior conjunction and has an orbit inclined to the plane of the earth's orbit, it can appear more than 8\u00b0 north or south of the ecliptic, more than any other planet or the moon. Every eight years around March it appears this far north of the ecliptic, in Pisces (such as in mid-March 2025), and every eight years it appears this far south of the ecliptic in August or September in Virgo (as in late August 2023). Venus can thus be north of the sun and appear as a morning star and an evening star on the same day, in the northern hemisphere. The timing of these north or south excursions becomes slowly earlier in the year, and over thirty cycles (240 years) the cycle is gradually replaced by another cycle offset by three years, so the situation returns close to the original situation after 243 orbits of Earth, 395 of Venus.\nLunar occultations of Venus, in which the moon blocks the view of Venus for observers in certain parts of the earth, occur on average about twice a year, sometimes several times in a year (though rarely).",
+      "url": "https://en.wikipedia.org/wiki/Venus",
+      "rank": 18,
+      "bm25_rank": 9,
+      "score": 6.963772296905518
+    },
+    {
+      "id": "p:mercury_planet:14:000",
+      "title": "Mercury (planet)",
+      "heading": "Advance of perihelion",
+      "text": "In 1859, the French mathematician and astronomer Urbain Le Verrier reported that the slow precession of Mercury's orbit around the Sun could not be completely explained by Newtonian mechanics and perturbations by the known planets. He suggested, among possible explanations, that another planet (or perhaps instead a series of smaller \"corpuscules\") might exist in an orbit even closer to the Sun than that of Mercury, to account for this perturbation. Other explanations considered included a slight oblateness of the Sun. The success of the search for Neptune based on its perturbations of the orbit of Uranus led astronomers to place faith in this possible explanation, and the hypothetical planet was named Vulcan, but no such planet was ever found.\nThe observed perihelion precession of Mercury is 5,600 arcseconds (1.5556\u00b0) per century relative to Earth, or 574.10 per century relative to the inertial ICRF. Newtonian mechanics, taking into account all the effects from the other planets and including 0.0254 arcseconds per century due to the oblateness of the Sun, predicts a precession of 5,557 arcseconds (1.5436\u00b0) per century relative to Earth, or 531.63 per century relative to ICRF. In the early 20th century, Albert Einstein's general theory of relativity provided the explanation for the observed precession, by formalizing gravitation as being mediated by the curvature of spacetime. The effect is small: just 42.980 per century (or 0.43 arcsecond per year, or 0.1035 arcsecond per orbital period) for Mercury; it therefore requires a little over 12.5 million orbits, or 3 million years, for a full excess turn. Similar, but much smaller, effects exist for other Solar System bodies: 8.6247 arcseconds per century for Venus, 3.8387 for Earth, 1.351 for Mars, and 10.05 for 1566 Icarus.",
+      "url": "https://en.wikipedia.org/wiki/Mercury_(planet)",
+      "rank": 19,
+      "bm25_rank": 26,
+      "score": 6.663844585418701
+    }
+  ],
+  "packet": [
+    {
+      "id": "p:mercury_planet:00:000",
+      "title": "Mercury (planet)",
+      "heading": "(lead)",
+      "text": "Mercury is the first planet from the Sun and the smallest in the Solar System. It is a rocky planet with a trace atmosphere and a surface gravity slightly lower than that of Mars. The surface of Mercury is similar to Earth's Moon, being cratered, with an expansive rupes system generated from thrust faults, and bright ray systems, formed by ejecta. Its largest crater, Caloris Planitia, has a diameter of 1,550 km, which is about one-third the diameter of the planet (). Being the most inferior orbiting planet, it always appears close to the Sun in Earth's sky, as either a \"morning star\" or an \"evening star\". It is the planet with the highest delta-v required for travel from Earth, as well as to and from the other planets in the Solar System.\nMercury's sidereal year (88.0 Earth days) and sidereal day (58.65 Earth days) are in a 3:2 ratio, in a spin\u2013orbit resonance. Consequently, one solar day (sunrise to sunrise) on Mercury lasts for around 176 Earth days, or twice Mercury's sidereal year. This means that one side of Mercury will remain in sunlight for one Mercurian year of 88 Earth days; while during the next orbit, that side will be in darkness all the time until the next sunrise after another 88 Earth days. Above the planet's surface is an extremely tenuous exosphere and a faint magnetic field just strong enough to deflect solar winds. Combined with its high orbital eccentricity, the planet's surface has widely varying sunlight intensity and temperature, with the equatorial regions ranging from -170 C at night to 420 C during sunlight. Despite being the closest planet to the sun, it is the second hottest after Venus, lacking an atmosphere to trap heat. Due to its very small axial tilt, the planet's poles are permanently shadowed. This strongly suggests that water ice could be present in the craters.\nLike the other planets in the Solar System, Mercury formed approximately 4.5 billion years ago. There are competing hypotheses about Mercury's origins and development, some of which incorporate collision with planetesimals and rock vaporization; as of the early 2020s, many broad details of Mercury's geological history are still under investigation or pending data from space probes. Its mantle is highly homogeneous, which suggests that Mercury had a magma ocean early in its history, like the Moon. According to current models, Mercury may have a solid silicate crust and mantle overlaying a solid outer core, a deeper liquid core layer, and a solid inner core. Mercury is expected to be destroyed, along with Venus, and possibly the Earth and the Moon, when the Sun becomes a red giant in approximately seven or eight billion years.\nMercury is a classical planet that has been observed and recognized throughout history as a planet (or wandering star). In English, it is named after the ancient Roman god (Mercury), god of commerce and communication, and the messenger of the gods. The first successful flyby of Mercury was conducted by Mariner 10 in 1974, and it has since been visited and explored by the MESSENGER and BepiColombo orbiters.",
+      "url": "https://en.wikipedia.org/wiki/Mercury_(planet)",
+      "tokens": 692,
+      "cited": false
+    }
+  ],
+  "budget": {
+    "cap": 1000,
+    "used": 692,
+    "skipped_per_article_cap": 133,
+    "truncated": true
+  },
+  "timings_ms": {
+    "bm25": 18.34382297238335,
+    "rerank": 1481.851736025419,
+    "pack": 6.732887006364763,
+    "generate": 3335.968033003155
+  },
+  "usage": {
+    "completion_tokens": 23,
+    "prompt_tokens": 814,
+    "total_tokens": 837,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  }
+}

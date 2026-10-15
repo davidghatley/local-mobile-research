@@ -47,3 +47,9 @@ corpus/scale/distractor.jsonl
 __pycache__/
 *.py[cod]
 .pytest_cache/
+
+# Local virtualenv and runtime caches
+.venv/
+corpus/.build_tmp/
+*.egg-info/
+docs/manual/.print.html

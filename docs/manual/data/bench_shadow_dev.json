@@ -1,0 +1,41 @@
+{
+  "split": "shadow_dev",
+  "rows": [
+    {
+      "rerank_k": 0,
+      "completion": 0.6557377049180327,
+      "found": 80,
+      "required": 122,
+      "median_retrieval_ms": 15.989951498340815
+    },
+    {
+      "rerank_k": 20,
+      "completion": 0.7459016393442623,
+      "found": 91,
+      "required": 122,
+      "median_retrieval_ms": 530.3844255104195
+    },
+    {
+      "rerank_k": 50,
+      "completion": 0.7622950819672131,
+      "found": 93,
+      "required": 122,
+      "median_retrieval_ms": 1111.6888789692894
+    },
+    {
+      "rerank_k": 100,
+      "completion": 0.7786885245901639,
+      "found": 95,
+      "required": 122,
+      "median_retrieval_ms": 1610.8146299957298
+    },
+    {
+      "rerank_k": 500,
+      "completion": 0.7868852459016393,
+      "found": 96,
+      "required": 122,
+      "median_retrieval_ms": 6027.290512487525
+    }
+  ],
+  "threads": 6
+}

@@ -22,6 +22,7 @@ that marker is present the whole module skips, which breaks the cycle.
 Runs with ``python3`` on any platform the verifier supports. stdlib only.
 """
 
+import hashlib
 import json
 import os
 import re
@@ -76,6 +77,19 @@ def run_verifier(*args, cwd=None, env=None, timeout=600):
     timeout=timeout,
   )
   return proc.returncode, proc.stdout + proc.stderr
+
+
+def _pinned_corpus_present():
+  path = os.path.join(ROOT, "corpus", "corpus.jsonl")
+  if not os.path.isfile(path):
+    return False
+  with open(os.path.join(ROOT, "corpus", "build_manifest.json"), encoding="utf-8") as fh:
+    pins = {a["path"]: a["sha256"] for a in json.load(fh)["artifacts"]}
+  h = hashlib.sha256()
+  with open(path, "rb") as fh:
+    for chunk in iter(lambda: fh.read(1 << 20), b""):
+      h.update(chunk)
+  return h.hexdigest() == pins["corpus/corpus.jsonl"]
 
 
 def copy_tree(dest, with_corpus=False):
@@ -229,6 +243,11 @@ class TestCorruptedArtifactFailsLoudly(unittest.TestCase):
   """
 
   def setUp(self):
+    # Both tests need the byte-exact pinned corpus artifact. A fresh clone has
+    # none, and `lmr fetch` rebuilds one whose article-level links differ (see
+    # lmr/fetch.py), so the control copy could never pass stage 4.
+    if not _pinned_corpus_present():
+      self.skipTest("byte-exact pinned corpus/corpus.jsonl not present")
     self.tmp = tempfile.mkdtemp(prefix="verify-round0-corrupt-")
     self.addCleanup(shutil.rmtree, self.tmp, True)
     self.copy_root = copy_tree(os.path.join(self.tmp, "repo"), with_corpus=True)

@@ -1,13 +1,17 @@
 [project]
-name = "offline-research-substrate"
-version = "0.2.0"
-description = "Round 0 common experimental substrate for the offline System-1 retrieval tournament (interfaces, schemas, measurement, freeze validation). Research infrastructure only; not an architecture implementation."
-readme = "docs/experimental-contract.md"
+name = "lmr"
+version = "0.3.0"
+description = "Offline research assistant over a pinned Wikipedia corpus: BM25, a 17M reranker and a local LLM, plus the research substrate that chose them."
+readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
-authors = [{ name = "Round 0 substrate lead" }]
+authors = [{ name = "David Hatley" }]
+
+[project.scripts]
+lmr = "lmr.cli:main"
 
 [project.optional-dependencies]
+rerank = ["sentence-transformers>=5", "torch>=2.4"]
 dev = []
 
 [build-system]
@@ -16,4 +20,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["substrate*", "eval*"]
+include = ["lmr*", "substrate*", "eval*", "experiments*"]
+
+[tool.setuptools.package-data]
+lmr = ["web/*.html"]

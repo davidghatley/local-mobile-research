@@ -16,9 +16,12 @@ import os
 import shutil
 import subprocess
 import tempfile
+import sys
 import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, REPO_ROOT)
+from substrate import private_eval  # noqa: E402
 VERIFIER = os.path.join(REPO_ROOT, "scripts", "verify_round0")
 PARTITION_REL = "corpus/questions.json"
 
@@ -42,6 +45,10 @@ class TestStage6NonVacuity(unittest.TestCase):
       # 42 MB corpus artifact is absent by design; stage 6 then cannot bind the
       # partition to it. Skipping is correct, not a pass.
       self.skipTest("corpus/corpus.jsonl absent (sandboxed copy)")
+    if private_eval.seal_digest() is None:
+      # Stage 6 also verifies the out-of-repo private seal. Without the sealed
+      # store on this machine it fails correctly, so there is no baseline here.
+      self.skipTest("private evaluation store not present on this machine")
     self.tmp = tempfile.mkdtemp()
     self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
     self.repo = os.path.join(self.tmp, "repo")
