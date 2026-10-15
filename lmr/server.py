@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import json
 import os
+import signal
+import sys
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -46,6 +48,8 @@ def serve(port: int = 8765, rerank_k: int = 100) -> None:
       self._send(200, json.dumps(ans.to_dict()).encode(), "application/json")
 
   httpd = ThreadingHTTPServer(("127.0.0.1", port), Handler)
+  # SIGTERM skips atexit; turn it into a normal exit so llama-server is stopped too.
+  signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
   print(f"lmr: http://127.0.0.1:{port}  (offline; Ctrl-C to stop)")
   try:
     httpd.serve_forever()
