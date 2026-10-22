@@ -8,5 +8,5 @@ Third-party content
   provenance files, and is licensed under the Creative Commons
   Attribution-ShareAlike 4.0 License (https://creativecommons.org/licenses/by-sa/4.0/).
   That text stays under CC BY-SA 4.0; the MIT License covers only the code.
-- Models (Qwen2.5-1.5B GGUF and the rerankers) are downloaded at setup time by
-  `lmr setup` under their own licenses and are not part of this repository.
+- Models (Qwen2.5-1.5B GGUF and the rerankers) are downloaded by
+  `lmr setup` or on first use, under their own licenses, and are not part of this repository.
