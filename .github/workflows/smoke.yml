@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install (no reranker extra: tests do not need torch)
+      - name: Install (no reranker extra, tests do not need torch)
         run: python -m pip install -e ".[dev]"
       - name: CLI imports and prints help
         run: lmr --help
