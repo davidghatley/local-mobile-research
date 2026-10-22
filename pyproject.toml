@@ -12,7 +12,7 @@ lmr = "lmr.cli:main"
 
 [project.optional-dependencies]
 rerank = ["sentence-transformers>=5", "torch>=2.4"]
-dev = []
+dev = ["pytest>=8"]
 
 [build-system]
 requires = ["setuptools>=61"]
@@ -24,3 +24,7 @@ include = ["lmr*", "substrate*", "eval*", "experiments*"]
 
 [tool.setuptools.package-data]
 lmr = ["web/*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

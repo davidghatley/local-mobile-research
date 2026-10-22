@@ -1,6 +1,6 @@
 # lmr
 
-**An offline research assistant that shows its work.** Ask a question about 297 Wikipedia articles. Keyword search finds the evidence, a 17M reranker decides what fits in a 1,000-token budget, and a local 1.5B model writes the answer. It runs on a laptop CPU in about five seconds, with no network.
+**An offline research assistant that shows its work.** Ask a question about 297 Wikipedia articles. Keyword search finds the evidence, a 17M reranker decides what fits in a 1,000-token budget, and a local 1.5B model writes the answer. On a desktop CPU it answers in about 5 s once warm (`lmr serve` keeps the models loaded); a cold one-off `lmr ask` took 11.6 s wall, because it also loads the index, reranker and model. No network after setup.
 
 ![The web UI: an answer, then the rank movement from BM25 to the reranker, then the token budget the evidence has to fit in](docs/img/ui.png)
 
@@ -20,13 +20,42 @@ The full story, with figures, is in the **[Technical Manual (PDF, 19 pages)](doc
 
 ## Run it
 
+Linux x86-64, Python 3.11+, [uv](https://docs.astral.sh/uv/). No GPU needed.
+
 ```sh
 git clone https://github.com/davidghatley/local-mobile-research && cd local-mobile-research
-uv venv && uv pip install -e ".[rerank]"
+uv venv
+# The reranker needs torch. Install the CPU build first, or pip pulls the multi-GB CUDA wheels:
+uv pip install torch --index-url https://download.pytorch.org/whl/cpu
+uv pip install -e ".[rerank]"
 .venv/bin/lmr setup      # llama.cpp (CPU) + Qwen2.5-1.5B GGUF, hash-checked; corpus from 297 pinned revisions
 .venv/bin/lmr ask "Which planet is closest to the Sun, and how long is its year?"
 .venv/bin/lmr serve      # http://127.0.0.1:8765
 ```
+
+Install from a clone (editable, as above). A plain `pip install` from a git URL is not supported: the corpus build script and provenance pins live in the repo checkout, not in the package.
+
+Sample `lmr ask` output (warm timings, desktop CPU):
+
+```
+Mercury is the closest planet to the Sun, and its sidereal year is 88 Earth days.
+
+evidence (692/1000 tokens, 1 paragraph):
+ ○ [p:mercury_planet:00:000] Mercury (planet) — (lead)
+
+bm25 20 ms · rerank 1466 ms · generate 3433 ms · offline
+```
+
+(The model cited no paragraph here, so the dot is open; see Limits.)
+
+## Run the tests
+
+```sh
+uv pip install -e ".[dev]"
+.venv/bin/pytest          # runs tests/ only; about 470 pass, the rest skip when pinned artifacts are absent
+```
+
+Plain `pytest` collects only `tests/` (set in `pyproject.toml`). The project's own 10-stage gate is `scripts/verify_round0`.
 
 | Command | Does |
 |---|---|
