@@ -2,6 +2,8 @@
 
 **An offline research assistant that shows its work.** Ask a question about 297 Wikipedia articles. Keyword search finds the evidence, a 17M reranker decides what fits in a 1,000-token budget, and a local 1.5B model writes the answer. On a desktop CPU it answers in about 5 s once warm (`lmr serve` keeps the models loaded); a cold one-off `lmr ask` took 11.6 s wall, because it also loads the index, reranker and model. No network after setup.
 
+**Run it:** `uv venv && uv pip install -e ".[rerank]" && .venv/bin/lmr setup && .venv/bin/lmr ask "..."` (details [below](#run-it)). **Live site:** [davidghatley.github.io/local-mobile-research](https://davidghatley.github.io/local-mobile-research/) (manual plus a recorded packing explorer; the model itself does not run in the browser).
+
 ![The web UI: an answer, then the rank movement from BM25 to the reranker, then the token budget the evidence has to fit in](docs/img/ui.png)
 
 ## The finding behind it
@@ -82,6 +84,10 @@ eval/          scoring
 experiments/   BM25, packer, baselines and round-1 results
 docs/manual/   the illustrated manual (HTML + PDF) and its data
 ```
+
+## Original bounty
+
+lmr began as an idea for [poidh bounty #31](https://poidh.xyz/mainnet/bounty/31), an offline Android research app (open until 2026-10-31 at last check). Honest verdict: **lmr is not a valid entry.** It is a Linux x86-64 CPU app, not an Android app; it has no APK, no on-phone timings and no phone demo. It does meet the offline, size (~1.1 GB vs 50 GB), no-Play-Services and public-repo requirements, but a 297-article corpus and a 1.5B generator are far below the "half as good as search plus a frontier model" bar. A possible Android path (llama.cpp arm64, ONNX reranker, SQLite FTS5) is sketched in the portfolio notes, not built.
 
 ## Limits
 
