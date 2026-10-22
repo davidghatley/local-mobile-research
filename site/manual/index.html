@@ -1,0 +1,482 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>lmr Manual</title>
+<meta name="description" content="Technical manual for lmr, an offline research assistant: what it does, the measured finding that shaped it, how the experiment was run, and its limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400&display=swap">
+<link rel="stylesheet" href="assets/manual.css">
+
+<div class="runhead"><span><b>lmr</b> · Technical Manual</span><span>Edition 1.0 · 2026-10-15 · github.com/davidghatley/local-mobile-research</span></div>
+
+<main>
+
+<section class="cover">
+  <div class="plate" style="margin-top:1.4rem">
+    <header><span><b>Plate I</b> · Anatomy of one answer</span><span>Measured · desktop CPU, 6 threads</span></header>
+    <div class="body">
+      <div class="svgwrap">
+        <svg viewBox="0 0 700 330" role="img" aria-label="A question goes to BM25 over 9,979 paragraphs, which returns 500 candidates in about 17 ms. A 17M cross-encoder reorders the top 100 in about 1.6 s. The packer fills a 1,000-token budget with at most 3 paragraphs per article. Qwen2.5 1.5B on llama.cpp writes a cited answer in about 4 s.">
+          <defs><marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" class="f-muted"/></marker></defs>
+          <rect x="10" y="20" width="150" height="290" class="z z-corpus"/>
+          <text x="20" y="40" class="tl">Corpus · pinned</text>
+          <text x="20" y="66" class="th">297 articles</text>
+          <text x="20" y="84" class="ts">9,979 paragraphs</text>
+          <text x="20" y="100" class="ts">pinned revisions</text>
+          <g class="lm">
+            <rect x="22" y="118" width="126" height="10" class="f-faint"/><rect x="22" y="132" width="110" height="10" class="f-faint"/><rect x="22" y="146" width="120" height="10" class="f-faint"/>
+            <rect x="22" y="160" width="96" height="10" class="f-faint"/><rect x="22" y="174" width="126" height="10" class="f-faint"/><rect x="22" y="188" width="104" height="10" class="f-faint"/>
+            <rect x="22" y="202" width="118" height="10" class="f-faint"/><rect x="22" y="216" width="90" height="10" class="f-faint"/><rect x="22" y="230" width="124" height="10" class="f-faint"/>
+          </g>
+          <text x="20" y="266" class="ts">confusable sets:</text>
+          <text x="20" y="282" class="ts">Mercury ×6 · Python ×5</text>
+          <text x="20" y="298" class="ts">Apple · Jaguar · …</text>
+
+          <rect x="196" y="40" width="130" height="70" class="z z-retrieve"/>
+          <text x="206" y="62" class="th">BM25</text><text x="206" y="80" class="ts">10.7 MB index</text><text x="206" y="96" class="ts">top 500 · ~17 ms</text>
+
+          <rect x="196" y="140" width="130" height="70" class="z z-rerank"/>
+          <text x="206" y="162" class="th">Rerank top 100</text><text x="206" y="180" class="ts">ettin 17M</text><text x="206" y="196" class="ts">70.8 MB · ~1.6 s</text>
+
+          <rect x="196" y="240" width="130" height="70" class="z z-pack"/>
+          <text x="206" y="262" class="th">Pack</text><text x="206" y="280" class="ts">≤ 1,000 tokens</text><text x="206" y="296" class="ts">≤ 3 per article</text>
+
+          <path d="M160 75h36M261 110v30M261 210v30" class="ln" marker-end="url(#ar)"/>
+
+          <!-- packet bar -->
+          <text x="362" y="232" class="tl">The packet · ~3 paragraphs</text>
+          <rect x="362" y="240" width="190" height="30" class="f-faint"/>
+          <rect x="362" y="240" width="58" height="30" class="k-retrieve" opacity=".8"/>
+          <rect x="421" y="240" width="50" height="30" class="k-rerank" opacity=".8"/>
+          <rect x="472" y="240" width="62" height="30" class="k-retrieve" opacity=".55"/>
+          <text x="362" y="288" class="ts">0</text><text x="552" y="288" class="ts" text-anchor="end">1,000 tok</text>
+          <path d="M326 275h36" class="ln" marker-end="url(#ar)"/>
+
+          <rect x="362" y="40" width="190" height="96" class="z z-generate"/>
+          <text x="372" y="62" class="th">Qwen2.5 1.5B · Q4_K_M</text><text x="372" y="80" class="ts">llama.cpp, CPU, localhost</text><text x="372" y="96" class="ts">0.99 GB · ~4 s per answer</text><text x="372" y="112" class="ts">greedy, fixed prompt</text>
+          <path d="M457 240v-104" class="ln" marker-end="url(#ar)"/>
+
+          <rect x="580" y="40" width="110" height="96" class="bx"/>
+          <text x="590" y="62" class="th">Answer</text><text x="590" y="80" class="ts">+ cited ids</text><text x="590" y="96" class="ts">+ every stage</text><text x="590" y="112" class="ts">  shown in UI</text>
+          <path d="M552 88h28" class="ln" marker-end="url(#ar)"/>
+
+          <rect x="580" y="170" width="110" height="140" class="z z-eval"/>
+          <text x="590" y="192" class="th">Evaluate</text><text x="590" y="210" class="ts">206 public Qs</text><text x="590" y="226" class="ts">gold paragraphs</text><text x="590" y="242" class="ts">116 sealed Qs</text><text x="590" y="258" class="ts">(off-repo)</text>
+          <path d="M552 255h28" class="dash"/>
+
+          <g class="call">
+            <circle cx="10" cy="20" r="9"/><text x="10" y="20">1</text>
+            <circle cx="196" cy="40" r="9"/><text x="196" y="40">2</text>
+            <circle cx="196" cy="140" r="9"/><text x="196" y="140">3</text>
+            <circle cx="196" cy="240" r="9"/><text x="196" y="240">4</text>
+            <circle cx="362" cy="40" r="9"/><text x="362" y="40">5</text>
+            <circle cx="580" cy="170" r="9"/><text x="580" y="170">6</text>
+          </g>
+        </svg>
+      </div>
+      <div class="key"><h5>Key</h5><ol>
+        <li><span><b>Corpus</b><i>rebuilt from pinned revisions, sha-checked</i></span></li>
+        <li><span><b>Find</b><i>already holds 96% of the evidence</i></span></li>
+        <li><span><b>Reorder</b><i>the one model that earned its weight</i></span></li>
+        <li><span><b>Fit</b><i>where the evidence used to get lost</i></span></li>
+        <li><span><b>Write</b><i>the weakest link today</i></span></li>
+        <li><span><b>Measure</b><i>every claim has a split and a threshold</i></span></li>
+      </ol></div>
+    </div>
+    <p class="cap">Fig. 0 — One question, four stages: about five seconds once warm on a desktop CPU (11.6 s for a cold one-off run), with no network. The interesting stage is ④: the evidence was usually found; it just didn't fit.</p>
+  </div>
+
+  <h1>lmr</h1>
+  <p class="sub">Technical Manual</p>
+  <p class="lede">An offline research assistant, and the experiment that decided how to build it. It answers questions from 297 Wikipedia articles using only what runs on this machine: a keyword index, one 17-million-parameter reranker and a 1.5-billion-parameter language model. The research behind it asked whether better retrieval matters on a device. The answer was <em>no, but better packing does</em>.</p>
+  <ul class="legend">
+    <li style="--dot:var(--c-corpus)">Corpus</li><li style="--dot:var(--c-retrieve)">Retrieve</li><li style="--dot:var(--c-rerank)">Rerank</li>
+    <li style="--dot:var(--c-pack)">Pack</li><li style="--dot:var(--c-generate)">Generate</li><li style="--dot:var(--c-eval)">Evaluate</li>
+  </ul>
+  <p class="meta-table">Code: <code>lmr/</code> (app) · <code>substrate/</code>, <code>eval/</code>, <code>experiments/</code> (research) · 518 tests<br>Runs on: Linux x86-64, Python ≥ 3.11, ~2.3 GB disk, no GPU · Built for poidh bounty #31 (see §1.2)</p>
+</section>
+
+<nav class="toc" aria-label="Contents">
+  <div><h4>Part I · Orientation</h4>
+    <a href="#c1"><span>1</span>What it is for</a>
+    <a href="#c2"><span>2</span>Running it</a>
+    <a href="#c3"><span>3</span>The corpus</a></div>
+  <div><h4>Part II · The finding</h4>
+    <a href="#c4"><span>4</span>Found is not shown</a>
+    <a href="#c5"><span>5</span>The reranker is an allocator</a>
+    <a href="#c6"><span>6</span>What each model costs</a>
+    <a href="#c7"><span>7</span>The generator ceiling</a></div>
+  <div><h4>Part III · Method</h4>
+    <a href="#c8"><span>8</span>How the experiment was run</a>
+    <a href="#c9"><span>9</span>What the reviews caught</a></div>
+  <div><h4>Part IV · Reference</h4>
+    <a href="#c10"><span>10</span>Limits and next steps</a>
+    <a href="#appA"><span>A</span>Who did what</a>
+    <a href="#appB"><span>B</span>Sources</a>
+    <a href="#appC"><span>C</span>Changelog</a></div>
+</nav>
+
+<!-- ============================ PART I ============================ -->
+<div class="part"><div class="no">Part I</div><h2>Orientation</h2><p>What the tool does, how to run it, and what it knows.</p></div>
+
+<section class="ch" id="c1">
+  <div class="num">1</div>
+  <h2>What it is for</h2>
+  <p class="deck">A lookup tool for when there is no network, and a measured answer to which parts of one are worth building.</p>
+
+  <h3>1.1 The tool</h3>
+  <p>Ask a question in a terminal (<code>lmr ask</code>) or a local web page (<code>lmr serve</code>). The assistant searches its corpus, picks the paragraphs that fit a fixed budget, and has a local model write an answer that cites them. Nothing leaves the machine: the language model is a <code>llama-server</code> bound to <code>127.0.0.1</code>, and the reranker runs on the CPU in-process.</p>
+  <p>The web page shows every stage of an answer, not just the result: which paragraphs keyword search found, how the reranker reordered them, which ones fit the 1,000-token budget, and which the model cited (Fig. 2.2).</p>
+
+  <h3>1.2 Where it came from</h3>
+  <p>The project started as a response to a public bounty: <a href="https://poidh.xyz/mainnet/bounty/31">“Build the Best Offline AI Research App for Android”</a> (poidh #31, about 1.5 ETH, closing 2026-10-31). Its bar is a phone app under 12 GB of RAM that is “more than 50% as good as internet plus frontier models”, with no network at all.</p>
+  <p>Instead of building an app first, this project asked a narrower question that any such app has to answer: <strong>on a phone-sized model, does retrieval quality actually change the answer, and what is the cheapest design that captures the difference?</strong> The generator was held fixed on purpose, so that if evidence quality barely moved the answer, the project could say so.</p>
+  <div class="note rule"><b>Scope</b><p>Every measurement in this book was taken on a desktop CPU. None of it is a claim about Android or GrapheneOS performance. The Android app is not built (Chapter 10).</p></div>
+</section>
+
+<section class="ch" id="c2">
+  <div class="num">2</div>
+  <h2>Running it</h2>
+  <p class="deck">Three commands from a fresh clone. The first one downloads 1.2 GB and rebuilds the corpus; after that nothing touches the network.</p>
+
+<div class="cmd"><span class="c"># Python 3.11+, uv. CPU only.</span>
+git clone https://github.com/davidghatley/local-mobile-research && cd local-mobile-research
+uv venv && uv pip install -e ".[rerank]"
+.venv/bin/lmr setup        <span class="c"># llama.cpp b11227 (CPU) + Qwen2.5-1.5B GGUF, sha-checked; corpus from 297 pinned revisions</span>
+.venv/bin/lmr ask "Which planet is closest to the Sun, and how long is its year?"
+.venv/bin/lmr serve        <span class="c"># http://127.0.0.1:8765</span></div>
+
+  <div class="plate">
+    <header><span><b>Fig. 2.1</b> · What <code>lmr setup</code> puts where</span><span>Structure · sizes measured</span></header>
+    <div class="body solo"><div class="svgwrap">
+      <svg viewBox="0 0 860 210" role="img" aria-label="The repository holds code and the corpus build; ~/.cache/lmr holds llama.cpp and the GGUF model; the Hugging Face cache holds the reranker; corpus/corpus.jsonl is built locally from Wikipedia revisions.">
+        <defs><marker id="ar21" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" class="f-muted"/></marker></defs>
+        <rect x="10" y="20" width="400" height="180" class="bx"/>
+        <text x="24" y="42" class="th">repository</text><text x="200" y="42" class="ts">tracked in git</text>
+        <text x="24" y="70" class="t">lmr/</text><text x="200" y="70" class="ts">the app: fetch · runtime · pipeline · cli · web</text>
+        <text x="24" y="92" class="t">substrate/  eval/</text><text x="200" y="92" class="ts">frozen research contracts and scoring</text>
+        <text x="24" y="114" class="t">experiments/</text><text x="200" y="114" class="ts">BM25, packer, baselines, round-1 results</text>
+        <text x="24" y="136" class="t">corpus/provenance.json</text><text x="200" y="136" class="ts">297 revids + wikitext sha256</text>
+        <rect x="18" y="150" width="384" height="40" class="z z-corpus"/>
+        <text x="24" y="168" class="t">corpus/corpus.jsonl</text><text x="200" y="168" class="ts">43.9 MB · built by setup, not tracked</text>
+        <text x="24" y="183" class="ts">113,951 nodes: article → section → paragraph → sentence</text>
+        <rect x="460" y="20" width="390" height="80" class="z z-generate"/>
+        <text x="474" y="42" class="th">~/.cache/lmr</text><text x="640" y="42" class="ts">$LMR_HOME</text>
+        <text x="474" y="66" class="t">llama.cpp/llama-b11227/</text><text x="740" y="66" class="ts">CPU build</text>
+        <text x="474" y="86" class="t">Qwen2.5-1.5B-Instruct-Q4_K_M.gguf</text><text x="800" y="86" class="ts">0.99 GB</text>
+        <rect x="460" y="120" width="390" height="80" class="z z-rerank"/>
+        <text x="474" y="142" class="th">~/.cache/huggingface</text>
+        <text x="474" y="166" class="t">cross-encoder/ettin-reranker-17m-v1</text><text x="800" y="166" class="ts">70.8 MB</text>
+        <text x="474" y="186" class="ts">revision 9e4aa35 · loaded on CPU</text>
+        <path d="M410 170h30q10 0 10-10v-40" class="lm"/>
+      </svg></div></div>
+    <p class="cap">Fig. 2.1 — Code and pins live in git; weights and the built corpus live in caches. Every download is checked against a hash recorded in the repository before it is used.</p>
+  </div>
+
+  <!-- FIG:example -->
+<div class="plate">
+<header><span><b>Fig. 2.2</b> · One real answer, every stage</span><span>lmr ask --json · bm25 18 ms · rerank 1482 ms · generate 3.3 s</span></header>
+<p style="margin:.2rem 0 .8rem"><b>Q.</b> Which planet is closest to the Sun, and how long is its year?<br><b>A.</b> Mercury is the closest planet to the Sun, and its sidereal year is 88 Earth days.</p><div class="body solo"><div class="svgwrap"><svg viewBox="0 0 760 292" role="img" aria-label="A real answer: the packet budget filled by paragraph, and the top reranked candidates with their BM25 ranks."><text x="20" y="30" class="tl">Packet · 692 of 1000 tokens · 133 skipped by the per-article cap</text><rect x="20" y="40" width="720" height="34" class="f-faint"/><rect x="20.0" y="40" width="496.2" height="34" class="k-retrieve" opacity=".85"/><text x="26.0" y="61" class="ts" style="fill:var(--paper)">692</text><text x="20" y="96" class="tl">BM25 rank → reranked order (top 8)</text><text x="20" y="110" class="ts" text-anchor="start">#7</text><path d="M64 106H120" class="ln"/><text x="128" y="110" class="t">1. Mercury (planet) · (lead)</text><rect x="500" y="100" width="12" height="12" class="k-retrieve"/><text x="518" y="110" class="ts">in packet</text><text x="20" y="132" class="ts" text-anchor="start">#59</text><path d="M64 128H120" class="lm"/><text x="128" y="132" class="t">2. Venus · (lead)</text><text x="20" y="154" class="ts" text-anchor="start">#24</text><path d="M64 150H120" class="lm"/><text x="128" y="154" class="t">3. Venus · Venus and early modern astronomy</text><text x="20" y="176" class="ts" text-anchor="start">#1</text><path d="M64 172H120" class="lm"/><text x="128" y="176" class="t">4. Mercury (planet) · Orbit, rotation, and longit</text><text x="20" y="198" class="ts" text-anchor="start">#6</text><path d="M64 194H120" class="lm"/><text x="128" y="198" class="t">5. Venus · Orbit in respect to Earth</text><text x="20" y="220" class="ts" text-anchor="start">#20</text><path d="M64 216H120" class="lm"/><text x="128" y="220" class="t">6. Mercury (planet) · Observation</text><text x="20" y="242" class="ts" text-anchor="start">#36</text><path d="M64 238H120" class="lm"/><text x="128" y="242" class="t">7. Solar eclipse · Eclipses and transits</text><text x="20" y="264" class="ts" text-anchor="start">#2</text><path d="M64 260H120" class="lm"/><text x="128" y="264" class="t">8. Mars · Orbital motion</text></svg></div></div>
+<p class="cap">Fig. 2.2 — The web UI draws this live for every question. Source: <code>docs/manual/data/example_answer.json</code>.</p>
+</div>
+<!-- /FIG:example -->
+
+  <div class="note trap"><b>Pitfall · first run</b><p>The reranker is fetched from Hugging Face the first time the pipeline loads (about 70 MB). Run <code>lmr ask</code> once while online after <code>lmr setup</code>. Pass <code>--no-rerank</code> to run on BM25 alone with no Python dependencies beyond the standard library.</p></div>
+</section>
+
+<section class="ch" id="c3">
+  <div class="num">3</div>
+  <h2>The corpus</h2>
+  <p class="deck">297 articles chosen before any question was written, weighted towards names that mean several things at once.</p>
+
+  <div class="plate">
+    <header><span><b>Fig. 3.1</b> · Articles per topic cluster</span><span>Counted from corpus/corpus.jsonl</span></header>
+    <div class="body"><div class="svgwrap">
+      <svg viewBox="0 0 600 250" role="img" aria-label="Bar chart of articles per cluster: confusable 107, geography 44, science 37, biology 29, longtail 26, history 16, culture 15, medicine 14, misc 9.">
+        <g class="ts"><text x="130" y="244">0</text><text x="230" y="244">25</text><text x="330" y="244">50</text><text x="430" y="244">75</text><text x="530" y="244">100</text></g>
+        <line x1="230" y1="10" x2="230" y2="232" class="grid"/><line x1="330" y1="10" x2="330" y2="232" class="grid"/><line x1="430" y1="10" x2="430" y2="232" class="grid"/><line x1="530" y1="10" x2="530" y2="232" class="grid"/>
+        <line x1="130" y1="10" x2="130" y2="232" class="ln"/>
+        <g>
+          <text x="120" y="28" class="t" text-anchor="end">confusable</text><rect x="130" y="16" width="428" height="16" class="k-corpus"/><text x="564" y="28" class="ts">107</text>
+          <text x="120" y="52" class="t" text-anchor="end">geography</text><rect x="130" y="40" width="176" height="16" class="k-corpus" opacity=".55"/><text x="312" y="52" class="ts">44</text>
+          <text x="120" y="76" class="t" text-anchor="end">science</text><rect x="130" y="64" width="148" height="16" class="k-corpus" opacity=".55"/><text x="284" y="76" class="ts">37</text>
+          <text x="120" y="100" class="t" text-anchor="end">biology</text><rect x="130" y="88" width="116" height="16" class="k-corpus" opacity=".55"/><text x="252" y="100" class="ts">29</text>
+          <text x="120" y="124" class="t" text-anchor="end">longtail</text><rect x="130" y="112" width="104" height="16" class="k-corpus" opacity=".55"/><text x="240" y="124" class="ts">26</text>
+          <text x="120" y="148" class="t" text-anchor="end">history</text><rect x="130" y="136" width="64" height="16" class="k-corpus" opacity=".55"/><text x="200" y="148" class="ts">16</text>
+          <text x="120" y="172" class="t" text-anchor="end">culture</text><rect x="130" y="160" width="60" height="16" class="k-corpus" opacity=".55"/><text x="196" y="172" class="ts">15</text>
+          <text x="120" y="196" class="t" text-anchor="end">medicine</text><rect x="130" y="184" width="56" height="16" class="k-corpus" opacity=".55"/><text x="192" y="196" class="ts">14</text>
+          <text x="120" y="220" class="t" text-anchor="end">misc</text><rect x="130" y="208" width="36" height="16" class="k-corpus" opacity=".55"/><text x="172" y="220" class="ts">9</text>
+        </g>
+      </svg></div>
+      <div class="key"><h5>Why “confusable”</h5><ol>
+        <li><span><b>Same name</b><i>Mercury the planet, element, god, car, label and singer</i></span></li>
+        <li><span><b>Same words</b><i>keyword search scores them alike</i></span></li>
+        <li><span><b>Same group</b><i>kept in one split, so no answer leaks across</i></span></li>
+      </ol></div>
+    </div>
+    <p class="cap">Fig. 3.1 — More than a third of the corpus is deliberately ambiguous, which is where a reranker should earn its keep.</p>
+  </div>
+
+  <h3>3.1 Pinned, then rebuilt</h3>
+  <p><code>corpus/provenance.json</code> records, for each article, the Wikipedia revision id and the sha256 of its wikitext. <code>lmr setup</code> fetches those exact revisions (not today’s pages), refuses any whose bytes differ, and runs the original offline converter. All 297 matched on 2026-10-15.</p>
+  <div class="note"><b>Verify</b><p>The rebuild reproduces the research numbers exactly: BM25 packet completion is 54/73 on dev and 80/122 on shadow_dev, the same as the frozen round-1 results, and all 235 gold evidence ids resolve. One known difference: article-level cross-links came from a live API list at the original fetch and are re-derived from wikitext here, so the file hash differs. Retrieval does not read them.</p></div>
+
+  <h3>3.2 The questions</h3>
+  <div class="tw"><table>
+    <tr><th>Split</th><th class="n">Questions</th><th>Use</th><th>Where</th></tr>
+    <tr><td>train</td><td class="n">60</td><td>Reference only; never used to fit anything here</td><td><code>corpus/questions.json</code></td></tr>
+    <tr><td>dev</td><td class="n">59</td><td>Tuning and quick checks</td><td>same</td></tr>
+    <tr><td>shadow_dev</td><td class="n">87</td><td>One frozen confirmation run per system</td><td>same</td></tr>
+    <tr><td>private test</td><td class="n">116</td><td>Sealed; never scored against</td><td>outside the repo, hash only</td></tr>
+  </table></div>
+  <p>Types across the public splits: factoid 128, multihop 33, comparison 17, ambiguous 15, unanswerable 13. Each answerable question records the exact paragraphs that are sufficient to answer it; that is what “required evidence” means in Part II.</p>
+</section>
+
+<!-- ============================ PART II ============================ -->
+<div class="part"><div class="no">Part II</div><h2>The finding</h2><p>Retrieval was already good. The evidence got lost on the way to the model.</p></div>
+
+<section class="ch" id="c4">
+  <div class="num">4</div>
+  <h2>Found is not shown</h2>
+  <p class="deck">BM25 found almost every paragraph a question needed. A quarter of them never reached the model.</p>
+
+  <div class="plate">
+    <header><span><b>Fig. 4.1</b> · Where required evidence goes · dev, BM25</span><span>73 required paragraphs · loss_attribution_B1_bm25_dev_core.json</span></header>
+    <div class="body"><div class="svgwrap">
+      <svg viewBox="0 0 670 230" role="img" aria-label="Flow of 73 required paragraphs: 70 are in BM25's top 500, 3 are not. Of the 70, 10 are dropped by the 3-per-article cap and 6 by the 1,000-token budget. 54 reach the model.">
+        <!-- scale: 73 paragraphs = 584 px, 8 px each -->
+        <text x="20" y="20" class="tl">Required</text>
+        <rect x="20" y="28" width="584" height="30" class="k-eval" opacity=".85"/><text x="30" y="48" class="t" style="fill:var(--paper)">73 paragraphs the gold answers need</text>
+        <text x="20" y="84" class="tl">In BM25's top 500</text>
+        <rect x="20" y="92" width="560" height="30" class="k-retrieve" opacity=".85"/><text x="30" y="112" class="t" style="fill:var(--paper)">70 found · 95.9%</text>
+        <rect x="580" y="92" width="24" height="30" class="f-faint"/><text x="612" y="112" class="ts">3 rank</text>
+        <text x="20" y="148" class="tl">Shown to the model</text>
+        <rect x="20" y="156" width="432" height="30" class="k-pack" opacity=".85"/><text x="30" y="176" class="t" style="fill:var(--paper)">54 packed · 74.0%</text>
+        <rect x="452" y="156" width="80" height="30" class="k-rerank" opacity=".55"/><text x="492" y="176" class="t" text-anchor="middle">10 cap</text>
+        <rect x="532" y="156" width="48" height="30" class="k-rerank" opacity=".3"/><text x="556" y="176" class="ts" text-anchor="middle">6 budget</text>
+        <rect x="580" y="156" width="24" height="30" class="f-faint"/>
+        <path d="M452 186v14h128v-14" class="ln"/><text x="516" y="216" class="ti" text-anchor="middle">lost after being found: 16 (21.9%)</text>
+        <g class="call"><circle cx="20" cy="92" r="8"/><text x="20" y="92">1</text><circle cx="452" cy="156" r="8"/><text x="452" y="156">2</text><circle cx="532" cy="156" r="8"/><text x="532" y="156">3</text></g>
+      </svg></div>
+      <div class="key"><h5>Key</h5><ol>
+        <li><span><b>Search</b><i>headroom here is 4.1%</i></span></li>
+        <li><span><b>Per-article cap</b><i>three paragraphs per article, max</i></span></li>
+        <li><span><b>Token budget</b><i>1,000 tokens ≈ 3 paragraphs</i></span></li>
+      </ol></div>
+    </div>
+    <p class="cap">Fig. 4.1 — The problem is allocation, not recall. A paragraph averages about 280 tokens, so the budget holds roughly three; which three is the whole game.</p>
+  </div>
+
+  <p>Lifting the per-article cap only moved completion from 54 to 56 of 73: the loss migrated from the cap to the budget. The two limits are substitutes. What helps is putting the <em>right</em> three paragraphs first.</p>
+</section>
+
+<section class="ch" id="c5">
+  <div class="num">5</div>
+  <h2>The reranker is an allocator</h2>
+  <p class="deck">A 17M cross-encoder found nothing new. It reordered what BM25 already had, and 13 points more of the needed evidence reached the model.</p>
+
+  <div class="plate">
+    <header><span><b>Fig. 5.1</b> · Packet completion, BM25 vs the 17M reranker</span><span>Frozen round-1 runs · Wilson 95% intervals</span></header>
+    <div class="body"><div class="svgwrap">
+      <svg viewBox="0 0 640 220" role="img" aria-label="Dot plot with intervals. Dev: BM25 74.0%, reranker 87.7%. Shadow dev: BM25 65.6%, reranker 78.7%. Pooled: BM25 68.7% [61.9, 74.8], reranker 82.1% [76.1, 86.8]; intervals do not overlap.">
+        <!-- x: 50% at 150, 100% at 630 → 9.6 px per point -->
+        <g class="ts"><text x="150" y="212" text-anchor="middle">50%</text><text x="246" y="212" text-anchor="middle">60%</text><text x="342" y="212" text-anchor="middle">70%</text><text x="438" y="212" text-anchor="middle">80%</text><text x="534" y="212" text-anchor="middle">90%</text><text x="630" y="212" text-anchor="middle">100%</text></g>
+        <line x1="246" y1="10" x2="246" y2="196" class="grid"/><line x1="342" y1="10" x2="342" y2="196" class="grid"/><line x1="438" y1="10" x2="438" y2="196" class="grid"/><line x1="534" y1="10" x2="534" y2="196" class="grid"/>
+        <text x="10" y="44" class="t">dev · 73</text>
+        <circle cx="380" cy="40" r="6" class="k-retrieve"/><circle cx="512" cy="40" r="6" class="k-rerank"/><path d="M386 40h120" class="lm"/>
+        <text x="380" y="26" class="ts" text-anchor="middle">74.0</text><text x="512" y="26" class="ts" text-anchor="middle">87.7</text>
+        <text x="10" y="104" class="t">shadow_dev · 122</text>
+        <circle cx="299.5" cy="100" r="6" class="k-retrieve"/><circle cx="425.4" cy="100" r="6" class="k-rerank"/><path d="M305.5 100H419.4" class="lm"/>
+        <text x="299.5" y="86" class="ts" text-anchor="middle">65.6</text><text x="425" y="86" class="ts" text-anchor="middle">78.7</text>
+        <text x="10" y="164" class="th">pooled · 195</text>
+        <line x1="264.2" y1="160" x2="388.2" y2="160" class="s-retrieve" stroke-width="3"/>
+        <line x1="400.2" y1="160" x2="503.3" y2="160" class="s-rerank" stroke-width="3"/>
+        <circle cx="329.7" cy="160" r="7" class="k-retrieve"/><circle cx="457.7" cy="160" r="7" class="k-rerank"/>
+        <text x="329.7" y="184" class="ts" text-anchor="middle">68.7 [61.9–74.8]</text><text x="457.7" y="184" class="ts" text-anchor="middle">82.1 [76.1–86.8]</text>
+        <text x="394.2" y="146" class="ti" text-anchor="middle">gap</text>
+      </svg></div>
+      <div class="key"><h5>Key</h5><ol>
+        <li><span><b>BM25</b><i>keyword search, no model</i></span></li>
+        <li><span><b>Reranker</b><i>ettin-17m on BM25's top 500</i></span></li>
+        <li><span><b>Pooled</b><i>+26 paragraphs vs an 18-item threshold</i></span></li>
+      </ol></div>
+    </div>
+    <p class="cap">Fig. 5.1 — The only result in round 1 to clear its preregistered threshold. On dev alone (+10 vs a 13-item threshold) it would have been recorded as a null.</p>
+  </div>
+
+  <p>Every reranking stage read exactly the same search survival as BM25 (70/73): a reranker cannot add a paragraph BM25 did not return. The gain came entirely from the order, and it arrived using <em>fewer</em> tokens (740 vs 798 per packet on shadow_dev).</p>
+
+  <h3>5.1 How deep does the reranker need to look?</h3>
+  <p>The research reranked all 500 candidates, which cost 40 s per question on one thread. The app reranks only the top <i>k</i>. Measured with <code>lmr bench</code> on this machine:</p>
+
+  <!-- FIG:sweep -->
+<div class="plate">
+<header><span><b>Fig. 5.2</b> · Completion and latency against rerank depth</span><span>Measured · lmr bench · desktop CPU</span></header>
+<ul class="legend" style="margin-bottom:.6rem"><li style="--dot:var(--c-rerank)">dev · 73 required</li><li style="--dot:var(--c-retrieve)">shadow_dev · 122 required</li></ul><div class="body solo"><div class="svgwrap"><svg viewBox="0 0 700 250" role="img" aria-label="Packet completion and median retrieval time against rerank depth k, for dev and shadow_dev."><text x="56" y="14" class="tl">Required evidence in the packet</text><line x1="56" y1="196.0" x2="300" y2="196.0" class="grid"/><text x="50" y="200.0" class="ts" text-anchor="end">60%</text><line x1="56" y1="148.6" x2="300" y2="148.6" class="grid"/><text x="50" y="152.6" class="ts" text-anchor="end">70%</text><line x1="56" y1="101.1" x2="300" y2="101.1" class="grid"/><text x="50" y="105.1" class="ts" text-anchor="end">80%</text><line x1="56" y1="53.7" x2="300" y2="53.7" class="grid"/><text x="50" y="57.7" class="ts" text-anchor="end">90%</text><line x1="239.0" y1="22" x2="239.0" y2="200" class="dash"/><text x="243.0" y="206" class="ts">default</text><polyline points="56.0,129.7 117.0,71.3 178.0,64.8 239.0,58.3 300.0,64.8" fill="none" class="s-rerank" stroke-width="2"/><circle cx="56.0" cy="129.7" r="4.5" class="k-rerank"/><text x="56.0" y="119.7" class="t" text-anchor="middle">54/73</text><circle cx="117.0" cy="71.3" r="4.5" class="k-rerank"/><text x="117.0" y="61.3" class="t" text-anchor="middle">63/73</text><circle cx="178.0" cy="64.8" r="4.5" class="k-rerank"/><text x="178.0" y="54.8" class="t" text-anchor="middle">64/73</text><circle cx="239.0" cy="58.3" r="4.5" class="k-rerank"/><text x="239.0" y="48.3" class="t" text-anchor="middle">65/73</text><circle cx="300.0" cy="64.8" r="4.5" class="k-rerank"/><text x="300.0" y="54.8" class="t" text-anchor="middle">64/73</text><polyline points="56.0,169.6 117.0,126.8 178.0,119.0 239.0,111.3 300.0,107.4" fill="none" class="s-retrieve" stroke-width="2"/><circle cx="56.0" cy="169.6" r="4.5" class="k-retrieve"/><text x="56.0" y="187.6" class="t" text-anchor="middle">80/122</text><circle cx="117.0" cy="126.8" r="4.5" class="k-retrieve"/><text x="117.0" y="144.8" class="t" text-anchor="middle">91/122</text><circle cx="178.0" cy="119.0" r="4.5" class="k-retrieve"/><text x="178.0" y="137.0" class="t" text-anchor="middle">93/122</text><circle cx="239.0" cy="111.3" r="4.5" class="k-retrieve"/><text x="239.0" y="129.3" class="t" text-anchor="middle">95/122</text><circle cx="300.0" cy="107.4" r="4.5" class="k-retrieve"/><text x="300.0" y="125.4" class="t" text-anchor="middle">96/122</text><text x="56.0" y="220" class="t" text-anchor="middle">BM25</text><text x="117.0" y="220" class="t" text-anchor="middle">20</text><text x="178.0" y="220" class="t" text-anchor="middle">50</text><text x="239.0" y="220" class="t" text-anchor="middle">100</text><text x="300.0" y="220" class="t" text-anchor="middle">500</text><text x="178" y="240" class="ts" text-anchor="middle">rerank depth k</text><text x="410" y="14" class="tl">Median retrieval time · log scale</text><line x1="410" y1="196.0" x2="650" y2="196.0" class="grid"/><text x="404" y="200.0" class="ts" text-anchor="end">10 ms</text><line x1="410" y1="140.7" x2="650" y2="140.7" class="grid"/><text x="404" y="144.7" class="ts" text-anchor="end">100 ms</text><line x1="410" y1="85.3" x2="650" y2="85.3" class="grid"/><text x="404" y="89.3" class="ts" text-anchor="end">1 s</text><line x1="410" y1="30.0" x2="650" y2="30.0" class="grid"/><text x="404" y="34.0" class="ts" text-anchor="end">10 s</text><polyline points="410.0,183.3 470.0,99.2 530.0,83.5 590.0,75.1 650.0,44.8" fill="none" class="s-rerank" stroke-width="2"/><circle cx="410.0" cy="183.3" r="4" class="k-rerank"/><circle cx="470.0" cy="99.2" r="4" class="k-rerank"/><circle cx="530.0" cy="83.5" r="4" class="k-rerank"/><circle cx="590.0" cy="75.1" r="4" class="k-rerank"/><circle cx="650.0" cy="44.8" r="4" class="k-rerank"/><polyline points="410.0,184.7 470.0,100.6 530.0,82.8 590.0,73.9 650.0,42.2" fill="none" class="s-retrieve" stroke-width="2"/><circle cx="410.0" cy="184.7" r="4" class="k-retrieve"/><circle cx="470.0" cy="100.6" r="4" class="k-retrieve"/><circle cx="530.0" cy="82.8" r="4" class="k-retrieve"/><circle cx="590.0" cy="73.9" r="4" class="k-retrieve"/><circle cx="650.0" cy="42.2" r="4" class="k-retrieve"/><text x="402.0" y="173.3" class="t" text-anchor="middle">17 ms</text><text x="462.0" y="89.2" class="t" text-anchor="middle">562 ms</text><text x="522.0" y="73.5" class="t" text-anchor="middle">1.1 s</text><text x="582.0" y="65.1" class="t" text-anchor="middle">1.5 s</text><text x="642.0" y="34.8" class="t" text-anchor="middle">5.4 s</text><text x="410.0" y="220" class="t" text-anchor="middle">BM25</text><text x="470.0" y="220" class="t" text-anchor="middle">20</text><text x="530.0" y="220" class="t" text-anchor="middle">50</text><text x="590.0" y="220" class="t" text-anchor="middle">100</text><text x="650.0" y="220" class="t" text-anchor="middle">500</text><text x="530" y="240" class="ts" text-anchor="middle">rerank depth k · both splits overlap</text></svg></div></div>
+<p class="cap">Fig. 5.2 — Most of the gain arrives by k = 20; k = 100 matches the full 500 within one paragraph per split at about a quarter of the time. Retrieval only (BM25 + rerank); generation adds about 4 s. Source: <code>docs/manual/data/bench_*.json</code>.</p>
+</div>
+<!-- /FIG:sweep -->
+
+  <div class="note tip"><b>Decision</b><p>The app defaults to <code>--rerank-k 100</code>. Pooled over both splits it keeps the full-depth result (160/195 required paragraphs) at about a quarter of the latency; <i>k</i> = 50 gives 157/195 in two-thirds of that time. The app and the frozen research system agree exactly at <i>k</i> = 500 on both splits (64/73, 96/122), which is a second check that the rebuilt corpus is faithful.</p></div>
+</section>
+
+<section class="ch" id="c6">
+  <div class="num">6</div>
+  <h2>What each model costs</h2>
+  <p class="deck">Bigger was not better. The 68M reranker beat the 17M by one paragraph at four times the size.</p>
+
+  <div class="plate">
+    <header><span><b>Fig. 6.1</b> · Evidence completion against weight · dev</span><span>R1_ANALYSIS.md §2 · 73 required paragraphs</span></header>
+    <div class="body"><div class="svgwrap">
+      <svg viewBox="0 0 640 272" role="img" aria-label="Scatter of completion against weights. BM25 74.0% at 0 MB. Static embedding union 72.6% at 166.6 MB. ettin 17M reranker 87.7% at 70.8 MB. ettin 68M reranker 89.0% at 276.2 MB.">
+        <!-- x: MB 0..300 → 70..610 (1.8 px/MB); y: 70%..92% → 230..20 (9.545 px/pt) -->
+        <line x1="70" y1="230" x2="610" y2="230" class="ln"/><line x1="70" y1="20" x2="70" y2="230" class="ln"/>
+        <g class="ts"><text x="70" y="248" text-anchor="middle">0</text><text x="160" y="248" text-anchor="middle">50</text><text x="250" y="248" text-anchor="middle">100</text><text x="340" y="248" text-anchor="middle">150</text><text x="430" y="248" text-anchor="middle">200</text><text x="520" y="248" text-anchor="middle">250</text><text x="340" y="266" text-anchor="middle">MB of weights</text>
+        <text x="62" y="234" text-anchor="end">70%</text><text x="62" y="186" text-anchor="end">75%</text><text x="62" y="139" text-anchor="end">80%</text><text x="62" y="91" text-anchor="end">85%</text><text x="62" y="43" text-anchor="end">90%</text></g>
+        <line x1="70" y1="182" x2="610" y2="182" class="grid"/><line x1="70" y1="135" x2="610" y2="135" class="grid"/><line x1="70" y1="87" x2="610" y2="87" class="grid"/><line x1="70" y1="39" x2="610" y2="39" class="grid"/>
+        <circle cx="70" cy="192" r="7" class="k-retrieve"/><text x="82" y="210" class="t">BM25 · 74.0%</text>
+        <circle cx="370" cy="205" r="7" class="f-muted"/><text x="382" y="209" class="t">static union · 72.6%</text>
+        <circle cx="197" cy="61" r="9" class="k-rerank"/><text x="212" y="65" class="th">ettin 17M · 87.7%</text>
+        <circle cx="567" cy="48" r="7" class="k-rerank" opacity=".55"/><text x="560" y="76" class="t" text-anchor="end">ettin 68M · 89.0%</text>
+        <path d="M300 44q130-26 258 0" class="dash"/><text x="430" y="26" class="ti" text-anchor="middle">+1 paragraph for 3.9× the weights</text>
+      </svg></div>
+      <div class="key"><h5>Latency, research setup</h5><ol>
+        <li><span><b>BM25</b><i>36 ms</i></span></li>
+        <li><span><b>Static union</b><i>119 ms · 166.6 MB incl. cache</i></span></li>
+        <li><span><b>ettin 17M</b><i>39.6 s (all 500, 1 thread)</i></span></li>
+        <li><span><b>ettin 68M</b><i>77.4 s · 1.9 GB peak RSS</i></span></li>
+      </ol></div>
+    </div>
+    <p class="cap">Fig. 6.1 — The cheap semantic channel (static embeddings) added nothing, as predicted in advance. The 17M reranker captured almost the whole available gain.</p>
+  </div>
+</section>
+
+<section class="ch" id="c7">
+  <div class="num">7</div>
+  <h2>The generator ceiling</h2>
+  <p class="deck">The 1.5B model can tell good evidence from bad, but even perfect evidence only gets it to about one answer in seven.</p>
+
+  <div class="plate">
+    <header><span><b>Fig. 7.1</b> · Exact-match accuracy by evidence given</span><span>GENERATOR_FLOOR_REPORT.md · 137 analysable questions</span></header>
+    <div class="body"><div class="svgwrap">
+      <svg viewBox="0 0 640 190" role="img" aria-label="Bar chart. Gold evidence: 14.6% exact match. BM25 evidence: 11.7%. Deliberately wrong evidence: 0.7%. The gap between gold and BM25 is 4 questions; the threshold to detect any difference is 18.">
+        <!-- 0..20% → 160..560 (20 px/pt) -->
+        <line x1="160" y1="16" x2="160" y2="150" class="ln"/>
+        <g class="ts"><text x="160" y="168" text-anchor="middle">0</text><text x="260" y="168" text-anchor="middle">5%</text><text x="360" y="168" text-anchor="middle">10%</text><text x="460" y="168" text-anchor="middle">15%</text><text x="560" y="168" text-anchor="middle">20%</text></g>
+        <line x1="260" y1="16" x2="260" y2="150" class="grid"/><line x1="360" y1="16" x2="360" y2="150" class="grid"/><line x1="460" y1="16" x2="460" y2="150" class="grid"/>
+        <text x="150" y="40" class="t" text-anchor="end">gold evidence</text><rect x="160" y="26" width="292" height="22" class="k-eval"/><text x="458" y="42" class="t">14.6% · 20</text>
+        <text x="150" y="84" class="t" text-anchor="end">BM25 evidence</text><rect x="160" y="70" width="234" height="22" class="k-retrieve"/><text x="400" y="86" class="t">11.7% · 16</text>
+        <text x="150" y="128" class="t" text-anchor="end">wrong evidence</text><rect x="160" y="114" width="15" height="22" class="f-muted"/><text x="181" y="130" class="t">0.7% · 1</text>
+        <path d="M394 59v12M452 59v12M394 65h58" class="ln"/><text x="500" y="70" class="ti">4 items of headroom</text>
+      </svg></div>
+      <div class="key"><h5>Reading it</h5><ol>
+        <li><span><b>It listens</b><i>gold beats wrong evidence on all 19 discordant items, p = 3.8×10⁻⁶</i></span></li>
+        <li><span><b>It caps out</b><i>perfect retrieval buys 4 answers; detecting a difference needs 18</i></span></li>
+      </ol></div>
+    </div>
+    <p class="cap">Fig. 7.1 — No retrieval change can show up in final answers on this corpus with this model. That is a property of the generator, found before any architecture was compared.</p>
+  </div>
+
+  <div class="note trap"><b>Pitfall · citations</b><p>The fixed prompt asks for bracketed citations. In practice the 1.5B model rarely emits them (none in six sample questions on 2026-10-15) and adds facts that are not in its evidence. Asked how Freddie Mercury got his stage name, it answered that the stage name was “Farrokh Bulsara”, which is his birth name. Asked to compare Mercury the planet and the element, it claimed both have atomic number 80. The UI shows which packet paragraphs were cited, so this is visible rather than hidden.</p></div>
+  <p>This is the clearest next step: fine-tune a small model to write short, cited answers from a packet (Chapter 10).</p>
+</section>
+
+<!-- ============================ PART III ============================ -->
+<div class="part"><div class="no">Part III</div><h2>Method</h2><p>How the results above were protected from wishful thinking.</p></div>
+
+<section class="ch" id="c8">
+  <div class="num">8</div>
+  <h2>How the experiment was run</h2>
+  <p class="deck">Thresholds first, systems second, the confirmation split once.</p>
+
+  <div class="plate">
+    <header><span><b>Fig. 8.1</b> · Smallest difference each split can detect</span><span>experiments/comparability/CONTRACT.md §4</span></header>
+    <div class="body solo"><div class="svgwrap">
+      <svg viewBox="0 0 760 200" role="img" aria-label="Minimum meaningful difference by split: dev 59 questions, 22.0 points; shadow_dev 87, 17.2; dev plus shadow_dev 146, 12.3; private 116, 13.8; all worker-visible 206, 10.2. The reranker's pooled effect was 13.3 points.">
+        <!-- 0..25 pp → 200..700 (20 px/pp) -->
+        <line x1="200" y1="10" x2="200" y2="176" class="ln"/>
+        <g class="ts"><text x="200" y="192" text-anchor="middle">0</text><text x="300" y="192" text-anchor="middle">5</text><text x="400" y="192" text-anchor="middle">10</text><text x="500" y="192" text-anchor="middle">15</text><text x="600" y="192" text-anchor="middle">20</text><text x="700" y="192" text-anchor="middle">25 pp</text></g>
+        <text x="190" y="30" class="t" text-anchor="end">dev · 59</text><rect x="200" y="18" width="440" height="18" class="f-faint"/><text x="646" y="32" class="ts">22.0</text>
+        <text x="190" y="62" class="t" text-anchor="end">shadow_dev · 87</text><rect x="200" y="50" width="344" height="18" class="f-faint"/><text x="550" y="64" class="ts">17.2</text>
+        <text x="190" y="94" class="th" text-anchor="end">dev + shadow · 146</text><rect x="200" y="82" width="246" height="18" class="k-eval" opacity=".4"/><text x="452" y="96" class="ts">12.3</text>
+        <text x="190" y="126" class="t" text-anchor="end">private · 116</text><rect x="200" y="114" width="276" height="18" class="f-faint"/><text x="482" y="128" class="ts">13.8</text>
+        <text x="190" y="158" class="t" text-anchor="end">all public · 206</text><rect x="200" y="146" width="204" height="18" class="f-faint"/><text x="410" y="160" class="ts">10.2</text>
+        <line x1="467" y1="10" x2="467" y2="176" class="s-rerank" stroke-width="2"/><text x="473" y="14" class="ts" style="fill:var(--c-rerank)">reranker effect 13.3</text>
+      </svg></div></div>
+    <p class="cap">Fig. 8.1 — A gap shorter than its bar is recorded as a null result, never a win. The reranker clears only the pooled bar it was tested against.</p>
+  </div>
+
+  <ul>
+    <li><span class="lead-in">Preregistration.</span> Hypotheses, thresholds and kill conditions were committed before code (<code>experiments/*/HYPOTHESIS.md</code>), and the BM25 parameters are pinned to the bit (<code>experiments/common/bm25.py</code>).</li>
+    <li><span class="lead-in">One shot at confirmation.</span> The reranker's configuration was frozen (<code>FREEZE_RECORD.md</code>) before its single shadow_dev run.</li>
+    <li><span class="lead-in">Sealed test.</span> 116 private questions were written, reviewed and sealed outside the repository; only their counts and hash are tracked. No system was ever scored against them.</li>
+    <li><span class="lead-in">A freeze gate.</span> <code>scripts/verify_round0</code> checks ten stages (hashes, splits, leakage, custody) and <code>docs/probes_round0.sh</code> runs eleven adversarial probes against it.</li>
+  </ul>
+</section>
+
+<section class="ch" id="c9">
+  <div class="num">9</div>
+  <h2>What the reviews caught</h2>
+  <p class="deck">Eight independent freeze reviews. Seven said “repair required”. Each defect was invisible to the checks written by the same team.</p>
+  <div class="tw"><table>
+    <tr><th>Defect</th><th>Why the existing check passed</th></tr>
+    <tr><td>A partition census that agreed with itself</td><td>It was derived from the data it was meant to check</td></tr>
+    <tr><td>A truncated partition</td><td>It passed three consecutive stages because each stage was internally consistent</td></tr>
+    <tr><td>A fix defeated by editing the data and its census together</td><td>Both sides moved; the trust root had to move outside the repo</td></tr>
+    <tr><td>A stage that compared nothing and printed PASS</td><td>Vacuous success: no test asserted the stage had inputs</td></tr>
+    <tr><td>A leakage gate that could never pass, then one that leaked</td><td>Once repaired it worked as a membership oracle and had to be re-scoped</td></tr>
+    <tr><td>A preregistration anchor pointing at a commit without the policy file</td><td>Nobody resolved the anchor</td></tr>
+    <tr><td>A minimum-difference figure wrong by about 2×</td><td>Refuted by its own worked example three lines earlier</td></tr>
+  </table></div>
+  <div class="note rule"><b>Lesson</b><p>An internal consistency check is necessary and never sufficient. The same failure shape appeared for a single item, a whole partition and the entire freeze. Every one of them was found by a fresh reader. The full account is in <code>docs/ROUND0_CLOSURE.md</code>.</p></div>
+</section>
+
+<!-- ============================ PART IV ============================ -->
+<div class="part"><div class="no">Part IV</div><h2>Reference</h2><p>Limits, credits and sources.</p></div>
+
+<section class="ch" id="c10">
+  <div class="num">10</div>
+  <h2>Limits and next steps</h2>
+  <div class="tw"><table>
+    <tr><th>Item</th><th>State</th><th>Next step</th></tr>
+    <tr><td>Answer quality</td><td><span class="pill bad">weak</span> 1.5B model, rare citations</td><td>Fine-tune a 1.7–4B model for cited answers from a packet (QLoRA with Soup on a 12 GB GPU) and score it on the same gold/BM25/wrong arms</td></tr>
+    <tr><td>Android</td><td><span class="pill warn">not built</span></td><td>llama.cpp ships Android arm64 builds; the reranker needs an ONNX export and an int8 parity gate first</td></tr>
+    <tr><td>Private test</td><td><span class="pill warn">lost on this machine</span></td><td>The sealed store went missing on 2026-10-04 (<code>docs/CUSTODY_INCIDENT_2026-10-04.md</code>); it was never scored, so no result depends on it</td></tr>
+    <tr><td>Corpus size</td><td><span class="pill info">297 articles</span></td><td>A 940-article distractor tier exists (<code>corpus/scale/</code>); the app does not load it yet</td></tr>
+    <tr><td>Your own documents</td><td><span class="pill info">not yet</span></td><td>The pipeline only needs paragraphs with ids; a folder importer is the obvious feature</td></tr>
+  </table></div>
+</section>
+
+<section class="ch" id="appA">
+  <div class="num">A</div>
+  <h2>Who did what</h2>
+  <p class="deck">This project was built with AI agents. Here is where the line sits.</p>
+  <div class="who">
+    <div><h4>David</h4><ul><li>Chose the bounty and reframed it as a falsifiable question</li><li>Set the rules the agents worked under: free models for every subagent, independent reviewers, preregistration before code, nothing tuned on shadow_dev</li><li>Decided what shipped: the app, the default rerank depth, this manual</li></ul></div>
+    <div><h4>Agents</h4><ul><li>Wrote most of the code, the question drafts and the review reports, under that protocol</li><li>Each defect in Chapter 9 was caught by an agent reviewing another agent's work</li><li>Every number in this book is read from a file in the repository, not from an agent's summary</li></ul></div>
+  </div>
+</section>
+
+<section class="ch" id="appB">
+  <div class="num">B</div>
+  <h2>Sources</h2>
+  <ul>
+    <li>Round-1 results: <code>experiments/results/R1_ANALYSIS.md</code>, <code>experiments/results/retrieval/</code></li>
+    <li>Generator floor: <code>experiments/baselines/GENERATOR_FLOOR_REPORT.md</code></li>
+    <li>Thresholds: <code>experiments/comparability/CONTRACT.md</code> §4</li>
+    <li>Depth sweep: <code>docs/manual/data/bench_dev.json</code>, <code>bench_shadow_dev.json</code> (<code>lmr bench</code>)</li>
+    <li>Round-0 story: <code>docs/ROUND0_CLOSURE.md</code>, <code>docs/STATUS.md</code></li>
+    <li>Models: <a href="https://huggingface.co/cross-encoder/ettin-reranker-17m-v1">ettin-reranker-17m-v1</a>, <a href="https://huggingface.co/bartowski/Qwen2.5-1.5B-Instruct-GGUF">Qwen2.5-1.5B-Instruct GGUF</a>, <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a>. Text: Wikipedia, CC BY-SA 4.0.</li>
+  </ul>
+</section>
+
+<section class="ch" id="appC">
+  <div class="num">C</div>
+  <h2>Changelog</h2>
+  <dl class="changelog">
+    <dt>1.0 · 2026-10-15</dt><dd>First edition: the <code>lmr</code> app (corpus rebuild from pinned revisions, top-<i>k</i> reranking, CLI and web UI) and the round-0/round-1 findings.</dd>
+  </dl>
+</section>
+
+</main>
+<div class="foot">lmr · Technical Manual · Edition 1.0 · 2026-10-15</div>
+</html>

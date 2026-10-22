@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>lmr: offline research assistant</title>
+<meta name="description" content="An offline research assistant over 297 pinned Wikipedia articles: BM25, a 17M reranker, a token-budget packer and a local 1.5B model.">
+<link rel="stylesheet" href="site.css"></head><body>
+<header class="top"><b>lmr</b><nav><a href="explorer.html">Packing explorer</a><a href="manual/index.html">Manual</a><a href="manual/pdf/manual.pdf">PDF</a><a href="https://github.com/davidghatley/local-mobile-research">GitHub</a></nav></header>
+<main>
+<h1>An offline research assistant that shows its work.</h1>
+<p>Ask a question about 297 pinned Wikipedia articles. Keyword search (BM25) finds the evidence, a 17M cross-encoder reranker decides what fits in a 1,000-token budget, and a local Qwen2.5-1.5B model, run by llama.cpp on the CPU, writes the answer. No network after setup, no GPU.</p>
+<p>On a desktop CPU it answers in about 5 s once warm (<code>lmr serve</code>); a cold one-off <code>lmr ask</code> took 11.6 s wall, because it also loads the index, reranker and model.</p>
+<div class="note"><b>What this is not.</b> It is a Linux x86-64 command-line and local web tool, not a phone app, and nothing here is a phone measurement. The language model does not run in your browser: this site only explains the project and replays recorded runs.</div>
+<p><img src="img/ui.png" alt="The lmr web UI: an answer, then the rank movement from BM25 to the reranker, then the token budget"></p>
+<h2>The finding</h2>
+<p>Search was already good: BM25 found 96% of the paragraphs the questions needed. The loss happened after search: about a quarter of what was found never fit in the model's budget. The 17M reranker found nothing new; it reordered what BM25 had, and 13 points more of the needed evidence reached the model. The generator is now the bottleneck.</p>
+<p><img src="img/finding.png" alt="Where required evidence goes: 70 of 73 paragraphs are found, only 54 reach the model"></p>
+<div class="cards">
+<div class="card"><b><a href="explorer.html">Packing explorer</a></b><br>Move the rerank depth and the token budget and watch the pack change. Recorded scores, live recompute.</div>
+<div class="card"><b><a href="manual/index.html">Technical manual</a></b><br>19 pages: the finding, the experiment, the limits. <a href="manual/pdf/manual.pdf">PDF</a>.</div>
+</div>
+<h2>Run it</h2>
+<p>Linux x86-64, Python 3.11+, <a href="https://docs.astral.sh/uv/">uv</a>.</p>
+<pre>git clone https://github.com/davidghatley/local-mobile-research && cd local-mobile-research
+uv venv
+# CPU torch first, or pip pulls multi-GB CUDA wheels:
+uv pip install torch --index-url https://download.pytorch.org/whl/cpu
+uv pip install -e ".[rerank]"
+.venv/bin/lmr setup      # ~1.1 GB, hash-checked
+.venv/bin/lmr ask "Which planet is closest to the Sun, and how long is its year?"
+.venv/bin/lmr serve      # http://127.0.0.1:8765</pre>
+<h2>Limits</h2>
+<ul><li>Fixed corpus of 297 articles; importing your own documents is not built.</li><li>The 1.5B generator rarely emits citations and can add facts that are not in its evidence.</li><li>Linux x86-64 only.</li></ul>
+</main>
+<footer><p>Text excerpts: Wikipedia, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; see <a href="https://github.com/davidghatley/local-mobile-research/blob/portfolio-pivot/NOTICE">NOTICE</a>. Code: MIT. Models: ettin-reranker-17m, Qwen2.5-1.5B-Instruct (Apache-2.0), llama.cpp.</p></footer></body></html>

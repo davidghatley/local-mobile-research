@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>lmr packing explorer</title>
+<meta name="description" content="Recorded replay of lmr retrieval: move rerank depth and token budget and recompute the evidence pack.">
+<link rel="stylesheet" href="site.css"></head><body>
+<header class="top"><b>lmr</b><nav><a href="index.html">Home</a><a href="manual/index.html">Manual</a><a href="https://github.com/davidghatley/local-mobile-research">GitHub</a></nav></header>
+<main>
+<h1>Packing explorer</h1>
+<p class="rec" id="label">Loading recorded data...</p>
+<noscript><p>This page needs JavaScript to recompute the pack.</p></noscript>
+<h2>Controls</h2>
+<div class="ctl">
+<div><label for="q">Question</label><select id="q"></select></div>
+<div><label for="k">Rerank depth k: <output id="kv"></output></label><input id="k" type="range" min="0" max="100" step="1" value="100"></div>
+<div><label for="b">Token budget: <output id="bv"></output></label><input id="b" type="range" min="100" max="2000" step="50" value="1000"></div>
+</div>
+<p><button id="p0" type="button">BM25 only (k=0)</button> <button id="p1" type="button">Default (k=100, 1000)</button></p>
+<h2>The pack</h2>
+<div id="packinfo" aria-live="polite"></div>
+<div class="bar" id="bar" role="img" aria-label="Token budget bar"></div>
+<div class="legend" id="left"></div>
+<h2>Ranking</h2>
+<div class="cols"><div><h3>BM25 order (top 20)</h3><ol class="rank" id="l1"></ol></div><div><h3>After rerank (top 20)</h3><ol class="rank" id="l2"></ol></div></div>
+<p class="legend">Green rows are in the pack. Arrows show rank movement versus BM25. Expand a row for the excerpt.</p>
+<h2>Recorded answer</h2>
+<div class="ans" id="ans"></div>
+</main>
+<footer><p>Text excerpts: Wikipedia, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; see <a href="https://github.com/davidghatley/local-mobile-research/blob/portfolio-pivot/NOTICE">NOTICE</a>. Code: MIT. Models: ettin-reranker-17m, Qwen2.5-1.5B-Instruct (Apache-2.0), llama.cpp.</p></footer><script src="explorer.js"></script></body></html>
