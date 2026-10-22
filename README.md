@@ -1,4 +1,4 @@
-# Mise en Place
+# lmr
 
 **An offline research assistant that shows its work.** Ask a question about 297 Wikipedia articles. Keyword search finds the evidence, a 17M reranker decides what fits in a 1,000-token budget, and a local 1.5B model writes the answer. It runs on a laptop CPU in about five seconds, with no network.
 

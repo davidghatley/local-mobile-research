@@ -207,7 +207,7 @@ table.econte td { vertical-align: top; }
 table.econte img { width: 100%; max-width: 22rem; border: 1px solid var(--rule); }
 table.econte td.n { font: 600 14px var(--f-mono); }
 
-/* ---- Mise en Place: stage colours (corpus → retrieve → rerank → pack → generate → evaluate) ---- */
+/* ---- lmr: stage colours (corpus → retrieve → rerank → pack → generate → evaluate) ---- */
 :root { --c-corpus: var(--c-plan); --c-retrieve: var(--c-previz); --c-rerank: var(--c-image); --c-pack: var(--c-video); --c-generate: var(--c-audio); --c-eval: var(--c-review); }
 svg .z-corpus { fill: color-mix(in srgb, var(--c-corpus) 11%, var(--sheet)); stroke: var(--c-corpus); }
 svg .z-retrieve { fill: color-mix(in srgb, var(--c-retrieve) 11%, var(--sheet)); stroke: var(--c-retrieve); }
